@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ETapManagement.ViewModel\ETapManagement.ViewModel.csproj" />
+    <ProjectReference Include="..\ETapManagement.Repository\ETapManagement.Repository.csproj" />
+    <ProjectReference Include="..\ETapManagement.Common\ETapManagement.Common.csproj" />
+        <ProjectReference Include="..\ETapManagement.Domain\ETapManagement.Domain.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.8.0" />
+    <PackageReference Include="SendGrid" Version="9.21.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+</Project>
