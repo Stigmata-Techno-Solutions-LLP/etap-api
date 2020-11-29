@@ -9,6 +9,7 @@ namespace ETapManagement.Domain
         {
             BusinessUnit = new HashSet<BusinessUnit>();
             Project = new HashSet<Project>();
+            Users = new HashSet<Users>();
         }
 
         public int Id { get; set; }
@@ -18,5 +19,6 @@ namespace ETapManagement.Domain
 
         public virtual ICollection<BusinessUnit> BusinessUnit { get; set; }
         public virtual ICollection<Project> Project { get; set; }
+        public virtual ICollection<Users> Users { get; set; }
     }
 }

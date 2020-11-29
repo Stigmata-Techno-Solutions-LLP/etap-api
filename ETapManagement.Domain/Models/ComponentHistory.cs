@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ETapManagement.Domain
 {
-    public partial class Component
+    public partial class ComponentHistory
     {
         public int Id { get; set; }
         public int? ProjStructId { get; set; }
@@ -22,8 +22,6 @@ namespace ETapManagement.Domain
         public string QrCode { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public int? UpdatedBy { get; set; }
-        public DateTime? UpdatedAt { get; set; }
         public bool? IsDelete { get; set; }
         public bool? IsActive { get; set; }
         public string CompStatus { get; set; }

@@ -14,13 +14,12 @@ namespace ETapManagement.Domain
         public string VendorCode { get; set; }
         public string Name { get; set; }
         public bool? IsDelete { get; set; }
+        public bool? IsStatus { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public virtual Users CreatedByNavigation { get; set; }
-        public virtual Users UpdatedByNavigation { get; set; }
         public virtual ICollection<SubContractorServiceType> SubContractorServiceType { get; set; }
     }
 }

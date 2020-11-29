@@ -8,6 +8,7 @@ namespace ETapManagement.Domain
         public ComponentType()
         {
             Component = new HashSet<Component>();
+            ComponentHistory = new HashSet<ComponentHistory>();
         }
 
         public int Id { get; set; }
@@ -15,5 +16,6 @@ namespace ETapManagement.Domain
         public string Description { get; set; }
 
         public virtual ICollection<Component> Component { get; set; }
+        public virtual ICollection<ComponentHistory> ComponentHistory { get; set; }
     }
 }

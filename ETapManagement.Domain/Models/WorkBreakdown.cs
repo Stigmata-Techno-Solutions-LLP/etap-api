@@ -18,8 +18,6 @@ namespace ETapManagement.Domain
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public virtual Users CreatedByNavigation { get; set; }
         public virtual Project Project { get; set; }
-        public virtual Users UpdatedByNavigation { get; set; }
     }
 }

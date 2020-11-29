@@ -12,6 +12,8 @@ namespace ETapManagement.Domain
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool? IsActive { get; set; }
+        public bool? IsDelete { get; set; }
         public string Description { get; set; }
 
         public virtual ICollection<Structures> Structures { get; set; }

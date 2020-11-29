@@ -10,7 +10,5 @@ namespace ETapManagement.Domain
         public string Message { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
-
-        public virtual Users CreatedByNavigation { get; set; }
     }
 }

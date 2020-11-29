@@ -8,6 +8,7 @@ namespace ETapManagement.Domain
         public ProjectStructure()
         {
             Component = new HashSet<Component>();
+            ComponentHistory = new HashSet<ComponentHistory>();
         }
 
         public int Id { get; set; }
@@ -28,10 +29,9 @@ namespace ETapManagement.Domain
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public virtual Users CreatedByNavigation { get; set; }
         public virtual Project Project { get; set; }
         public virtual Structures Structure { get; set; }
-        public virtual Users UpdatedByNavigation { get; set; }
         public virtual ICollection<Component> Component { get; set; }
+        public virtual ICollection<ComponentHistory> ComponentHistory { get; set; }
     }
 }
