@@ -6,9 +6,9 @@
 ## Running app via cmdline
 dotnet build (exec cmd under root folder)
 
-dotnet run (exec cmd under GridMangemnet.Api folder)
+dotnet run (exec cmd under ETapMangemnet.Api folder)
 
-## Runnning app via Visual Code
+## Running app via Visual Code
 configured in launch.json file . So run the application using visual code debubgger directly 
 
 ## for production
