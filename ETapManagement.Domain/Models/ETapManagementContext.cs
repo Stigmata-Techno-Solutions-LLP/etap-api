@@ -33,7 +33,7 @@ namespace ETapManagement.Domain
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<WorkBreakdown> WorkBreakdown { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
