@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain
+namespace ETapManagement.Domain.Models
 {
     public partial class AuditLogs
     {

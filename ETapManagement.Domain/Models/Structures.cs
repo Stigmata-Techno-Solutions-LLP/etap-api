@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain
+namespace ETapManagement.Domain.Models
 {
     public partial class Structures
     {
         public Structures()
         {
             ProjectStructure = new HashSet<ProjectStructure>();
+            StructuresAttributes = new HashSet<StructuresAttributes>();
         }
 
         public int Id { get; set; }
         public string StructId { get; set; }
         public int? StructureTypeId { get; set; }
-        public string AttributeDesc { get; set; }
-        public string InputType { get; set; }
-        public string Uom { get; set; }
         public bool IsDelete { get; set; }
         public string StructureStatus { get; set; }
         public bool IsActive { get; set; }
@@ -26,5 +24,6 @@ namespace ETapManagement.Domain
 
         public virtual StructureType StructureType { get; set; }
         public virtual ICollection<ProjectStructure> ProjectStructure { get; set; }
+        public virtual ICollection<StructuresAttributes> StructuresAttributes { get; set; }
     }
 }

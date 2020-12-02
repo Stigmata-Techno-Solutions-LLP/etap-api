@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ETapManagement.Domain;
+using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
 
 namespace ETapManagement.Service {

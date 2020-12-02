@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using ETapManagement.Domain;
+using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

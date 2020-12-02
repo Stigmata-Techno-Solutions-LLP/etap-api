@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 //using System.Configuration;
 using System.Web;
-using ETapManagement.Domain;
+using ETapManagement.Domain.Models;
 using ETapManagement.Repository;
 using ETapManagement.Service;
 using Microsoft.AspNetCore.Http;

@@ -1,5 +1,8 @@
 
 
+ IF OBJECT_ID('ETapManagement.dbo.component_history', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.component_history ; 
+
  IF OBJECT_ID('ETapManagement.dbo.component', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.component; 
 
@@ -10,9 +13,25 @@
   DROP TABLE ETapManagement.dbo.work_breakdown; 
  
  
+IF OBJECT_ID('ETapManagement.dbo.users', 'U') IS NOT NULL 
+DROP TABLE ETapManagement.dbo.users; 
+ 
+ 
+IF OBJECT_ID('ETapManagement.dbo.work_breakdown', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.work_breakdown; 
+
+ 
+ 
+  IF OBJECT_ID('ETapManagement.dbo.project_sitelocation', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.project_sitelocation ; 
+ 
   IF OBJECT_ID('ETapManagement.dbo.project', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.project; 
  
+  
+ 
+ IF OBJECT_ID('ETapManagement.dbo.structures_attributes', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.structures_attributes; 
  
  IF OBJECT_ID('ETapManagement.dbo.structures', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.structures; 
@@ -20,13 +39,16 @@
 IF OBJECT_ID('ETapManagement.dbo.audit_logs', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.audit_logs; 
  
+IF OBJECT_ID('ETapManagement.dbo.roles_applicationforms', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.roles_applicationforms; 
+
+ 
+ 
 
 IF OBJECT_ID('ETapManagement.dbo.application_forms', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.application_forms; 
  
  
-IF OBJECT_ID('ETapManagement.dbo.work_breakdown', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.work_breakdown; 
  
 IF OBJECT_ID('ETapManagement.dbo.business_unit', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.business_unit ; 
@@ -63,21 +85,12 @@ IF OBJECT_ID('ETapManagement.dbo.sub_contractor', 'U') IS NOT NULL
  
  
 
-IF OBJECT_ID('ETapManagement.dbo.users', 'U') IS NOT NULL 
-DROP TABLE ETapManagement.dbo.users; 
- 
- 
 
 
 IF OBJECT_ID('ETapManagement.dbo.roles', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.roles; 
  
   
-IF OBJECT_ID('ETapManagement.dbo.roles_applicationforms', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.roles_applicationforms; 
-
- 
- 
  
 CREATE TABLE ETapManagement.dbo.roles (
   id int NOT NULL IDENTITY (1,1),
@@ -143,21 +156,27 @@ is_delete bit NULL DEFAULT 0,
 create table ETapManagement.dbo.structure_type (
 id int NOT NULL IDENTITY(1,1) primary key,
 name varchar(200) not NULL unique,
-is_Active bit not null default 1,
+is_active bit not null default 1,
 is_delete bit not null DEFAULT 1,
 description varchar(500) NULL
 )
 create table ETapManagement.dbo.component_type (
 id int NOT NULL IDENTITY(1,1) primary key,
 name varchar(200) not NULL unique,
-description varchar(500) NULL
+description varchar(500) NULL,
+is_delete bit default 0,
+is_active bit,
+created_by int null,
+created_at datetime default CURRENT_TIMESTAMP,
+updated_by int null,
+updated_at datetime 
 )
+
 create table ETapManagement.dbo.segment (
 id int NOT NULL IDENTITY(1,1) primary key,
 name varchar(200) not NULL unique,
 description varchar(500) NULL
 )
-
 
 create table ETapManagement.dbo.service_type (
 id int NOT NULL IDENTITY(1,1) primary key,
@@ -234,9 +253,6 @@ CREATE TABLE ETapManagement.dbo.users (
         id int not null identity(1,1),
         struct_id varchar(10) not null unique,
         structure_type_id int null ,
-        attribute_desc varchar(50) null,
-        input_type varchar(50) null,    
-        uom varchar(50) null,
         is_delete bit NOT NULL DEFAULT 0,
         structure_status varchar(20) null,
         is_active bit NOT NULL DEFAULT 0,
@@ -247,7 +263,16 @@ CREATE TABLE ETapManagement.dbo.users (
         CONSTRAINT structure_pkey PRIMARY KEY (id),
         CONSTRAINT structures_structuretype_fkey FOREIGN KEY (structure_type_id) REFERENCES structure_type(id),
       )
-    
+        CREATE TABLE ETapManagement.dbo.structures_attributes(
+        id int not null identity(1,1),
+        structure_id int null ,
+        attribute_desc varchar(50) null,
+        input_type varchar(50) null,    
+        uom varchar(50) null,
+        value varchar(500) null,        
+        CONSTRAINT structures_attribute_pkey PRIMARY KEY (id),
+        CONSTRAINT structures_attribute_structure_fkey FOREIGN KEY (structure_id) REFERENCES structures(id),     
+      )
     
            
     CREATE TABLE ETapManagement.dbo.project_structure(
@@ -350,10 +375,6 @@ CREATE TABLE ETapManagement.dbo.users (
         CONSTRAINT wbs_proj_fkey FOREIGN KEY (project_id) REFERENCES project(id),
     )
     
-
-
-
-
            
     CREATE TABLE ETapManagement.dbo.sub_contractor(
         id int not null identity(1,1),     
