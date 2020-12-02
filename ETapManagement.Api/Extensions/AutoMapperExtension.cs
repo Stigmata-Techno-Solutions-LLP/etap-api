@@ -114,6 +114,57 @@ namespace ETapManagement.Api.Extensions {
                     dest.Level,
                     opt => opt.MapFrom (src => src.Level))
                 .ReverseMap ();
+
+            CreateMap<ProjectDetail, Project>()
+                .ForMember(dest =>
+                    dest.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest =>
+                    dest.Name,
+                    opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest =>
+                    dest.ProjCode,
+                    opt => opt.MapFrom(src => src.ProjCode))
+                .ForMember(dest =>
+                    dest.Area,
+                    opt => opt.MapFrom(src => src.Area))
+                .ForMember(dest =>
+                    dest.IcId,
+                    opt => opt.MapFrom(src => src.ICId))
+                .ForMember(dest =>
+                    dest.BuId,
+                    opt => opt.MapFrom(src => src.BUId))
+                .ForMember(dest =>
+                    dest.SegmentId,
+                    opt => opt.MapFrom(src => src.SegmentId))
+                .ForMember(dest =>
+                    dest.IsDelete,
+                    opt => opt.MapFrom(src => src.IsDelete))
+                .ForMember(dest =>
+                    dest.CreatedBy,
+                    opt => opt.MapFrom(src => src.CreatedBy))
+                .ForMember(dest =>
+                    dest.CreatedAt,
+                    opt => opt.MapFrom(src => src.CreatedAt))
+                .ForMember(dest =>
+                    dest.UpdatedBy,
+                    opt => opt.MapFrom(src => src.UpdatedBy))
+                .ForMember(dest =>
+                    dest.UpdatedAt,
+                    opt => opt.MapFrom(src => src.UpdatedtAt))
+                .ReverseMap();
+
+            CreateMap<SegmentDetail, Segment>()
+                .ForMember(dest =>
+                dest.Id,
+                opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest =>
+                dest.Name,
+                opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest =>
+                dest.Description,
+                opt => opt.MapFrom(src => src.Description))
+                .ReverseMap();
         }
     }
 
