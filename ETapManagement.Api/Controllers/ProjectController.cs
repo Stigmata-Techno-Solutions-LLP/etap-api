@@ -1,0 +1,140 @@
+﻿using ETapManagement.Common;
+using ETapManagement.Service;
+using ETapManagement.ViewModel.Dto;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ETapManagement.Api.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProjectController : ControllerBase
+    {
+        IProjectService _projectService;
+
+        public ProjectController(IProjectService projectService)
+        {
+            _projectService = projectService;
+        }
+
+        [HttpPost("create")]
+        public IActionResult Create(ProjectDetail projectDetail)
+        {
+            try
+            {
+                var response = _projectService.CreateProject(projectDetail);
+                return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+        [HttpPut("update/{id}")]
+        public IActionResult Update(ProjectDetail projectDetail, int id)
+        {
+            try
+            {
+                var response = _projectService.UpdateProject(projectDetail, id);
+                return Ok(new { message = response.Message, code = 204 });
+            }
+            catch (ValueNotFoundException e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+
+        }
+
+        [HttpDelete("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var response = _projectService.DeleteProject(id);
+                return Ok(new { message = response.Message, code = 204 });
+            }
+            catch (ValueNotFoundException e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+        [HttpGet("getproject")]
+        public IActionResult GetProjectDetail()
+        {
+            try
+            {
+                var response = _projectService.GetProjectDetails();
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+        [HttpGet("getproject/{id}")]
+        public IActionResult GetProjectDetailById(int id)
+        {
+            try
+            {
+                var response = _projectService.GetProjectDetailsById(id);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+        [HttpGet("getprojectcodelist")]
+        public IActionResult GetProjectCodeList()
+        {
+            try
+            {
+                //TODO
+                return Ok("OK");
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+        [HttpGet("getsegmentlist/{id}")]
+        public IActionResult GetSegmentList(int id)
+        {
+            try
+            {
+                //TODO
+                return Ok("OK");
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+    }
+}
