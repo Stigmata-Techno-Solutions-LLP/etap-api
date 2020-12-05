@@ -22,24 +22,31 @@ namespace ETapManagement.Service
             return responseMessage;
         }
 
-        public ResponseMessage DeleteProject(int projectId)
+        public ResponseMessage DeleteProject(int id)
         {
-            throw new NotImplementedException();
+            ResponseMessage responseMessage = new ResponseMessage();
+            responseMessage = _projectRepository.DeleteProject(id);
+            return responseMessage;
         }
 
         public List<ProjectDetail> GetProjectDetails()
         {
-            throw new NotImplementedException();
+            List<ProjectDetail> projectDetails = _projectRepository.GetProjectDetails(); 
+            return projectDetails;
         }
 
-        public ProjectDetail GetProjectDetailsById(int projectId)
+        public ProjectDetail GetProjectDetailsById(int id)
         {
-            throw new NotImplementedException();
+            ProjectDetail projectDetail = _projectRepository.GetProjectDetailsById(id); 
+            return projectDetail;
         }
 
-        public ResponseMessage UpdateProject(ProjectDetail projectDetail, int projectId)
+        public ResponseMessage UpdateProject(ProjectDetail projectDetail, int id)
         {
-            throw new NotImplementedException();
+            ResponseMessage responseMessage = new ResponseMessage();
+            responseMessage = _projectRepository.UpdateProject(projectDetail,id);
+            return responseMessage;
+
         }
     }
 }

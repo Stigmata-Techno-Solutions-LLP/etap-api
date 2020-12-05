@@ -17,7 +17,8 @@ namespace ETapManagement.Service
 
         public List<SegmentDetail> GetSegmentDetails()
         {
-            throw new NotImplementedException();
+            List<SegmentDetail> segmentDetails = _segementRepository.GetSegmentDetails();
+            return segmentDetails;
         }
     }
 }

@@ -151,7 +151,7 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom(src => src.UpdatedBy))
                 .ForMember(dest =>
                     dest.UpdatedAt,
-                    opt => opt.MapFrom(src => src.UpdatedtAt))
+                    opt => opt.MapFrom(src => src.UpdatedtAt)) 
                 .ReverseMap();
 
             CreateMap<SegmentDetail, Segment>()

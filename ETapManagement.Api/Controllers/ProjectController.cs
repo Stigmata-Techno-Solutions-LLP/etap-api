@@ -29,6 +29,11 @@ namespace ETapManagement.Api.Controllers
                 var response = _projectService.CreateProject(projectDetail);
                 return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             }
+            catch (ValueNotFoundException e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
+            }
             catch (Exception e)
             {
                 Util.LogError(e);
@@ -77,8 +82,8 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
-        [HttpGet("getproject")]
-        public IActionResult GetProjectDetail()
+        [HttpGet("projectdetails")]
+        public IActionResult GetProjectDetails()
         {
             try
             {
@@ -92,7 +97,7 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
-        [HttpGet("getproject/{id}")]
+        [HttpGet("projectdetailsbyid/{id}")]
         public IActionResult GetProjectDetailById(int id)
         {
             try
@@ -107,7 +112,7 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
-        [HttpGet("getprojectcodelist")]
+        [HttpGet("projectcodelist")]
         public IActionResult GetProjectCodeList()
         {
             try
@@ -121,20 +126,6 @@ namespace ETapManagement.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
-
-        [HttpGet("getsegmentlist/{id}")]
-        public IActionResult GetSegmentList(int id)
-        {
-            try
-            {
-                //TODO
-                return Ok("OK");
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-            }
-        }
+        
     }
 }
