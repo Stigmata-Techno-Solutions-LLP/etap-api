@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ETapManagement.Common;
-using ETapManagement.Domain;
+using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
 using ETapManagement.Repository;
 using Microsoft.Extensions.Options;

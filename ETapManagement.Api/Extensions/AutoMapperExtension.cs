@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AutoMapper;
-using ETapManagement.Domain;
+using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
 using Microsoft.Extensions.DependencyInjection;
 namespace ETapManagement.Api.Extensions

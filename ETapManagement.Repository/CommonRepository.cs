@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ETapManagement.Common;
-using ETapManagement.Domain;
+using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
 using Microsoft.EntityFrameworkCore;
 
