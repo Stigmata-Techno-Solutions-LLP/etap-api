@@ -13,7 +13,6 @@ namespace ETapManagement.ViewModel.Dto
         [StringLength (200)]
         [Display (Name = "Component Name")]
 		public string Name { get; set; }
-		[Required]
         [DataType (DataType.Text)]
         [StringLength (500)]
         [Display (Name = "Component Description")]

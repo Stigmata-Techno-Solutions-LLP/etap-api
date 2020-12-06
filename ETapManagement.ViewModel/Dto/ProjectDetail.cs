@@ -16,7 +16,7 @@ namespace ETapManagement.ViewModel.Dto {
         [Required]
         [DataType (DataType.Text)]
         [StringLength (20)]
-        [Display (Name = "Project Code")]
+        [Display (Name = "Project Code")] 
         public string ProjCode { get; set; }
 
         [DataType (DataType.Text)]

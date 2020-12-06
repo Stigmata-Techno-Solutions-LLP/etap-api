@@ -47,6 +47,15 @@ namespace ETapManagement.Api.Extensions
 				   dest.RoleId,
 					opt => opt.MapFrom(src => src.roleId))
 				.ForMember(dest =>
+				   dest.ProjectId,
+					opt => opt.MapFrom(src => src.ProjectId))
+				.ForMember(dest =>
+				   dest.BuId,
+					opt => opt.MapFrom(src => src.BUId))
+				.ForMember(dest =>
+				   dest.IcId,
+					opt => opt.MapFrom(src => src.ICId))						
+				.ForMember(dest =>
 				   dest.IsActive,
 					opt => opt.MapFrom(src => src.isActive))
 				.ForMember(dest =>
