@@ -23,22 +23,34 @@ namespace ETapManagement.ViewModel.Dto {
         [StringLength (10)]
         [Display (Name = "Area")]
         public string Area { get; set; }
-        public int? ICId { get; set; }
-        public int? BUId { get; set; }
-        public int? SegmentId { get; set; }
-        public bool? IsDelete { get; set; }
+        [Required]
+        [Display (Name = "Independent Company Id")]
+        [RegularExpression("[^0-9]", ErrorMessage = "Independent Company ID must be numeric")]
+        public int ICId { get; set; }
+
+        [Required]
+        [Display (Name = "Business Unit Id")]
+        [RegularExpression("[^0-9]", ErrorMessage = "Business Unit must be numeric")]
+        public int BUId { get; set; }
+        
+        [Required]
+        [Display (Name = "Segment Id")]
+        [RegularExpression("[^0-9]", ErrorMessage = "SEgment ID must be numeric")]
+        public int SegmentId { get; set; }
+
+        public bool IsDelete { get; set; }
 
         [Required]
         [Display (Name = "Created By")]
-        public int? CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
 
-        [Required]
+        
         [Display (Name = "Updated By")]
-        public int? UpdatedBy { get; set; }
+        public int UpdatedBy { get; set; }
         public DateTime? UpdatedtAt { get; set; }
 
-        public virtual ICollection<ProjectSiteLocationDetail> ProjectSiteLocationDetails { get; set; }
+        public  ICollection<ProjectSiteLocationDetail> ProjectSiteLocationDetails { get; set; }
 
     }
 }
