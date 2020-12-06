@@ -34,11 +34,10 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<WorkBreakdown> WorkBreakdown { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=landt.ctxkj3vcelr3.ap-southeast-1.rds.amazonaws.com;Database=ETapManagement;User Id=admin;Password=PlH34cwug3tqupePJcAp;");
             }
         }
