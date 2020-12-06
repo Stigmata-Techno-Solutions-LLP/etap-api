@@ -1,13 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models
-{
-    public partial class ServiceType
-    {
-        public ServiceType()
-        {
-            SubContractorServiceType = new HashSet<SubContractorServiceType>();
+namespace ETapManagement.Domain.Models {
+    public partial class ServiceType {
+        public ServiceType () {
+            SubContractorServiceType = new HashSet<SubContractorServiceType> ();
         }
 
         public int Id { get; set; }

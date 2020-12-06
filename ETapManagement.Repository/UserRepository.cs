@@ -44,17 +44,17 @@ namespace ETapManagement.Repository {
                     throw new ValueNotFoundException ("Email Id already exist.");
                 } else if (_context.Users.Where (x => x.PsNo == userDetails.userName && x.IsDelete == false).Count () > 0) {
                     throw new ValueNotFoundException ("UserName already exist.");
-                } else {                    
-                    Users userDtls = _mapper.Map<Users> (userDetails);                    
-                    _context.Users.Add(userDtls);
-                    _context.SaveChanges();
+                } else {
+                    Users userDtls = _mapper.Map<Users> (userDetails);
+                    _context.Users.Add (userDtls);
+                    _context.SaveChanges ();
                     AuditLogs audit = new AuditLogs () {
                         Action = "User",
                         Message = string.Format ("New User added Succussfully {0}", userDetails.userName),
                         CreatedAt = DateTime.Now,
                         CreatedBy = userDetails.createdBy
-                    };                    
-                    _commonRepo.AuditLog( audit);
+                    };
+                    _commonRepo.AuditLog (audit);
                     return responseMessage = new ResponseMessage () {
                         Message = "User added successfully."
                     };

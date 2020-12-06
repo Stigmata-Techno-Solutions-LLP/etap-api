@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ETapManagement.Repository {
 
-    public class CommonRepository: ICommonRepository {
+    public class CommonRepository : ICommonRepository {
         private readonly ETapManagementContext _context;
         public CommonRepository (ETapManagementContext context) {
             _context = context;
 
         }
 
-      public void Dispose () {
+        public void Dispose () {
             Dispose (true);
             GC.SuppressFinalize (this);
         }
@@ -29,9 +29,9 @@ namespace ETapManagement.Repository {
 
         public void AuditLog (AuditLogs audit) {
             try {
-            _context.AuditLogs.Add (audit);
-            _context.SaveChanges();
-            } catch(Exception ex) {
+                _context.AuditLogs.Add (audit);
+                _context.SaveChanges ();
+            } catch (Exception ex) {
                 throw ex;
             }
         }

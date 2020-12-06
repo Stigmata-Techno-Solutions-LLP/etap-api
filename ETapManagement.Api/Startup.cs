@@ -8,9 +8,9 @@ using System.Text.Json.Serialization;
 using ETapManagement.Api.Extensions;
 using ETapManagement.Api.Helper;
 using ETapManagement.Api.Helper;
-using ETapManagement.ViewModel.Dto;
 using ETapManagement.Repository;
 using ETapManagement.Service;
+using ETapManagement.ViewModel.Dto;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,10 +49,10 @@ namespace ETapManagement.Api {
             services.AddScoped<IPageAccessService, PageAccessService> ();
             services.AddScoped<IPageAccessRepository, PageAccessRepository> ();
             services.AddScoped<ICommonRepository, CommonRepository> ();
-            services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<IProjectRepository, ProjectRepository>();
-            services.AddScoped<ISegmentService, SegmentService>();
-            services.AddScoped<ISegmentRepository, SegmentRepository>();
+            services.AddScoped<IProjectService, ProjectService> ();
+            services.AddScoped<IProjectRepository, ProjectRepository> ();
+            services.AddScoped<ISegmentService, SegmentService> ();
+            services.AddScoped<ISegmentRepository, SegmentRepository> ();
             services.AddAntiforgery (options => options.HeaderName = "X-XSRF-TOKEN");
 
             var key = Encoding.ASCII.GetBytes (appSettings.Secret);

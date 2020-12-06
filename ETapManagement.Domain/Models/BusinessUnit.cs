@@ -1,14 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models
-{
-    public partial class BusinessUnit
-    {
-        public BusinessUnit()
-        {
-            Project = new HashSet<Project>();
-            Users = new HashSet<Users>();
+namespace ETapManagement.Domain.Models {
+    public partial class BusinessUnit {
+        public BusinessUnit () {
+            Project = new HashSet<Project> ();
+            Users = new HashSet<Users> ();
         }
 
         public int Id { get; set; }

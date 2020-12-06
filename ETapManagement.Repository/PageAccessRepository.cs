@@ -14,7 +14,6 @@ namespace ETapManagement.Repository {
         private readonly IMapper _mapper;
         private readonly ICommonRepository _commonRepo;
 
-
         public PageAccessRepository (ETapManagementContext context, IMapper mapper, ICommonRepository commonRepo) {
             _context = context;
             _mapper = mapper;

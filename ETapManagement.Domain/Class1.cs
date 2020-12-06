@@ -1,8 +1,5 @@
-﻿using System;
+using System;
 
-namespace ETapManagement.Domain
-{
-    public class Class1
-    {
-    }
+namespace ETapManagement.Domain {
+    public class Class1 { }
 }

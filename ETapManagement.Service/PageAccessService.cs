@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ETapManagement.Common;
 using ETapManagement.Domain.Models;
-using ETapManagement.ViewModel.Dto;
 using ETapManagement.Repository;
+using ETapManagement.ViewModel.Dto;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 namespace ETapManagement.Service {

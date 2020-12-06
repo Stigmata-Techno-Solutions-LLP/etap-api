@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using ETapManagement.ViewModel.Dto;
 using ETapManagement.Domain.Models;
+using ETapManagement.ViewModel.Dto;
 
 namespace ETapManagement.Repository {
     public interface ICommonRepository {
