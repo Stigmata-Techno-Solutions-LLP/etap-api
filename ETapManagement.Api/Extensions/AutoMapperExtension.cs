@@ -192,13 +192,70 @@ namespace ETapManagement.Api.Extensions
 			.ForMember(dest =>
 			   dest.Description,
 				opt => opt.MapFrom(src => src.Description))
-			/*.ForMember(dest =>
-			   dest.IsDelete,
-				opt => opt.MapFrom(src => src.IsDelete))  //TODO table does not have this column yet
-			.ForMember(dest =>
-			   dest.IsActive,
-				opt => opt.MapFrom(src => src.IsActive))*/
 			.ReverseMap();
+
+		CreateMap<AddWorkBreakDown, WorkBreakdown>()
+			.ForMember(dest =>
+			   dest.Id,
+				opt => opt.MapFrom(src => src.Id))
+			.ForMember(dest =>
+			   dest.WbsId,
+				opt => opt.MapFrom(src => src.WorkBreakDownCode))
+			.ForMember(dest =>
+			   dest.Segment,
+				opt => opt.MapFrom(src => src.Segment))
+			.ForMember(dest =>
+			   dest.SubSegment,
+				opt => opt.MapFrom(src => src.SubSegment))
+			.ForMember(dest =>
+			   dest.Elements,
+				opt => opt.MapFrom(src => src.Element))
+						.ForMember(dest =>
+			   dest.ProjectId,
+				opt => opt.MapFrom(src => src.ProjectId))	
+			.ReverseMap();
+		
+
+		CreateMap< WorkBreakdown,WorkBreakDownDetails>()
+			.ForMember(dest =>
+			   dest.Id,
+				opt => opt.MapFrom(src => src.Id))
+			.ForMember(dest =>
+			   dest.WorkBreakDownCode,
+				opt => opt.MapFrom(src => src.WbsId))
+			.ForMember(dest =>
+			   dest.Segment,
+				opt => opt.MapFrom(src => src.Segment))
+			.ForMember(dest =>
+			   dest.SubSegment,
+				opt => opt.MapFrom(src => src.SubSegment))
+			.ForMember(dest =>
+			   dest.Element,
+				opt => opt.MapFrom(src => src.Elements))
+			.ForMember(dest =>
+			   dest.ProjectId,
+				opt => opt.MapFrom(src => src.ProjectId))	
+			.ForMember(dest =>
+			   dest.ProjectCode,
+				opt => opt.MapFrom(src => src.Project.ProjCode))
+					.ForMember(dest =>
+			dest.CreatedDate,
+			opt => opt.MapFrom(src =>   src.CreatedAt != null ? src.CreatedAt.Value.ToString("yyyy-MM-dd"):""))
+		.ForMember(dest =>
+			dest.UpdatedDate ,
+			opt => opt.MapFrom(src =>  src.UpdatedAt != null ? src.UpdatedAt.Value.ToString("yyyy-MM-dd"):""))										
+			.ReverseMap();
+
+
+
+			CreateMap<WorkBreakdown,WorkBreakDownCode>()                   
+			.ForMember(dest =>
+				dest.Name,
+				opt => opt.MapFrom(src => src.WbsId))
+
+			.ForMember(dest =>
+				dest.Id,
+				opt => opt.MapFrom(src => src.Id));  
 		}
 	}
 

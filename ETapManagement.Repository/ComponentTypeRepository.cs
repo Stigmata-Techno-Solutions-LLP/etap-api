@@ -10,28 +10,27 @@ using MimeKit;
 
 namespace ETapManagement.Repository {
 
-    public class ComponentTypeRepository : IComponentTypeRepository
-  {
+    public class ComponentTypeRepository : IComponentTypeRepository {
         private readonly ETapManagementContext _context;
         private readonly IMapper _mapper;
         private readonly ICommonRepository _commonRepo;
 
-        public ComponentTypeRepository(ETapManagementContext context, IMapper mapper, ICommonRepository commonRepo) {
+        public ComponentTypeRepository (ETapManagementContext context, IMapper mapper, ICommonRepository commonRepo) {
             _context = context;
             _mapper = mapper;
             _commonRepo = commonRepo;
         }
 
-        public List<ComponentTypeDetails> getComponentType() {
+        public List<ComponentTypeDetails> getComponentType () {
             List<ComponentTypeDetails> response = new List<ComponentTypeDetails> ();
-            var responsedb = _context.ComponentType.Where(x => x.IsDelete == false).ToList();
+            var responsedb = _context.ComponentType.Where (x => x.IsDelete == false).ToList ();
             response = _mapper.Map<List<ComponentTypeDetails>> (responsedb);
             return response;
         }
 
-        public ComponentTypeDetails getComponentTypeById(int id) {
-            ComponentTypeDetails response = new ComponentTypeDetails();
-            var responsedb = _context.ComponentType.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault();
+        public ComponentTypeDetails getComponentTypeById (int id) {
+            ComponentTypeDetails response = new ComponentTypeDetails ();
+            var responsedb = _context.ComponentType.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
 
             if (responsedb != null)
                 response = _mapper.Map<ComponentTypeDetails> (responsedb);
@@ -39,18 +38,18 @@ namespace ETapManagement.Repository {
             return response;
         }
 
-        public ResponseMessage AddComponentType(ComponentTypeDetails componentTypeDetails) {
+        public ResponseMessage AddComponentType (ComponentTypeDetails componentTypeDetails) {
             ResponseMessage response = new ResponseMessage ();
             try {
                 //TODO: ID auto incremented??
-                if (_context.ComponentType.Where(x => x.Id == componentTypeDetails.Id && x.IsDelete == false).Count() > 0) {
+                if (_context.ComponentType.Where (x => x.Id == componentTypeDetails.Id && x.IsDelete == false).Count () > 0) {
                     throw new ValueNotFoundException ("ComponentType Id already exist.");
                 } else if (_context.ComponentType.Where (x => x.Name == componentTypeDetails.Name && x.IsDelete == false).Count () > 0) {
                     throw new ValueNotFoundException ("ComponentType Name already exist.");
-                } else {                    
-                    var componentType = _mapper.Map<ComponentType> (componentTypeDetails);                    
-                    _context.ComponentType.Add(componentType);
-                    _context.SaveChanges();
+                } else {
+                    var componentType = _mapper.Map<ComponentType> (componentTypeDetails);
+                    _context.ComponentType.Add (componentType);
+                    _context.SaveChanges ();
 
                     //TODO: is audit required for componentType?
                     /* AuditLogs audit = new AuditLogs () {
@@ -70,14 +69,14 @@ namespace ETapManagement.Repository {
             }
         }
 
-        public ResponseMessage UpdateComponentType(ComponentTypeDetails componentTypeDetails, int id) {
+        public ResponseMessage UpdateComponentType (ComponentTypeDetails componentTypeDetails, int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
             try {
                 var componentType = _context.ComponentType.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (componentType != null) {
                     if (_context.ComponentType.Where (x => x.Name == componentTypeDetails.Name && x.IsDelete == false).Count () > 0) {
                         throw new ValueNotFoundException ("ComponentType Name already exist.");
-                    }else {
+                    } else {
                         componentType.Name = componentTypeDetails.Name;
                         componentType.Description = componentTypeDetails.Description;
                         componentType.IsActive = componentTypeDetails.isActive;
@@ -102,11 +101,11 @@ namespace ETapManagement.Repository {
             }
         }
 
-        public ResponseMessage DeleteComponentType(int id) {
+        public ResponseMessage DeleteComponentType (int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
             try {
 
-                var componentType = _context.ComponentType.Where(x => x.Id == id).FirstOrDefault();
+                var componentType = _context.ComponentType.Where (x => x.Id == id).FirstOrDefault ();
                 if (componentType == null) throw new ValueNotFoundException ("ComponentType Id doesnt exist.");
 
                 //_context.ComponentType.Remove(componentType);
