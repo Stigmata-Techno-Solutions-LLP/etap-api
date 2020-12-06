@@ -69,7 +69,9 @@ namespace ETapManagement.Repository {
 
         public WorkBreakDownDetails GetWBSDetailsById (int Id) {
             try {           
-                WorkBreakDownDetails wbsDtl  = _mapper.Map<WorkBreakDownDetails> (_context.WorkBreakdown.Include(c=>c.Project).Where (x => x.IsDelete == false && x.Id == Id).FirstOrDefault());                  
+                   WorkBreakdown wbData = _context.WorkBreakdown.Include(c=>c.Project).Where (x => x.IsDelete == false && x.Id == Id).FirstOrDefault();
+              if (wbData == null) throw new ValueNotFoundException ("WBS Id doesn't exist.");
+                WorkBreakDownDetails wbsDtl  = _mapper.Map<WorkBreakDownDetails> (wbData);                  
                 return wbsDtl;                                
             } catch (Exception ex) {
                 throw ex;

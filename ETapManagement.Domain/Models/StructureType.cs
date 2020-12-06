@@ -1,10 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class StructureType {
-        public StructureType () {
-            Structures = new HashSet<Structures> ();
+namespace ETapManagement.Domain.Models
+{
+    public partial class StructureType
+    {
+        public StructureType()
+        {
+            Structures = new HashSet<Structures>();
         }
 
         public int Id { get; set; }

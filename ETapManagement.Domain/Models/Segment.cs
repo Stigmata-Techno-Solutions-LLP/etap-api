@@ -1,10 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class Segment {
-        public Segment () {
-            Project = new HashSet<Project> ();
+namespace ETapManagement.Domain.Models
+{
+    public partial class Segment
+    {
+        public Segment()
+        {
+            Project = new HashSet<Project>();
         }
 
         public int Id { get; set; }

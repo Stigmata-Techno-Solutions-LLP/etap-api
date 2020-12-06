@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class WorkBreakdown {
+namespace ETapManagement.Domain.Models
+{
+    public partial class WorkBreakdown
+    {
         public int Id { get; set; }
         public string WbsId { get; set; }
         public int? ProjectId { get; set; }

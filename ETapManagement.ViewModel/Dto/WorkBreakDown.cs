@@ -17,16 +17,16 @@ namespace ETapManagement.ViewModel.Dto {
         public int ProjectId { get; set; }
        
         [Required]
-        [StringLength (20)]
+        [StringLength (50)]
         [Display (Name = "Segment")]
         public string Segment { get; set; }
 
         [Required]
-        [StringLength (20)]
+        [StringLength (50)]
         [Display (Name = "Sub-Segment")]
         public string SubSegment { get; set; }
         [Required]
-        [StringLength (20)]
+        [StringLength (50)]
         [Display (Name = "Element")]
         public string Element { get; set; }
 

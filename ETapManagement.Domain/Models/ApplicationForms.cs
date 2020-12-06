@@ -1,10 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class ApplicationForms {
-        public ApplicationForms () {
-            RolesApplicationforms = new HashSet<RolesApplicationforms> ();
+namespace ETapManagement.Domain.Models
+{
+    public partial class ApplicationForms
+    {
+        public ApplicationForms()
+        {
+            RolesApplicationforms = new HashSet<RolesApplicationforms>();
         }
 
         public int Id { get; set; }

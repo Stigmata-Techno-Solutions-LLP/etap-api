@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace ETapManagement.Domain.Models {
-    public partial class Users {
-    
+namespace ETapManagement.Domain.Models
+{
+    public partial class Users
+    {
         public int Id { get; set; }
         public int? ProjectId { get; set; }
         public int? IcId { get; set; }

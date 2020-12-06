@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class StructuresAttributes {
+namespace ETapManagement.Domain.Models
+{
+    public partial class StructuresAttributes
+    {
         public int Id { get; set; }
         public int? StructureId { get; set; }
         public string AttributeDesc { get; set; }
