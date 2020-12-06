@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using ETapManagement.Common;
-using ETapManagement.Domain;
+using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
 using Microsoft.EntityFrameworkCore;
 using MimeKit;
@@ -80,7 +80,7 @@ namespace ETapManagement.Repository {
                     }else {
                         componentType.Name = componentTypeDetails.Name;
                         componentType.Description = componentTypeDetails.Description;
-                        componentType.isActive = componentTypeDetails.isActive;
+                        componentType.IsActive = componentTypeDetails.isActive;
                         _context.SaveChanges ();
 
                         /*AuditLogs audit = new AuditLogs () {

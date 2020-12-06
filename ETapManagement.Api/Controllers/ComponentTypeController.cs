@@ -15,7 +15,7 @@ using Serilog;
 namespace ETapManagement.Api.Controllers
 {
 	[EnableCors("AllowAll")]
-	[Authorize]
+	//[Authorize]
 	[ApiController]
 	[Route("api/[controller]")]
 
@@ -29,7 +29,7 @@ namespace ETapManagement.Api.Controllers
 			_componentTypeService = componentTypeService;
 		}
 
-		[HttpGet("componenttype/getcomponenttype")]
+		[HttpGet("getcomponenttype")]
 		public IActionResult GetComponentType()
 		{
 			try
@@ -44,7 +44,7 @@ namespace ETapManagement.Api.Controllers
 			}
 		}
 
-		[HttpGet("componenttype/getcomponenttype/{id}")]
+		[HttpGet("getcomponenttype/{id}")]
 		public IActionResult GetComponentTypeById(int id)
 		{
 			try
@@ -59,7 +59,7 @@ namespace ETapManagement.Api.Controllers
 			}
 		}
 
-		[HttpPost("componenttype/addcomponenttype")]
+		[HttpPost("addcomponenttype")]
 		public IActionResult AddComponentType(ComponentTypeDetails componentType)
 		{
 			try
@@ -79,7 +79,7 @@ namespace ETapManagement.Api.Controllers
 			}
 		}
 
-		[HttpPut("componenttype/updatecomponenttype/{id}")]
+		[HttpPut("updatecomponenttype/{id}")]
 		public IActionResult UpdateComponentType(ComponentTypeDetails componentType, int id)
 		{
 			try
@@ -99,7 +99,7 @@ namespace ETapManagement.Api.Controllers
 			}
 		}
 
-		[HttpDelete("componenttype/deletecomponenttype/{id}")]
+		[HttpDelete("deletecomponenttype/{id}")]
 		public IActionResult DeleteComponentType(int id)
 		{
 			try
