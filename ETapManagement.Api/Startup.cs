@@ -48,6 +48,8 @@ namespace ETapManagement.Api {
             services.AddScoped<IAuthRepository, AuthRepository> ();
             services.AddScoped<IPageAccessService, PageAccessService> ();
             services.AddScoped<IPageAccessRepository, PageAccessRepository> ();
+            services.AddScoped<IComponentTypeRepository, ComponentTypeRepository> ();
+            services.AddScoped<IComponentTypeService, ComponentTypeService> ();
             services.AddScoped<ICommonRepository, CommonRepository> ();
             services.AddScoped<IProjectService, ProjectService> ();
             services.AddScoped<IProjectRepository, ProjectRepository> ();
