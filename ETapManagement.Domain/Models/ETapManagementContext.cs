@@ -6,7 +6,6 @@ namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-  
 
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
@@ -778,10 +777,6 @@ namespace ETapManagement.Domain.Models
             {
                 entity.ToTable("sub_contractor");
 
-                entity.HasIndex(e => e.VendorCode)
-                    .HasName("UQ__sub_cont__A5795F1DCEB1AB33")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedAt)
@@ -790,6 +785,11 @@ namespace ETapManagement.Domain.Models
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+
+                entity.Property(e => e.Email)
+                    .HasColumnName("email")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.IsDelete)
                     .HasColumnName("is_delete")
@@ -802,6 +802,11 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneNo)
+                    .HasColumnName("phone_no")
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.UpdatedAt)
