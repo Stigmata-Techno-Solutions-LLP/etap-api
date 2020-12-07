@@ -258,62 +258,47 @@ namespace ETapManagement.Api.Extensions
 
 			.ForMember(dest =>
 				dest.Id,
-				opt => opt.MapFrom(src => src.Id));  
+				opt => opt.MapFrom(src => src.Id));
+
+			CreateMap<VendorDetail, SubContractor>()
+				.ForMember(dest =>
+				   dest.Id,
+					opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				   dest.Name,
+					opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest =>
+				   dest.VendorCode,
+					opt => opt.MapFrom(src => src.VendorCode))
+				.ForMember(dest =>
+				   dest.IsDelete,
+					opt => opt.MapFrom(src => src.IsDelete))
+				.ForMember(dest =>
+				   dest.IsStatus,
+					opt => opt.MapFrom(src => src.IsStatus))
+				.ForMember(dest =>
+				   dest.CreatedBy,
+					opt => opt.MapFrom(src => src.CreatedBy))
+				.ForMember(dest =>
+				   dest.CreatedAt,
+					opt => opt.MapFrom(src => src.CreatedAt))
+				.ForMember(dest =>
+				   dest.UpdatedBy,
+					opt => opt.MapFrom(src => src.UpdatedBy))
+				.ForMember(dest =>
+					dest.UpdatedAt,
+					opt => opt.MapFrom(src => src.UpdatedAt))
+				.ReverseMap(); 
+
+			CreateMap<ProjectSiteLocationDetail, ProjectSitelocation>()
+				.ForMember(dest =>
+				dest.Id,
+				opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				dest.Name,
+				opt => opt.MapFrom(src => src.Name))
+				.ReverseMap();
 		}
-	}
-
-            CreateMap<VendorDetail, SubContractor>()
-                .ForMember(dest =>
-                   dest.Id,
-                    opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest =>
-                   dest.Name,
-                    opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest =>
-                   dest.VendorCode,
-                    opt => opt.MapFrom(src => src.VendorCode))
-                .ForMember(dest =>
-                   dest.IsDelete,
-                    opt => opt.MapFrom(src => src.IsDelete))
-                .ForMember(dest =>
-                   dest.IsStatus,
-                    opt => opt.MapFrom(src => src.IsStatus))
-                .ForMember(dest =>
-                   dest.CreatedBy,
-                    opt => opt.MapFrom(src => src.CreatedBy))
-                .ForMember(dest =>
-                   dest.CreatedAt,
-                    opt => opt.MapFrom(src => src.CreatedAt))
-                .ForMember(dest =>
-                   dest.UpdatedBy,
-                    opt => opt.MapFrom(src => src.UpdatedBy))
-                .ForMember(dest =>
-                    dest.UpdatedAt,
-                    opt => opt.MapFrom(src => src.UpdatedAt))                
-                .ReverseMap(); 
-             
-            CreateMap<SegmentDetail, Segment>()
-                .ForMember(dest =>
-                dest.Id,
-                opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest =>
-                dest.Name,
-                opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest =>
-                dest.Description,
-                opt => opt.MapFrom(src => src.Description))
-                .ReverseMap();
-
-            CreateMap<ProjectSiteLocationDetail, ProjectSitelocation>()
-                .ForMember(dest =>
-                dest.Id,
-                opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest =>
-                dest.Name,
-                opt => opt.MapFrom(src => src.Name))
-                .ReverseMap();
-
-        }
-    }
+	} 
 
 }
