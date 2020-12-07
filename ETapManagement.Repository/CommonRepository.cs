@@ -29,6 +29,7 @@ namespace ETapManagement.Repository {
 
         public void AuditLog (AuditLogs audit) {
             try {
+                audit.CreatedAt = DateTime.Now;
                 _context.AuditLogs.Add (audit);
                 _context.SaveChanges ();
             } catch (Exception ex) {
