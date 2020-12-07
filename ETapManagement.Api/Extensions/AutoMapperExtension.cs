@@ -152,6 +152,9 @@ namespace ETapManagement.Api.Extensions {
                 .ForMember (dest =>
                     dest.UpdatedAt,
                     opt => opt.MapFrom (src => src.UpdatedtAt))
+                .ForMember(dest =>
+                    dest.ProjectSitelocation,
+                    opt => opt.MapFrom(src => src.ProjectSiteLocationDetails))
                 .ReverseMap ();
 
             CreateMap<SegmentDetail, Segment> ()
@@ -192,9 +195,31 @@ namespace ETapManagement.Api.Extensions {
                    dest.UpdatedBy,
                     opt => opt.MapFrom(src => src.UpdatedBy))
                 .ForMember(dest =>
-                   dest.UpdatedAt,
-                    opt => opt.MapFrom(src => src.CreatedAt))
+                    dest.UpdatedAt,
+                    opt => opt.MapFrom(src => src.UpdatedAt))                
+                .ReverseMap(); 
+             
+            CreateMap<SegmentDetail, Segment>()
+                .ForMember(dest =>
+                dest.Id,
+                opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest =>
+                dest.Name,
+                opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest =>
+                dest.Description,
+                opt => opt.MapFrom(src => src.Description))
                 .ReverseMap();
+
+            CreateMap<ProjectSiteLocationDetail, ProjectSitelocation>()
+                .ForMember(dest =>
+                dest.Id,
+                opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest =>
+                dest.Name,
+                opt => opt.MapFrom(src => src.Name))
+                .ReverseMap();
+
         }
     }
 

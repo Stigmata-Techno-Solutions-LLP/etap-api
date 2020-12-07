@@ -7,6 +7,11 @@ using ETapManagement.Common;
 using ETapManagement.Domain;
 using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace ETapManagement.Repository {
     public class ProjectRepository : IProjectRepository {
@@ -70,11 +75,14 @@ namespace ETapManagement.Repository {
             }
         }
 
-        public List<ProjectDetail> GetProjectDetails () {
-            try {
-                List<ProjectDetail> result = new List<ProjectDetail> ();
-                var projects = _context.Project.Where (x => x.IsDelete == false).ToList ();
-                result = _mapper.Map<List<ProjectDetail>> (projects);
+        public List<ProjectDetail> GetProjectDetails()
+        {
+            try
+            {
+                List<ProjectDetail> result = new List<ProjectDetail>();
+                var projects = _context.Project.Where(x => x.IsDelete == false)
+                    .Include(s => s.ProjectSitelocation).ToList();
+                result = _mapper.Map<List<ProjectDetail>>(projects);
                 return result;
             } catch (Exception ex) {
                 throw ex;
