@@ -16,12 +16,6 @@
 IF OBJECT_ID('ETapManagement.dbo.users', 'U') IS NOT NULL 
 DROP TABLE ETapManagement.dbo.users; 
  
- 
-IF OBJECT_ID('ETapManagement.dbo.work_breakdown', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.work_breakdown; 
-
- 
- 
   IF OBJECT_ID('ETapManagement.dbo.project_sitelocation', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.project_sitelocation ; 
  
@@ -360,7 +354,7 @@ CREATE TABLE ETapManagement.dbo.users (
            
     CREATE TABLE ETapManagement.dbo.work_breakdown(
         id int not null identity(1,1),     
-        wbs_id varchar(20) not null unique,
+        wbs_id varchar(20) not null ,
         project_id int null,
         name varchar(50) null,
         segment varchar(20) null,

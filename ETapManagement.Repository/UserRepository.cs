@@ -40,6 +40,7 @@ namespace ETapManagement.Repository {
         public ResponseMessage AddUser (UserDetails userDetails) {
             ResponseMessage responseMessage = new ResponseMessage ();
             try {
+                userDetails.userId = 0;
                 if (_context.Users.Where (x => x.Email == userDetails.email && x.IsDelete == false).Count () > 0) {
                     throw new ValueNotFoundException ("Email Id already exist.");
                 } else if (_context.Users.Where (x => x.PsNo == userDetails.userName && x.IsDelete == false).Count () > 0) {
@@ -83,6 +84,9 @@ namespace ETapManagement.Repository {
                         userData.PsNo = userDetails.userName;
 
                         userData.RoleId = userDetails.roleId;
+                        userData.ProjectId = userDetails.ProjectId;
+                        userData.IcId = userDetails.ICId;
+                        userData.BuId = userDetails.BUId;
                         userData.UpdatedBy = userDetails.updatedBy;
                         _context.SaveChanges ();
                         AuditLogs audit = new AuditLogs () {
@@ -94,7 +98,6 @@ namespace ETapManagement.Repository {
                         _commonRepo.AuditLog (audit);
                         return responseMessage = new ResponseMessage () {
                             Message = "User updated successfully.",
-
                         };
                     }
                 } else {

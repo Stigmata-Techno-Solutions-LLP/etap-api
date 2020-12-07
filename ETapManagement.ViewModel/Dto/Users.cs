@@ -30,6 +30,18 @@ namespace ETapManagement.ViewModel.Dto {
         public string mobileNo { get; set; }
 
         [Required]
+        [Display (Name = "Project ID value")]
+        public int ProjectId { get; set; }
+
+        [Required]
+        [Display (Name = "Independent Company ID")]
+        public int ICId { get; set; }
+
+        [Required]
+        [Display (Name = "Busniess Unit ID")]
+        public int BUId { get; set; }
+
+        [Required]
         [Display (Name = "Created By")]
         public int userId { get; set; }
 
