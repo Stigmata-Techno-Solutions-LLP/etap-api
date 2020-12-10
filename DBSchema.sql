@@ -370,10 +370,13 @@ CREATE TABLE ETapManagement.dbo.users (
     )
     
            
+
     CREATE TABLE ETapManagement.dbo.sub_contractor(
         id int not null identity(1,1),     
-        vendor_code varchar(20) not null unique,
+        vendor_code varchar(20) not null,
         name varchar(50) null, 
+        email varchar(50) null,
+        phone_no varchar(20) null,
         is_delete bit NULL DEFAULT 0,
         is_status bit NULL DEFAULT 0,        
         created_by int null,
@@ -383,7 +386,7 @@ CREATE TABLE ETapManagement.dbo.users (
         CONSTRAINT subcont_pkey PRIMARY KEY (id),
     )
     
-               
+                      
     CREATE TABLE ETapManagement.dbo.subContractor_serviceType(
         id int not null identity(1,1),     
         subcont_id int null,

@@ -13,6 +13,8 @@ namespace ETapManagement.Domain.Models
         public int Id { get; set; }
         public string VendorCode { get; set; }
         public string Name { get; set; }
+        public string Email { get; set; }
+        public string PhoneNo { get; set; }
         public bool? IsDelete { get; set; }
         public bool? IsStatus { get; set; }
         public int? CreatedBy { get; set; }
