@@ -7,6 +7,7 @@ using ETapManagement.Common;
 using ETapManagement.Domain;
 using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
+using Microsoft.EntityFrameworkCore;
 
 namespace ETapManagement.Repository {
     public class VendorRepository : IVendorRepository {
@@ -24,7 +25,7 @@ namespace ETapManagement.Repository {
         {
             try
             {
-                if (_context.Project.Where(x => x.Name == vendorDetail.Name && x.IsDelete == false).Count() > 0)
+                if (_context.SubContractor.Where(x => x.Name == vendorDetail.Name && x.IsDelete == false).Count() > 0)
                 {
                     throw new ValueNotFoundException("Vendor  Name already exist.");
                 }
@@ -33,8 +34,19 @@ namespace ETapManagement.Repository {
                 _context.SubContractor.Add(vendor);
                 _context.SaveChanges();
 
-                //Add the sub contractor service type ?
-                 
+                //Add the sub contractor service type
+                if (vendorDetail.VendorServiceTypeDetails.Any())
+                {
+                    foreach (var item in vendorDetail.VendorServiceTypeDetails)
+                    {
+                        SubContractorServiceType subContractorServiceType = new SubContractorServiceType();
+                        subContractorServiceType.SubcontId = vendor.Id;
+                        subContractorServiceType.ServicetypeId = item.ServiceTypeId;
+                        _context.SubContractorServiceType.Add(subContractorServiceType);
+                    }
+
+                }
+
                 responseMessage.Message = "Vendor created sucessfully";
                 return responseMessage;
             }
@@ -71,14 +83,36 @@ namespace ETapManagement.Repository {
                 throw ex;
             }
         }
-         
+
+        public List<Code> GetVendorCodeList()
+        {
+            try
+            {
+                List<Code> result = new List<Code>();
+                var vendors = _context.SubContractor.Where(x => x.IsDelete == false).ToList();
+                foreach(var item in vendors)
+                {
+                    result.Add(new Code()
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public List<VendorDetail> GetVendorDetails()
         {
             try
             {
                 List<VendorDetail> result = new List<VendorDetail>();
-                var vendors = _context.SubContractor.Where(x => x.IsDelete == false).ToList();
+                var vendors = _context.SubContractor.Where(x => x.IsDelete == false)
+                    .Include(s => s.SubContractorServiceType).ToList();
                 result = _mapper.Map<List<VendorDetail>>(vendors);
                 return result;
             }
@@ -93,7 +127,8 @@ namespace ETapManagement.Repository {
             try
             {
                 VendorDetail result = new VendorDetail();
-                var vendor = _context.SubContractor.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
+                var vendor = _context.SubContractor.Where(x => x.Id == id && x.IsDelete == false)
+                    .Include(s => s.SubContractorServiceType).FirstOrDefault();
                 result = _mapper.Map<VendorDetail>(vendor);
                 return result;
             }
@@ -108,7 +143,8 @@ namespace ETapManagement.Repository {
             ResponseMessage responseMessage = new ResponseMessage();
             try
             {
-                var vendor = _context.SubContractor.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
+                var vendor = _context.SubContractor.Where(x => x.Id == id && x.IsDelete == false)
+                    .Include(s => s.SubContractorServiceType).FirstOrDefault();
                 if (vendor != null)
                 {
                     if (_context.SubContractor.Where(x => x.Name == vendor.Name && x.Id != id && x.IsDelete == false).Count() > 0)
@@ -123,8 +159,48 @@ namespace ETapManagement.Repository {
                         vendor.CreatedBy = vendorDetail.CreatedBy;
                         vendor.CreatedAt = vendorDetail.CreatedAt;
                         vendor.UpdatedBy = vendorDetail.UpdatedBy;
-                        vendor.UpdatedAt = vendorDetail.UpdatedAt; 
-                         
+                        vendor.UpdatedAt = vendorDetail.UpdatedAt;
+                        _context.SaveChanges();
+
+                        var subcontractorServiceType = vendor.SubContractorServiceType;
+                        var addedSubConService = vendorDetail.VendorServiceTypeDetails.Where(x => !subcontractorServiceType.Any(s => s.Id == x.Id)).ToList();
+                        var deletedSubConService = subcontractorServiceType.Where(x => !vendorDetail.VendorServiceTypeDetails.Any(s => s.Id == x.Id)).ToList();
+                        var updatedSubConService = vendorDetail.VendorServiceTypeDetails.Where(x => subcontractorServiceType.Any(p => p.Id == x.Id)).ToList();
+
+                        //add Project site Location
+                        if (addedSubConService.Any())
+                        {
+                            foreach (var item in addedSubConService)
+                            {
+                                SubContractorServiceType subConServiceType = new SubContractorServiceType();
+                                subConServiceType.Id = item.Id;
+                                subConServiceType.SubcontId = vendor.Id;
+                                subConServiceType.ServicetypeId = item.ServiceTypeId;
+                                _context.SubContractorServiceType.Add(subConServiceType);
+                            }
+                        }
+
+                        //delete Project site Location
+                        if (deletedSubConService.Any())
+                        {
+                            foreach (var item in deletedSubConService)
+                            {
+                                _context.SubContractorServiceType.Remove(item);
+                            }
+
+                        }
+
+                        //update Project site Location
+                        if (updatedSubConService.Any())
+                        {
+                            foreach (var item in updatedSubConService)
+                            {
+                                SubContractorServiceType subConServiceType = new SubContractorServiceType();
+                                subConServiceType.SubcontId = vendor.Id;
+                                subConServiceType.ServicetypeId = item.ServiceTypeId;
+
+                            }
+                        } 
 
                         _context.SaveChanges();
 

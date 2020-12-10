@@ -10,5 +10,6 @@ namespace ETapManagement.Repository {
         public ResponseMessage DeleteProject (int id);
         public List<ProjectDetail> GetProjectDetails ();
         public ProjectDetail GetProjectDetailsById (int id);
+        public List<Code> GetProjectCodeList();
     }
 }

@@ -24,7 +24,13 @@ namespace ETapManagement.Service {
             ResponseMessage responseMessage = new ResponseMessage();
             responseMessage = _vendorRepository.DeleteVendor(id);
             return responseMessage;
-        }  
+        }
+
+        public List<Code> GetVendorCodeList()
+        {
+            List<Code> codes = _vendorRepository.GetVendorCodeList();
+            return codes;
+        }
 
         public List<VendorDetail> GetVendorDetails()
         {
@@ -43,6 +49,6 @@ namespace ETapManagement.Service {
             ResponseMessage responseMessage = new ResponseMessage();
             responseMessage = _vendorRepository.UpdateVendor(vendorDetail, id);
             return responseMessage;
-        }
+        }        
     }
 }

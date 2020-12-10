@@ -10,5 +10,6 @@ namespace ETapManagement.Service {
         public ResponseMessage DeleteVendor (int id);
         public List<VendorDetail> GetVendorDetails ();
         public VendorDetail GetVendorDetailsById (int id);
+        public List<Code> GetVendorCodeList();
     }
 }

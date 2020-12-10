@@ -86,8 +86,8 @@ namespace ETapManagement.Api.Controllers {
         [HttpGet ("projCodeList")]
         public IActionResult GetProjectCodeList () {
             try {
-                //TODO
-                return Ok ("OK");
+                var response = _projectService.GetProjectCodeList();
+                return Ok(response);
             } catch (Exception e) {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });

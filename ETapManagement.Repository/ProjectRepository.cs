@@ -75,6 +75,29 @@ namespace ETapManagement.Repository {
             }
         }
 
+        public List<Code> GetProjectCodeList()
+        {
+            try
+            {
+                List<Code> result = new List<Code>();
+                var projects = _context.Project.Where(x => x.IsDelete == false).ToList();
+                foreach(var item in projects)
+                {
+                    result.Add(new Code()
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+                 
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<ProjectDetail> GetProjectDetails()
         {
             try
@@ -92,7 +115,8 @@ namespace ETapManagement.Repository {
         public ProjectDetail GetProjectDetailsById (int id) {
             try {
                 ProjectDetail result = new ProjectDetail ();
-                var project = _context.Project.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
+                var project = _context.Project.Where (x => x.Id == id && x.IsDelete == false)
+                    .Include(s => s.ProjectSitelocation).FirstOrDefault ();
                 result = _mapper.Map<ProjectDetail> (project);
                 return result;
             } catch (Exception ex) {

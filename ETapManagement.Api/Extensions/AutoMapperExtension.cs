@@ -288,6 +288,15 @@ namespace ETapManagement.Api.Extensions
 				.ForMember(dest =>
 					dest.UpdatedAt,
 					opt => opt.MapFrom(src => src.UpdatedAt))
+				.ForMember(dest =>
+					dest.Email,
+					opt => opt.MapFrom(src => src.Email))
+				.ForMember(dest =>
+					dest.PhoneNo,
+					opt => opt.MapFrom(src => src.PhoneNunmber))
+				.ForMember(dest =>
+					dest.SubContractorServiceType,
+					opt => opt.MapFrom(src => src.VendorServiceTypeDetails))
 				.ReverseMap(); 
 
 			CreateMap<ProjectSiteLocationDetail, ProjectSitelocation>()
@@ -297,6 +306,18 @@ namespace ETapManagement.Api.Extensions
 				.ForMember(dest =>
 				dest.Name,
 				opt => opt.MapFrom(src => src.Name))
+				.ReverseMap();
+
+			CreateMap<VendorServiceTypeDetail, SubContractorServiceType>()
+				.ForMember(dest =>
+				dest.Id,
+				opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				dest.SubcontId,
+				opt => opt.MapFrom(src => src.VendorId))
+				.ForMember(dest =>
+				dest.ServicetypeId,
+				opt => opt.MapFrom(src => src.ServiceTypeId))
 				.ReverseMap();
 		}
 	} 
