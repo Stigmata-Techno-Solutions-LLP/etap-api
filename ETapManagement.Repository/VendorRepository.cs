@@ -69,7 +69,7 @@ namespace ETapManagement.Repository {
                 AuditLogs audit = new AuditLogs()
                 {
                     Action = "Vendor",
-                    Message = string.Format("Vendor Deleted  Succussfully {0}", vendor.Id),
+                    Message = string.Format("Vendor Deleted  Successfully {0}", vendor.Id),
                     CreatedAt = DateTime.Now,
                 };
                 _commonRepo.AuditLog(audit);
@@ -95,7 +95,7 @@ namespace ETapManagement.Repository {
                     result.Add(new Code()
                     {
                         Id = item.Id,
-                        Name = item.Name
+                        Name = item.VendorCode
                     });
                 }
                 return result;
@@ -207,7 +207,7 @@ namespace ETapManagement.Repository {
                         AuditLogs audit = new AuditLogs()
                         {
                             Action = "Vendor",
-                            Message = string.Format("Update Vendor  Succussfully {0}", vendorDetail.Name),
+                            Message = string.Format("Vendor Updated  Succussfully {0}", vendorDetail.Name),
                             CreatedAt = DateTime.Now,
                             CreatedBy = vendor.CreatedBy
                         };

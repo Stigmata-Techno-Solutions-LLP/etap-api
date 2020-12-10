@@ -319,6 +319,24 @@ namespace ETapManagement.Api.Extensions
 				dest.ServicetypeId,
 				opt => opt.MapFrom(src => src.ServiceTypeId))
 				.ReverseMap();
+
+			CreateMap<StructureTypeDetail, StructureType>()
+				.ForMember(dest =>
+				dest.Id,
+				opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				dest.Name,
+				opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest =>
+				dest.Description,
+				opt => opt.MapFrom(src => src.Description))
+				.ForMember(dest =>
+				dest.IsActive,
+				opt => opt.MapFrom(src => src.IsActive))
+				.ForMember(dest =>
+				dest.IsDelete,
+				opt => opt.MapFrom(src => src.IsDelete))
+				.ReverseMap();
 		}
 	} 
 

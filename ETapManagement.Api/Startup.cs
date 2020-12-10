@@ -57,6 +57,8 @@ namespace ETapManagement.Api {
             services.AddScoped<IWBSService, WBSService> ();
             services.AddScoped<IVendorService, VendorService>();
             services.AddScoped<IVendorRepository, VendorRepository>();
+            services.AddScoped<IStructureTypeService, StructureTypeService>();
+            services.AddScoped<IStructureTypeRepository, StructureTypeRepository>();
             services.AddAntiforgery (options => options.HeaderName = "X-XSRF-TOKEN");
 
             var key = Encoding.ASCII.GetBytes (appSettings.Secret);

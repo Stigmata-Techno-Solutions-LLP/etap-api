@@ -5,7 +5,8 @@ using ETapManagement.Repository;
 using ETapManagement.ViewModel.Dto;
 
 namespace ETapManagement.Service {
-    public class VendorService : IVendorService {
+    public class VendorService : IVendorService
+    {
         IVendorRepository _vendorRepository;
 
         public VendorService(IVendorRepository vendorRepository) {

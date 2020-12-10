@@ -63,7 +63,7 @@ namespace ETapManagement.Repository {
                 _context.SaveChanges ();
                 AuditLogs audit = new AuditLogs () {
                     Action = "Project",
-                    Message = string.Format ("Project Deleted  Succussfully {0}", project.Id),
+                    Message = string.Format ("Project Deleted  Successfully {0}", project.Id),
                     CreatedAt = DateTime.Now,
                 };
                 _commonRepo.AuditLog (audit);
@@ -86,7 +86,7 @@ namespace ETapManagement.Repository {
                     result.Add(new Code()
                     {
                         Id = item.Id,
-                        Name = item.Name
+                        Name = item.ProjCode
                     });
                 }
                  
@@ -178,7 +178,7 @@ namespace ETapManagement.Repository {
 
                         AuditLogs audit = new AuditLogs () {
                             Action = "Project",
-                            Message = string.Format ("Update Project  Succussfully {0}", projectDetail.Name),
+                            Message = string.Format ("Project Updated Successfully {0}", projectDetail.Name),
                             CreatedAt = DateTime.Now,
                             CreatedBy = project.CreatedBy
                         };
