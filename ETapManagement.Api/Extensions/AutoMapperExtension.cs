@@ -352,6 +352,33 @@ namespace ETapManagement.Api.Extensions
 				dest.IsDelete,
 				opt => opt.MapFrom(src => src.IsDelete))
 				.ReverseMap();
+
+			CreateMap<BusinessUnitDetail, BusinessUnit>()
+				.ForMember(dest =>
+				   dest.Id,
+					opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				   dest.Name,
+					opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest =>
+				   dest.IsDelete,
+					opt => opt.MapFrom(src => src.IsDelete)) 
+				.ForMember(dest =>
+				   dest.CreatedBy,
+					opt => opt.MapFrom(src => src.CreatedBy))
+				.ForMember(dest =>
+				   dest.CreatedAt,
+					opt => opt.MapFrom(src => src.CreatedAt))
+				.ForMember(dest =>
+				   dest.UpdatedBy,
+					opt => opt.MapFrom(src => src.UpdatedBy))
+				.ForMember(dest =>
+				   dest.UpdatedAt,
+					opt => opt.MapFrom(src => src.UpdatedAt))
+				.ForMember(dest =>
+					dest.IcId,
+					opt => opt.MapFrom(src => src.IcId))
+				.ReverseMap();
 		}
 	} 
 

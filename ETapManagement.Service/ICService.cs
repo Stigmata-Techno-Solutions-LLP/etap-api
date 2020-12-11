@@ -40,8 +40,8 @@ namespace ETapManagement.Service {
 
         public IndependentCompanyDetail GetICDetailsById(int id)
         {
-            IndependentCompanyDetail icDetai = _icRepository.GetICDetailsById(id);
-            return icDetai;
+            IndependentCompanyDetail icDetail = _icRepository.GetICDetailsById(id);
+            return icDetail;
         }
 
         public ResponseMessage UpdateIC(IndependentCompanyDetail icDetail, int id)
