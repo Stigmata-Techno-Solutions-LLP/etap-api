@@ -5,7 +5,9 @@
 
  IF OBJECT_ID('ETapManagement.dbo.component', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.component; 
-
+ IF OBJECT_ID('ETapManagement.dbo.project_structure_documents', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.project_structure_documents; 
+ 
  IF OBJECT_ID('ETapManagement.dbo.project_structure', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.project_structure; 
  
@@ -43,10 +45,10 @@ IF OBJECT_ID('ETapManagement.dbo.application_forms', 'U') IS NOT NULL
   DROP TABLE ETapManagement.dbo.application_forms; 
  
  
- 
-IF OBJECT_ID('ETapManagement.dbo.business_unit', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.business_unit ; 
- 
+ IF OBJECT_ID('ETapManagement.dbo.businessUnit_IC', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.businessUnit_IC ; 
+ IF OBJECT_ID('ETapManagement.dbo.business_unit', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.business_unit ;  
  
  IF OBJECT_ID('ETapManagement.dbo.independent_company', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.independent_company; 
@@ -75,25 +77,17 @@ IF OBJECT_ID('ETapManagement.dbo.segment', 'U') IS NOT NULL
   
 IF OBJECT_ID('ETapManagement.dbo.sub_contractor', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.sub_contractor; 
- 
- 
- 
 
-
-
+ 
 IF OBJECT_ID('ETapManagement.dbo.roles', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.roles; 
  
-  
- 
+   
 CREATE TABLE ETapManagement.dbo.roles (
   id int NOT NULL IDENTITY (1,1),
   "name" varchar(30) NOT NULL,
   "description" varchar(300) NULL, 
   "level" int NULL, 
-  updated_at DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_by int null,
-
   CONSTRAINT site_roles_name_key UNIQUE (name),
   CONSTRAINT site_roles_pkey PRIMARY KEY (id)
 );
@@ -141,18 +135,27 @@ CONSTRAINT rolesforms_roles_id_fkey FOREIGN KEY (role_id) REFERENCES roles(id),
    
 create table ETapManagement.dbo.independent_company (
 id int NOT NULL IDENTITY(1,1) primary key,
-name varchar(200) not NULL unique,
+name varchar(200) not NULL ,
 description varchar(500) NULL,
-is_delete bit NULL DEFAULT 0,
+is_active bit not null default 1,
+is_delete bit not null DEFAULT 1,
+created_by int null,
+created_at datetime default CURRENT_TIMESTAMP,
+updated_by int null,
+updated_at datetime 
 
 )
 
 create table ETapManagement.dbo.structure_type (
 id int NOT NULL IDENTITY(1,1) primary key,
-name varchar(200) not NULL unique,
+name varchar(200) not NULL ,
 is_active bit not null default 1,
 is_delete bit not null DEFAULT 1,
-description varchar(500) NULL
+description varchar(500) NULL,
+created_by int null,
+created_at datetime default CURRENT_TIMESTAMP,
+updated_by int null,
+updated_at datetime 
 )
 create table ETapManagement.dbo.component_type (
 id int NOT NULL IDENTITY(1,1) primary key,
@@ -180,26 +183,30 @@ description varchar(500) NULL
 
     CREATE TABLE ETapManagement.dbo.business_unit(
         id int not null identity(1,1),
-        name varchar(100) not null unique,
-        ic_id int  null,
-        is_delete bit NULL DEFAULT 0,
+        ic_id int not null,    
+        name varchar(100) not null ,
+        is_delete bit not NULL DEFAULT 0,
+        is_active bit,
         created_by int null,
         created_at datetime default CURRENT_TIMESTAMP,
         updated_by int null,
         updated_at datetime ,     
         CONSTRAINT business_unit_pkey PRIMARY KEY (id),
-        CONSTRAINT business_unit_icId_IC__fkey FOREIGN KEY (ic_id) REFERENCES independent_company(id),     
+        CONSTRAINT business_unit_icId_IC__fkey FOREIGN KEY (ic_id) REFERENCES independent_company(id),
     )
+         
 
     CREATE TABLE ETapManagement.dbo.project(
         id int not null identity(1,1),
         "name" varchar(100) null ,
-        proj_code varchar(20)  not null unique,
+        proj_code varchar(20)  not null ,
         area varchar(10) null,
         ic_id int null,
         bu_id int null,
         segment_id int null,        
-        is_delete bit NULL DEFAULT 0,        
+        is_delete bit NULL DEFAULT 0,   
+        is_active bit NULL,        
+
         created_by int null,
         created_at datetime default CURRENT_TIMESTAMP,
         updated_by int null,
@@ -245,43 +252,28 @@ CREATE TABLE ETapManagement.dbo.users (
     
     CREATE TABLE ETapManagement.dbo.structures(
         id int not null identity(1,1),
-        struct_id varchar(10) not null unique,
+        struct_id varchar(10) not null,
         structure_type_id int null ,
         is_delete bit NOT NULL DEFAULT 0,
+        is_active bit NULL ,
         structure_status varchar(20) null,
-        is_active bit NOT NULL DEFAULT 0,
+        structure_attributes  nvarchar(max) null,
         created_by int null,
         created_at datetime default CURRENT_TIMESTAMP,
         updated_by int null,
-        updated_at datetime ,
+        updated_at datetime ,        
         CONSTRAINT structure_pkey PRIMARY KEY (id),
         CONSTRAINT structures_structuretype_fkey FOREIGN KEY (structure_type_id) REFERENCES structure_type(id),
       )
-        CREATE TABLE ETapManagement.dbo.structures_attributes(
-        id int not null identity(1,1),
-        structure_id int null ,
-        attribute_desc varchar(50) null,
-        input_type varchar(50) null,    
-        uom varchar(50) null,
-        value varchar(500) null,        
-        CONSTRAINT structures_attribute_pkey PRIMARY KEY (id),
-        CONSTRAINT structures_attribute_structure_fkey FOREIGN KEY (structure_id) REFERENCES structures(id),     
-      )
+     
     
            
     CREATE TABLE ETapManagement.dbo.project_structure(
         id int not null identity(1,1),     
         structure_id int null ,
         project_id int null,
-        drawing_no varchar(10) null,
-        components_count int null,
-        total_weight decimal(10,6),
-        capacity smallint,
-        overall_length smallint,
-        slung_type varchar(20) null,
-        basic_length decimal(10,6),
-        basic_width decimal(10,6),
-        basic_height decimal(10,6),
+        drawing_no varchar(20) null,
+        components_count int,           
         is_delete bit NULL DEFAULT 0,
         created_by int null,
         created_at datetime default CURRENT_TIMESTAMP,
@@ -293,13 +285,25 @@ CREATE TABLE ETapManagement.dbo.users (
     )
     
     
-        
+    
+       
+CREATE TABLE project_structure_documents(
+    id int not null identity(1,1),
+    project_structure_id int not null,
+	file_name varchar(500) null,    
+	file_type varchar(10) null,
+    "path" varchar(1000) null,
+    CONSTRAINT project_structure_documents_pkey PRIMARY KEY (id),
+	CONSTRAINT project_structure_id_psID_fkey FOREIGN KEY (project_structure_id) REFERENCES project_structure(id),  
+    )
+
+                
     CREATE TABLE ETapManagement.dbo.component(
         id int not null identity(1,1),
         proj_struct_id int,
-        comp_id varchar(20) not null unique,
+        comp_id varchar(20) not null,
         comp_type_id int null,
-        drawing_no varchar(10) null,
+        drawing_no varchar(20) null,
         component_no int null,
         is_group bit null default 0,       
         leng decimal(10,6) null,
@@ -325,7 +329,7 @@ CREATE TABLE ETapManagement.dbo.users (
      CREATE TABLE ETapManagement.dbo.component_history(
         id int not null identity(1,1),
         proj_struct_id int,
-        comp_id varchar(20) not null unique,
+        comp_id varchar(20) not null ,
         comp_type_id int null,
         drawing_no varchar(10) null,
         component_no int null,

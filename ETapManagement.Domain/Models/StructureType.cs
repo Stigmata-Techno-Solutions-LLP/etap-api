@@ -15,6 +15,10 @@ namespace ETapManagement.Domain.Models
         public bool? IsActive { get; set; }
         public bool? IsDelete { get; set; }
         public string Description { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public int? UpdatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<Structures> Structures { get; set; }
     }

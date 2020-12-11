@@ -22,13 +22,13 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<ProjectSitelocation> ProjectSitelocation { get; set; }
         public virtual DbSet<ProjectStructure> ProjectStructure { get; set; }
+        public virtual DbSet<ProjectStructureDocuments> ProjectStructureDocuments { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<RolesApplicationforms> RolesApplicationforms { get; set; }
         public virtual DbSet<Segment> Segment { get; set; }
         public virtual DbSet<ServiceType> ServiceType { get; set; }
         public virtual DbSet<StructureType> StructureType { get; set; }
         public virtual DbSet<Structures> Structures { get; set; }
-        public virtual DbSet<StructuresAttributes> StructuresAttributes { get; set; }
         public virtual DbSet<SubContractor> SubContractor { get; set; }
         public virtual DbSet<SubContractorServiceType> SubContractorServiceType { get; set; }
         public virtual DbSet<Users> Users { get; set; }
@@ -103,10 +103,6 @@ namespace ETapManagement.Domain.Models
             {
                 entity.ToTable("business_unit");
 
-                entity.HasIndex(e => e.Name)
-                    .HasName("UQ__business__72E12F1B4E082924")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedAt)
@@ -117,6 +113,8 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
                 entity.Property(e => e.IcId).HasColumnName("ic_id");
+
+                entity.Property(e => e.IsActive).HasColumnName("is_active");
 
                 entity.Property(e => e.IsDelete)
                     .HasColumnName("is_delete")
@@ -137,16 +135,13 @@ namespace ETapManagement.Domain.Models
                 entity.HasOne(d => d.Ic)
                     .WithMany(p => p.BusinessUnit)
                     .HasForeignKey(d => d.IcId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("business_unit_icId_IC__fkey");
             });
 
             modelBuilder.Entity<Component>(entity =>
             {
                 entity.ToTable("component");
-
-                entity.HasIndex(e => e.CompId)
-                    .HasName("UQ__componen__531653DCBA7C8356")
-                    .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -178,7 +173,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DrawingNo)
                     .HasColumnName("drawing_no")
-                    .HasMaxLength(10)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Height)
@@ -243,10 +238,6 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Entity<ComponentHistory>(entity =>
             {
                 entity.ToTable("component_history");
-
-                entity.HasIndex(e => e.CompId)
-                    .HasName("UQ__componen__531653DCD518FDB0")
-                    .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -339,7 +330,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("component_type");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__componen__72E12F1BF008A67D")
+                    .HasName("UQ__componen__72E12F1B4D9B5876")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -379,35 +370,46 @@ namespace ETapManagement.Domain.Models
             {
                 entity.ToTable("independent_company");
 
-                entity.HasIndex(e => e.Name)
-                    .HasName("UQ__independ__72E12F1BDE985EA2")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
                 entity.Property(e => e.Description)
                     .HasColumnName("description")
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasColumnName("is_active")
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.IsDelete)
+                    .IsRequired()
                     .HasColumnName("is_delete")
-                    .HasDefaultValueSql("((0))");
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
                     .HasMaxLength(200)
                     .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
             });
 
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.ToTable("project");
-
-                entity.HasIndex(e => e.ProjCode)
-                    .HasName("UQ__project__C0ECFF4FBBE624C6")
-                    .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -426,6 +428,8 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
                 entity.Property(e => e.IcId).HasColumnName("ic_id");
+
+                entity.Property(e => e.IsActive).HasColumnName("is_active");
 
                 entity.Property(e => e.IsDelete)
                     .HasColumnName("is_delete")
@@ -491,20 +495,6 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.BasicHeight)
-                    .HasColumnName("basic_height")
-                    .HasColumnType("decimal(10, 6)");
-
-                entity.Property(e => e.BasicLength)
-                    .HasColumnName("basic_length")
-                    .HasColumnType("decimal(10, 6)");
-
-                entity.Property(e => e.BasicWidth)
-                    .HasColumnName("basic_width")
-                    .HasColumnType("decimal(10, 6)");
-
-                entity.Property(e => e.Capacity).HasColumnName("capacity");
-
                 entity.Property(e => e.ComponentsCount).HasColumnName("components_count");
 
                 entity.Property(e => e.CreatedAt)
@@ -516,27 +506,16 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DrawingNo)
                     .HasColumnName("drawing_no")
-                    .HasMaxLength(10)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.IsDelete)
                     .HasColumnName("is_delete")
                     .HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.OverallLength).HasColumnName("overall_length");
-
                 entity.Property(e => e.ProjectId).HasColumnName("project_id");
 
-                entity.Property(e => e.SlungType)
-                    .HasColumnName("slung_type")
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.StructureId).HasColumnName("structure_id");
-
-                entity.Property(e => e.TotalWeight)
-                    .HasColumnName("total_weight")
-                    .HasColumnType("decimal(10, 6)");
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updated_at")
@@ -553,6 +532,36 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.ProjectStructure)
                     .HasForeignKey(d => d.StructureId)
                     .HasConstraintName("projstructure_structures_fkey");
+            });
+
+            modelBuilder.Entity<ProjectStructureDocuments>(entity =>
+            {
+                entity.ToTable("project_structure_documents");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.FileName)
+                    .HasColumnName("file_name")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FileType)
+                    .HasColumnName("file_type")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Path)
+                    .HasColumnName("path")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProjectStructureId).HasColumnName("project_structure_id");
+
+                entity.HasOne(d => d.ProjectStructure)
+                    .WithMany(p => p.ProjectStructureDocuments)
+                    .HasForeignKey(d => d.ProjectStructureId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("project_structure_id_psID_fkey");
             });
 
             modelBuilder.Entity<Roles>(entity =>
@@ -577,13 +586,6 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("name")
                     .HasMaxLength(30)
                     .IsUnicode(false);
-
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnName("updated_at")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
             });
 
             modelBuilder.Entity<RolesApplicationforms>(entity =>
@@ -622,7 +624,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("segment");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__segment__72E12F1BEB5C30B7")
+                    .HasName("UQ__segment__72E12F1BB6C6F6D3")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -644,7 +646,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("service_type");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__service___72E12F1B8B623F49")
+                    .HasName("UQ__service___72E12F1B74D3A812")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -665,11 +667,14 @@ namespace ETapManagement.Domain.Models
             {
                 entity.ToTable("structure_type");
 
-                entity.HasIndex(e => e.Name)
-                    .HasName("UQ__structur__72E12F1BE3545966")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
                 entity.Property(e => e.Description)
                     .HasColumnName("description")
@@ -691,15 +696,17 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("name")
                     .HasMaxLength(200)
                     .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
             });
 
             modelBuilder.Entity<Structures>(entity =>
             {
                 entity.ToTable("structures");
-
-                entity.HasIndex(e => e.StructId)
-                    .HasName("UQ__structur__70F1946BDD7298A0")
-                    .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -720,6 +727,8 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
+                entity.Property(e => e.StructureAttributes).HasColumnName("structure_attributes");
+
                 entity.Property(e => e.StructureStatus)
                     .HasColumnName("structure_status")
                     .HasMaxLength(20)
@@ -737,40 +746,6 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.Structures)
                     .HasForeignKey(d => d.StructureTypeId)
                     .HasConstraintName("structures_structuretype_fkey");
-            });
-
-            modelBuilder.Entity<StructuresAttributes>(entity =>
-            {
-                entity.ToTable("structures_attributes");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.AttributeDesc)
-                    .HasColumnName("attribute_desc")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.InputType)
-                    .HasColumnName("input_type")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.StructureId).HasColumnName("structure_id");
-
-                entity.Property(e => e.Uom)
-                    .HasColumnName("uom")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Value)
-                    .HasColumnName("value")
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.Structure)
-                    .WithMany(p => p.StructuresAttributes)
-                    .HasForeignKey(d => d.StructureId)
-                    .HasConstraintName("structures_attribute_structure_fkey");
             });
 
             modelBuilder.Entity<SubContractor>(entity =>
@@ -946,7 +921,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Elements)
                     .HasColumnName("elements")
-                    .HasMaxLength(50)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.IsDelete)
@@ -962,12 +937,12 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Segment)
                     .HasColumnName("segment")
-                    .HasMaxLength(50)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.SubSegment)
                     .HasColumnName("sub_segment")
-                    .HasMaxLength(50)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.UpdatedAt)

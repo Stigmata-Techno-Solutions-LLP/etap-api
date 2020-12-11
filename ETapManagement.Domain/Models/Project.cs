@@ -21,6 +21,7 @@ namespace ETapManagement.Domain.Models
         public int? BuId { get; set; }
         public int? SegmentId { get; set; }
         public bool? IsDelete { get; set; }
+        public bool? IsActive { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }

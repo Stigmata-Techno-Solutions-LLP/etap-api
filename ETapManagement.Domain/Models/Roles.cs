@@ -15,8 +15,6 @@ namespace ETapManagement.Domain.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public int? Level { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public int? UpdatedBy { get; set; }
 
         public virtual ICollection<RolesApplicationforms> RolesApplicationforms { get; set; }
         public virtual ICollection<Users> Users { get; set; }
