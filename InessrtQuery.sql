@@ -22,3 +22,5 @@ insert into business_unit  values(1,'Port',1,0,1,getdate(),null,null)
 insert into segment values ('SEG001','')
 
 insert into project   values ('BMRC RT 02','PROJ001',200,1,1,1,0,1,1,getdate(),null,null)
+
+insert into component_type values('COMP1','',0,1,1,getdate(),null,null)
