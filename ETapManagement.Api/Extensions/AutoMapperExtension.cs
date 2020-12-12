@@ -166,6 +166,9 @@ namespace ETapManagement.Api.Extensions
                 .ForMember (dest =>
                     dest.UpdatedAt,
                     opt => opt.MapFrom (src => src.UpdatedtAt))
+                .ForMember(dest =>
+                    dest.ProjectSitelocation,
+                    opt => opt.MapFrom(src => src.ProjectSiteLocationDetails))
                 .ReverseMap ();
 
             CreateMap<SegmentDetail, Segment> ()
@@ -255,8 +258,128 @@ namespace ETapManagement.Api.Extensions
 
 			.ForMember(dest =>
 				dest.Id,
-				opt => opt.MapFrom(src => src.Id));  
+				opt => opt.MapFrom(src => src.Id));
+
+			CreateMap<VendorDetail, SubContractor>()
+				.ForMember(dest =>
+				   dest.Id,
+					opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				   dest.Name,
+					opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest =>
+				   dest.VendorCode,
+					opt => opt.MapFrom(src => src.VendorCode))
+				.ForMember(dest =>
+				   dest.IsDelete,
+					opt => opt.MapFrom(src => src.IsDelete))
+				.ForMember(dest =>
+				   dest.IsStatus,
+					opt => opt.MapFrom(src => src.IsStatus))
+				.ForMember(dest =>
+				   dest.CreatedBy,
+					opt => opt.MapFrom(src => src.CreatedBy))
+				.ForMember(dest =>
+				   dest.CreatedAt,
+					opt => opt.MapFrom(src => src.CreatedAt))
+				.ForMember(dest =>
+				   dest.UpdatedBy,
+					opt => opt.MapFrom(src => src.UpdatedBy))
+				.ForMember(dest =>
+					dest.UpdatedAt,
+					opt => opt.MapFrom(src => src.UpdatedAt))
+				.ForMember(dest =>
+					dest.Email,
+					opt => opt.MapFrom(src => src.Email))
+				.ForMember(dest =>
+					dest.PhoneNo,
+					opt => opt.MapFrom(src => src.PhoneNunmber))
+				.ForMember(dest =>
+					dest.SubContractorServiceType,
+					opt => opt.MapFrom(src => src.VendorServiceTypeDetails))
+				.ReverseMap(); 
+
+			CreateMap<ProjectSiteLocationDetail, ProjectSitelocation>()
+				.ForMember(dest =>
+				dest.Id,
+				opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				dest.Name,
+				opt => opt.MapFrom(src => src.Name))
+				.ReverseMap();
+
+			CreateMap<VendorServiceTypeDetail, SubContractorServiceType>()
+				.ForMember(dest =>
+				dest.Id,
+				opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				dest.SubcontId,
+				opt => opt.MapFrom(src => src.VendorId))
+				.ForMember(dest =>
+				dest.ServicetypeId,
+				opt => opt.MapFrom(src => src.ServiceTypeId))
+				.ReverseMap();
+
+			CreateMap<StructureTypeDetail, StructureType>()
+				.ForMember(dest =>
+				dest.Id,
+				opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				dest.Name,
+				opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest =>
+				dest.Description,
+				opt => opt.MapFrom(src => src.Description))
+				.ForMember(dest =>
+				dest.IsActive,
+				opt => opt.MapFrom(src => src.IsActive))
+				.ForMember(dest =>
+				dest.IsDelete,
+				opt => opt.MapFrom(src => src.IsDelete))
+				.ReverseMap();
+
+			CreateMap<IndependentCompanyDetail,IndependentCompany>()
+				.ForMember(dest =>
+				dest.Id,
+				opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				dest.Name,
+				opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest =>
+				dest.Description, 
+				opt => opt.MapFrom(src => src.Description))
+				.ForMember(dest =>
+				dest.IsDelete,
+				opt => opt.MapFrom(src => src.IsDelete))
+				.ReverseMap();
+
+			CreateMap<BusinessUnitDetail, BusinessUnit>()
+				.ForMember(dest =>
+				   dest.Id,
+					opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				   dest.Name,
+					opt => opt.MapFrom(src => src.Name))
+				.ForMember(dest =>
+				   dest.IsDelete,
+					opt => opt.MapFrom(src => src.IsDelete)) 
+				.ForMember(dest =>
+				   dest.CreatedBy,
+					opt => opt.MapFrom(src => src.CreatedBy))
+				.ForMember(dest =>
+				   dest.CreatedAt,
+					opt => opt.MapFrom(src => src.CreatedAt))
+				.ForMember(dest =>
+				   dest.UpdatedBy,
+					opt => opt.MapFrom(src => src.UpdatedBy))
+				.ForMember(dest =>
+				   dest.UpdatedAt,
+					opt => opt.MapFrom(src => src.UpdatedAt))
+				.ForMember(dest =>
+					dest.IcId,
+					opt => opt.MapFrom(src => src.IcId))
+				.ReverseMap();
 		}
-	}
+	} 
 
 }

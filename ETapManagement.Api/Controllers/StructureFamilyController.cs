@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,17 +11,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace ETapManagement.Api.Controllers {
     [ApiController]
     [Route ("api/[controller]")]
-    public class ProjectController : ControllerBase {
-        IProjectService _projectService;
+    public class StructureFamilyController : ControllerBase {
+        IStructureTypeService _structureTypeService;
 
-        public ProjectController (IProjectService projectService) {
-            _projectService = projectService;
+        public StructureFamilyController(IStructureTypeService structureTypeService) {
+            _structureTypeService = structureTypeService;
         }
 
-        [HttpPost ("createProj")]
-        public IActionResult Create (ProjectDetail projectDetail) {
+        [HttpPost ("createStructureFam")]
+        public IActionResult Create (StructureTypeDetail structureTypeDetail) {
             try {
-                var response = _projectService.CreateProject (projectDetail);
+                var response = _structureTypeService.CreateStructureType (structureTypeDetail);
                 return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
@@ -33,10 +32,10 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-        [HttpPut ("updateProj/{id}")]
-        public IActionResult Update (ProjectDetail projectDetail, int id) {
+        [HttpPut ("updateStructureFam/{id}")]
+        public IActionResult Update (StructureTypeDetail structureTypeDetail, int id) {
             try {
-                var response = _projectService.UpdateProject (projectDetail, id);
+                var response = _structureTypeService.UpdateStructureType (structureTypeDetail, id);
                 return Ok (new { message = response.Message, code = 204 });
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
@@ -48,10 +47,10 @@ namespace ETapManagement.Api.Controllers {
 
         }
 
-        [HttpDelete ("deleteProj/{id}")]
+        [HttpDelete ("deleteStructureFam/{id}")]
         public IActionResult Delete (int id) {
             try {
-                var response = _projectService.DeleteProject (id);
+                var response = _structureTypeService.DeleteStructureType (id);
                 return Ok (new { message = response.Message, code = 204 });
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
@@ -62,10 +61,10 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-        [HttpGet ("getProjDetails")]
-        public IActionResult GetProjectDetails () {
+        [HttpGet ("getStructureFamDetails")]
+        public IActionResult GetStructureTypeDetails() {
             try {
-                var response = _projectService.GetProjectDetails ();
+                var response = _structureTypeService.GetStructureTypeDetails ();
                 return Ok (response);
             } catch (Exception e) {
                 Util.LogError (e);
@@ -73,10 +72,10 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-        [HttpGet ("getProjDetailsById/{id}")]
-        public IActionResult GetProjectDetailById (int id) {
+        [HttpGet ("getStructureFamDetailsById/{id}")]
+        public IActionResult GetStructureTypeDetailsById(int id) {
             try {
-                var response = _projectService.GetProjectDetailsById (id);
+                var response = _structureTypeService.GetStructureTypeDetailsById (id);
                 return Ok (response);
             } catch (Exception e) {
                 Util.LogError (e);
@@ -84,11 +83,11 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-        [HttpGet ("projCodeList")]
-        public IActionResult GetProjectCodeList () {
+        [HttpGet ("StructureFamCodeList")]
+        public IActionResult GetStructureTypeCodeList() {
             try {
-                var response = _projectService.GetProjectCodeList();
-                return Ok(response);
+                var response = _structureTypeService.GetStructureTypeCodeList();
+                return Ok (response);
             } catch (Exception e) {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
@@ -96,4 +95,4 @@ namespace ETapManagement.Api.Controllers {
         }
 
     }
-} 
+}

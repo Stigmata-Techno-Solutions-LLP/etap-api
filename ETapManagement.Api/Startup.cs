@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO;
+using System.IO; 
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using ETapManagement.Api.Extensions;
-using ETapManagement.Api.Helper;
-using ETapManagement.Api.Helper;
+using ETapManagement.Api.Helper; 
 using ETapManagement.Repository;
 using ETapManagement.Service;
 using ETapManagement.ViewModel.Dto;
@@ -57,6 +55,14 @@ namespace ETapManagement.Api {
             services.AddScoped<ISegmentRepository, SegmentRepository> ();
             services.AddScoped<IWBSRepository, WBSRepository> ();
             services.AddScoped<IWBSService, WBSService> ();
+            services.AddScoped<IVendorService, VendorService>();
+            services.AddScoped<IVendorRepository, VendorRepository>();
+            services.AddScoped<IStructureTypeService, StructureTypeService>();
+            services.AddScoped<IStructureTypeRepository, StructureTypeRepository>();
+            services.AddScoped<IICService, ICService>();
+            services.AddScoped<IICRepository, ICRepository>();
+            services.AddScoped<IBUService, BUService>();
+            services.AddScoped<IBURepository, BURepository>();
             services.AddAntiforgery (options => options.HeaderName = "X-XSRF-TOKEN");
 
             var key = Encoding.ASCII.GetBytes (appSettings.Secret);

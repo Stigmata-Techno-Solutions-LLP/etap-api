@@ -40,5 +40,10 @@ namespace ETapManagement.Service {
             return responseMessage;
 
         }
+        public List<Code> GetProjectCodeList()
+        {
+            List<Code> codes = _projectRepository.GetProjectCodeList();
+            return codes;
+        }
     }
 }

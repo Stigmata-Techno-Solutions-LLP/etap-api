@@ -7,6 +7,11 @@ using ETapManagement.Common;
 using ETapManagement.Domain;
 using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace ETapManagement.Repository {
     public class ProjectRepository : IProjectRepository {
@@ -58,7 +63,7 @@ namespace ETapManagement.Repository {
                 _context.SaveChanges ();
                 AuditLogs audit = new AuditLogs () {
                     Action = "Project",
-                    Message = string.Format ("Project Deleted  Succussfully {0}", project.Id),
+                    Message = string.Format ("Project Deleted  Successfully {0}", project.Id),
                     CreatedAt = DateTime.Now,
                 };
                 _commonRepo.AuditLog (audit);
@@ -70,11 +75,37 @@ namespace ETapManagement.Repository {
             }
         }
 
-        public List<ProjectDetail> GetProjectDetails () {
-            try {
-                List<ProjectDetail> result = new List<ProjectDetail> ();
-                var projects = _context.Project.Where (x => x.IsDelete == false).ToList ();
-                result = _mapper.Map<List<ProjectDetail>> (projects);
+        public List<Code> GetProjectCodeList()
+        {
+            try
+            {
+                List<Code> result = new List<Code>();
+                var projects = _context.Project.Where(x => x.IsDelete == false).ToList();
+                foreach(var item in projects)
+                {
+                    result.Add(new Code()
+                    {
+                        Id = item.Id,
+                        Name = item.ProjCode
+                    });
+                }
+                 
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ProjectDetail> GetProjectDetails()
+        {
+            try
+            {
+                List<ProjectDetail> result = new List<ProjectDetail>();
+                var projects = _context.Project.Where(x => x.IsDelete == false)
+                    .Include(s => s.ProjectSitelocation).ToList();
+                result = _mapper.Map<List<ProjectDetail>>(projects);
                 return result;
             } catch (Exception ex) {
                 throw ex;
@@ -84,7 +115,8 @@ namespace ETapManagement.Repository {
         public ProjectDetail GetProjectDetailsById (int id) {
             try {
                 ProjectDetail result = new ProjectDetail ();
-                var project = _context.Project.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
+                var project = _context.Project.Where (x => x.Id == id && x.IsDelete == false)
+                    .Include(s => s.ProjectSitelocation).FirstOrDefault ();
                 result = _mapper.Map<ProjectDetail> (project);
                 return result;
             } catch (Exception ex) {
@@ -146,7 +178,7 @@ namespace ETapManagement.Repository {
 
                         AuditLogs audit = new AuditLogs () {
                             Action = "Project",
-                            Message = string.Format ("Update Project  Succussfully {0}", projectDetail.Name),
+                            Message = string.Format ("Project Updated Successfully {0}", projectDetail.Name),
                             CreatedAt = DateTime.Now,
                             CreatedBy = project.CreatedBy
                         };
