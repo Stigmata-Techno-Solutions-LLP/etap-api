@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -86,8 +87,12 @@ namespace ETapManagement.Api.Controllers {
         [HttpGet ("projCodeList")]
         public IActionResult GetProjectCodeList () {
             try {
-                //TODO
-                return Ok ("OK");
+                List<WorkBreakDownCode> lst = new List<WorkBreakDownCode> ();
+                WorkBreakDownCode wbc = new WorkBreakDownCode ();
+                wbc.Id = 1;
+                wbc.Name = "PROJ001";
+                lst.Add (wbc);
+                return Ok (wbc);
             } catch (Exception e) {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
