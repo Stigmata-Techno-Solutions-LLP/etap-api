@@ -6,8 +6,8 @@ namespace ETapManagement.Service
 {
 	public interface IComponentTypeService
 	{
-		List<ComponentTypeDetails> getComponentType();
-		ComponentTypeDetails getComponentTypeById(int id);
+		List<ComponentTypeDetails> GetComponentType();
+		ComponentTypeDetails GetComponentTypeById(int id);
 		ResponseMessage AddComponentType(ComponentTypeDetails componentTypeDetails);
 		ResponseMessage UpdateComponentType(ComponentTypeDetails componentTypeDetails, int id);
 		ResponseMessage DeleteComponentType(int id);

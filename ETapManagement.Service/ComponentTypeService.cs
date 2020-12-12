@@ -16,14 +16,14 @@ namespace ETapManagement.Service
             _appSettings = appSettings.Value;
         }
 
-        public List<ComponentTypeDetails> getComponentType() {
+        public List<ComponentTypeDetails> GetComponentType() {
             List<ComponentTypeDetails> componentTypes = _componentTypeRepository.getComponentType();
             if (!(componentTypes?.Count > 0)) return null;
 
             return componentTypes;
         }
 
-        public ComponentTypeDetails getComponentTypeById(int id) {
+        public ComponentTypeDetails GetComponentTypeById(int id) {
             ComponentTypeDetails componentType = _componentTypeRepository.getComponentTypeById(id);
             if (componentType == null) return null;
 
