@@ -92,7 +92,7 @@ namespace ETapManagement.Api.Controllers {
                 wbc.Id = 1;
                 wbc.Name = "PROJ001";
                 lst.Add (wbc);
-                return Ok (wbc);
+                return Ok (lst);
             } catch (Exception e) {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
