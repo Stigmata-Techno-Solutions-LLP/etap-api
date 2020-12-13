@@ -7,6 +7,8 @@ namespace ETapManagement.Domain.Models
     {
         public SubContractor()
         {
+            DispatchreqSubcont = new HashSet<DispatchreqSubcont>();
+            ScrapStructure = new HashSet<ScrapStructure>();
             SubContractorServiceType = new HashSet<SubContractorServiceType>();
         }
 
@@ -22,6 +24,8 @@ namespace ETapManagement.Domain.Models
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
+        public virtual ICollection<DispatchreqSubcont> DispatchreqSubcont { get; set; }
+        public virtual ICollection<ScrapStructure> ScrapStructure { get; set; }
         public virtual ICollection<SubContractorServiceType> SubContractorServiceType { get; set; }
     }
 }

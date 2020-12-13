@@ -8,6 +8,52 @@
  IF OBJECT_ID('ETapManagement.dbo.project_structure_documents', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.project_structure_documents; 
  
+ 
+ IF OBJECT_ID('ETapManagement.dbo.disp_subcont_structure', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.disp_subcont_structure; 
+ 
+  
+ IF OBJECT_ID('ETapManagement.dbo.dispatchreq_subcont', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.dispatchreq_subcont; 
+ 
+  
+ IF OBJECT_ID('ETapManagement.dbo.disp_req_structure', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.disp_req_structure; 
+  
+ IF OBJECT_ID('ETapManagement.dbo.dispatch_requirement', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.dispatch_requirement; 
+
+ 
+ IF OBJECT_ID('ETapManagement.dbo.sitedecl_status_history', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.sitedecl_status_history; 
+ 
+ IF OBJECT_ID('ETapManagement.dbo.site_declaration', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.site_declaration; 
+ 
+ 
+   
+ IF OBJECT_ID('ETapManagement.dbo.sitereq_status_history', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.sitereq_status_history; 
+ 
+ IF OBJECT_ID('ETapManagement.dbo.site_req_structure', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.site_req_structure; 
+ 
+ 
+ IF OBJECT_ID('ETapManagement.dbo.site_requirement', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.site_requirement; 
+
+
+ 
+
+ 
+ 
+ 
+ IF OBJECT_ID('ETapManagement.dbo.scrap_structure', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.scrap_structure; 
+
+ 
+ 
+ 
  IF OBJECT_ID('ETapManagement.dbo.project_structure', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.project_structure; 
  
@@ -53,12 +99,6 @@ IF OBJECT_ID('ETapManagement.dbo.application_forms', 'U') IS NOT NULL
  IF OBJECT_ID('ETapManagement.dbo.independent_company', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.independent_company; 
 
- 
- IF OBJECT_ID('ETapManagement.dbo.service_type', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.service_type; 
- 
- 
- 
  IF OBJECT_ID('ETapManagement.dbo.structure_type', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.structure_type; 
 
@@ -71,7 +111,9 @@ IF OBJECT_ID('ETapManagement.dbo.application_forms', 'U') IS NOT NULL
 IF OBJECT_ID('ETapManagement.dbo.subContractor_serviceType', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.subContractor_serviceType; 
   
-
+ IF OBJECT_ID('ETapManagement.dbo.service_type', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.service_type; 
+ 
 IF OBJECT_ID('ETapManagement.dbo.segment', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.segment; 
   
@@ -82,7 +124,9 @@ IF OBJECT_ID('ETapManagement.dbo.sub_contractor', 'U') IS NOT NULL
 IF OBJECT_ID('ETapManagement.dbo.roles', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.roles; 
  
-   
+
+ 
+ 
 CREATE TABLE ETapManagement.dbo.roles (
   id int NOT NULL IDENTITY (1,1),
   "name" varchar(30) NOT NULL,
@@ -201,10 +245,10 @@ description varchar(500) NULL
         "name" varchar(100) null ,
         proj_code varchar(20)  not null ,
         area varchar(10) null,
-        ic_id int null,
-        bu_id int null,
-        segment_id int null,        
-        is_delete bit NULL DEFAULT 0,   
+        ic_id int not null,
+        bu_id int not null,
+        segment_id int not null,        
+        is_delete bit NOT NULL DEFAULT 0,   
         is_active bit NULL,        
 
         created_by int null,
@@ -220,23 +264,23 @@ description varchar(500) NULL
     CREATE TABLE ETapManagement.dbo.project_sitelocation(
     id int not null identity(1,1),
     "name" varchar(100) null ,
-    project_id int null,
+    project_id int not null,
     CONSTRAINT project_sitelocation_pkey PRIMARY KEY (id),
     CONSTRAINT project_sitelocation_projectId_fkey FOREIGN KEY (project_id) REFERENCES project(id),
     )
     
 CREATE TABLE ETapManagement.dbo.users (
 	id int NOT NULL identity(1,1),	
-  project_id int null,
-  ic_id int null,
-  bu_id int null,
-	ps_no varchar(100),
+  project_id int not null,
+  ic_id int not null,
+  bu_id int not null,
+	ps_no varchar(100) not null,
 	"password" varchar(500) NOT NULL,
 	first_name varchar(100),
 	last_name varchar(100),
 	phoneno varchar(15),
 	email varchar(100) ,
-	role_id int null,
+	role_id int not null,
     is_active bit NULL DEFAULT 1,    
     is_delete bit NULL DEFAULT 0,
   	created_at DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
@@ -253,10 +297,10 @@ CREATE TABLE ETapManagement.dbo.users (
     CREATE TABLE ETapManagement.dbo.structures(
         id int not null identity(1,1),
         struct_id varchar(10) not null,
-        structure_type_id int null ,
+        name varchar(50) not null,
+        structure_type_id int not null ,
         is_delete bit NOT NULL DEFAULT 0,
         is_active bit NULL ,
-        structure_status varchar(20) null,
         structure_attributes  nvarchar(max) null,
         created_by int null,
         created_at datetime default CURRENT_TIMESTAMP,
@@ -270,8 +314,8 @@ CREATE TABLE ETapManagement.dbo.users (
            
     CREATE TABLE ETapManagement.dbo.project_structure(
         id int not null identity(1,1),     
-        structure_id int null ,
-        project_id int null,
+        structure_id int not null ,
+        project_id int not null,
         drawing_no varchar(20) null,
         components_count int,           
         is_delete bit NULL DEFAULT 0,
@@ -300,9 +344,9 @@ CREATE TABLE project_structure_documents(
                 
     CREATE TABLE ETapManagement.dbo.component(
         id int not null identity(1,1),
-        proj_struct_id int,
+        proj_struct_id int not null,
         comp_id varchar(20) not null,
-        comp_type_id int null,
+        comp_type_id int not null,
         drawing_no varchar(20) null,
         component_no int null,
         is_group bit null default 0,       
@@ -328,9 +372,9 @@ CREATE TABLE project_structure_documents(
     
      CREATE TABLE ETapManagement.dbo.component_history(
         id int not null identity(1,1),
-        proj_struct_id int,
+        proj_struct_id int not null,
         comp_id varchar(20) not null ,
-        comp_type_id int null,
+        comp_type_id int not null,
         drawing_no varchar(10) null,
         component_no int null,
         is_group bit null default 0,       
@@ -352,14 +396,11 @@ CREATE TABLE project_structure_documents(
         CONSTRAINT comphistory_comptype_fkey FOREIGN KEY (comp_type_id) REFERENCES component_type(id),
     )
     
-    
-    
-    
-           
+
     CREATE TABLE ETapManagement.dbo.work_breakdown(
         id int not null identity(1,1),     
         wbs_id varchar(20) not null ,
-        project_id int null,
+        project_id int not null,
         name varchar(50) null,
         segment varchar(20) null,
         sub_segment varchar(20) null,
@@ -372,8 +413,6 @@ CREATE TABLE project_structure_documents(
         CONSTRAINT wbs_pkey PRIMARY KEY (id),
         CONSTRAINT wbs_proj_fkey FOREIGN KEY (project_id) REFERENCES project(id),
     )
-    
-           
 
     CREATE TABLE ETapManagement.dbo.sub_contractor(
         id int not null identity(1,1),     
@@ -393,11 +432,182 @@ CREATE TABLE project_structure_documents(
                       
     CREATE TABLE ETapManagement.dbo.subContractor_serviceType(
         id int not null identity(1,1),     
-        subcont_id int null,
-        servicetype_id int null,
+        subcont_id int not null,
+        servicetype_id int not null,
         CONSTRAINT subST_pkey PRIMARY KEY (id),
         CONSTRAINT subST_servieType_fkey FOREIGN KEY (servicetype_id) REFERENCES service_type(id),
-        CONSTRAINT subST_subconractor_fkey FOREIGN KEY (subcont_id) REFERENCES sub_contractor(id),
-      
+        CONSTRAINT subST_subconractor_fkey FOREIGN KEY (subcont_id) REFERENCES sub_contractor(id),      
     )
+    
+    
+        CREATE TABLE ETapManagement.dbo.site_requirement(
+        id int not null identity(1,1) primary key,     
+        mr_no varchar(20) not null unique,
+        project_id int not null,
+        plan_startdate datetime not null,
+        plan_releasedate datetime not null,
+        actual_startdate datetime not null,
+        actual_releasedate datetime not null,
+        require_wbs_id int not null,
+        actual_wbs_id int not null,
+        remarks varchar(500) null,
+        status varchar(50) null,
+        status_internal varchar(100) null,
+        role_id int not null,
+        created_by int null,
+        created_at datetime default CURRENT_TIMESTAMP,
+        updated_by int null,
+        updated_at datetime null,
+        is_delete bit not null DEFAULT 0,        
+        CONSTRAINT siteReq_proj_fkey FOREIGN KEY (project_id) REFERENCES project(id),
+    )
+    
+      CREATE TABLE ETapManagement.dbo.site_req_structure(
+        id int not null identity(1,1) primary key,  
+        site_req_id int not null,
+        struct_id int not null,
+        drawing_no varchar(20) null,
+        quantity int ,       
+		CONSTRAINT siteReqStructire_siteReq_fkey FOREIGN KEY (site_req_id) REFERENCES site_requirement(id), 
+     	CONSTRAINT siteReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),        
+    )
+    
+    
+    
+        
+      CREATE TABLE ETapManagement.dbo.sitereq_status_history(
+        id int not null identity(1,1) primary key,     
+        mr_no varchar(20) not null ,     
+        sitereq_id int not null,
+        notes varchar(500) null,
+        status varchar(50) null,
+        status_internal varchar(100) null, 
+        role_id int,
+        updated_by int null,
+        updated_at datetime null,
+        CONSTRAINT sitereq_status_history_sitereq_fkey FOREIGN KEY (sitereq_id) REFERENCES site_requirement(id),
+    )
+    
+    
+        CREATE TABLE ETapManagement.dbo.site_declaration(
+        id int not null identity(1,1) primary key,   
+        sitereq_id int,
+        struct_id int,
+        surplus_fromdate datetime not null,
+        "status" varchar(50)  null,       
+        status_internal varchar(100) null,
+        created_by int null,
+        created_at datetime default CURRENT_TIMESTAMP,
+        notes varchar(500),
+        role_id int,        
+        updated_by int null,
+        updated_at datetime null,
+        is_delete bit not null DEFAULT 0,    
+        CONSTRAINT siteDec_siteReq_fkey FOREIGN KEY (sitereq_id) REFERENCES site_requirement(id),
+        CONSTRAINT siteDec_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),        
+    )
+    
+    
+        
+        CREATE TABLE ETapManagement.dbo.sitedecl_status_history(
+        id int not null identity(1,1) primary key,   
+        sitedec_id int, 
+        notes varchar(500) null,
+        status varchar(50) null,
+        status_internal varchar(100) null, 
+        role_id int,
+        updated_by int null,
+        updated_at datetime null,  
+        CONSTRAINT siteDeclStatus_siteDec_fkey FOREIGN KEY (sitedec_id) REFERENCES site_declaration(id),
+    )
+    
+    
+     CREATE TABLE ETapManagement.dbo.scrap_structure(
+        id int not null identity(1,1) primary key,     
+        subcon_id int,
+        struct_id int,
+        scrap_rate decimal(10,2),
+        auction_id varchar(20),      
+        "status" varchar(50) null,        
+        created_by int null,
+        created_at datetime default CURRENT_TIMESTAMP,
+        updated_by int null,
+        updated_at datetime null,
+        is_delete bit not null DEFAULT 0,        
+     	CONSTRAINT scrap_strucure_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),        
+     	CONSTRAINT scrap_structure_subcon_fkey FOREIGN KEY (subcon_id) REFERENCES sub_contractor(id),        
+
+    )
+
+    
+      CREATE TABLE ETapManagement.dbo.dispatch_requirement(
+        id int not null identity(1,1) primary key,     
+        dispatch_no varchar(20) not null unique,
+        sitereq_id int null,
+        to_projectid int,
+        servicetype_id int,
+        quantity int,
+        transfer_price decimal(10,2),       
+        status varchar(50) null,
+        status_internal varchar(100) null,
+        role_id int,
+        created_by int null,
+        created_at datetime default CURRENT_TIMESTAMP,
+        updated_by int null,
+        updated_at datetime null,
+        is_delete bit not null DEFAULT 0,        
+        CONSTRAINT dispatch_requirement_proj_fkey FOREIGN KEY (to_projectid) REFERENCES project(id),
+        CONSTRAINT dispatch_requirement_siteReq_fkey FOREIGN KEY (sitereq_id) REFERENCES site_requirement(id),
+     	CONSTRAINT dispatch_requirement_servicetype_fkey FOREIGN KEY (servicetype_id) REFERENCES service_type(id),        
+
+    )
+    
+      CREATE TABLE ETapManagement.dbo.disp_req_structure(
+        id int not null identity(1,1) primary key,  
+        dispreq_id int,
+        struct_id int,
+		CONSTRAINT DispReqStructire_siteReq_fkey FOREIGN KEY (dispreq_id) REFERENCES site_requirement(id), 
+     	CONSTRAINT DispReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),        
+    )
+    
+    
+     CREATE TABLE ETapManagement.dbo.dispatchreq_subcont(
+        id int not null identity(1,1) primary key,     
+        dispreq_id int ,
+        dispatch_no varchar(20),
+        subcon_id int,
+        monthly_rent decimal(10,2),
+        servicetype_id int,
+        contract_years decimal(10,2),
+        plan_releasedate datetime null,
+        expected_releasedate datetime null,        
+        actual_startdate datetime null,
+        dispatch_date datetime null,
+        workorder_no varchar(20) null,
+        quantity int,
+        fabrication_cost decimal(10,2),
+        status varchar(50) null,
+        status_internal varchar(100) null,
+        role_id int,
+        created_by int null,
+        created_at datetime default CURRENT_TIMESTAMP,
+        updated_by int null,
+        updated_at datetime null,
+        is_delete bit not null DEFAULT 0, 
+        CONSTRAINT dispatchreq_subcont_subcont_fkey FOREIGN KEY (subcon_id) REFERENCES sub_contractor(id),
+     	CONSTRAINT dispatchreq_subcont_dispatch_requirement_fkey FOREIGN KEY (dispreq_id) REFERENCES dispatch_requirement(id),
+     	CONSTRAINT dispatchreq_subcont_servicetype_fkey FOREIGN KEY (servicetype_id) REFERENCES service_type(id),        
+      )
+    
+      CREATE TABLE ETapManagement.dbo.disp_subcont_structure(
+        id int not null identity(1,1) primary key,  
+        dispreqsubcont_id int,
+        struct_id int,
+		CONSTRAINT dispreqsubcont_structure_siteReq_fkey FOREIGN KEY (dispreqsubcont_id) REFERENCES dispatchreq_subcont(id), 
+     	CONSTRAINT disp_subcont_structure_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),        
+    )
+    
+     
+    
+
     select * from INFORMATION_SCHEMA.TABLES t 

@@ -7,7 +7,7 @@ namespace ETapManagement.Domain.Models
     {
         public int Id { get; set; }
         public string WbsId { get; set; }
-        public int? ProjectId { get; set; }
+        public int ProjectId { get; set; }
         public string Name { get; set; }
         public string Segment { get; set; }
         public string SubSegment { get; set; }
