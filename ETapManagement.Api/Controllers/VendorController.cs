@@ -19,9 +19,9 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpPost ("createVendor")]
-        public IActionResult Create (VendorDetail vendorDetail) {
+        public IActionResult Create (AddVendor vendor) {
             try {
-                var response = _vendorService.CreateVendor (vendorDetail);
+                var response = _vendorService.CreateVendor (vendor);
                 return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
@@ -33,9 +33,9 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpPut ("updateVendor/{id}")]
-        public IActionResult Update (VendorDetail vendorDetail, int id) {
+        public IActionResult Update (AddVendor vendor, int id) {
             try {
-                var response = _vendorService.UpdateVendor (vendorDetail, id);
+                var response = _vendorService.UpdateVendor (vendor, id);
                 return Ok (new { message = response.Message, code = 204 });
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);

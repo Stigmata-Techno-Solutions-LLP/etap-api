@@ -19,25 +19,27 @@ namespace ETapManagement.Repository {
             _context = context;
             _mapper = mapper;
             _commonRepo = commonRepo;
-        } 
+        }  
 
-        public ResponseMessage CreateVendor(VendorDetail vendorDetail)
+        public ResponseMessage CreateVendor(AddVendor vendor)
         {
             try
             {
-                if (_context.SubContractor.Where(x => x.Name == vendorDetail.Name && x.IsDelete == false).Count() > 0)
+                if (_context.SubContractor.Where(x => x.Name == vendor.Name && x.IsDelete == false).Count() > 0)
                 {
                     throw new ValueNotFoundException("Vendor  Name already exist.");
                 }
                 ResponseMessage responseMessage = new ResponseMessage();
-                SubContractor vendor = _mapper.Map<SubContractor>(vendorDetail);
-                _context.SubContractor.Add(vendor);
+                SubContractor sc = _mapper.Map<SubContractor>(vendor);
+                sc.CreatedAt = DateTime.Now;
+                sc.CreatedBy = 1; //TODO
+                _context.SubContractor.Add(sc);
                 _context.SaveChanges();
 
                 //Add the sub contractor service type
-                if (vendorDetail.VendorServiceTypeDetails.Any())
+                if (vendor.VendorServiceTypeDetails.Any())
                 {
-                    foreach (var item in vendorDetail.VendorServiceTypeDetails)
+                    foreach (var item in vendor.VendorServiceTypeDetails)
                     {
                         SubContractorServiceType subContractorServiceType = new SubContractorServiceType();
                         subContractorServiceType.SubcontId = vendor.Id;
@@ -54,7 +56,7 @@ namespace ETapManagement.Repository {
             {
                 throw ex;
             }
-        } 
+        }
 
         public ResponseMessage DeleteVendor(int id)
         {
@@ -138,14 +140,14 @@ namespace ETapManagement.Repository {
             }
         } 
 
-        public ResponseMessage UpdateVendor(VendorDetail vendorDetail, int id)
+        public ResponseMessage UpdateVendor(AddVendor vendor, int id)
         {
             ResponseMessage responseMessage = new ResponseMessage();
             try
             {
-                var vendor = _context.SubContractor.Where(x => x.Id == id && x.IsDelete == false)
+                var sc = _context.SubContractor.Where(x => x.Id == id && x.IsDelete == false)
                     .Include(s => s.SubContractorServiceType).FirstOrDefault();
-                if (vendor != null)
+                if (sc != null)
                 {
                     if (_context.SubContractor.Where(x => x.Name == vendor.Name && x.Id != id && x.IsDelete == false).Count() > 0)
                     {
@@ -153,19 +155,17 @@ namespace ETapManagement.Repository {
                     }
                     else
                     {
-                        vendor.Name = vendorDetail.Name;
-                        vendor.VendorCode = vendorDetail.VendorCode;
-                        vendor.IsStatus = vendorDetail.IsStatus; 
-                        vendor.CreatedBy = vendorDetail.CreatedBy;
-                        vendor.CreatedAt = vendorDetail.CreatedAt;
-                        vendor.UpdatedBy = vendorDetail.UpdatedBy;
-                        vendor.UpdatedAt = vendorDetail.UpdatedAt;
+                        sc.Name = vendor.Name;
+                        sc.VendorCode = vendor.VendorCode;
+                        sc.IsStatus = vendor.IsStatus;
+                        sc.UpdatedBy = 1; //TODO
+                        sc.UpdatedAt = DateTime.Now;
                         _context.SaveChanges();
 
-                        var subcontractorServiceType = vendor.SubContractorServiceType;
-                        var addedSubConService = vendorDetail.VendorServiceTypeDetails.Where(x => !subcontractorServiceType.Any(s => s.Id == x.Id)).ToList();
-                        var deletedSubConService = subcontractorServiceType.Where(x => !vendorDetail.VendorServiceTypeDetails.Any(s => s.Id == x.Id)).ToList();
-                        var updatedSubConService = vendorDetail.VendorServiceTypeDetails.Where(x => subcontractorServiceType.Any(p => p.Id == x.Id)).ToList();
+                        var subcontractorServiceType = sc.SubContractorServiceType;
+                        var addedSubConService = vendor.VendorServiceTypeDetails.Where(x => !subcontractorServiceType.Any(s => s.Id == x.Id)).ToList();
+                        var deletedSubConService = subcontractorServiceType.Where(x => !vendor.VendorServiceTypeDetails.Any(s => s.Id == x.Id)).ToList();
+                        var updatedSubConService = vendor.VendorServiceTypeDetails.Where(x => subcontractorServiceType.Any(p => p.Id == x.Id)).ToList();
 
                         //add Project site Location
                         if (addedSubConService.Any())
@@ -196,20 +196,20 @@ namespace ETapManagement.Repository {
                             foreach (var item in updatedSubConService)
                             {
                                 SubContractorServiceType subConServiceType = new SubContractorServiceType();
-                                subConServiceType.SubcontId = vendor.Id;
+                                subConServiceType.SubcontId = id;
                                 subConServiceType.ServicetypeId = item.ServiceTypeId;
 
                             }
-                        } 
+                        }
 
                         _context.SaveChanges();
 
                         AuditLogs audit = new AuditLogs()
                         {
                             Action = "Vendor",
-                            Message = string.Format("Vendor Updated  Succussfully {0}", vendorDetail.Name),
+                            Message = string.Format("Vendor Updated  Succussfully {0}", vendor.Name),
                             CreatedAt = DateTime.Now,
-                            CreatedBy = vendor.CreatedBy
+                            CreatedBy = 1 //TODO
                         };
                         _commonRepo.AuditLog(audit);
                         return responseMessage = new ResponseMessage()

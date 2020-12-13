@@ -13,10 +13,10 @@ namespace ETapManagement.Service {
             _vendorRepository = vendorRepository;
         } 
 
-        public ResponseMessage CreateVendor(VendorDetail vendorDetail)
+        public ResponseMessage CreateVendor(AddVendor vendor)
         {
             ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _vendorRepository.CreateVendor(vendorDetail);
+            responseMessage = _vendorRepository.CreateVendor(vendor);
             return responseMessage;
         } 
 
@@ -45,10 +45,10 @@ namespace ETapManagement.Service {
             return vendorDetail;
         } 
 
-        public ResponseMessage UpdateVendor(VendorDetail vendorDetail, int id)
+        public ResponseMessage UpdateVendor(AddVendor vendor, int id)
         {
             ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _vendorRepository.UpdateVendor(vendorDetail, id);
+            responseMessage = _vendorRepository.UpdateVendor(vendor, id);
             return responseMessage;
         }        
     }

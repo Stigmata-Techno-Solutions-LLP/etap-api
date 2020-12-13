@@ -20,20 +20,20 @@ namespace ETapManagement.Repository {
             _context = context;
             _mapper = mapper;
             _commonRepo = commonRepo;
-        }
+        } 
 
-        public ResponseMessage CreateStructureType(StructureTypeDetail structureTypeDetail)
+        public ResponseMessage CreateStructureType(AddStructureType structureType)
         {
             try
             {
-                if (_context.StructureType.Where(x => x.Name == structureTypeDetail.Name && x.IsDelete == false).Count() > 0)
+                if (_context.StructureType.Where(x => x.Name == structureType.Name && x.IsDelete == false).Count() > 0)
                 {
                     throw new ValueNotFoundException("Structure Type  Name already exist.");
                 }
                 ResponseMessage responseMessage = new ResponseMessage();
-                StructureType structureType = _mapper.Map<StructureType>(structureTypeDetail);
-                _context.StructureType.Add(structureType);
-                _context.SaveChanges(); 
+                StructureType st = _mapper.Map<StructureType>(structureType);
+                _context.StructureType.Add(st);
+                _context.SaveChanges();
 
                 responseMessage.Message = "Structure Type created sucessfully";
                 return responseMessage;
@@ -42,7 +42,7 @@ namespace ETapManagement.Repository {
             {
                 throw ex;
             }
-        } 
+        }
 
         public ResponseMessage DeleteStructureType(int id)
         {
@@ -122,15 +122,15 @@ namespace ETapManagement.Repository {
             {
                 throw ex;
             }
-        } 
+        }  
 
-        public ResponseMessage UpdateStructureType(StructureTypeDetail structureTypeDetail, int id)
+        public ResponseMessage UpdateStructureType(AddStructureType structureType, int id)
         {
             ResponseMessage responseMessage = new ResponseMessage();
             try
             {
-                var structureType = _context.StructureType.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
-                if (structureType != null)
+                var st = _context.StructureType.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
+                if (st != null)
                 {
                     if (_context.SubContractor.Where(x => x.Name == structureType.Name && x.Id != id && x.IsDelete == false).Count() > 0)
                     {
@@ -138,15 +138,15 @@ namespace ETapManagement.Repository {
                     }
                     else
                     {
-                        structureType.Name = structureTypeDetail.Name;
-                        structureType.Description = structureTypeDetail.Description;
-                        structureType.IsActive = structureTypeDetail.IsActive; 
-                        _context.SaveChanges(); 
+                        st.Name = structureType.Name;
+                        st.Description = structureType.Description;
+                        st.IsActive = structureType.IsActive;
+                        _context.SaveChanges();
 
                         AuditLogs audit = new AuditLogs()
                         {
                             Action = "Structure Type",
-                            Message = string.Format("Update Structure Type  successfully {0}", structureTypeDetail.Name),
+                            Message = string.Format("Update Structure Type  successfully {0}", structureType.Name),
                             CreatedAt = DateTime.Now
                         };
                         _commonRepo.AuditLog(audit);

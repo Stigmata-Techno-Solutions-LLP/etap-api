@@ -12,10 +12,10 @@ namespace ETapManagement.Service {
             _structureTypeRepository = structureTypeRepository;
         }
 
-        public ResponseMessage CreateStructureType(StructureTypeDetail structureTypeDetail)
+        public ResponseMessage CreateStructureType(AddStructureType structureType)
         {
             ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _structureTypeRepository.CreateStructureType(structureTypeDetail);
+            responseMessage = _structureTypeRepository.CreateStructureType(structureType);
             return responseMessage;
         } 
 
@@ -44,10 +44,10 @@ namespace ETapManagement.Service {
             return structureTypeDetail;
         } 
 
-        public ResponseMessage UpdateStructureType(StructureTypeDetail structureTypeDetail, int id)
+        public ResponseMessage UpdateStructureType(AddStructureType structureType, int id)
         {
             ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _structureTypeRepository.UpdateStructureType(structureTypeDetail, id);
+            responseMessage = _structureTypeRepository.UpdateStructureType(structureType, id);
             return responseMessage;
         }     
     }

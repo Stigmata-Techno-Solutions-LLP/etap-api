@@ -20,11 +20,11 @@ namespace ETapManagement.Api.Controllers {
 
         
         [HttpPost("createBU")]
-        public IActionResult Create(BusinessUnitDetail buDetail)
+        public IActionResult Create(AddBusinessUnit businessunit)
         {
             try
             {
-                var response = _buService.CreateBU(buDetail);
+                var response = _buService.CreateBU(businessunit);
                 return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             }
             catch (ValueNotFoundException e)
@@ -40,11 +40,11 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpPut("updateBU/{id}")]
-        public IActionResult Update(BusinessUnitDetail buDetail, int id)
+        public IActionResult Update(AddBusinessUnit businessunit, int id)
         {
             try
             {
-                var response = _buService.UpdateBU(buDetail, id);
+                var response = _buService.UpdateBU(businessunit, id);
                 return Ok(new { message = response.Message, code = 204 });
             }
             catch (ValueNotFoundException e)
