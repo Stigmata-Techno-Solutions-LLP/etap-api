@@ -13,8 +13,8 @@ namespace ETapManagement.ViewModel.Dto
         [StringLength(100)]
         [Display(Name = "Name")]
         public string Name { get; set; }
-        public int? IcId { get; set; }
-        public bool? IsDelete { get; set; } 
+        public int IcId { get; set; }
+        public bool IsDelete { get; set; } 
     }
     public class BusinessUnitDetail
     {

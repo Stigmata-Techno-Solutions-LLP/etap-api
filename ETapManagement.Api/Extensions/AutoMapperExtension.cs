@@ -496,6 +496,8 @@ namespace ETapManagement.Api.Extensions
 				.ForMember(dest =>
 					 dest.IsActive,
 					opt => opt.MapFrom(src => src.IsActive))
+					.ReverseMap();
+				
 			CreateMap<AddBusinessUnit, BusinessUnit>()
 				.ForMember(dest =>
 				   dest.Id,
