@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ETapManagement.ViewModel.Dto
 {
-	public class AssignStructureDetails
+	public class AssignStructureComponentDetails
 	{
 		public List<ComponentDetails> ComponentTypeDetails { get; set; }
 		public List<ProjectStructureDetails> ProjectStructureDetails { get; set; }
