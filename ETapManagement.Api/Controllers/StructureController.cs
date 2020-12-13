@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using ETapManagement.Common;
 using ETapManagement.ViewModel.Dto;
 using ETapManagement.Service;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,22 +17,22 @@ namespace ETapManagement.Api.Controllers
 	[ApiController]
 	[Route("api/[controller]")]
 
-	public class ComponentTypeController : ControllerBase
+	public class StructureController : ControllerBase
 	{
-		private readonly IComponentTypeService _componentTypeService;
+		private readonly IStructureService _structureService;
 		private readonly ILogger _loggerService;
 
-		public ComponentTypeController(IComponentTypeService componentTypeService)
+		public StructureController(IStructureService structureService)
 		{
-			_componentTypeService = componentTypeService;
+			_structureService = structureService;
 		}
 
-		[HttpGet("getcomponenttype")]
-		public IActionResult GetComponentType()
+		[HttpGet("getstructure")]
+		public IActionResult GetStructure()
 		{
 			try
 			{
-				var response = _componentTypeService.GetComponentType();
+				var response = _structureService.GetStructures();
 				return Ok(response);
 			}
 			catch (Exception e)
@@ -44,12 +42,13 @@ namespace ETapManagement.Api.Controllers
 			}
 		}
 
-		[HttpGet("getcomponenttype/{id}")]
-		public IActionResult GetComponentTypeById(int id)
+		[HttpGet("getstructure/{id}")]
+		public IActionResult GetStructureById(int id)
 		{
+			StructureDetails response = null;
 			try
 			{
-				var response = _componentTypeService.GetComponentTypeById(id);
+				response = _structureService.GetStructureById(id);
 				return Ok(response);
 			}
 			catch (Exception e)
@@ -57,14 +56,30 @@ namespace ETapManagement.Api.Controllers
 				Util.LogError(e);
 				return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
 			}
+			finally
+			{
+				Util.LogInfo($"GetStructureById: {id}");
+			}
 		}
 
-		[HttpPost("addcomponenttype")]
-		public IActionResult AddComponentType(ComponentTypeDetails componentType)
+		[HttpPost("addstructure")]
+		public IActionResult AddStructure(StructureDetails structure)
 		{
 			try
 			{
-				var response = _componentTypeService.AddComponentType(componentType);
+				//validate StructureAttributes
+				dynamic structureAttr = JsonConvert.DeserializeObject(structure?.StructureAttributes);
+				structure.StructureAttributes = JsonConvert.SerializeObject(structure?.StructureAttributes);
+			}
+			catch (Exception ex)
+			{
+				Util.LogInfo($"AddStructure: Issue with Deserialize StructureAttributes: {ex.Message}");
+				return StatusCode(StatusCodes.Status400BadRequest, (new { message = "Issue with Deserialize StructureAttributes", code = 400 }));
+			}
+
+			try
+			{
+				var response = _structureService.AddStructure(structure);
 				return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
 			}
 			catch (ValueNotFoundException e)
@@ -79,12 +94,12 @@ namespace ETapManagement.Api.Controllers
 			}
 		}
 
-		[HttpPut("updatecomponenttype/{id}")]
-		public IActionResult UpdateComponentType(ComponentTypeDetails componentType, int id)
+		[HttpPut("updatestructure/{id}")]
+		public IActionResult UpdateStructure(StructureDetails structure, int id)
 		{
 			try
 			{
-				var response = _componentTypeService.UpdateComponentType(componentType, id);
+				var response = _structureService.UpdateStructure(structure, id);
 				return Ok(new { message = response.Message, code = 204 });
 			}
 			catch (ValueNotFoundException e)
@@ -99,12 +114,12 @@ namespace ETapManagement.Api.Controllers
 			}
 		}
 
-		[HttpDelete("deletecomponenttype/{id}")]
-		public IActionResult DeleteComponentType(int id)
+		[HttpDelete("deletestructure/{id}")]
+		public IActionResult DeleteStructure(int id)
 		{
 			try
 			{
-				var response = _componentTypeService.DeleteComponentType(id);
+				var response = _structureService.DeleteStructure(id);
 				return Ok(new { message = response.Message, code = 204 });
 			}
 			catch (ValueNotFoundException e)
