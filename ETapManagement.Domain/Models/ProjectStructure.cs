@@ -13,6 +13,7 @@ namespace ETapManagement.Domain.Models
         }
 
         public int Id { get; set; }
+        public string ProjStructId { get; set; }
         public int StructureId { get; set; }
         public int ProjectId { get; set; }
         public string DrawingNo { get; set; }
