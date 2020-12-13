@@ -13,8 +13,8 @@ namespace ETapManagement.Domain.Models
         }
 
         public int Id { get; set; }
-        public int? StructureId { get; set; }
-        public int? ProjectId { get; set; }
+        public int StructureId { get; set; }
+        public int ProjectId { get; set; }
         public string DrawingNo { get; set; }
         public int? ComponentsCount { get; set; }
         public bool? IsDelete { get; set; }

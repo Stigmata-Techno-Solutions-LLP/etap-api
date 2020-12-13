@@ -9,8 +9,8 @@ namespace ETapManagement.ViewModel.Dto
     {
         public int Id { get; set; }
 
-        public int? VendorId { get; set; }
-        public int? ServiceTypeId { get; set; }
+        public int VendorId { get; set; }
+        public int ServiceTypeId { get; set; }
 
     }
 }

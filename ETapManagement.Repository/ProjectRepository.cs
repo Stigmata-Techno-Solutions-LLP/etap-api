@@ -113,7 +113,7 @@ namespace ETapManagement.Repository {
         }
 
         public ProjectDetail GetProjectDetailsById (int id) {
-            try {
+            try {   
                 ProjectDetail result = new ProjectDetail ();
                 var project = _context.Project.Where (x => x.Id == id && x.IsDelete == false)
                     .Include(s => s.ProjectSitelocation).FirstOrDefault ();

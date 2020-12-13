@@ -21,7 +21,7 @@ namespace ETapManagement.ViewModel.Dto
 
 		[Required]
 		[Display(Name = "Structure Family")]
-		public int? StructureTypeId { get; set; }
+		public int StructureTypeId { get; set; }
 
 		[Required]
 		[Display(Name = "Structure Attributes")]

@@ -6,9 +6,9 @@ namespace ETapManagement.Domain.Models
     public partial class ComponentHistory
     {
         public int Id { get; set; }
-        public int? ProjStructId { get; set; }
+        public int ProjStructId { get; set; }
         public string CompId { get; set; }
-        public int? CompTypeId { get; set; }
+        public int CompTypeId { get; set; }
         public string DrawingNo { get; set; }
         public int? ComponentNo { get; set; }
         public bool? IsGroup { get; set; }
