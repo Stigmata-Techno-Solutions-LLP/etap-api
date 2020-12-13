@@ -19,27 +19,27 @@ namespace ETapManagement.Service
 
 		public List<ProjectStructureDetails> GetProjectStructure()
 		{
-			List<ProjectStructureDetails> structures = _repository.GetProjectStructure();
-			if (!(structures?.Count > 0)) return null;
+			List<ProjectStructureDetails> response = _repository.GetProjectStructure();
+			if (!(response?.Count > 0)) return null;
 
-			return structures;
+			return response;
 		}
 
 		public ProjectStructureDetails GetProjectStructureById(int id)
 		{
-			ProjectStructureDetails dto = _repository.GetProjectStructureById(id);
-			if (dto == null) return null;
+			ProjectStructureDetails response = _repository.GetProjectStructureById(id);
+			if (response == null) return null;
 
-			return dto;
+			return response;
 		}
 
 		public ResponseMessage AddProjectStructure(ProjectStructureDetails servicedto)
 		{
-			ResponseMessage responseMessage = new ResponseMessage();
-			responseMessage = _repository.AddProjectStructure(servicedto);
+			ResponseMessage response = new ResponseMessage();
+			response = _repository.AddProjectStructure(servicedto);
 
-			if (responseMessage != null)
-				return responseMessage;
+			if (response != null)
+				return response;
 			else
 			{
 				return new ResponseMessage()
@@ -51,16 +51,16 @@ namespace ETapManagement.Service
 
 		public ResponseMessage UpdateProjectStructure(ProjectStructureDetails servicedto, int id)
 		{
-			ResponseMessage responseMessage = new ResponseMessage();
-			responseMessage = _repository.UpdateProjectStructure(servicedto, id);
-			return responseMessage;
+			ResponseMessage response = new ResponseMessage();
+			response = _repository.UpdateProjectStructure(servicedto, id);
+			return response;
 		}
 
 		public ResponseMessage DeleteProjectStructure(int id)
 		{
-			ResponseMessage responseMessage = new ResponseMessage();
-			responseMessage = _repository.DeleteProjectStructure(id);
-			return responseMessage;
+			ResponseMessage response = new ResponseMessage();
+			response = _repository.DeleteProjectStructure(id);
+			return response;
 		}
 	}
 }

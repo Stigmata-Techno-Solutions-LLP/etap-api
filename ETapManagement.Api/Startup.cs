@@ -54,6 +54,7 @@ namespace ETapManagement.Api
 			services.AddScoped<IStructureRepository, StructureRepository>();
 			services.AddScoped<IProjectStructureRepository, ProjectStructureRepository>(); 
 			services.AddScoped<IComponentTypeService, ComponentTypeService>();
+			services.AddScoped<IComponentService, ComponentService>();
 			services.AddScoped<ICommonRepository, CommonRepository>();
 			services.AddScoped<IProjectService, ProjectService>();
 			services.AddScoped<IProjectRepository, ProjectRepository>();
@@ -71,7 +72,9 @@ namespace ETapManagement.Api
 			services.AddScoped<IBURepository, BURepository>();
 			services.AddScoped<IStructureService, StructureService>();
 			services.AddScoped<IProjectStructureService, ProjectStructureService>();
-			
+			services.AddScoped<IComponentService, IComponentService>();
+			services.AddScoped<IComponentRepository, ComponentRepository>();
+
 			services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
 			var key = Encoding.ASCII.GetBytes(appSettings.Secret);

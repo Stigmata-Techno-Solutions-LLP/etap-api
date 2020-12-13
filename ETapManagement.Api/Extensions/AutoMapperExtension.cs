@@ -418,6 +418,66 @@ namespace ETapManagement.Api.Extensions
 					 dest.ComponentsCount,
 					opt => opt.MapFrom(src => src.ComponentsCount))
 				.ReverseMap();
+
+			CreateMap<ComponentDetails, Component>()
+				.ForMember(dest =>
+					 dest.Id,
+					opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+					 dest.ProjStructId,
+					opt => opt.MapFrom(src => src.ProjectStructureId))
+				.ForMember(dest =>
+					 dest.CompId,
+					opt => opt.MapFrom(src => src.CompId))
+				.ForMember(dest =>
+					 dest.IsDelete,
+					opt => opt.MapFrom(src => src.IsDelete))
+				.ForMember(dest =>
+					 dest.DrawingNo,
+					opt => opt.MapFrom(src => src.DrawingNo))
+				.ForMember(dest =>
+					 dest.CompTypeId,
+					opt => opt.MapFrom(src => src.CompTypeId))
+				.ForMember(dest =>
+					 dest.ComponentNo,
+					opt => opt.MapFrom(src => src.ComponentNo))
+				.ForMember(dest =>
+					 dest.IsGroup,
+					opt => opt.MapFrom(src => src.IsGroup))
+				.ForMember(dest =>
+					 dest.Leng,
+					opt => opt.MapFrom(src => src.Leng))
+				.ForMember(dest =>
+					 dest.Breath,
+					opt => opt.MapFrom(src => src.Breath))
+				.ForMember(dest =>
+					 dest.Height,
+					opt => opt.MapFrom(src => src.Height))
+				.ForMember(dest =>
+					 dest.Breath,
+					opt => opt.MapFrom(src => src.Breath))
+				.ForMember(dest =>
+					 dest.CompStatus,
+					opt => opt.MapFrom(src => src.CompStatus))
+				.ForMember(dest =>
+					 dest.IsActive,
+					opt => opt.MapFrom(src => src.IsActive))
+				.ForMember(dest =>
+					 dest.Thickness,
+					opt => opt.MapFrom(src => src.Thickness))
+				.ForMember(dest =>
+					 dest.QrCode,
+					opt => opt.MapFrom(src => src.QrCode))
+				.ForMember(dest =>
+					 dest.Width,
+					opt => opt.MapFrom(src => src.Width))
+				.ForMember(dest =>
+					 dest.MakeType,
+					opt => opt.MapFrom(src => src.MakeType))
+				.ForMember(dest =>
+					 dest.IsTag,
+					opt => opt.MapFrom(src => src.IsTag))
+				.ReverseMap();
 		}
 	}
 
