@@ -142,7 +142,7 @@ namespace ETapManagement.Repository {
             try
             {
                 List<IndependentCompanyDetail> result = new List<IndependentCompanyDetail>();
-                var ics = _context.IndependentCompany.ToList();
+                var ics = _context.IndependentCompany.Where(x => x.IsDelete == false).ToList();
                 result = _mapper.Map<List<IndependentCompanyDetail>>(ics);
                 return result;
             }

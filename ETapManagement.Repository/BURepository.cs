@@ -100,7 +100,7 @@ namespace ETapManagement.Repository {
             try
             {
                 List<BusinessUnitDetail> result = new List<BusinessUnitDetail>();
-                var buDetails = _context.BusinessUnit.ToList();
+                var buDetails = _context.BusinessUnit.Where(x => x.IsDelete == false).ToList();
                 result = _mapper.Map<List<BusinessUnitDetail>>(buDetails);
                 return result;
             }
