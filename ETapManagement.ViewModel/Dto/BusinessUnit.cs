@@ -7,15 +7,31 @@ namespace ETapManagement.ViewModel.Dto
 {
     public class AddBusinessUnit
     {
-        public int Id { get; set; }
+        public int IcId { get; set; }
+        [Required]
+        public List<BussUnit> lstBussUnit {get;set;}
+    }
+     public class UpdateBusinessUnit
+    {
         [Required]
         [DataType(DataType.Text)]
         [StringLength(100)]
         [Display(Name = "Name")]
         public string Name { get; set; }
         public int IcId { get; set; }
-        public bool IsDelete { get; set; } 
     }
+
+
+      public class BussUnit
+    {
+        [Required]
+        [DataType(DataType.Text)]
+        [StringLength(100)]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+    }
+
+
     public class BusinessUnitDetail
     {
         public int Id { get; set; } 

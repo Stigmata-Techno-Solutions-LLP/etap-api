@@ -32,7 +32,7 @@ namespace ETapManagement.Service {
             return codes;
         }  
 
-        public ResponseMessage UpdateBU(AddBusinessUnit businessunit, int id)
+        public ResponseMessage UpdateBU(UpdateBusinessUnit businessunit, int id)
         {
             ResponseMessage responseMessage = new ResponseMessage();
             responseMessage = _buRepository.UpdateBU(businessunit, id);

@@ -498,16 +498,10 @@ namespace ETapManagement.Api.Extensions
 					opt => opt.MapFrom(src => src.IsActive))
 					.ReverseMap();
 				
-			CreateMap<AddBusinessUnit, BusinessUnit>()
-				.ForMember(dest =>
-				   dest.Id,
-					opt => opt.MapFrom(src => src.Id))
+			CreateMap<UpdateBusinessUnit, BusinessUnit>()
 				.ForMember(dest =>
 				   dest.Name,
 					opt => opt.MapFrom(src => src.Name))
-				.ForMember(dest =>
-				   dest.IsDelete,
-					opt => opt.MapFrom(src => src.IsDelete)) 
 				.ForMember(dest =>
 					dest.IcId,
 					opt => opt.MapFrom(src => src.IcId))

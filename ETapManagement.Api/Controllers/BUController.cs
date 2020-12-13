@@ -40,7 +40,7 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpPut("updateBU/{id}")]
-        public IActionResult Update(AddBusinessUnit businessunit, int id)
+        public IActionResult Update(UpdateBusinessUnit businessunit, int id)
         {
             try
             {
