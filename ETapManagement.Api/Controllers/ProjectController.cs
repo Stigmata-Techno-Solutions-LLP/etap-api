@@ -20,9 +20,9 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpPost ("createProj")]
-        public IActionResult Create (ProjectDetail projectDetail) {
+        public IActionResult Create (AddProject project) {
             try {
-                var response = _projectService.CreateProject (projectDetail);
+                var response = _projectService.CreateProject (project);
                 return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
@@ -34,9 +34,9 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpPut ("updateProj/{id}")]
-        public IActionResult Update (ProjectDetail projectDetail, int id) {
+        public IActionResult Update (AddProject project, int id) {
             try {
-                var response = _projectService.UpdateProject (projectDetail, id);
+                var response = _projectService.UpdateProject (project, id);
                 return Ok (new { message = response.Message, code = 204 });
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);

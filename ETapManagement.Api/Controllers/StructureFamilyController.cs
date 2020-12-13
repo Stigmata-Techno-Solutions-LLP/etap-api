@@ -19,9 +19,9 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpPost ("createStructureFam")]
-        public IActionResult Create (StructureTypeDetail structureTypeDetail) {
+        public IActionResult Create (AddStructureType structureType) {
             try {
-                var response = _structureTypeService.CreateStructureType (structureTypeDetail);
+                var response = _structureTypeService.CreateStructureType (structureType);
                 return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
@@ -33,9 +33,9 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpPut ("updateStructureFam/{id}")]
-        public IActionResult Update (StructureTypeDetail structureTypeDetail, int id) {
+        public IActionResult Update (AddStructureType structureType, int id) {
             try {
-                var response = _structureTypeService.UpdateStructureType (structureTypeDetail, id);
+                var response = _structureTypeService.UpdateStructureType (structureType, id);
                 return Ok (new { message = response.Message, code = 204 });
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);

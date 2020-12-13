@@ -20,11 +20,11 @@ namespace ETapManagement.Api.Controllers {
 
         
         [HttpPost("createIC")]
-        public IActionResult Create(IndependentCompanyDetail icDetail)
+        public IActionResult Create(AddIndependentCompany independentCompany)
         {
             try
             {
-                var response = _iCService.CreateIC(icDetail);
+                var response = _iCService.CreateIC(independentCompany);
                 return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             }
             catch (ValueNotFoundException e)
@@ -40,11 +40,11 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpPut("updateIC/{id}")]
-        public IActionResult Update(IndependentCompanyDetail icDetail, int id)
+        public IActionResult Update(AddIndependentCompany independentCompany, int id)
         {
             try
             {
-                var response = _iCService.UpdateIC(icDetail, id);
+                var response = _iCService.UpdateIC(independentCompany, id);
                 return Ok(new { message = response.Message, code = 204 });
             }
             catch (ValueNotFoundException e)

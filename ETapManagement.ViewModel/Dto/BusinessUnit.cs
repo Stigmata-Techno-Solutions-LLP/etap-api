@@ -5,19 +5,26 @@ using System.Text;
 
 namespace ETapManagement.ViewModel.Dto
 {
-    public class BusinessUnitDetail
+    public class AddBusinessUnit
     {
         public int Id { get; set; }
         [Required]
         [DataType(DataType.Text)]
         [StringLength(100)]
         [Display(Name = "Name")]
+        public string Name { get; set; }
+        public int IcId { get; set; }
+        public bool IsDelete { get; set; } 
+    }
+    public class BusinessUnitDetail
+    {
+        public int Id { get; set; } 
         public string Name { get; set; }         
         public int IcId { get; set; }
         public bool? IsDelete { get; set; }
-        public int? CreatedBy { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public int? UpdatedBy { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public string CreatedBy { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedBy { get; set; }
+        public string UpdatedAt { get; set; }
     }
 }

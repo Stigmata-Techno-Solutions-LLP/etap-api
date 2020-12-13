@@ -10,14 +10,14 @@ namespace ETapManagement.Service {
 
         public BUService(IBURepository buRepository) {
             _buRepository = buRepository;
-        }
+        } 
 
-        public ResponseMessage CreateBU(BusinessUnitDetail buDetail)
+        public ResponseMessage CreateBU(AddBusinessUnit businessunit)
         {
             ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _buRepository.CreateBU(buDetail);
+            responseMessage = _buRepository.CreateBU(businessunit);
             return responseMessage;
-        } 
+        }
 
         public ResponseMessage DeleteBU(int id)
         {
@@ -30,26 +30,25 @@ namespace ETapManagement.Service {
         {
             List<Code> codes = _buRepository.GetBUCodeList();
             return codes;
+        }  
+
+        public ResponseMessage UpdateBU(AddBusinessUnit businessunit, int id)
+        {
+            ResponseMessage responseMessage = new ResponseMessage();
+            responseMessage = _buRepository.UpdateBU(businessunit, id);
+            return responseMessage;
         }
 
-        public List<BusinessUnitDetail> GetBUDetails()
+        public List<BusinessUnitDetail>  GetBUDetails()
         {
             List<BusinessUnitDetail> buDetails = _buRepository.GetBUDetails();
             return buDetails;
         }
 
-        public BusinessUnitDetail GetBUDetailsById(int id)
+        public BusinessUnitDetail  GetBUDetailsById(int id)
         {
             BusinessUnitDetail buDetail = _buRepository.GetBUDetailsById(id);
             return buDetail;
-        } 
-         
-
-        public ResponseMessage UpdateBU(BusinessUnitDetail buDetail, int id)
-        {
-            ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _buRepository.UpdateBU(buDetail, id);
-            return responseMessage;
-        } 
+        }
     }
 }

@@ -12,10 +12,10 @@ namespace ETapManagement.Service {
             _icRepository = icRepository;
         }  
 
-        public ResponseMessage CreateIC(IndependentCompanyDetail icDetail)
+        public ResponseMessage CreateIC(AddIndependentCompany independentCompany)
         {
             ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _icRepository.CreateIC(icDetail);
+            responseMessage = _icRepository.CreateIC(independentCompany);
             return responseMessage;
         }
 
@@ -30,6 +30,13 @@ namespace ETapManagement.Service {
         {
             List<Code> codes = _icRepository.GetICCodeList();
             return codes;
+        } 
+
+        public ResponseMessage UpdateIC(AddIndependentCompany independentCompany, int id)
+        {
+            ResponseMessage responseMessage = new ResponseMessage();
+            responseMessage = _icRepository.UpdateIC(independentCompany, id);
+            return responseMessage;
         }
 
         public List<IndependentCompanyDetail> GetICDetails()
@@ -42,13 +49,6 @@ namespace ETapManagement.Service {
         {
             IndependentCompanyDetail icDetail = _icRepository.GetICDetailsById(id);
             return icDetail;
-        }
-
-        public ResponseMessage UpdateIC(IndependentCompanyDetail icDetail, int id)
-        {
-            ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _icRepository.UpdateIC(icDetail, id);
-            return responseMessage;
         }
     }
 }
