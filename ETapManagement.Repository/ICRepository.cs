@@ -18,20 +18,20 @@ namespace ETapManagement.Repository {
             _context = context;
             _mapper = mapper;
             _commonRepo = commonRepo;
-        }
+        } 
 
-        public ResponseMessage CreateIC(IndependentCompanyDetail icDetail)
+        public ResponseMessage CreateIC(AddIndependentCompany independentCompany)
         {
             try
             {
-                if (_context.IndependentCompany.Where(x => x.Name == icDetail.Name && x.IsDelete == false).Count() > 0)
+                if (_context.IndependentCompany.Where(x => x.Name == independentCompany.Name && x.IsDelete == false).Count() > 0)
                 {
                     throw new ValueNotFoundException("Independent Company  Name already exist.");
                 }
                 ResponseMessage responseMessage = new ResponseMessage();
-                IndependentCompany ic = _mapper.Map<IndependentCompany>(icDetail);
+                IndependentCompany ic = _mapper.Map<IndependentCompany>(independentCompany);
                 _context.IndependentCompany.Add(ic);
-                _context.SaveChanges();  
+                _context.SaveChanges();
 
                 responseMessage.Message = "Independent Company created sucessfully";
                 return responseMessage;
@@ -91,6 +91,50 @@ namespace ETapManagement.Repository {
             {
                 throw ex;
             }
+        } 
+
+        public ResponseMessage UpdateIC(AddIndependentCompany independentCompany, int id)
+        {
+            ResponseMessage responseMessage = new ResponseMessage();
+            try
+            {
+                var ic = _context.IndependentCompany.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
+                if (ic != null)
+                {
+                    if (_context.IndependentCompany.Where(x => x.Name == independentCompany.Name && x.Id != id && x.IsDelete == false).Count() > 0)
+                    {
+                        throw new ValueNotFoundException("Independent Company Name already exist.");
+                    }
+                    else
+                    {
+                        ic.Name = independentCompany.Name;
+                        ic.Description = independentCompany.Description;
+
+                        _context.SaveChanges();
+
+                        AuditLogs audit = new AuditLogs()
+                        {
+                            Action = "Independent Company",
+                            Message = string.Format("Independent Company Updated Successfully {0}", independentCompany.Name),
+                            CreatedAt = DateTime.Now
+                        };
+                        _commonRepo.AuditLog(audit);
+                        return responseMessage = new ResponseMessage()
+                        {
+                            Message = "Independent Company Updated Successfully.",
+
+                        };
+                    }
+                }
+                else
+                {
+                    throw new ValueNotFoundException("Independent Company not available.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<IndependentCompanyDetail> GetICDetails()
@@ -98,8 +142,8 @@ namespace ETapManagement.Repository {
             try
             {
                 List<IndependentCompanyDetail> result = new List<IndependentCompanyDetail>();
-                var icDetails = _context.IndependentCompany.ToList();
-                result = _mapper.Map<List<IndependentCompanyDetail>>(icDetails);
+                var ics = _context.IndependentCompany.ToList();
+                result = _mapper.Map<List<IndependentCompanyDetail>>(ics);
                 return result;
             }
             catch (Exception ex)
@@ -116,50 +160,6 @@ namespace ETapManagement.Repository {
                 var ic = _context.IndependentCompany.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
                 result = _mapper.Map<IndependentCompanyDetail>(ic);
                 return result;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public ResponseMessage UpdateIC(IndependentCompanyDetail icDetail, int id)
-        {
-            ResponseMessage responseMessage = new ResponseMessage();
-            try
-            {
-                var ic = _context.IndependentCompany.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
-                if (ic != null)
-                {
-                    if (_context.IndependentCompany.Where(x => x.Name == icDetail.Name && x.Id != id && x.IsDelete == false).Count() > 0)
-                    {
-                        throw new ValueNotFoundException("Independent Company Name already exist.");
-                    }
-                    else
-                    {
-                        ic.Name = icDetail.Name;
-                        ic.Description = icDetail.Description;
-
-                        _context.SaveChanges();
-
-                        AuditLogs audit = new AuditLogs()
-                        {
-                            Action = "Independent Company",
-                            Message = string.Format("Independent Company Updated Successfully {0}", icDetail.Name),
-                            CreatedAt = DateTime.Now 
-                        };
-                        _commonRepo.AuditLog(audit);
-                        return responseMessage = new ResponseMessage()
-                        {
-                            Message = "Independent Company Updated Successfully.",
-
-                        };
-                    }
-                }
-                else
-                {
-                    throw new ValueNotFoundException("Independent Company not available.");
-                }
             }
             catch (Exception ex)
             {

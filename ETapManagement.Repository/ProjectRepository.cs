@@ -23,34 +23,41 @@ namespace ETapManagement.Repository {
             _context = context;
             _mapper = mapper;
             _commonRepo = commonRepo;
-        }
-        public ResponseMessage CreateProject (ProjectDetail projectDetail) {
-            try {
-                if (_context.Project.Where (x => x.Name == projectDetail.Name && x.IsDelete == false).Count () > 0) {
-                    throw new ValueNotFoundException ("Project  Name already exist.");
+        }         
+
+        public ResponseMessage CreateProject(AddProject project)
+        {
+            try
+            {
+                if (_context.Project.Where(x => x.Name == project.Name && x.IsDelete == false).Count() > 0)
+                {
+                    throw new ValueNotFoundException("Project  Name already exist.");
                 }
-                ResponseMessage responseMessage = new ResponseMessage ();
-                Project project = _mapper.Map<Project> (projectDetail);
-                _context.Project.Add (project);
-                _context.SaveChanges ();
+                ResponseMessage responseMessage = new ResponseMessage();
+                Project projectDB = _mapper.Map<Project>(project);
+                _context.Project.Add(projectDB);
+                _context.SaveChanges();
 
                 //Add the site location
-                if (projectDetail.ProjectSiteLocationDetails.Any ()) {
-                    foreach (var item in projectDetail.ProjectSiteLocationDetails) {
-                        ProjectSitelocation projectSitelocation = new ProjectSitelocation ();
+                if (project.ProjectSiteLocationDetails.Any())
+                {
+                    foreach (var item in project.ProjectSiteLocationDetails)
+                    {
+                        ProjectSitelocation projectSitelocation = new ProjectSitelocation();
                         projectSitelocation.Name = item.Name;
-                        projectSitelocation.ProjectId = project.Id;
-                        _context.ProjectSitelocation.Add (projectSitelocation);
+                        projectSitelocation.ProjectId = projectDB.Id;
+                        _context.ProjectSitelocation.Add(projectSitelocation);
                     }
 
                 }
-                _context.SaveChanges ();
+                _context.SaveChanges();
                 responseMessage.Message = "Project created sucessfully";
                 return responseMessage;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
-
         }
 
         public ResponseMessage DeleteProject (int id) {
@@ -104,7 +111,10 @@ namespace ETapManagement.Repository {
             {
                 List<ProjectDetail> result = new List<ProjectDetail>();
                 var projects = _context.Project.Where(x => x.IsDelete == false)
-                    .Include(s => s.ProjectSitelocation).ToList();
+                    .Include(s => s.ProjectSitelocation)
+                    .Include(s => s.Segment)
+                    .Include(s => s.Ic)
+                    .Include(s => s.Bu).ToList();
                 result = _mapper.Map<List<ProjectDetail>>(projects);
                 return result;
             } catch (Exception ex) {
@@ -116,82 +126,103 @@ namespace ETapManagement.Repository {
             try {
                 ProjectDetail result = new ProjectDetail ();
                 var project = _context.Project.Where (x => x.Id == id && x.IsDelete == false)
-                    .Include(s => s.ProjectSitelocation).FirstOrDefault ();
+                    .Include(s => s.ProjectSitelocation)
+                    .Include(s => s.Segment)
+                    .Include(s => s.Ic)
+                    .Include(s => s.Bu).FirstOrDefault ();
                 result = _mapper.Map<ProjectDetail> (project);
                 return result;
             } catch (Exception ex) {
                 throw ex;
             }
-        }
+        } 
 
-        public ResponseMessage UpdateProject (ProjectDetail projectDetail, int id) {
-            ResponseMessage responseMessage = new ResponseMessage ();
-            try {
-                var project = _context.Project.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
-                if (project != null) {
-                    if (_context.Project.Where (x => x.Name == project.Name && x.Id != id && x.IsDelete == false).Count () > 0) {
-                        throw new ValueNotFoundException ("Project Name already exist.");
-                    } else {
-                        project.Name = projectDetail.Name;
-                        project.ProjCode = projectDetail.ProjCode;
-                        project.Area = projectDetail.Area;
-                        project.IcId = projectDetail.ICId;
-                        project.BuId = projectDetail.BUId;
-                        project.SegmentId = projectDetail.SegmentId;
-                        project.CreatedBy = projectDetail.CreatedBy;
-                        project.CreatedAt = projectDetail.CreatedAt;
-                        project.UpdatedBy = projectDetail.UpdatedBy;
-                        project.UpdatedAt = projectDetail.UpdatedtAt;
+        public ResponseMessage UpdateProject(AddProject project, int id)
+        {
+            ResponseMessage responseMessage = new ResponseMessage();
+            try
+            {
+                var projectDB = _context.Project.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
+                if (projectDB != null)
+                {
+                    if (_context.Project.Where(x => x.Name == project.Name && x.Id != id && x.IsDelete == false).Count() > 0)
+                    {
+                        throw new ValueNotFoundException("Project Name already exist.");
+                    }
+                    else
+                    {
+                        projectDB.Name = project.Name;
+                        projectDB.ProjCode = project.ProjCode;
+                        projectDB.Area = project.Area;
+                        projectDB.IcId = project.ICId;
+                        projectDB.BuId = project.BUId;
+                        projectDB.SegmentId = project.SegmentId;
+                        projectDB.CreatedBy = 1; //TODO
+                        projectDB.CreatedAt = DateTime.Now;
+                        projectDB.UpdatedBy = 1; //TODO
+                        projectDB.UpdatedAt = DateTime.Now;
 
-                        var projectLocations = _context.ProjectSitelocation.Where (x => x.ProjectId == project.Id).ToList ();
-                        var addedSiteLocations = projectDetail.ProjectSiteLocationDetails.Where (x => !projectLocations.Any (p => p.Id == x.Id)).ToList ();
-                        var deletedSiteLocations = projectLocations.Where (x => !projectDetail.ProjectSiteLocationDetails.Any (p => p.Id == x.Id)).ToList ();
-                        var updatedSiteLocations = projectDetail.ProjectSiteLocationDetails.Where (x => projectLocations.Any (p => p.Id == x.Id)).ToList ();
+                        var projectLocations = _context.ProjectSitelocation.Where(x => x.ProjectId == project.Id).ToList();
+                        var addedSiteLocations = project.ProjectSiteLocationDetails.Where(x => !projectLocations.Any(p => p.Id == x.Id)).ToList();
+                        var deletedSiteLocations = projectLocations.Where(x => !project.ProjectSiteLocationDetails.Any(p => p.Id == x.Id)).ToList();
+                        var updatedSiteLocations = project.ProjectSiteLocationDetails.Where(x => projectLocations.Any(p => p.Id == x.Id)).ToList();
 
                         //add Project site Location
-                        if (addedSiteLocations.Any ()) {
-                            foreach (var item in addedSiteLocations) {
-                                ProjectSitelocation projectSitelocation = new ProjectSitelocation ();
+                        if (addedSiteLocations.Any())
+                        {
+                            foreach (var item in addedSiteLocations)
+                            {
+                                ProjectSitelocation projectSitelocation = new ProjectSitelocation();
                                 projectSitelocation.Name = item.Name;
-                                _context.ProjectSitelocation.Add (projectSitelocation);
+                                _context.ProjectSitelocation.Add(projectSitelocation);
                             }
                         }
 
                         //delete Project site Location
-                        if (deletedSiteLocations.Any ()) {
-                            foreach (var item in deletedSiteLocations) {
-                                _context.ProjectSitelocation.Remove (item);
+                        if (deletedSiteLocations.Any())
+                        {
+                            foreach (var item in deletedSiteLocations)
+                            {
+                                _context.ProjectSitelocation.Remove(item);
                             }
 
                         }
 
                         //update Project site Location
-                        if (updatedSiteLocations.Any ()) {
-                            foreach (var item in updatedSiteLocations) {
-                                ProjectSitelocation projectSitelocation = _context.ProjectSitelocation.Where (x => x.Id == item.Id).FirstOrDefault ();
+                        if (updatedSiteLocations.Any())
+                        {
+                            foreach (var item in updatedSiteLocations)
+                            {
+                                ProjectSitelocation projectSitelocation = _context.ProjectSitelocation.Where(x => x.Id == item.Id).FirstOrDefault();
                                 projectSitelocation.Name = item.Name;
 
                             }
                         }
 
-                        _context.SaveChanges ();
+                        _context.SaveChanges();
 
-                        AuditLogs audit = new AuditLogs () {
+                        AuditLogs audit = new AuditLogs()
+                        {
                             Action = "Project",
-                            Message = string.Format ("Project Updated Successfully {0}", projectDetail.Name),
+                            Message = string.Format("Project Updated Successfully {0}", project.Name),
                             CreatedAt = DateTime.Now,
-                            CreatedBy = project.CreatedBy
+                            CreatedBy = 1 //TODO
                         };
-                        _commonRepo.AuditLog (audit);
-                        return responseMessage = new ResponseMessage () {
+                        _commonRepo.AuditLog(audit);
+                        return responseMessage = new ResponseMessage()
+                        {
                             Message = "Project updated successfully.",
 
                         };
                     }
-                } else {
-                    throw new ValueNotFoundException ("Project not available.");
                 }
-            } catch (Exception ex) {
+                else
+                {
+                    throw new ValueNotFoundException("Project not available.");
+                }
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
         }

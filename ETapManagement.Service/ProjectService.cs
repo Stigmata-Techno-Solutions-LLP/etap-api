@@ -10,13 +10,7 @@ namespace ETapManagement.Service {
 
         public ProjectService (IProjectRepository projectRepository) {
             _projectRepository = projectRepository;
-        }
-
-        public ResponseMessage CreateProject (ProjectDetail projectDetail) {
-            ResponseMessage responseMessage = new ResponseMessage ();
-            responseMessage = _projectRepository.CreateProject (projectDetail);
-            return responseMessage;
-        }
+        } 
 
         public ResponseMessage DeleteProject (int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
@@ -32,18 +26,25 @@ namespace ETapManagement.Service {
         public ProjectDetail GetProjectDetailsById (int id) {
             ProjectDetail projectDetail = _projectRepository.GetProjectDetailsById (id);
             return projectDetail;
-        }
-
-        public ResponseMessage UpdateProject (ProjectDetail projectDetail, int id) {
-            ResponseMessage responseMessage = new ResponseMessage ();
-            responseMessage = _projectRepository.UpdateProject (projectDetail, id);
-            return responseMessage;
-
-        }
+        } 
         public List<Code> GetProjectCodeList()
         {
             List<Code> codes = _projectRepository.GetProjectCodeList();
             return codes;
+        }
+
+        public ResponseMessage CreateProject(AddProject project)
+        {
+            ResponseMessage responseMessage = new ResponseMessage();
+            responseMessage = _projectRepository.CreateProject(project);
+            return responseMessage;
+        }
+
+        public ResponseMessage UpdateProject(AddProject project, int id)
+        {
+            ResponseMessage responseMessage = new ResponseMessage();
+            responseMessage = _projectRepository.UpdateProject(project, id);
+            return responseMessage;
         }
     }
 }

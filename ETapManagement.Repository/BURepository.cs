@@ -18,18 +18,20 @@ namespace ETapManagement.Repository {
             _context = context;
             _mapper = mapper;
             _commonRepo = commonRepo;
-        }
+        } 
 
-        public ResponseMessage CreateBU(BusinessUnitDetail buDetail)
+        public ResponseMessage CreateBU(AddBusinessUnit businessunit)
         {
             try
             {
-                if (_context.BusinessUnit.Where(x => x.Name == buDetail.Name && x.IsDelete == false).Count() > 0)
+                if (_context.BusinessUnit.Where(x => x.Name == businessunit.Name && x.IsDelete == false).Count() > 0)
                 {
                     throw new ValueNotFoundException("Business Unit  Name already exist.");
                 }
                 ResponseMessage responseMessage = new ResponseMessage();
-                BusinessUnit bu = _mapper.Map<BusinessUnit>(buDetail);
+                 BusinessUnit bu = _mapper.Map<BusinessUnit>(businessunit);
+                bu.CreatedAt = DateTime.Now;
+                bu.CreatedBy = 1; //TODO
                 _context.BusinessUnit.Add(bu);
                 _context.SaveChanges();
 
@@ -40,7 +42,8 @@ namespace ETapManagement.Repository {
             {
                 throw ex;
             }
-        } 
+        }
+
         public ResponseMessage DeleteBU(int id)
         {
             ResponseMessage responseMessage = new ResponseMessage();
@@ -112,17 +115,17 @@ namespace ETapManagement.Repository {
             try
             {
                 BusinessUnitDetail result = new BusinessUnitDetail();
-                var ic = _context.BusinessUnit.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
-                result = _mapper.Map<BusinessUnitDetail>(ic);
+                var bu = _context.BusinessUnit.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
+                result = _mapper.Map<BusinessUnitDetail>(bu);
                 return result;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-        }  
+        }   
 
-        public ResponseMessage UpdateBU(BusinessUnitDetail buDetail, int id)
+        public ResponseMessage UpdateBU(AddBusinessUnit businessunit, int id)
         {
             ResponseMessage responseMessage = new ResponseMessage();
             try
@@ -130,27 +133,25 @@ namespace ETapManagement.Repository {
                 var bu = _context.BusinessUnit.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
                 if (bu != null)
                 {
-                    if (_context.IndependentCompany.Where(x => x.Name == buDetail.Name && x.Id != id && x.IsDelete == false).Count() > 0)
+                    if (_context.IndependentCompany.Where(x => x.Name == businessunit.Name && x.Id != id && x.IsDelete == false).Count() > 0)
                     {
                         throw new ValueNotFoundException("Business Unit Name already exist.");
                     }
                     else
                     {
-                        bu.Name = buDetail.Name;
-                        bu.IcId = buDetail.IcId;
-                        bu.CreatedAt = buDetail.CreatedAt;
-                        bu.CreatedBy = buDetail.CreatedBy;
-                        bu.UpdatedAt = buDetail.UpdatedAt;
-                        bu.UpdatedBy = buDetail.UpdatedBy;                         
+                        bu.Name = businessunit.Name;
+                        bu.IcId = businessunit.IcId; 
+                        bu.UpdatedAt = DateTime.Now;
+                        bu.UpdatedBy = 1; //TODO
 
                         _context.SaveChanges();
 
                         AuditLogs audit = new AuditLogs()
                         {
                             Action = "Business Unit",
-                            Message = string.Format("Business Unit Updated Successfully {0}", buDetail.Name),
+                            Message = string.Format("Business Unit Updated Successfully {0}", businessunit.Name),
                             CreatedAt = DateTime.Now,
-                            CreatedBy = buDetail.CreatedBy
+                            CreatedBy = 1 //TODO
                         };
                         _commonRepo.AuditLog(audit);
                         return responseMessage = new ResponseMessage()
@@ -169,8 +170,6 @@ namespace ETapManagement.Repository {
             {
                 throw ex;
             }
-        }
-
-        
+        } 
     }
 }
