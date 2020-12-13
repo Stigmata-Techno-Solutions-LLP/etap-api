@@ -397,6 +397,27 @@ namespace ETapManagement.Api.Extensions
 					 dest.IsActive,
 					opt => opt.MapFrom(src => src.IsActive))
 				.ReverseMap();
+
+			CreateMap<ProjectStructureDetails, ProjectStructure>()
+				.ForMember(dest =>
+					 dest.Id,
+					opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+					 dest.StructureId,
+					opt => opt.MapFrom(src => src.StructureId))
+				.ForMember(dest =>
+					 dest.ProjectId,
+					opt => opt.MapFrom(src => src.ProjectId))
+				.ForMember(dest =>
+					 dest.IsDelete,
+					opt => opt.MapFrom(src => src.IsDelete))
+				.ForMember(dest =>
+					 dest.DrawingNo,
+					opt => opt.MapFrom(src => src.DrawingNo))
+				.ForMember(dest =>
+					 dest.ComponentsCount,
+					opt => opt.MapFrom(src => src.ComponentsCount))
+				.ReverseMap();
 		}
 	}
 
