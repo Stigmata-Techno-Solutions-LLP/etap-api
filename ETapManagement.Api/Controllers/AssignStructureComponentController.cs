@@ -18,25 +18,25 @@ namespace ETapManagement.Api.Controllers
 	public class AssignStructureComponentController : ControllerBase
 	{
 		//private readonly IProjectStructureDocumentService _projectStructureDocumentService;
-		private readonly IProjectStructureService _projectStructureService;
+		private readonly IAssignStructureComponentService _assignService;
 		private readonly IComponentService _componentService;
 		private readonly ILogger _loggerService;
 
-		public AssignStructureComponentController(IComponentService componentService, IProjectStructureService projectStructureService)
+		public AssignStructureComponentController(IComponentService componentService, IAssignStructureComponentService assignService)
 		{
 			_componentService = componentService;
-			_projectStructureService = projectStructureService;
+			_assignService = assignService;
 			//_projectStructureDocumentService = projectStructureDocumentService;
 		}
 
 		[HttpGet("getassignstructurecomponent")]
-		public IActionResult GetAssignStructureComponent()
+		public IActionResult GetAssignStructureComponent(AssignStructureComponentDetails request)
 		{
 			AssignStructureComponentDetails response = new AssignStructureComponentDetails();
 			try
 			{
 				var components = _componentService.GetComponent();
-				var projectStructure = _projectStructureService.GetProjectStructure();
+				var projectStructure = _assignService.UpsertAssignStructureComponent(request);
 
 				return Ok(response);
 			}
@@ -46,27 +46,5 @@ namespace ETapManagement.Api.Controllers
 				return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
 			}
 		}
-
-		[HttpPost("addstructurecomponent")]
-		public IActionResult AddStructureComponent(AssignStructureComponentDetails structure)
-		{
-			try
-			{
-				//return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
-			}
-			catch (ValueNotFoundException e)
-			{
-				Util.LogError(e);
-				return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
-			}
-			catch (Exception e)
-			{
-				Util.LogError(e);
-				return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-			}
-
-			return null;
-		}
-
 	}
 }

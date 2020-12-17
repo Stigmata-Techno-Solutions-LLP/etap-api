@@ -6,8 +6,8 @@ namespace ETapManagement.ViewModel.Dto
 {
 	public class AssignStructureComponentDetails
 	{
-		public List<ComponentDetails> ComponentTypeDetails { get; set; }
-		public List<ProjectStructureDetails> ProjectStructureDetails { get; set; }
+		public ProjectStructureDetails ProjectStructureDetail { get; set; }
+		public List<ComponentDetails> Components { get; set; }
 		public List<ProjectStructureDocumentDetails> ProjectStructureDocumentDetails { get; set; }
 	}
 }

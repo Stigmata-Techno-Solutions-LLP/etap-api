@@ -69,8 +69,8 @@ namespace ETapManagement.Api
 			services.AddScoped<IBURepository, BURepository>();
 			services.AddScoped<IStructureService, StructureService>();
 			services.AddScoped<IStructureRepository, StructureRepository>();
-			services.AddScoped<IProjectStructureRepository, ProjectStructureRepository>();
-			services.AddScoped<IProjectStructureService, ProjectStructureService>();
+			services.AddScoped<IAssignStructureComponentRepository, AssignStructureComponentRepository>();
+			services.AddScoped<IAssignStructureComponentService, AssignStructureComponentService>();
 			services.AddScoped<IComponentService, IComponentService>();
 			services.AddScoped<IComponentRepository, ComponentRepository>();
 
