@@ -506,6 +506,42 @@ namespace ETapManagement.Api.Extensions
 					dest.IcId,
 					opt => opt.MapFrom(src => src.IcId))
 				.ReverseMap();
+
+			CreateMap<SurplusDetails, Surplus>()
+				.ForMember(dest =>
+					 dest.ProjectId,
+					opt => opt.MapFrom(src => src.ProjectId))
+				.ForMember(dest =>
+					dest.StructureTypeId,
+					opt => opt.MapFrom(src => src.StructureTypeId))
+				.ForMember(dest =>
+					dest.StructureId,
+					opt => opt.MapFrom(src => src.StructureId))
+				.ForMember(dest =>
+					dest.Site,
+					opt => opt.MapFrom(src => src.Site))
+				.ForMember(dest =>
+					dest.SurplusFrom,
+					opt => opt.MapFrom(src => src.SurplusFrom))
+				.ForMember(dest =>
+					dest.Photo,
+					opt => opt.MapFrom(src => src.Photo))
+				.ForMember(dest =>
+					dest.IsDelete,
+					opt => opt.MapFrom(src => src.IsDelete))
+				.ForMember(dest =>
+					dest.CreatedBy,
+					opt => opt.MapFrom(src => src.CreatedBy))
+				.ForMember(dest =>
+					dest.CreatedAt,
+					opt => opt.MapFrom(src => src.CreatedAt))
+				.ForMember(dest =>
+					dest.UpdatedBy,
+					opt => opt.MapFrom(src => src.UpdatedBy))
+				.ForMember(dest =>
+					dest.UpdatedAt,
+					opt => opt.MapFrom(src => src.UpdatedAt))
+				.ReverseMap();
 		}
 	}
 
