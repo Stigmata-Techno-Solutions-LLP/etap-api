@@ -506,6 +506,99 @@ namespace ETapManagement.Api.Extensions
 					dest.IcId,
 					opt => opt.MapFrom(src => src.IcId))
 				.ReverseMap();
+
+			CreateMap<AddSiteRequirement, SiteRequirement>()
+				.ForMember(dest =>
+				dest.Id,
+				opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				dest.MrNo,
+				opt => opt.MapFrom(src => src.MrNo))
+				.ForMember(dest =>
+				dest.ProjectId,
+				opt => opt.MapFrom(src => src.ProjectId))
+				.ForMember(dest =>
+				dest.PlanStartdate,
+				opt => opt.MapFrom(src => src.PlanStartdate))
+				.ForMember(dest =>
+				dest.ActualReleasedate,
+				opt => opt.MapFrom(src => src.ActualReleasedate))
+				.ForMember(dest =>
+				dest.RequireWbsId,
+				opt => opt.MapFrom(src => src.RequireWbsId))
+				.ForMember(dest =>
+				dest.ActualWbsId,
+				opt => opt.MapFrom(src => src.ActualWbsId))
+				.ForMember(dest =>
+				dest.ActualWbsId,
+				opt => opt.MapFrom(src => src.ActualWbsId))
+				.ForMember(dest =>
+				dest.Remarks,
+				opt => opt.MapFrom(src => src.Remarks))
+				.ForMember(dest =>
+				dest.Status,
+				opt => opt.MapFrom(src => src.Status))
+				.ForMember(dest =>
+				dest.StatusInternal,
+				opt => opt.MapFrom(src => src.StatusInternal))
+				.ForMember(dest =>
+				dest.IsDelete,
+				opt => opt.MapFrom(src => src.IsDelete)) 
+				.ReverseMap();
+
+			CreateMap<SiteRequirementDetail, SiteRequirement>()
+				.ForMember(dest =>
+				dest.Id,
+				opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+				dest.MrNo,
+				opt => opt.MapFrom(src => src.MrNo))
+				.ForMember(dest =>
+				dest.ProjectId,
+				opt => opt.MapFrom(src => src.ProjectId))
+				.ForMember(dest =>
+				dest.PlanStartdate,
+				opt => opt.MapFrom(src => src.PlanStartdate))
+				.ForMember(dest =>
+				dest.ActualReleasedate,
+				opt => opt.MapFrom(src => src.ActualReleasedate))
+				.ForMember(dest =>
+				dest.RequireWbsId,
+				opt => opt.MapFrom(src => src.RequireWbsId))
+				.ForMember(dest =>
+				dest.ActualWbsId,
+				opt => opt.MapFrom(src => src.ActualWbsId))
+				.ForMember(dest =>
+				dest.ActualWbsId,
+				opt => opt.MapFrom(src => src.ActualWbsId))
+				.ForMember(dest =>
+				dest.Remarks,
+				opt => opt.MapFrom(src => src.Remarks))
+				.ForMember(dest =>
+				dest.Status,
+				opt => opt.MapFrom(src => src.Status))
+				.ForMember(dest =>
+				dest.StatusInternal,
+				opt => opt.MapFrom(src => src.StatusInternal))
+				.ForMember(dest =>
+				dest.IsDelete,
+				opt => opt.MapFrom(src => src.IsDelete))
+				.ForMember(dest =>
+				dest.SiteReqStructure,
+				opt => opt.MapFrom(src => src.SiteRequirementStructures))
+				.ReverseMap();
+
+			CreateMap<SiteRequirementStructure, SiteReqStructure>()
+				.ForMember(dest =>
+				   dest.Id,
+					opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+					dest.DrawingNo,
+					opt => opt.MapFrom(src => src.DrawingNo))
+				.ForMember(dest =>
+					dest.StructId,
+					opt => opt.MapFrom(src => src.StructId))
+				.ReverseMap();
 		}
 	}
 
