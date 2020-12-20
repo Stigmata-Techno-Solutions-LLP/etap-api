@@ -9,12 +9,11 @@ namespace ETapManagement.ViewModel.Dto
 	{
 
 		public int Id { get; set; }
-		public int? ProjectStructureId { get; set; }
+		public int ProjectStructureId { get; set; }
 		public string CompId { get; set; }
 
 		[Required]
 		[Display(Name = "ComponentType Id")]
-		[RegularExpression("[^0-9]", ErrorMessage = "ComponentTypeID must be numeric")]
 		public int? CompTypeId { get; set; }
 
 		[DataType(DataType.Text)]
@@ -24,7 +23,6 @@ namespace ETapManagement.ViewModel.Dto
 
 		[Required]
 		[Display(Name = "Component No")]
-		[RegularExpression("[^0-9]", ErrorMessage = "ComponentNo must be numeric")]
 		public int? ComponentNo { get; set; }
 
 		public bool? IsGroup { get; set; }

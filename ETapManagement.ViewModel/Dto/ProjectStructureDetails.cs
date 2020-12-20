@@ -11,12 +11,10 @@ namespace ETapManagement.ViewModel.Dto
 
 		[Required]
 		[Display(Name = "StructureId")]
-		[RegularExpression("[^0-9]", ErrorMessage = "StructureId must be numeric")]
 		public int? StructureId { get; set; }
 
 		[Required]
 		[Display(Name = "ProjectId")]
-		[RegularExpression("[^0-9]", ErrorMessage = "ProjectId must be numeric")]
 		public int? ProjectId { get; set; }
 
 		[Required]
@@ -27,10 +25,7 @@ namespace ETapManagement.ViewModel.Dto
 
 		[Required]
 		[Display(Name = "Components Count")]
-		[RegularExpression("[^0-9]", ErrorMessage = "Components Count must be numeric")]
 		public int? ComponentsCount { get; set; }
-
-
 		public bool? IsDelete { get; set; }
 	}
 }

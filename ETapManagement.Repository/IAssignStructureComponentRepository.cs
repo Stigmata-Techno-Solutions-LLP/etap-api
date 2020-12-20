@@ -7,6 +7,9 @@ namespace ETapManagement.Repository
 {
 	public interface IAssignStructureComponentRepository
 	{
-		ResponseMessage UpsertProjectStructure(AssignStructureComponentDetails request);
+		int UpsertProjectStructure(AssignStructureComponentDetails request);
+		bool StructureRemoveDocs(string request);
+		bool StructureDocsUpload(Upload_Docs request,int Id);
+
 	}
 }

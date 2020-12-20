@@ -71,7 +71,7 @@ namespace ETapManagement.Api
 			services.AddScoped<IStructureRepository, StructureRepository>();
 			services.AddScoped<IAssignStructureComponentRepository, AssignStructureComponentRepository>();
 			services.AddScoped<IAssignStructureComponentService, AssignStructureComponentService>();
-			services.AddScoped<IComponentService, IComponentService>();
+			services.AddScoped<IComponentService, ComponentService>();
 			services.AddScoped<IComponentRepository, ComponentRepository>();
 
 			services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
