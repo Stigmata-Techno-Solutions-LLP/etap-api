@@ -24,7 +24,7 @@ namespace ETapManagement.Api.Controllers {
 		private readonly IComponentService _componentService;
 		private readonly ILogger _loggerService;
 
-		public AssignStructureComponentController (IComponentService componentService, IAssignStructureComponentService assignService) {
+		public StructureComponentController (IComponentService componentService, IAssignStructureComponentService assignService) {
 			_componentService = componentService;
 			_assignService = assignService;
 			//_projectStructureDocumentService = projectStructureDocumentService;

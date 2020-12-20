@@ -579,12 +579,6 @@ namespace ETapManagement.Api.Extensions {
 
 			CreateMap<AddSiteRequirement, SiteRequirement> ()
 				.ForMember (dest =>
-					dest.Id,
-					opt => opt.MapFrom (src => src.Id))
-				.ForMember (dest =>
-					dest.MrNo,
-					opt => opt.MapFrom (src => src.MrNo))
-				.ForMember (dest =>
 					dest.ProjectId,
 					opt => opt.MapFrom (src => src.ProjectId))
 				.ForMember (dest =>

@@ -7,8 +7,6 @@ namespace ETapManagement.ViewModel.Dto
 {
     public class AddSiteRequirement
     {
-        public int Id { get; set; }
-        public string MrNo { get; set; }
 
         [Required]
         public int ProjectId { get; set; }

@@ -137,7 +137,6 @@ namespace ETapManagement.Repository {
                     }
                     else
                     {
-                        siteReq.MrNo = siteRequirement.MrNo;
                         siteReq.ProjectId = siteRequirement.ProjectId;
                         siteReq.PlanStartdate = siteRequirement.PlanStartdate;
                         siteReq.PlanReleasedate = siteRequirement.PlanReleasedate;
