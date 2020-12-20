@@ -5,5 +5,7 @@ namespace ETapManagement.Common {
         public static string StructureIdPrefix="STR";
         public static string ComponentIdPrefix = "COMP";
         public static string ProjectStructureIdPrefix = "PROJSTR";
-  }
+        public static string MRNoPrefix = "MR";
+
+    }
 }
