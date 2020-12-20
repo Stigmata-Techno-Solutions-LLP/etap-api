@@ -48,7 +48,6 @@ namespace ETapManagement.Repository
 			ResponseMessage response = new ResponseMessage();
 			try
 			{
-				//TODO: ID auto incremented??
 				int structCount = _context.Structures.Count()+ 1;
 				string structId = constantVal.StructureIdPrefix +  structCount.ToString().PadLeft(6,'0');
 				if (_context.Structures.Where(x => x.Id == structureDetails.Id && x.IsDelete == false).Count() > 0)
