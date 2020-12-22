@@ -62,6 +62,26 @@ namespace ETapManagement.Api.Controllers
 			}
 		}
 
+		[HttpGet("getStructureComp/{id}")]
+		public IActionResult GetStructureCompById(int id)
+		{
+			StructureComponentDetails response = null;
+			try
+			{
+				response = _structureService.GetStructureCompById(id);
+				return Ok(response);
+			}
+			catch (Exception e)
+			{
+				Util.LogError(e);
+				return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+			}
+			finally
+			{
+				Util.LogInfo($"GetStructureById: {id}");
+			}
+		}
+
 		[HttpPost("addstructure")]
 		public IActionResult AddStructure(StructureDetails structure)
 		{

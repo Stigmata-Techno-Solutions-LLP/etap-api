@@ -6,6 +6,10 @@ namespace ETapManagement.Common {
             Level3 = 3,
             Level4 = 4
         }
+          public enum WorkFlowMode {
+            Approval = 1,
+            Rejection = 2,         
+        }
 
     }
 

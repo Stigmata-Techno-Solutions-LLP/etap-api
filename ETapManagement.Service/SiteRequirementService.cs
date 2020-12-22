@@ -33,16 +33,24 @@ namespace ETapManagement.Service {
             return responseMessage;
         }
 
-        public List<SiteRequirementDetail> GetRequirementDetails()
+
+        public List<SiteRequirementDetail> GetRequirementDetails(SiteRequirementDetailPayload req)
         {
-            List<SiteRequirementDetail> siteRequirementDetails = _siteRequirementRepository.GetRequirementDetails();
+            List<SiteRequirementDetail> siteRequirementDetails = _siteRequirementRepository.GetRequirementDetails(req);
             return siteRequirementDetails;
         }
 
-        public SiteRequirementDetail GetRequirementDetailsById(int id)
+        public SiteRequirementDetailWithStruct GetRequirementDetailsById(int id)
         {
-            SiteRequirementDetail siteRequirementDetail = _siteRequirementRepository.GetRequirementDetailsById(id);
+            SiteRequirementDetailWithStruct siteRequirementDetail = _siteRequirementRepository.GetRequirementDetailsById(id);
             return siteRequirementDetail;
+        }
+
+         public ResponseMessage WorkflowSiteRequirement(WorkFlowSiteReqPayload reqPayload)
+        {
+            ResponseMessage responseMessage = new ResponseMessage();
+            responseMessage = _siteRequirementRepository.WorkflowSiteRequirement(reqPayload);
+            return responseMessage;
         }
     }
 }

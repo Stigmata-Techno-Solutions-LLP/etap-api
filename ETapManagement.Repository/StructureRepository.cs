@@ -43,6 +43,18 @@ namespace ETapManagement.Repository
 			return response;
 		}
 
+		 
+		public StructureComponentDetails GetStructureCompById(int id)
+		{
+			StructureComponentDetails response = new StructureComponentDetails();
+			var responsedb = _context.ProjectStructure.Include(c=>c.Component).Where(x => x.StructureId == id && x.IsDelete == false).ToList();
+
+			if (responsedb != null)
+				response = _mapper.Map<StructureComponentDetails>(responsedb);
+			return response;
+		}
+
+
 		public ResponseMessage AddStructure(StructureDetails structureDetails)
 		{
 			ResponseMessage response = new ResponseMessage();

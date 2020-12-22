@@ -63,9 +63,9 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpGet ("getSiteReqDetails")]
-        public IActionResult GetSiteReqDetails () {
+        public IActionResult GetSiteReqDetails ([FromQuery]SiteRequirementDetailPayload reqPayload) {
             try {
-                var response = _sitereqService.GetRequirementDetails ();
+                var response = _sitereqService.GetRequirementDetails (reqPayload);
                 return Ok (response);
             } catch (Exception e) {
                 Util.LogError (e);
@@ -83,6 +83,23 @@ namespace ETapManagement.Api.Controllers {
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         } 
+
+           [HttpPost ("WorkflowManagement")]
+        public IActionResult WorkflowManagement (WorkFlowSiteReqPayload siteRequirement) {
+            try {
+                var response = _sitereqService.WorkflowSiteRequirement (siteRequirement);
+                return StatusCode (StatusCodes.Status204NoContent, (new { message = response.Message, code = 204 }));
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+
+
 
     }
 } 

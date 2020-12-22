@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-
+using ETapManagement.ViewModel.Dto;
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
- 
+     
 
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
@@ -28,6 +28,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<ProjectSitelocation> ProjectSitelocation { get; set; }
         public virtual DbSet<ProjectStructure> ProjectStructure { get; set; }
         public virtual DbSet<ProjectStructureDocuments> ProjectStructureDocuments { get; set; }
+        public virtual DbSet<RoleHierarchy> RoleHierarchy { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<RolesApplicationforms> RolesApplicationforms { get; set; }
         public virtual DbSet<ScrapStructure> ScrapStructure { get; set; }
@@ -56,6 +57,8 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Query<SiteRequirementDetail>();
+
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -787,6 +790,40 @@ namespace ETapManagement.Domain.Models
                     .HasForeignKey(d => d.ProjectStructureId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("project_structure_id_psID_fkey");
+            });
+
+            modelBuilder.Entity<RoleHierarchy>(entity =>
+            {
+                entity.ToTable("role_hierarchy");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ChkStatus)
+                    .HasColumnName("chk_status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NewStatus)
+                    .HasColumnName("new_status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RoleHierarchy1).HasColumnName("role_hierarchy");
+
+                entity.Property(e => e.RoleName)
+                    .HasColumnName("role_name")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ScenarioType)
+                    .HasColumnName("scenario_type")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ViewDetailsStatus)
+                    .HasColumnName("view_details_status")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Roles>(entity =>
