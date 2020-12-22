@@ -97,7 +97,7 @@ namespace ETapManagement.ViewModel.Dto {
         public int RoleId { get; set; }
     }
     public class SiteRequirementDetailPayload {
-        public string role_name { get; set; }
+        public commonEnum.Rolename role_name { get; set; }
         public int? role_hierarchy { get; set; }
 
     }
@@ -108,7 +108,7 @@ namespace ETapManagement.ViewModel.Dto {
         [Required]
         public commonEnum.WorkFlowMode mode { get; set; }
         
-        public string role_name { get; set; }
+        public commonEnum.Rolename role_name { get; set; }
         public string role_hierarchy { get; set; }
 
     }
