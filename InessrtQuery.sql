@@ -44,17 +44,43 @@ insert into structure_type values('LG & Bridge Builders',1,0,'',1,getdate(),null
 
         
       insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('SITE','REQUIREMENT',1,'NEW','REJECT','REJECT,NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH')
+        values('SITE','REQUIREMENT',1,'NEW','REJECT','')
                 
       insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('BU','REQUIREMENT',2,'BUAPPROVED','NEW','NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH')
+        values('BU','REQUIREMENT',2,'BUAPPROVED','NEW','')
         
       insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('CMPC','REQUIREMENT',3,'CMPCAPPROVED','BUAPPROVED,TWCCAPPROVED','BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH')
+        values('CMPC','REQUIREMENT',3,'CMPCAPPROVED','BUAPPROVED,TWCCAPPROVED','')
         
       insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('TWCC','REQUIREMENT',3,'TWCCAPPROVED','BUAPPROVED,CMPCAPPROVED','BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH')
+        values('TWCC','REQUIREMENT',3,'TWCCAPPROVED','BUAPPROVED,CMPCAPPROVED','')
         
       insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('TWCC','REQUIREMENT',4,'DISPATCHED','READYTODISPATCH','READYTODISPATCH')
+        values('TWCC','REQUIREMENT',4,'DISPATCHED','READYTODISPATCH','')
+        
+
+        
+      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
+        values('SITE','DECLARATION',1,'NEW','','REJECT,NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH,EHSREJECTED,QAREJECTED')
+                
+      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
+        values('EHS','DECLARATION',2,'EHSAPPROVED','NEW','EHSAPPROVED,READYTODISPATCH,EHSREJECTED,QAREJECTED')
+        
+      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
+        values('QA','DECLARATION',3,'READYTODISPATCH','EHSAPPROVED','READYTODISPATCH,QAREJECTED')
+              
+      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
+        values('TWCC','DECLARATION',4,'READYTODISPATCH','','READYTODISPATCH')
+        
+         insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
+        values('CMPC','DECLARATION',5,'READYTODISPATCH','','READYTODISPATCH')
+        
+                 insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
+        values('BU','DECLARATION',6,'READYTODISPATCH','','READYTODISPATCH')
+        
+          insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
+        values('PROCUREMENT','DECLARATION',7,'SCRAPPED','QAREJECTED,EHSREJECTED','')
+      
+        
+      
         
