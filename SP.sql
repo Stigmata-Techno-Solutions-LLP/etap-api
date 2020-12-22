@@ -1,11 +1,10 @@
-
 CREATE OR ALTER PROCEDURE sp_GetRequirement( @role_name varchar(50),@role_hierarchy int  null)
 AS
 BEGIN
 	
 	declare @role_id int 
 	SET @role_id = (select top 1 id from roles where name =@role_name)
-	declare @cond_status varchar (50)
+	declare @cond_status varchar (500)
 	--select @cond_status
 	if (@role_hierarchy is null)
 	BEGIN 
@@ -49,8 +48,8 @@ BEGIN
 
 	declare @role_id int 
 	SET @role_id = (select top 1 id from roles where name =@role_name)
-	declare @cond_status varchar (50)
-	declare @new_status varchar (50)
+	declare @cond_status varchar (500)
+	declare @new_status varchar (500)
 
 	
 	if (@role_hierarchy is null)
@@ -88,8 +87,8 @@ BEGIN
 
 	declare @role_id int 
 	SET @role_id = (select top 1 id from roles where name =@role_name)
-	declare @cond_status varchar (50)
-	declare @new_status varchar (50)
+	declare @cond_status varchar (500)
+	declare @new_status varchar (500)
 
 	
 	if (@role_hierarchy is null)
@@ -120,3 +119,140 @@ BEGIN
 	END
 
 END
+
+
+
+
+
+
+
+
+
+CREATE OR ALTER PROCEDURE sp_getDeclaration( @role_name varchar(50),@role_hierarchy int  null)
+AS
+BEGIN
+	
+	declare @role_id int 
+	SET @role_id = (select top 1 id from roles where name =@role_name)
+	declare @cond_status varchar (500)
+	declare @view_status varchar (500)
+
+	--select @cond_status
+	if (@role_hierarchy is null)
+	BEGIN 
+		
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name  and scenario_type ='DECLARATION')
+		SET @view_status= (select top 1 view_details_status from role_hierarchy where role_name =@role_name  and scenario_type ='DECLARATION')
+END 
+ELSE 
+BEGIN 
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name  and scenario_type ='DECLARATION'  and role_hierarchy  = @role_hierarchy)
+	SET @view_status= (select top 1 view_details_status from role_hierarchy where role_name =@role_name  and scenario_type ='DECLARATION'  and role_hierarchy  = @role_hierarchy)
+	
+	END
+
+	
+	 select '0' as 'isAction', sitereq_id as SiteReqId, sd.Id as Id, sd.struct_id as StructureId, s2.name as StructureName, st.name as StructureTypeName,  surplus_fromdate as SurplusDate, status as Status, status_internal as StatusInternal into #resultset1 from site_declaration as sd inner join structures s2  on sd.struct_id  = s2.id  inner join structure_type st  on s2.structure_type_id  = st.id  where status_internal  in (select value from STRING_SPLIT(@cond_status,',') )
+
+	 select '1' as 'isAction', sitereq_id as SiteReqId, sd.Id as Id, sd.struct_id as StructureId, s2.name as StructureName, st.name  as StructureTypeName, surplus_fromdate as SurplusDate, status as Status, status_internal as StatusInternal into #resultset2 from site_declaration sd inner join structures s2 on  sd.struct_id  = s2.id  inner join structure_type st on s2.structure_type_id  = st.id   where status_internal  in (select value from STRING_SPLIT(@view_status,',') )
+
+	 select * from #resultset1 union all 
+	 select * from #resultset2
+	 	
+END
+
+
+
+
+CREATE OR ALTER PROCEDURE sp_ApprovalDeclaration(@decl_id int, @role_name varchar(50),@role_hierarchy int  null, @updated_by int null )
+AS
+BEGIN
+
+	declare @role_id int 
+	SET @role_id = (select top 1 id from roles where name =@role_name)
+	declare @cond_status varchar (500)
+	declare @new_status varchar (500)
+
+	
+	if (@role_hierarchy is null)
+	BEGIN 
+		
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name and scenario_type ='DECLARATION')
+	SET @new_status= (select top 1 new_status from role_hierarchy where role_name =@role_name and scenario_type ='DECLARATION')
+
+	END 
+ELSE 
+BEGIN 
+	
+		SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name and role_hierarchy  = @role_hierarchy and scenario_type ='DECLARATION')
+		SET @new_status= (select top 1 new_status from role_hierarchy where role_name =@role_name  and role_hierarchy  = @role_hierarchy and scenario_type ='DECLARATION')
+
+	END
+	
+	IF  EXISTS (select * from  site_declaration sd where   Id = @decl_id and status_internal in (select value from STRING_SPLIT(@cond_status,','))) 
+	BEGIN 	
+		IF @role_name in ('EHS','QA')
+		BEGIN 
+	update site_declaration  set status_internal = @new_status, status =@new_status, role_id =@role_id,updated_by =@updated_by where  id =@decl_id
+	insert into sitedecl_status_history (sitedec_id ,notes ,status ,status_internal ,role_id ,updated_at,updated_by ) select  id,notes,status ,status_internal ,@role_id ,getdate(), @updated_by from site_declaration sr where id = @decl_id 
+	END 
+	ELSE 
+	BEGIN 
+			select 'NOT ALLOWED'
+
+		END 
+	END
+	
+	ELSE 
+	BEGIN 
+	select 'NOT ALLOWED'
+	END
+
+END
+
+
+
+CREATE OR ALTER PROCEDURE sp_RejectionDeclaration(@decl_id int, @role_name varchar(50),@role_hierarchy int  NULL, @updated_by int null )
+AS
+BEGIN
+
+	declare @role_id int 
+	SET @role_id = (select top 1 id from roles where name =@role_name)
+	declare @cond_status varchar (500)
+	declare @new_status varchar (500)
+	
+	if (@role_hierarchy is null)
+	BEGIN 
+		
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name and scenario_type ='REQUIREMENT')
+	SET @new_status= (select top 1 chk_status from role_hierarchy where  role_hierarchy  = (select top 1 role_hierarchy from role_hierarchy where role_name =@role_name and scenario_type ='REQUIREMENT') -1)
+
+	END 
+ELSE 
+BEGIN 	
+		SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name and role_hierarchy  = @role_hierarchy and scenario_type ='REQUIREMENT')
+		SET @new_status= (select top 1 chk_status from role_hierarchy where role_hierarchy  = @role_hierarchy and scenario_type ='REQUIREMENT')
+
+	END
+	--select @cond_status 
+	--select @new_status
+	
+	IF  EXISTS (select * from  site_declaration sd where   Id = @decl_id and status_internal in (select value from STRING_SPLIT(@cond_status,','))) 
+	BEGIN 	
+		IF @role_name in ('EHS','QA')
+		BEGIN 	
+			update site_declaration  set status_internal = @role_name + 'REJECTED', status =@role_name + 'REJECTED', role_id =@role_id,updated_by =@updated_by where  id = @decl_id
+			insert into sitedecl_status_history (sitedec_id ,notes ,status ,status_internal ,role_id ,updated_at,updated_by ) select  id,notes,status ,status_internal ,@role_id ,getdate(), @updated_by from site_declaration sr where id = @decl_id 
+		END
+		ELSE 
+		BEGIN
+			select 'NOT ALLOWED'	
+		END
+	END	
+	ELSE 
+	BEGIN 
+		select 'NOT ALLOWED'
+	END
+
+END
+        

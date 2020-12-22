@@ -23,7 +23,10 @@ namespace ETapManagement.Repository {
         }
 
         public ResponseMessage CreateRequirement (AddSiteRequirement siteRequirement) {
+
+             using (var transaction = _context.Database.BeginTransaction ()) {
             try {
+
                 ResponseMessage responseMessage = new ResponseMessage ();
                 SiteRequirement sitereq = _mapper.Map<SiteRequirement> (siteRequirement);
 
@@ -62,10 +65,13 @@ namespace ETapManagement.Repository {
                 _context.SitereqStatusHistory.Add (siteStatusHist);
                 _context.SaveChanges ();
                 responseMessage.Message = "Site Requirement created sucessfully";
+                transaction.Commit();
                 return responseMessage;
             } catch (Exception ex) {
+                transaction.Rollback();
                 throw ex;
             }
+             }
         }
 
         public ResponseMessage DeleteRequirement (int id) {
@@ -108,7 +114,7 @@ namespace ETapManagement.Repository {
         public List<SiteRequirementDetail> GetRequirementDetails (SiteRequirementDetailPayload reqPayload) {
             try {
                 List<SiteRequirementDetail> result = new List<SiteRequirementDetail> ();
-                var siteRequirements = _context.Query<SiteRequirementDetail> ().FromSqlRaw ("exec sp_GetRequirement {0}, {1}", reqPayload.role_name, reqPayload.role_hierarchy).ToList ();
+                var siteRequirements = _context.Query<SiteRequirementDetail> ().FromSqlRaw ("exec sp_GetRequirement {0}, {1}", reqPayload.role_name.ToString(), reqPayload.role_hierarchy).ToList ();
                 result = _mapper.Map<List<SiteRequirementDetail>> (siteRequirements);
                 return result;
             } catch (Exception ex) {

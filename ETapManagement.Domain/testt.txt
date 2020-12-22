@@ -1,0 +1,3 @@
+
+            modelBuilder.Query<SiteRequirementDetail>();
+            modelBuilder.Query<SurplusDetails>();

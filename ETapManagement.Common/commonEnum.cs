@@ -23,7 +23,14 @@ namespace ETapManagement.Common {
             IC=10,
             PROJECTS =11
         }
-
+        public enum SurPlusDeclSatus {
+            NEW =1,
+            EHSAPPROVED=2,
+            QAAPPROVED=3,
+            READYTODISPATCH=4,
+            EHSREJECTED=5,
+            QAREJECTED=6
+        }
     }
 
 }

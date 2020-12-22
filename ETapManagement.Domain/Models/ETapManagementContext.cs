@@ -57,8 +57,9 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Query<SiteRequirementDetail>();
 
+            modelBuilder.Query<SiteRequirementDetail>();
+            modelBuilder.Query<SurplusDetails>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");

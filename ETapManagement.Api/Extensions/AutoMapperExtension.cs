@@ -487,13 +487,12 @@ namespace ETapManagement.Api.Extensions {
 					opt => opt.MapFrom (src => src.IsActive))
 				.ReverseMap ();
 
-
 			CreateMap<ProjectStructure, StructureComponentDetails> ()
-			
+
 				.ForMember (dest =>
 					dest.lstComp,
 					opt => opt.MapFrom (src => src.Component))
-			
+
 				.ReverseMap ();
 
 			CreateMap<UpdateBusinessUnit, BusinessUnit> ()
@@ -653,7 +652,7 @@ namespace ETapManagement.Api.Extensions {
 				.ForMember (dest =>
 					dest.StatusInternal,
 					opt => opt.MapFrom (src => src.StatusInternal))
-	.ForMember (dest =>
+				.ForMember (dest =>
 					dest.IsDelete,
 					opt => opt.MapFrom (src => src.IsDelete))
 				.ForMember (dest =>
@@ -672,6 +671,19 @@ namespace ETapManagement.Api.Extensions {
 					dest.StructId,
 					opt => opt.MapFrom (src => src.StructId))
 				.ReverseMap ();
+
+			CreateMap<AddSurplus, SiteDeclaration>()
+				.ForMember (dest =>
+					dest.SitereqId,
+					opt => opt.MapFrom (src => src.SiteReqId))
+				.ForMember (dest =>
+					dest.StructId,
+					opt => opt.MapFrom (src => src.StructureId))
+				.ForMember (dest =>
+					dest.SurplusFromdate,
+					opt => opt.MapFrom (src => src.SurplusDate))					
+				.ReverseMap();
+
 		}
 	}
 
