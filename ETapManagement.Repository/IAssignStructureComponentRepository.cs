@@ -10,6 +10,8 @@ namespace ETapManagement.Repository
 		int UpsertProjectStructure(AssignStructureComponentDetails request);
 		bool StructureRemoveDocs(string request);
 		bool StructureDocsUpload(Upload_Docs request,int Id);
+		 AssignStructureDtlsOnly GetAssignStructureDtlsById(ComponentQueryParam filterReq);
 
+		 List<AssignStructureDtlsOnly> GetAssignStructureDtls();
 	}
 }

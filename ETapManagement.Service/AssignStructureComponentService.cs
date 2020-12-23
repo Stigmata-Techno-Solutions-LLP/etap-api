@@ -85,6 +85,30 @@ namespace ETapManagement.Service
                 throw ex; 
             } 
         }  
-	}
+	
+     public AssignStructureDtlsOnly GetAssignStructureDtlsById(ComponentQueryParam queryFilter)
+        {
+            try {
+
+           return _repository.GetAssignStructureDtlsById(queryFilter);
+            } catch (Exception ex) {
+                throw ex;
+            }
+           
+        }  
+
+
+        	
+     public List<AssignStructureDtlsOnly> GetAssignStructureDtls()
+        {
+            try {
+
+           return _repository.GetAssignStructureDtls();
+            } catch (Exception ex) {
+                throw ex;
+            }
+           
+        } 
+    }
 	
 }

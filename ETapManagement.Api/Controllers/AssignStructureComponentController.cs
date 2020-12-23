@@ -57,5 +57,54 @@ namespace ETapManagement.Api.Controllers {
 				return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
 			}
 		}
+
+		[HttpGet("GetAssignedStructureDetailsById")]
+		public IActionResult GetAssignedStructureDetailsById([FromQuery] ComponentQueryParam queryParam)
+		{
+			AssignStructureDtlsOnly response = null;
+			try
+			{
+				response = _assignService.GetAssignStructureDtlsById(queryParam);
+				return Ok(response);
+			}
+			catch (Exception e)
+			{
+				Util.LogError(e);
+				return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+			}
+		}
+
+		[HttpGet("GetAssignedStructureDetails")]
+		public IActionResult GetAssignedStructureDetails()
+		{
+			List<AssignStructureDtlsOnly> response = null;
+			try
+			{
+				response = _assignService.GetAssignStructureDtls();
+				return Ok(response);
+			}
+			catch (Exception e)
+			{
+				Util.LogError(e);
+				return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+			}
+		}
+
+
+		[HttpGet("GetComponentHistory")]
+		public IActionResult GetComponentHistory(string compCode)
+		{
+			List<ComponentDetails> response = null;
+			try
+			{
+				response = _componentService.GetComponentHistoryByCode(compCode);
+				return Ok(response);
+			}
+			catch (Exception e)
+			{
+				Util.LogError(e);
+				return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+			}
+		}
 	}
 }

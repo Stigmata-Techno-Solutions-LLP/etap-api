@@ -32,13 +32,7 @@ namespace ETapManagement.Service
 
 			return structure;
 		}
-			public StructureComponentDetails GetStructureCompById(int id)
-		{
-			StructureComponentDetails structure = _structureRepository.GetStructureCompById(id);
-			if (structure == null) return null;
-
-			return structure;
-		}
+	
 
 		public ResponseMessage AddStructure(StructureDetails structure)
 		{

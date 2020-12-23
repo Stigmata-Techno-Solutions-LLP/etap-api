@@ -487,13 +487,58 @@ namespace ETapManagement.Api.Extensions {
 					opt => opt.MapFrom (src => src.IsActive))
 				.ReverseMap ();
 
-			CreateMap<ProjectStructure, StructureComponentDetails> ()
+			CreateMap<Upload_Docs, ProjectStructureDocuments> ()
+				.ForMember (dest =>
+					dest.Id,
+					opt => opt.MapFrom (src => src.Id))
+				.ForMember (dest =>
+					dest.FileName,
+					opt => opt.MapFrom (src => src.fileName))
+				.ForMember (dest =>
+					dest.FileType,
+					opt => opt.MapFrom (src => src.fileType))
 
 				.ForMember (dest =>
-					dest.lstComp,
+					dest.Path,
+					opt => opt.MapFrom (src => src.filepath))
+				.ReverseMap ();
+			CreateMap<ProjectStructure, AssignStructureDtlsOnly> ()
+				.ForMember (dest =>
+					dest.ComponentsCount,
+					opt => opt.MapFrom (src => src.ComponentsCount))
+
+				.ForMember (dest =>
+					dest.DrawingNo,
+					opt => opt.MapFrom (src => src.DrawingNo))
+
+				.ForMember (dest =>
+					dest.StrcutureName,
+					opt => opt.MapFrom (src => src.Structure.Name))
+				.ForMember (dest =>
+					dest.ProjectName,
+					opt => opt.MapFrom (src => src.Project.Name))	
+				.ForMember (dest =>
+					dest.StructureCode,
+					opt => opt.MapFrom (src => src.Structure.StructId))	
+				.ForMember(dest =>
+					dest.ProjectId,
+					opt => opt.MapFrom (src => src.ProjectId))
+				.ForMember(dest =>
+					dest.StructureAttributes,
+					opt => opt.MapFrom (src => src.Structure.StructureAttributes))
+				.ForMember (dest =>
+					dest.structureDocs,
+					opt => opt.MapFrom (src => src.ProjectStructureDocuments))
+				.ForMember (dest =>
+					dest.StructureId,
+					opt => opt.MapFrom (src => src.StructureId))
+				.ForMember (dest =>
+					dest.Components,
 					opt => opt.MapFrom (src => src.Component))
 
 				.ReverseMap ();
+
+		
 
 			CreateMap<UpdateBusinessUnit, BusinessUnit> ()
 				.ForMember (dest =>
@@ -526,6 +571,126 @@ namespace ETapManagement.Api.Extensions {
 				.ReverseMap ();
 
 			CreateMap<ComponentDetails, Component> ()
+				.ForMember (dest =>
+					dest.Id,
+					opt => opt.MapFrom (src => src.Id))
+				.ForMember (dest =>
+					dest.ProjStructId,
+					opt => opt.MapFrom (src => src.ProjectStructureId))
+				.ForMember (dest =>
+					dest.CompId,
+					opt => opt.MapFrom (src => src.CompId))
+				.ForMember (dest =>
+					dest.IsDelete,
+					opt => opt.MapFrom (src => src.IsDelete))
+				.ForMember (dest =>
+					dest.DrawingNo,
+					opt => opt.MapFrom (src => src.DrawingNo))
+				.ForMember (dest =>
+					dest.CompTypeId,
+					opt => opt.MapFrom (src => src.CompTypeId))
+				.ForMember (dest =>
+					dest.ComponentNo,
+					opt => opt.MapFrom (src => src.ComponentNo))
+				.ForMember (dest =>
+					dest.IsGroup,
+					opt => opt.MapFrom (src => src.IsGroup))
+				.ForMember (dest =>
+					dest.Leng,
+					opt => opt.MapFrom (src => src.Leng))
+				.ForMember (dest =>
+					dest.Breath,
+					opt => opt.MapFrom (src => src.Breath))
+				.ForMember (dest =>
+					dest.Height,
+					opt => opt.MapFrom (src => src.Height))
+				.ForMember (dest =>
+					dest.Breath,
+					opt => opt.MapFrom (src => src.Breath))
+				.ForMember (dest =>
+					dest.CompStatus,
+					opt => opt.MapFrom (src => src.CompStatus))
+				.ForMember (dest =>
+					dest.IsActive,
+					opt => opt.MapFrom (src => src.IsActive))
+				.ForMember (dest =>
+					dest.Thickness,
+					opt => opt.MapFrom (src => src.Thickness))
+				.ForMember (dest =>
+					dest.QrCode,
+					opt => opt.MapFrom (src => src.QrCode))
+				.ForMember (dest =>
+					dest.Width,
+					opt => opt.MapFrom (src => src.Width))
+				.ForMember (dest =>
+					dest.MakeType,
+					opt => opt.MapFrom (src => src.MakeType))
+				.ForMember (dest =>
+					dest.IsTag,
+					opt => opt.MapFrom (src => src.IsTag))
+				.ReverseMap ();
+
+			CreateMap<ComponentHistory, Component> ()
+				.ForMember (dest =>
+					dest.Id,
+					opt => opt.MapFrom (src => src.Id))
+				.ForMember (dest =>
+					dest.ProjStructId,
+					opt => opt.MapFrom (src => src.ProjStructId))
+				.ForMember (dest =>
+					dest.CompId,
+					opt => opt.MapFrom (src => src.CompId))
+				.ForMember (dest =>
+					dest.IsDelete,
+					opt => opt.MapFrom (src => src.IsDelete))
+				.ForMember (dest =>
+					dest.DrawingNo,
+					opt => opt.MapFrom (src => src.DrawingNo))
+				.ForMember (dest =>
+					dest.CompTypeId,
+					opt => opt.MapFrom (src => src.CompTypeId))
+				.ForMember (dest =>
+					dest.ComponentNo,
+					opt => opt.MapFrom (src => src.ComponentNo))
+				.ForMember (dest =>
+					dest.IsGroup,
+					opt => opt.MapFrom (src => src.IsGroup))
+				.ForMember (dest =>
+					dest.Leng,
+					opt => opt.MapFrom (src => src.Leng))
+				.ForMember (dest =>
+					dest.Breath,
+					opt => opt.MapFrom (src => src.Breath))
+				.ForMember (dest =>
+					dest.Height,
+					opt => opt.MapFrom (src => src.Height))
+				.ForMember (dest =>
+					dest.Breath,
+					opt => opt.MapFrom (src => src.Breath))
+				.ForMember (dest =>
+					dest.CompStatus,
+					opt => opt.MapFrom (src => src.CompStatus))
+				.ForMember (dest =>
+					dest.IsActive,
+					opt => opt.MapFrom (src => src.IsActive))
+				.ForMember (dest =>
+					dest.Thickness,
+					opt => opt.MapFrom (src => src.Thickness))
+				.ForMember (dest =>
+					dest.QrCode,
+					opt => opt.MapFrom (src => src.QrCode))
+				.ForMember (dest =>
+					dest.Width,
+					opt => opt.MapFrom (src => src.Width))
+				.ForMember (dest =>
+					dest.MakeType,
+					opt => opt.MapFrom (src => src.MakeType))
+				.ForMember (dest =>
+					dest.IsTag,
+					opt => opt.MapFrom (src => src.IsTag))
+				.ReverseMap ();
+
+			CreateMap<ComponentDetails, ComponentHistory> ()
 				.ForMember (dest =>
 					dest.Id,
 					opt => opt.MapFrom (src => src.Id))
@@ -672,7 +837,7 @@ namespace ETapManagement.Api.Extensions {
 					opt => opt.MapFrom (src => src.StructId))
 				.ReverseMap ();
 
-			CreateMap<AddSurplus, SiteDeclaration>()
+			CreateMap<AddSurplus, SiteDeclaration> ()
 				.ForMember (dest =>
 					dest.SitereqId,
 					opt => opt.MapFrom (src => src.SiteReqId))
@@ -681,8 +846,8 @@ namespace ETapManagement.Api.Extensions {
 					opt => opt.MapFrom (src => src.StructureId))
 				.ForMember (dest =>
 					dest.SurplusFromdate,
-					opt => opt.MapFrom (src => src.SurplusDate))					
-				.ReverseMap();
+					opt => opt.MapFrom (src => src.SurplusDate))
+				.ReverseMap ();
 
 		}
 	}

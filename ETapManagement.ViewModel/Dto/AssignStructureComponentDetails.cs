@@ -26,11 +26,39 @@ namespace ETapManagement.ViewModel.Dto
 
 		[Required]
 		[Display(Name = "Components Count")]
+
+	
+
 		public int? ComponentsCount { get; set; }
+		[Required]
+		public string StructureAttributes { get; set; }
 		public string strComponents{get;set;}
 		public List<ComponentDetails> Components { get; set; }
 		public IFormFile[] uploadDocs { get; set; }
         public string[] remove_docs_filename {get;set;} 
+	}
+
+
+	public class AssignStructureDtlsOnly
+	{
+		public int StructureId { get; set; }
+
+		public int ProjectId { get; set; }
+		public string DrawingNo { get; set; }
+		public string StrcutureName { get; set; }
+		public string StructureCode { get; set; }
+		public string ProjectName{get;set;}
+		public string StructureAttributes { get; set; }
+		public int? ComponentsCount { get; set; }		
+		public List<ComponentDetails> Components { get; set; }
+        public List<Upload_Docs> structureDocs {get;set;} 
+	}
+
+	public class ComponentQueryParam {
+		[Required]
+		public int StructId {get;set;}
+		[Required]
+		public int ProjectId{get;set;}
 	}
 
 	public class Upload_Docs {
@@ -41,4 +69,5 @@ namespace ETapManagement.ViewModel.Dto
     public string uploadType {get;set;} 
     public string filepath {get;set;}    
 }
+
 }

@@ -7,7 +7,9 @@ namespace ETapManagement.Service
 {
 	public interface IComponentService
 	{
-		List<ComponentDetails> GetComponent();
+		List<ComponentDetails> GetComponent( );
+		List<ComponentDetails> GetComponentHistoryByCode(string compCode);
+
 		ComponentDetails GetComponentById(int id);
 		ResponseMessage AddComponent(ComponentDetails component);
 		ResponseMessage UpdateComponent(ComponentDetails component, int id);

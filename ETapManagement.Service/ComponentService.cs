@@ -35,6 +35,13 @@ namespace ETapManagement.Service
 			return response;
 		}
 
+		public List<ComponentDetails> GetComponentHistoryByCode(string compCode)
+		{
+			List<ComponentDetails> response = _repository.GetComponentHistoryByCode(compCode);
+			if (!(response?.Count > 0)) return null;
+
+			return response;
+		}
 		public ResponseMessage AddComponent(ComponentDetails servicedto)
 		{
 			ResponseMessage responseMessage = new ResponseMessage();

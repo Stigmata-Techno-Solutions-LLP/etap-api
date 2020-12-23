@@ -8,6 +8,8 @@ namespace ETapManagement.Repository
 	public interface IComponentRepository
 	{
 		List<ComponentDetails> GetComponent();
+	    List<ComponentDetails> GetComponentHistoryByCode(string compCode);
+
 		ComponentDetails GetComponentById(int id);
 		ResponseMessage AddComponent(ComponentDetails projectStructure);
 		ResponseMessage UpdateComponent(ComponentDetails projectStructure, int id);

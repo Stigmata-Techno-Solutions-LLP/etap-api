@@ -6,6 +6,7 @@ using AutoMapper;
 using ETapManagement.Common;
 using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
+using Microsoft.EntityFrameworkCore;
 
 namespace ETapManagement.Repository {
 
@@ -46,7 +47,9 @@ namespace ETapManagement.Repository {
 							_context.SaveChanges ();
 							projectStructureID = projStructdb.Id;
 						}
-
+						Structures structDB = _context.Structures.Where(x=>x.Id == request.StructureId).FirstOrDefault();
+						structDB.StructureAttributes = request.StructureAttributes;
+						_context.SaveChanges();
 						// if (!isUpdate)
 						// 	projectStructureID = _context.ProjectStructure.FirstOrDefault().Id;
 						// else
@@ -54,18 +57,29 @@ namespace ETapManagement.Repository {
 
 						if (request.Components?.Count > 0) {
 							List<Component> componentls = new List<Component> ();
+							List<ComponentHistory> componentHistls = new List<ComponentHistory> ();
+
 							foreach (var comp in request.Components) {
-								var compdb = _context.Component.Where (x => x.Id == comp.Id && x.CompId == comp.CompId && x.IsDelete == false).FirstOrDefault ();
+								var compdb = _context.Component.Where (x =>x.CompId == comp.CompId && x.IsDelete == false).FirstOrDefault ();
 								if (compdb != null) {
-									compdb = ConstructComponent (projectStructureID, comp, compdb);
+									compdb = ConstructComponent (projectStructureID, comp, compdb);									
+									ComponentHistory compHist =  _mapper.Map<ComponentHistory>(compdb);
+									compHist.Id=0;
+									_context.ComponentHistory.Add(compHist);
+									_context.SaveChanges ();
+
 								} else {
 									Component component = null;
 									component = ConstructComponent (projectStructureID, comp, component);
-									componentls.Add (component);
+
+									_context.Component.Add(component);
+									_context.SaveChanges ();
+
 								}
 							}
-							_context.Component.AddRange (componentls);
-							_context.SaveChanges ();
+							// _context.Component.AddRange (componentls);
+							// _context.ComponentHistory.AddRange (componentHistls);
+						//	_context.SaveChanges ();
 						}
 
 						// if (request.ProjectStructureDocumentDetails?.Count > 0)
@@ -151,7 +165,7 @@ namespace ETapManagement.Repository {
 
 			compdb.ProjStructId = projectStructureID;
 			compdb.IsActive = comp.IsActive;
-			compdb.IsDelete = comp.IsDelete;
+			compdb.IsDelete = false;
 			compdb.DrawingNo = comp.DrawingNo;
 			compdb.CompTypeId = comp.CompTypeId.Value;
 			compdb.ComponentNo = comp.ComponentNo;
@@ -180,6 +194,26 @@ namespace ETapManagement.Repository {
 			docdb.Path = docdb.Path;
 		}
 
+
+
+		public AssignStructureDtlsOnly GetAssignStructureDtlsById(ComponentQueryParam filterReq)
+			{
+				try {
+			ProjectStructure pStruct = _context.ProjectStructure.Include(x=>x.ProjectStructureDocuments).Include(x=>x.Structure).Include(x=>x.Structure.StructureType).Include(x=>x.Component).Where(m=>m.IsDelete== false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault();		
+			AssignStructureDtlsOnly response = _mapper.Map<AssignStructureDtlsOnly>(pStruct);
+			return response;
+				} catch (Exception ex) {
+					throw ex;
+				}
+			}
+		
+		public List<AssignStructureDtlsOnly> GetAssignStructureDtls()
+			{
+			var result = _context.ProjectStructure.Include(x=>x.Structure).Include(x=>x.Project).Where(m=>m.IsDelete== false ).ToList();
+			List<AssignStructureDtlsOnly> response = _mapper.Map<List<AssignStructureDtlsOnly>>(result);
+			return response;
+			}
+		
 		public void Dispose () {
 			Dispose (true);
 			GC.SuppressFinalize (this);

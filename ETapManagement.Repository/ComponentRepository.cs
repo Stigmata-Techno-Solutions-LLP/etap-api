@@ -42,6 +42,21 @@ namespace ETapManagement.Repository
 			return response;
 		}
 
+		public List<ComponentDetails> GetComponentHistoryByCode(string compCode)
+		{
+			try {
+	List<ComponentDetails> response = new List<ComponentDetails>();
+			List<ComponentHistory> responsedb = _context.ComponentHistory.Where(x => x.CompId == compCode && x.IsDelete == false).ToList();
+
+			if (responsedb != null)
+				response = _mapper.Map<List<ComponentDetails>>(responsedb);
+			return response;
+			}
+			 catch(Exception ex) {
+throw ex;
+			 }
+		}
+
 		public ResponseMessage AddComponent(ComponentDetails servicedto)
 		{
 			ResponseMessage response = new ResponseMessage();
