@@ -41,6 +41,22 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
+        [HttpPost ("authenticateMob")]
+        public IActionResult AuthenticateMob (AuthenticateRequest model) {
+            try {
+                var response = _authService.AuthenticateMob (model);
+                if (response == null)
+                    return BadRequest (new { message = "Username or password is incorrect", code = StatusCodes.Status401Unauthorized.ToString () });
+                return Ok (response);
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status400BadRequest, new ErrorClass () { code = StatusCodes.Status400BadRequest.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
         [HttpPost ("refreshtoken")]
         public IActionResult RefreshToken (RefreshTokenRequest refreshToken) {
             try {
