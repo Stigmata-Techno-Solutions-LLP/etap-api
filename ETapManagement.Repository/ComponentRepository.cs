@@ -69,10 +69,11 @@ throw ex;
 					try {
 						var isUpdate = false;
 						var projectStructureID = 0;
-						var projectStructure = _context.ProjectStructure.Where (x => x.StructureId == request.StructureId && x.ProjectId == request.ProjectId && x.IsDelete == false).FirstOrDefault ();
+						ProjectStructure projectStructure = _context.ProjectStructure.Where (x => x.StructureId == request.StructureId && x.ProjectId == request.ProjectId && x.IsDelete == false).FirstOrDefault ();
 								if (projectStructure == null) throw new ValueNotFoundException ("Project Structure not yet assigned");
  						projectStructureID=	projectStructure.Id;
 						if (request.Components?.Count > 0) {
+							
 							List<Component> componentls = new List<Component> ();
 							List<ComponentHistory> componentHistls = new List<ComponentHistory> ();
 							foreach (var comp in request.Components) {
@@ -90,7 +91,7 @@ throw ex;
 									ComponentHistory compHist = _mapper.Map<ComponentHistory> (compdb);
 									compHist.Id = 0;
 									_context.ComponentHistory.Add (compHist);
-									_context.SaveChanges ();
+									_context.SaveChanges();
 								} else {
 									Component component = null;
 									comp.CompStatus= "O";
@@ -99,6 +100,7 @@ throw ex;
 									_context.SaveChanges ();
 								}
 							}
+							projectStructure.ComponentsCount = request.Components.Count();
 						
 						}
 						

@@ -47,7 +47,7 @@ namespace ETapManagement.ViewModel.Dto
 		public string StructureCode { get; set; }
 		public string ProjectName{get;set;}
 		public string StructureAttributes { get; set; }
-		public int? ComponentsCount { get; set; }		
+		//public int? ComponentsCount { get; set; }		
 		public List<ComponentDetails> Components { get; set; }
         public List<Upload_Docs> structureDocs {get;set;} 
 	}
