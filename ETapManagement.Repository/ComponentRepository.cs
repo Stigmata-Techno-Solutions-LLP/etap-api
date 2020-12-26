@@ -101,7 +101,7 @@ throw ex;
 								}
 							}
 							projectStructure.ComponentsCount = request.Components.Count();
-						
+							_context.SaveChanges ();
 						}
 						
 						return response;

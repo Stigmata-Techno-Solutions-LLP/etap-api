@@ -33,8 +33,11 @@ namespace ETapManagement.Repository {
                 {
                     throw new ValueNotFoundException("Project  Name already exist.");
                 }
+                int projCount = _context.Project.Count () + 1;
+                string projCode = constantVal.ProjCodePrefix + projCount.ToString ().PadLeft (6, '0');
                 ResponseMessage responseMessage = new ResponseMessage();
                 Project projectDB = _mapper.Map<Project>(project);
+                project.ProjCode = projCode;
                 _context.Project.Add(projectDB);
                 _context.SaveChanges();
 
@@ -150,8 +153,7 @@ namespace ETapManagement.Repository {
                     }
                     else
                     {
-                        projectDB.Name = project.Name;
-                        projectDB.ProjCode = project.ProjCode;
+                        projectDB.Name = project.Name;                     
                         projectDB.Area = project.Area;
                         projectDB.IcId = project.ICId;
                         projectDB.BuId = project.BUId;

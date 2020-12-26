@@ -125,7 +125,7 @@ namespace ETapManagement.Repository {
             try {
                 SiteRequirementDetailWithStruct result = new SiteRequirementDetailWithStruct ();
                 var siteRequirement = _context.SiteRequirement.Where (x => x.IsDelete == false)
-                    .Include (s => s.SiteReqStructure).FirstOrDefault ();
+                    .Include (s => s.SiteReqStructure).FirstOrDefault();
                 result = _mapper.Map< SiteRequirementDetailWithStruct> (siteRequirement);
                 return result;
             } catch (Exception ex) {

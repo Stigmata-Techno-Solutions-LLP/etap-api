@@ -825,6 +825,9 @@ namespace ETapManagement.Api.Extensions {
 				.ForMember (dest =>
 					dest.StructId,
 					opt => opt.MapFrom (src => src.StructId))
+				.ForMember (dest =>
+					dest.Struct.Name,
+					opt => opt.MapFrom (src => src.StructName))					
 				.ReverseMap ();
 
 			CreateMap<AddSurplus, SiteDeclaration> ()

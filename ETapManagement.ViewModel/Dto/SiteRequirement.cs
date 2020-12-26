@@ -99,7 +99,6 @@ namespace ETapManagement.ViewModel.Dto {
     public class SiteRequirementDetailPayload {
         public commonEnum.Rolename role_name { get; set; }
         public int? role_hierarchy { get; set; }
-
     }
 
     public class WorkFlowSiteReqPayload {
@@ -110,6 +109,41 @@ namespace ETapManagement.ViewModel.Dto {
         
         public commonEnum.Rolename role_name { get; set; }
         public string role_hierarchy { get; set; }
+
+    }
+
+
+
+    public class SiteRequirementMob {
+        public int SiteReqId { get; set; }
+        public string MrNo { get; set; }
+        public string isAction { get; set; }
+
+        public int ProjectId { get; set; }       
+        public string Status { get; set; }
+        public string StatusInternal { get; set; }
+        public int RoleId { get; set; }
+        public string CreatedBy { get; set; }
+        public string CreatedDate { get; set; }
+        public int StructureCount { get; set; }
+    }
+    
+     public class SiteReqStructureMob {
+        public int SitReqId { get; set; }
+        public int StructureId { get; set; }
+        public string StructureName { get; set; }
+        public string StructureAttributes{get;set;}
+
+        public string DispatchNo { get; set; }
+        public string ProjectName { get; set; }
+
+        public int ProjectId { get; set; }       
+        public string DispatchStatus { get; set; }
+        public string CreatedBy { get; set; }
+        public string CreatedDate { get; set; }
+        public int ReuseCount { get; set; }
+        public int TotalComponentsCount { get; set; }
+        public int ReceivedComponentsCount { get; set; }
 
     }
 }

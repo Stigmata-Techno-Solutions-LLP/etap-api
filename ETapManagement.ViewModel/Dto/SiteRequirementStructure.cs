@@ -11,5 +11,6 @@ namespace ETapManagement.ViewModel.Dto
         public string DrawingNo { get; set; }
         public int Quantity { get; set; } 
         public int StructId { get; set; }
+        public string StructName { get; set; }
     } 
 }

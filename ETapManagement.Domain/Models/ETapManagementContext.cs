@@ -6,8 +6,6 @@ namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-      
-
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
