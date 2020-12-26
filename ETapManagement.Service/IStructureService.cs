@@ -11,5 +11,7 @@ namespace ETapManagement.Service
 		ResponseMessage AddStructure(StructureDetails structureDetails);
 		ResponseMessage UpdateStructure(StructureDetails structureDetails, int id);
 		ResponseMessage DeleteStructure(int id);
+	     List<Code> GetProjectCodeList();
+
 	}
 }

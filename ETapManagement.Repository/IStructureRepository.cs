@@ -11,6 +11,8 @@ namespace ETapManagement.Repository
 		ResponseMessage UpdateStructure(StructureDetails structure, int id);
 		ResponseMessage DeleteStructure(int id);
 	//	 StructureComponentDetails GetStructureCompById(int id);
+		 List<Code> GetStructureCodeList();
+
 
 	}
 }

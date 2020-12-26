@@ -11,7 +11,7 @@ namespace ETapManagement.Repository
 	    List<ComponentDetails> GetComponentHistoryByCode(string compCode);
 
 		ComponentDetails GetComponentById(int id);
-		ResponseMessage AddComponent(ComponentDetails projectStructure);
+		ResponseMessage AddComponents(AddComponents projectStructure);
 		ResponseMessage UpdateComponent(ComponentDetails projectStructure, int id);
 		ResponseMessage DeleteComponent(int id);
 	}

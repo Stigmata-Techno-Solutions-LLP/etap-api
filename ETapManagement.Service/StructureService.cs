@@ -57,6 +57,12 @@ namespace ETapManagement.Service
 			return responseMessage;
 		}
 
+		  public List<Code> GetProjectCodeList()
+        {
+            List<Code> codes = _structureRepository.GetStructureCodeList();
+            return codes;
+        }
+
 		public ResponseMessage DeleteStructure(int id)
 		{
 			ResponseMessage responseMessage = new ResponseMessage();

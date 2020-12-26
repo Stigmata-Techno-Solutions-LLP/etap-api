@@ -32,6 +32,28 @@ namespace ETapManagement.Repository
 			return response;
 		}
 
+		public List<Code> GetStructureCodeList()
+        {
+            try
+            {
+                List<Code> result = new List<Code>();
+                var projects = _context.Structures.Where(x => x.IsDelete == false  ).ToList();
+                foreach(var item in projects)
+                {
+                    result.Add(new Code()
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 		public StructureDetails GetStructureById(int id)
 		{
 			StructureDetails response = new StructureDetails();

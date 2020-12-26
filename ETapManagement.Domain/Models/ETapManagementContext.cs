@@ -6,7 +6,7 @@ namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-     
+      
 
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
@@ -57,8 +57,7 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-            modelBuilder.Query<SiteRequirementDetail>();
+         modelBuilder.Query<SiteRequirementDetail>();
             modelBuilder.Query<SurplusDetails>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
@@ -168,6 +167,11 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
+                entity.Property(e => e.CompName)
+                    .HasColumnName("comp_name")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CompStatus)
                     .HasColumnName("comp_status")
                     .HasMaxLength(20)
@@ -264,6 +268,11 @@ namespace ETapManagement.Domain.Models
                     .IsRequired()
                     .HasColumnName("comp_id")
                     .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CompName)
+                    .HasColumnName("comp_name")
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.CompStatus)

@@ -45,4 +45,8 @@ namespace ETapManagement.ViewModel.Dto
 
 		public List<ComponentDetails> lstComp {get;set;}
 	}
+
+	public class StructureCodeFilter {
+		public int? projectId{get;set;}
+	}
 }

@@ -31,6 +31,10 @@ namespace ETapManagement.Common {
             EHSREJECTED=5,
             QAREJECTED=6
         }
+        public enum ComponentStatus {
+            M =1,
+            O=2,      
+        }
     }
 
 }

@@ -42,11 +42,10 @@ namespace ETapManagement.Service
 
 			return response;
 		}
-		public ResponseMessage AddComponent(ComponentDetails servicedto)
+		public ResponseMessage AddComponents(AddComponents servicedto)
 		{
 			ResponseMessage responseMessage = new ResponseMessage();
-			responseMessage = _repository.AddComponent(servicedto);
-
+			responseMessage = _repository.AddComponents(servicedto);
 			if (responseMessage != null)
 				return responseMessage;
 			else

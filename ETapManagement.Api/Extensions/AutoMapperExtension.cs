@@ -535,7 +535,6 @@ namespace ETapManagement.Api.Extensions {
 				.ForMember (dest =>
 					dest.Components,
 					opt => opt.MapFrom (src => src.Component))
-
 				.ReverseMap ();
 
 		
@@ -574,9 +573,7 @@ namespace ETapManagement.Api.Extensions {
 				.ForMember (dest =>
 					dest.Id,
 					opt => opt.MapFrom (src => src.Id))
-				.ForMember (dest =>
-					dest.ProjStructId,
-					opt => opt.MapFrom (src => src.ProjectStructureId))
+
 				.ForMember (dest =>
 					dest.CompId,
 					opt => opt.MapFrom (src => src.CompId))
@@ -584,11 +581,11 @@ namespace ETapManagement.Api.Extensions {
 					dest.IsDelete,
 					opt => opt.MapFrom (src => src.IsDelete))
 				.ForMember (dest =>
-					dest.DrawingNo,
+					dest.DrawingNo,	
 					opt => opt.MapFrom (src => src.DrawingNo))
-				.ForMember (dest =>
-					dest.CompTypeId,
-					opt => opt.MapFrom (src => src.CompTypeId))
+				// .ForMember (dest =>
+				// 	dest.CompType.Name,
+				// 	opt => opt.MapFrom (src => src.CompTypeName))
 				.ForMember (dest =>
 					dest.ComponentNo,
 					opt => opt.MapFrom (src => src.ComponentNo))
@@ -634,9 +631,7 @@ namespace ETapManagement.Api.Extensions {
 				.ForMember (dest =>
 					dest.Id,
 					opt => opt.MapFrom (src => src.Id))
-				.ForMember (dest =>
-					dest.ProjStructId,
-					opt => opt.MapFrom (src => src.ProjStructId))
+
 				.ForMember (dest =>
 					dest.CompId,
 					opt => opt.MapFrom (src => src.CompId))
@@ -694,9 +689,7 @@ namespace ETapManagement.Api.Extensions {
 				.ForMember (dest =>
 					dest.Id,
 					opt => opt.MapFrom (src => src.Id))
-				.ForMember (dest =>
-					dest.ProjStructId,
-					opt => opt.MapFrom (src => src.ProjectStructureId))
+
 				.ForMember (dest =>
 					dest.CompId,
 					opt => opt.MapFrom (src => src.CompId))
@@ -706,9 +699,9 @@ namespace ETapManagement.Api.Extensions {
 				.ForMember (dest =>
 					dest.DrawingNo,
 					opt => opt.MapFrom (src => src.DrawingNo))
-				.ForMember (dest =>
-					dest.CompTypeId,
-					opt => opt.MapFrom (src => src.CompTypeId))
+				// .ForMember (dest =>
+				// 	dest.CompType.Name,
+				// 	opt => opt.MapFrom (src => src.CompTypeName))
 				.ForMember (dest =>
 					dest.ComponentNo,
 					opt => opt.MapFrom (src => src.ComponentNo))

@@ -2,19 +2,23 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using ETapManagement.Common;
 
 namespace ETapManagement.ViewModel.Dto
 {
 	public class ComponentDetails
 	{
-
 		public int Id { get; set; }
-		public int ProjectStructureId { get; set; }
+	
 		public string CompId { get; set; }
 
 		[Required]
-		[Display(Name = "ComponentType Id")]
-		public int? CompTypeId { get; set; }
+		[Display(Name = "ComponentType Name")]
+		public string CompTypeName { get; set; }
+		[DataType(DataType.Text)]
+		[StringLength(10)]
+		[Display(Name = "Drawing No")]
+		public string ComponentName { get; set; }
 
 		[DataType(DataType.Text)]
 		[StringLength(10)]

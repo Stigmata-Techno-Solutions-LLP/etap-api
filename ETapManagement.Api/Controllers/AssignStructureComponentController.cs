@@ -8,8 +8,8 @@ using ETapManagement.ViewModel.Dto;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 using Newtonsoft.Json;
+using Serilog;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ETapManagement.Api.Controllers {
@@ -30,6 +30,21 @@ namespace ETapManagement.Api.Controllers {
 			//_projectStructureDocumentService = projectStructureDocumentService;
 		}
 
+		[HttpGet ("GetAssignedStructureDetailsById")]
+		public IActionResult GetAssignedStructureDetailsById ([FromQuery] ComponentQueryParam queryParam) {
+			AssignStructureDtlsOnly response = null;
+			try {
+				response = _assignService.GetAssignStructureDtlsById (queryParam);
+				return Ok (response);
+			} catch (Exception e) {
+				Util.LogError (e);
+				return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+			}
+		}
+
+
+
+
 		[HttpPost ("assignStructureComponent")]
 		public IActionResult AssignStructurecomponent ([FromForm] AssignStructureComponentDetails request) {
 			try {
@@ -39,13 +54,7 @@ namespace ETapManagement.Api.Controllers {
 						if (constantVal.AllowedDocFileTypes.Where (x => x.Contains (file.ContentType)).Count () == 0) throw new ValueNotFoundException (string.Format ("File Type {0} is not allowed", file.ContentType));
 					}
 					if (request.uploadDocs.Select (x => x.Length).Sum () > 50000000) throw new ValueNotFoundException (" File size exceeded limit");
-				}
-				try {
-					 List<ComponentDetails> lstComp  = JsonConvert.DeserializeObject<List<ComponentDetails>>(request.strComponents).ToList();
-					 request.Components = lstComp;
-				} catch (Exception e) {
-					throw e;
-				}
+				}			
 
 				var projectStructure = _assignService.UpsertAssignStructureComponent (request);
 				return Ok (projectStructure);
@@ -58,52 +67,47 @@ namespace ETapManagement.Api.Controllers {
 			}
 		}
 
-		[HttpGet("GetAssignedStructureDetailsById")]
-		public IActionResult GetAssignedStructureDetailsById([FromQuery] ComponentQueryParam queryParam)
-		{
-			AssignStructureDtlsOnly response = null;
-			try
-			{
-				response = _assignService.GetAssignStructureDtlsById(queryParam);
-				return Ok(response);
-			}
-			catch (Exception e)
-			{
-				Util.LogError(e);
-				return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+
+
+
+
+		[HttpPost ("AddComponents")]
+		public IActionResult Addcomponents ( AddComponents request) {
+				try {
+				
+				var projectStructure = _componentService.AddComponents(request);
+				return Ok (projectStructure);
+			} catch (ValueNotFoundException e) {
+				Util.LogError (e);
+				return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+			} catch (Exception e) {
+				Util.LogError (e);
+				return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
 			}
 		}
 
-		[HttpGet("GetAssignedStructureDetails")]
-		public IActionResult GetAssignedStructureDetails()
-		{
+
+		[HttpGet ("GetAssignedStructureDetails")]
+		public IActionResult GetAssignedStructureDetails () {
 			List<AssignStructureDtlsOnly> response = null;
-			try
-			{
-				response = _assignService.GetAssignStructureDtls();
-				return Ok(response);
-			}
-			catch (Exception e)
-			{
-				Util.LogError(e);
-				return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+			try {
+				response = _assignService.GetAssignStructureDtls ();
+				return Ok (response);
+			} catch (Exception e) {
+				Util.LogError (e);
+				return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
 			}
 		}
 
-
-		[HttpGet("GetComponentHistory")]
-		public IActionResult GetComponentHistory(string compCode)
-		{
+		[HttpGet ("GetComponentHistory")]
+		public IActionResult GetComponentHistory (string compCode) {
 			List<ComponentDetails> response = null;
-			try
-			{
-				response = _componentService.GetComponentHistoryByCode(compCode);
-				return Ok(response);
-			}
-			catch (Exception e)
-			{
-				Util.LogError(e);
-				return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+			try {
+				response = _componentService.GetComponentHistoryByCode (compCode);
+				return Ok (response);
+			} catch (Exception e) {
+				Util.LogError (e);
+				return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
 			}
 		}
 	}

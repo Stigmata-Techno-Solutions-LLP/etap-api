@@ -96,7 +96,6 @@ namespace ETapManagement.Repository {
                         Name = item.ProjCode
                     });
                 }
-                 
                 return result;
             }
             catch (Exception ex)
