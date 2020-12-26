@@ -503,9 +503,6 @@ namespace ETapManagement.Api.Extensions {
 					opt => opt.MapFrom (src => src.filepath))
 				.ReverseMap ();
 			CreateMap<ProjectStructure, AssignStructureDtlsOnly> ()
-				.ForMember (dest =>
-					dest.ComponentsCount,
-					opt => opt.MapFrom (src => src.ComponentsCount))
 
 				.ForMember (dest =>
 					dest.DrawingNo,

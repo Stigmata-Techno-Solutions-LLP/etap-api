@@ -23,10 +23,7 @@ namespace ETapManagement.ViewModel.Dto
 		[Display(Name = "DrawingNo")]
 		public string DrawingNo { get; set; }
 
-		[Required]
-		[Display(Name = "Components Count")]
 
-		public int? ComponentsCount { get; set; }
 		[Required]
 		public string StructureAttributes { get; set; }
 	
@@ -47,7 +44,7 @@ namespace ETapManagement.ViewModel.Dto
 		public string StructureCode { get; set; }
 		public string ProjectName{get;set;}
 		public string StructureAttributes { get; set; }
-		//public int? ComponentsCount { get; set; }		
+		public int? ComponentsCount { get; set; }		
 		public List<ComponentDetails> Components { get; set; }
         public List<Upload_Docs> structureDocs {get;set;} 
 	}
