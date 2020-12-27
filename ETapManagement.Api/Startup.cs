@@ -158,6 +158,19 @@ namespace ETapManagement.Api
 									Path.Combine(env.ContentRootPath, "Images")),
 				RequestPath = "/Images"
 			});
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(
+									Path.Combine(env.ContentRootPath, "Documents")),
+				RequestPath = "/Documents"
+			});
+
+			app.UseDirectoryBrowser(new DirectoryBrowserOptions
+			{
+				FileProvider = new PhysicalFileProvider(
+									Path.Combine(env.ContentRootPath, "Documents")),
+				RequestPath = "/Documents"
+			});
 
 			app.UseCors("AllowAll");
 
