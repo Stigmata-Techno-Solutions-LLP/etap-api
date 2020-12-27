@@ -41,16 +41,16 @@ namespace ETapManagement.Repository {
 			return response;
 		}
 
-		public ResponseMessage AddSurplus (AddSurplus surplusDetails) {
+		public int AddSurplus (AddSurplus surplusDetails) {
 			ResponseMessage response = new ResponseMessage ();
              using (var transaction = _context.Database.BeginTransaction ()) {
 
 			try {
-				if (_context.SiteDeclaration.Where(x => x.StructId == surplusDetails.StructureId && x.SitereqId == surplusDetails.SiteReqId).Count() > 0)
-				{
-					throw new ValueNotFoundException("Structure Id already declared as surplus.");
-				}
-				else
+				// if (_context.SiteDeclaration.Where(x => x.StructId == surplusDetails.DispStructId && x.SitereqId == surplusDetails.SiteReqId).Count() > 0)
+				// {
+				// 	throw new ValueNotFoundException("Structure Id already declared as surplus.");
+				// }
+				// else
 				{
 					SiteDeclaration surplusDb = _mapper.Map<SiteDeclaration>(surplusDetails);
 					surplusDb.CreatedAt = DateTime.Now;
@@ -60,6 +60,7 @@ namespace ETapManagement.Repository {
 					surplusDb.CreatedAt = DateTime.Now;
 					surplusDb.CreatedBy = 1;//TODO
 					surplusDb.RoleId = 4;//TODO
+					surplusDb.SitereqId =11;
 					_context.SiteDeclaration.Add(surplusDb);
 					_context.SaveChanges();
 			
@@ -75,9 +76,7 @@ namespace ETapManagement.Repository {
 					// _context.SitedeclStatusHistory.Add (siteStatusHist);
 					_context.SaveChanges ();	
 			         transaction.Commit();
-				return response = new ResponseMessage () {
-					Message = "Surplus added successfully."
-				};
+				return surplusDb.Id;
 				}
 						
 			} catch (Exception ex) {
@@ -86,6 +85,33 @@ namespace ETapManagement.Repository {
 			}
 		}
 			 
+		}
+
+
+		public bool SiteDeclDocsUpload (Upload_Docs StrucDocReq, int Id) {
+			try {
+				SitedeclDocuments strDocdb = new SitedeclDocuments ();
+				strDocdb.FileName = StrucDocReq.fileName;
+				strDocdb.FileType = StrucDocReq.fileType;
+				strDocdb.Path = StrucDocReq.filepath;
+				strDocdb.SitedecId = Id;
+				_context.SitedeclDocuments.Add (strDocdb);
+				_context.SaveChanges();
+				return true;
+			} catch (Exception ex) {
+				throw ex;
+			}
+		}
+
+		public bool SurplusRemoveDocs (string filePath) {
+			try {
+				SitedeclDocuments structDocs = _context.SitedeclDocuments.Where (x => x.Path.Contains (filePath)).FirstOrDefault ();
+				_context.SitedeclDocuments.Remove (structDocs);
+				_context.SaveChanges ();
+				return true;
+			} catch (Exception ex) {
+				throw ex;
+			}
 		}
 
 		public ResponseMessage UpdateSurplus (SurplusDetails surplusDetails, int id) {

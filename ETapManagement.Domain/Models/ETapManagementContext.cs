@@ -35,6 +35,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<SiteDeclaration> SiteDeclaration { get; set; }
         public virtual DbSet<SiteReqStructure> SiteReqStructure { get; set; }
         public virtual DbSet<SiteRequirement> SiteRequirement { get; set; }
+        public virtual DbSet<SitedeclDocuments> SitedeclDocuments { get; set; }
         public virtual DbSet<SitedeclStatusHistory> SitedeclStatusHistory { get; set; }
         public virtual DbSet<SitereqStatusHistory> SitereqStatusHistory { get; set; }
         public virtual DbSet<StructureType> StructureType { get; set; }
@@ -55,7 +56,7 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-         modelBuilder.Query<SiteRequirementDetail>();
+            modelBuilder.Query<SiteRequirementDetail>();
             modelBuilder.Query<SurplusDetails>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
@@ -1145,6 +1146,36 @@ namespace ETapManagement.Domain.Models
                     .HasForeignKey(d => d.ProjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("siteReq_proj_fkey");
+            });
+
+            modelBuilder.Entity<SitedeclDocuments>(entity =>
+            {
+                entity.ToTable("sitedecl_documents");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.FileName)
+                    .HasColumnName("file_name")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FileType)
+                    .HasColumnName("file_type")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Path)
+                    .HasColumnName("path")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SitedecId).HasColumnName("sitedec_id");
+
+                entity.HasOne(d => d.Sitedec)
+                    .WithMany(p => p.SitedeclDocuments)
+                    .HasForeignKey(d => d.SitedecId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("sitedecl_documents_sitedecl_fkey");
             });
 
             modelBuilder.Entity<SitedeclStatusHistory>(entity =>

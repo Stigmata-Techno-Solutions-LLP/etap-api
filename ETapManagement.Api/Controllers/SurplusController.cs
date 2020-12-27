@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using System.Linq;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -67,6 +69,13 @@ namespace ETapManagement.Api.Controllers
 		{
 			try
 			{
+					if (surplus.uploadDocs != null) {
+					if (surplus.uploadDocs.Length > 5) throw new ValueNotFoundException ("Document count should not greater than 5");
+					foreach (IFormFile file in surplus.uploadDocs) {
+						if (constantVal.AllowedIamgeFileTypes.Where (x => x.Contains (file.ContentType)).Count () == 0) throw new ValueNotFoundException (string.Format ("File Type {0} is not allowed", file.ContentType));
+					}
+					if (surplus.uploadDocs.Select (x => x.Length).Sum () > 50000000) throw new ValueNotFoundException (" File size exceeded limit");
+				}	
 				var response = _surplusService.AddSurplus(surplus);
 				return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
 			}

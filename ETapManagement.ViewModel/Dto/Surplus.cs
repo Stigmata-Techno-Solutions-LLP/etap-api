@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using ETapManagement.Common;
+using Microsoft.AspNetCore.Http;  
+
 namespace ETapManagement.ViewModel.Dto
 {
 
 	public class AddSurplus
 	{
-		public int SiteReqId { get; set; }
-		public int StructureId { get; set; }		
-		public DateTime SurplusDate { get; set; }		
-
+		[Required]
+		public int DispStructId { get; set; }
+		[Required]		
+		public DateTime SurplusDate { get; set; }	
+		public IFormFile[] uploadDocs { get; set; }
+	
 	}
 	public class SurplusDetails
 	{

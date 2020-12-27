@@ -825,18 +825,13 @@ namespace ETapManagement.Api.Extensions {
 				.ForMember (dest =>
 					dest.StructId,
 					opt => opt.MapFrom (src => src.StructId))
-				.ForMember (dest =>
-					dest.Struct.Name,
-					opt => opt.MapFrom (src => src.StructName))					
+				
 				.ReverseMap ();
 
 			CreateMap<AddSurplus, SiteDeclaration> ()
 				.ForMember (dest =>
-					dest.SitereqId,
-					opt => opt.MapFrom (src => src.SiteReqId))
-				.ForMember (dest =>
 					dest.StructId,
-					opt => opt.MapFrom (src => src.StructureId))
+					opt => opt.MapFrom (src => src.DispStructId))
 				.ForMember (dest =>
 					dest.SurplusFromdate,
 					opt => opt.MapFrom (src => src.SurplusDate))

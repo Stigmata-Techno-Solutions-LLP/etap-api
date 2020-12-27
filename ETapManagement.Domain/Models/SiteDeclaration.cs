@@ -7,6 +7,7 @@ namespace ETapManagement.Domain.Models
     {
         public SiteDeclaration()
         {
+            SitedeclDocuments = new HashSet<SitedeclDocuments>();
             SitedeclStatusHistory = new HashSet<SitedeclStatusHistory>();
         }
 
@@ -26,6 +27,7 @@ namespace ETapManagement.Domain.Models
 
         public virtual SiteRequirement Sitereq { get; set; }
         public virtual Structures Struct { get; set; }
+        public virtual ICollection<SitedeclDocuments> SitedeclDocuments { get; set; }
         public virtual ICollection<SitedeclStatusHistory> SitedeclStatusHistory { get; set; }
     }
 }
