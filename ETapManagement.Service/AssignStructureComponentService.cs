@@ -95,11 +95,11 @@ namespace ETapManagement.Service {
             try {
 
                 AssignStructureDtlsOnly response = _repository.GetAssignStructureDtlsById (queryFilter);
+                
                 return response;
             } catch (Exception ex) {
                 throw ex;
             }
-
         }
 
         public List<AssignStructureDtlsOnly> GetAssignStructureDtls () {

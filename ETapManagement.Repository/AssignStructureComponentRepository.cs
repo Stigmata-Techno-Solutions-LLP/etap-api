@@ -114,8 +114,17 @@ namespace ETapManagement.Repository {
 
         public AssignStructureDtlsOnly GetAssignStructureDtlsById (ComponentQueryParam filterReq) {
             try {
+                AssignStructureDtlsOnly response  = new AssignStructureDtlsOnly();
                 ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Structure).Include (x => x.Structure.StructureType).Include (x => x.Component).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault ();
-                AssignStructureDtlsOnly response = _mapper.Map<AssignStructureDtlsOnly> (pStruct);
+               var  responseMap = _mapper.Map<AssignStructureDtlsOnly> (pStruct);
+               if (responseMap != null) {
+                   response = responseMap;
+               } else {
+                   Structures structDetails = _context.Structures.Where(x=>x.Id ==filterReq.StructId ).FirstOrDefault();
+               response.StructureAttributes = structDetails.StructureAttributes;
+               response.StructureId = structDetails.Id;
+
+               }
                 return response;
             } catch (Exception ex) {
                 throw ex;
