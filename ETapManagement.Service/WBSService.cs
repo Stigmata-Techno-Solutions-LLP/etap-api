@@ -12,29 +12,29 @@ namespace ETapManagement.Service {
             _wbsRepository = wbsRepository;
         }
 
-            public ResponseMessage BulkInsertWBS (List<AddWorkBreakDown> lstWBS) {
+        public ResponseMessage BulkInsertWBS (List<AddWorkBreakDown> lstWBS) {
             ResponseMessage responseMessage = new ResponseMessage ();
-            responseMessage = _wbsRepository.BulkInsertWBS(lstWBS);
+            responseMessage = _wbsRepository.BulkInsertWBS (lstWBS);
             return responseMessage;
         }
 
-           public WorkBreakDownDetails GetWBSDetailsById (int Id) {
-             return _wbsRepository.GetWBSDetailsById(Id);            
+        public WorkBreakDownDetails GetWBSDetailsById (int Id) {
+            return _wbsRepository.GetWBSDetailsById (Id);
         }
 
-         public List<WorkBreakDownDetails> GetWBSDetailsList () {
-            List<WorkBreakDownDetails> wbsDtls = _wbsRepository.GetWBSDetailsList();
+        public List<WorkBreakDownDetails> GetWBSDetailsList () {
+            List<WorkBreakDownDetails> wbsDtls = _wbsRepository.GetWBSDetailsList ();
             return wbsDtls;
         }
 
-         public List<WorkBreakDownCode> GetWBSCodeList () {
-            List<WorkBreakDownCode> wbsDtls = _wbsRepository.GetWBSCodeList();
+        public List<WorkBreakDownCode> GetWBSCodeList () {
+            List<WorkBreakDownCode> wbsDtls = _wbsRepository.GetWBSCodeList ();
             return wbsDtls;
         }
 
-          public ResponseMessage DeleteWBS (int id) {
+        public ResponseMessage DeleteWBS (int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
-            responseMessage = _wbsRepository.DeleteWBS(id);
+            responseMessage = _wbsRepository.DeleteWBS (id);
             return responseMessage;
         }
     }

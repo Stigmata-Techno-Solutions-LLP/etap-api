@@ -1,18 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models
-{
-    public partial class Project
-    {
-        public Project()
-        {
-            DispatchRequirement = new HashSet<DispatchRequirement>();
-            ProjectSitelocation = new HashSet<ProjectSitelocation>();
-            ProjectStructure = new HashSet<ProjectStructure>();
-            SiteRequirement = new HashSet<SiteRequirement>();
-            Users = new HashSet<Users>();
-            WorkBreakdown = new HashSet<WorkBreakdown>();
+namespace ETapManagement.Domain.Models {
+    public partial class Project {
+        public Project () {
+            DispatchRequirement = new HashSet<DispatchRequirement> ();
+            ProjectSitelocation = new HashSet<ProjectSitelocation> ();
+            ProjectStructure = new HashSet<ProjectStructure> ();
+            SiteRequirement = new HashSet<SiteRequirement> ();
+            Users = new HashSet<Users> ();
+            WorkBreakdown = new HashSet<WorkBreakdown> ();
         }
 
         public int Id { get; set; }

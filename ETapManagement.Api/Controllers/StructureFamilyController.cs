@@ -14,7 +14,7 @@ namespace ETapManagement.Api.Controllers {
     public class StructureFamilyController : ControllerBase {
         IStructureTypeService _structureTypeService;
 
-        public StructureFamilyController(IStructureTypeService structureTypeService) {
+        public StructureFamilyController (IStructureTypeService structureTypeService) {
             _structureTypeService = structureTypeService;
         }
 
@@ -62,7 +62,7 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpGet ("getStructureFamDetails")]
-        public IActionResult GetStructureTypeDetails() {
+        public IActionResult GetStructureTypeDetails () {
             try {
                 var response = _structureTypeService.GetStructureTypeDetails ();
                 return Ok (response);
@@ -73,7 +73,7 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpGet ("getStructureFamDetailsById/{id}")]
-        public IActionResult GetStructureTypeDetailsById(int id) {
+        public IActionResult GetStructureTypeDetailsById (int id) {
             try {
                 var response = _structureTypeService.GetStructureTypeDetailsById (id);
                 return Ok (response);
@@ -84,9 +84,9 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpGet ("StructureFamCodeList")]
-        public IActionResult GetStructureTypeCodeList() {
+        public IActionResult GetStructureTypeCodeList () {
             try {
-                var response = _structureTypeService.GetStructureTypeCodeList();
+                var response = _structureTypeService.GetStructureTypeCodeList ();
                 return Ok (response);
             } catch (Exception e) {
                 Util.LogError (e);

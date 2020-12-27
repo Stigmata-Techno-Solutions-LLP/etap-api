@@ -5,13 +5,12 @@ using ETapManagement.ViewModel.Dto;
 
 namespace ETapManagement.Service {
     public interface IBUService {
-        public ResponseMessage CreateBU(AddBusinessUnit businessunit);
-        public ResponseMessage UpdateBU(UpdateBusinessUnit businessunit, int id);
-        public ResponseMessage DeleteBU(int id);
-        public List<BusinessUnitDetail> GetBUDetails();
-        public BusinessUnitDetail GetBUDetailsById(int id);
-        public List<Code> GetBUCodeList();
-
+        public ResponseMessage CreateBU (AddBusinessUnit businessunit);
+        public ResponseMessage UpdateBU (UpdateBusinessUnit businessunit, int id);
+        public ResponseMessage DeleteBU (int id);
+        public List<BusinessUnitDetail> GetBUDetails ();
+        public BusinessUnitDetail GetBUDetailsById (int id);
+        public List<Code> GetBUCodeList ();
 
     }
 }

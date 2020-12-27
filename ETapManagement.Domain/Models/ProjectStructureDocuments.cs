@@ -1,10 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models
-{
-    public partial class ProjectStructureDocuments
-    {
+namespace ETapManagement.Domain.Models {
+    public partial class ProjectStructureDocuments {
         public int Id { get; set; }
         public int ProjectStructureId { get; set; }
         public string FileName { get; set; }

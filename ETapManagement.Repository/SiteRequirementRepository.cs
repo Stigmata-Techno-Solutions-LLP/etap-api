@@ -24,54 +24,54 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage CreateRequirement (AddSiteRequirement siteRequirement) {
 
-             using (var transaction = _context.Database.BeginTransaction ()) {
-            try {
+            using (var transaction = _context.Database.BeginTransaction ()) {
+                try {
 
-                ResponseMessage responseMessage = new ResponseMessage ();
-                SiteRequirement sitereq = _mapper.Map<SiteRequirement> (siteRequirement);
+                    ResponseMessage responseMessage = new ResponseMessage ();
+                    SiteRequirement sitereq = _mapper.Map<SiteRequirement> (siteRequirement);
 
-                int siteReqCount = _context.SiteRequirement.Count () + 1;
-                string mrno = constantVal.MRNoPrefix + siteReqCount.ToString ().PadLeft (6, '0');
-                sitereq.CreatedAt = DateTime.Now;
-                sitereq.CreatedBy = 1; //TODO
-                sitereq.RoleId = 4; // TODO
-                sitereq.MrNo = mrno;
-                sitereq.Status = "NEW";
-                sitereq.StatusInternal = "NEW";
-                _context.SiteRequirement.Add (sitereq);
-                _context.SaveChanges ();
+                    int siteReqCount = _context.SiteRequirement.Count () + 1;
+                    string mrno = constantVal.MRNoPrefix + siteReqCount.ToString ().PadLeft (6, '0');
+                    sitereq.CreatedAt = DateTime.Now;
+                    sitereq.CreatedBy = 1; //TODO
+                    sitereq.RoleId = 4; // TODO
+                    sitereq.MrNo = mrno;
+                    sitereq.Status = "NEW";
+                    sitereq.StatusInternal = "NEW";
+                    _context.SiteRequirement.Add (sitereq);
+                    _context.SaveChanges ();
 
-                //Add the site requirement structure
-                if (siteRequirement.SiteRequirementStructures.Any ()) {
-                    foreach (var item in siteRequirement.SiteRequirementStructures) {
-                        SiteReqStructure siteReqStructure = new SiteReqStructure ();
-                        siteReqStructure.SiteReqId = sitereq.Id;
-                        siteReqStructure.StructId = item.StructId;
-                        siteReqStructure.DrawingNo = item.DrawingNo;
-                        siteReqStructure.Quantity = item.Quantity;
-                        _context.SiteReqStructure.Add (siteReqStructure);
+                    //Add the site requirement structure
+                    if (siteRequirement.SiteRequirementStructures.Any ()) {
+                        foreach (var item in siteRequirement.SiteRequirementStructures) {
+                            SiteReqStructure siteReqStructure = new SiteReqStructure ();
+                            siteReqStructure.SiteReqId = sitereq.Id;
+                            siteReqStructure.StructId = item.StructId;
+                            siteReqStructure.DrawingNo = item.DrawingNo;
+                            siteReqStructure.Quantity = item.Quantity;
+                            _context.SiteReqStructure.Add (siteReqStructure);
+                        }
                     }
-                }
-                _context.SaveChanges ();
+                    _context.SaveChanges ();
 
-                SitereqStatusHistory siteStatusHist = new SitereqStatusHistory ();
-                siteStatusHist.MrNo = sitereq.MrNo;
-                siteStatusHist.RoleId = sitereq.RoleId;
-                siteStatusHist.Status = sitereq.Status;
-                siteStatusHist.StatusInternal = sitereq.StatusInternal;
-                siteStatusHist.SitereqId = sitereq.Id;
-                siteStatusHist.UpdatedAt = DateTime.Now;
-                siteStatusHist.UpdatedBy = 1; //TODO
-                _context.SitereqStatusHistory.Add (siteStatusHist);
-                _context.SaveChanges ();
-                responseMessage.Message = "Site Requirement created sucessfully";
-                transaction.Commit();
-                return responseMessage;
-            } catch (Exception ex) {
-                transaction.Rollback();
-                throw ex;
+                    SitereqStatusHistory siteStatusHist = new SitereqStatusHistory ();
+                    siteStatusHist.MrNo = sitereq.MrNo;
+                    siteStatusHist.RoleId = sitereq.RoleId;
+                    siteStatusHist.Status = sitereq.Status;
+                    siteStatusHist.StatusInternal = sitereq.StatusInternal;
+                    siteStatusHist.SitereqId = sitereq.Id;
+                    siteStatusHist.UpdatedAt = DateTime.Now;
+                    siteStatusHist.UpdatedBy = 1; //TODO
+                    _context.SitereqStatusHistory.Add (siteStatusHist);
+                    _context.SaveChanges ();
+                    responseMessage.Message = "Site Requirement created sucessfully";
+                    transaction.Commit ();
+                    return responseMessage;
+                } catch (Exception ex) {
+                    transaction.Rollback ();
+                    throw ex;
+                }
             }
-             }
         }
 
         public ResponseMessage DeleteRequirement (int id) {
@@ -114,7 +114,7 @@ namespace ETapManagement.Repository {
         public List<SiteRequirementDetail> GetRequirementDetails (SiteRequirementDetailPayload reqPayload) {
             try {
                 List<SiteRequirementDetail> result = new List<SiteRequirementDetail> ();
-                var siteRequirements = _context.Query<SiteRequirementDetail> ().FromSqlRaw ("exec sp_GetRequirement {0}, {1}", reqPayload.role_name.ToString(), reqPayload.role_hierarchy).ToList ();
+                var siteRequirements = _context.Query<SiteRequirementDetail> ().FromSqlRaw ("exec sp_GetRequirement {0}, {1}", reqPayload.role_name.ToString (), reqPayload.role_hierarchy).ToList ();
                 result = _mapper.Map<List<SiteRequirementDetail>> (siteRequirements);
                 return result;
             } catch (Exception ex) {
@@ -125,29 +125,28 @@ namespace ETapManagement.Repository {
             try {
                 SiteRequirementDetailWithStruct result = new SiteRequirementDetailWithStruct ();
                 var siteRequirement = _context.SiteRequirement.Where (x => x.IsDelete == false)
-                    .Include (s => s.SiteReqStructure).FirstOrDefault();
-                result = _mapper.Map< SiteRequirementDetailWithStruct> (siteRequirement);
+                    .Include (s => s.SiteReqStructure).FirstOrDefault ();
+                result = _mapper.Map<SiteRequirementDetailWithStruct> (siteRequirement);
                 return result;
             } catch (Exception ex) {
                 throw ex;
             }
         }
 
-           public ResponseMessage WorkflowSiteRequirement (WorkFlowSiteReqPayload reqPayload) {
+        public ResponseMessage WorkflowSiteRequirement (WorkFlowSiteReqPayload reqPayload) {
             try {
-                ResponseMessage resp = new ResponseMessage();
+                ResponseMessage resp = new ResponseMessage ();
 
                 if (reqPayload.mode == commonEnum.WorkFlowMode.Approval) {
-  var siteRequirements = _context.Database.ExecuteSqlCommand("exec sp_ApprovalRequirement {0}, {1},{2}",reqPayload.siteReqId, reqPayload.role_name, reqPayload.role_hierarchy);
-                              resp.Message = string.Format("Requirement successfully Approved by {0}",reqPayload.role_name);
+                    var siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_ApprovalRequirement {0}, {1},{2}", reqPayload.siteReqId, reqPayload.role_name, reqPayload.role_hierarchy);
+                    resp.Message = string.Format ("Requirement successfully Approved by {0}", reqPayload.role_name);
+
+                } else if (reqPayload.mode == commonEnum.WorkFlowMode.Rejection) {
+                    var siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_RejectRequirement {0}, {1}", reqPayload.siteReqId, reqPayload.role_name, reqPayload.role_hierarchy);
+                    resp.Message = string.Format ("Requirement successfully Rejected by {0}", reqPayload.role_name);
 
                 }
-                else if (reqPayload.mode == commonEnum.WorkFlowMode.Rejection){
-  var siteRequirements = _context.Database.ExecuteSqlCommand("exec sp_RejectRequirement {0}, {1}", reqPayload.siteReqId, reqPayload.role_name, reqPayload.role_hierarchy);
-                              resp.Message = string.Format("Requirement successfully Rejected by {0}",reqPayload.role_name);
 
-                }
-             
                 return resp;
             } catch (Exception ex) {
                 throw ex;

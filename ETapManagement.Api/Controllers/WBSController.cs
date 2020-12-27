@@ -29,7 +29,7 @@ namespace ETapManagement.Api.Controllers {
         [HttpPost ("BulkUpload")]
         public IActionResult AddUser (List<AddWorkBreakDown> lstWorkBreakDown) {
             try {
-                var response = _wbsService.BulkInsertWBS(lstWorkBreakDown);
+                var response = _wbsService.BulkInsertWBS (lstWorkBreakDown);
                 return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
@@ -40,10 +40,10 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-          [HttpGet ("GetWBS")]
+        [HttpGet ("GetWBS")]
         public IActionResult GetUser () {
             try {
-                var response = _wbsService.GetWBSDetailsList();
+                var response = _wbsService.GetWBSDetailsList ();
                 return Ok (response);
             } catch (Exception e) {
                 Util.LogError (e);
@@ -51,10 +51,10 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-         [HttpGet ("GetWBSCode")]
+        [HttpGet ("GetWBSCode")]
         public IActionResult GetWBSCode () {
             try {
-                var response = _wbsService.GetWBSCodeList();
+                var response = _wbsService.GetWBSCodeList ();
                 return Ok (response);
             } catch (Exception e) {
                 Util.LogError (e);
@@ -65,7 +65,7 @@ namespace ETapManagement.Api.Controllers {
         [HttpGet ("getWBS/{id}")]
         public IActionResult GetUserById (int id) {
             try {
-                var response = _wbsService.GetWBSDetailsById(id);
+                var response = _wbsService.GetWBSDetailsById (id);
                 return Ok (response);
             } catch (Exception e) {
                 Util.LogError (e);
@@ -73,12 +73,11 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-
         [HttpDelete ("DeleteWBS/{id}")]
         public IActionResult DeleteWBS (int id) {
             try {
-                var response = _wbsService.DeleteWBS(id);
-                 return Ok (new { message = response.Message, code = 204 });
+                var response = _wbsService.DeleteWBS (id);
+                return Ok (new { message = response.Message, code = 204 });
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
@@ -87,6 +86,6 @@ namespace ETapManagement.Api.Controllers {
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
-        
+
     }
 }

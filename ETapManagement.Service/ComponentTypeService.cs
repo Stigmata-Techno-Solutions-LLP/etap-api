@@ -1,38 +1,36 @@
 using System.Collections.Generic;
-using ETapManagement.ViewModel.Dto;
 using ETapManagement.Repository;
+using ETapManagement.ViewModel.Dto;
 using Microsoft.Extensions.Options;
 
-namespace ETapManagement.Service
-{
-  public class ComponentTypeService : IComponentTypeService
-  {
-    IComponentTypeRepository _componentTypeRepository;
+namespace ETapManagement.Service {
+    public class ComponentTypeService : IComponentTypeService {
+        IComponentTypeRepository _componentTypeRepository;
 
         private readonly AppSettings _appSettings;
 
-        public ComponentTypeService(IOptions<AppSettings> appSettings, IComponentTypeRepository componentTypeRepository) {
+        public ComponentTypeService (IOptions<AppSettings> appSettings, IComponentTypeRepository componentTypeRepository) {
             _componentTypeRepository = componentTypeRepository;
             _appSettings = appSettings.Value;
         }
 
-        public List<ComponentTypeDetails> GetComponentType() {
-            List<ComponentTypeDetails> componentTypes = _componentTypeRepository.getComponentType();
+        public List<ComponentTypeDetails> GetComponentType () {
+            List<ComponentTypeDetails> componentTypes = _componentTypeRepository.getComponentType ();
             if (!(componentTypes?.Count > 0)) return null;
 
             return componentTypes;
         }
 
-        public ComponentTypeDetails GetComponentTypeById(int id) {
-            ComponentTypeDetails componentType = _componentTypeRepository.getComponentTypeById(id);
+        public ComponentTypeDetails GetComponentTypeById (int id) {
+            ComponentTypeDetails componentType = _componentTypeRepository.getComponentTypeById (id);
             if (componentType == null) return null;
 
             return componentType;
         }
 
-        public ResponseMessage AddComponentType(ComponentTypeDetails componentType) {
+        public ResponseMessage AddComponentType (ComponentTypeDetails componentType) {
             ResponseMessage responseMessage = new ResponseMessage ();
-            responseMessage = _componentTypeRepository.AddComponentType(componentType);
+            responseMessage = _componentTypeRepository.AddComponentType (componentType);
 
             if (responseMessage != null) //TODO
                 return responseMessage;
@@ -43,16 +41,16 @@ namespace ETapManagement.Service
             }
         }
 
-        public ResponseMessage UpdateComponentType(ComponentTypeDetails componentType, int id) {
+        public ResponseMessage UpdateComponentType (ComponentTypeDetails componentType, int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
-            responseMessage = _componentTypeRepository.UpdateComponentType(componentType, id);
+            responseMessage = _componentTypeRepository.UpdateComponentType (componentType, id);
             return responseMessage;
         }
 
-        public ResponseMessage DeleteComponentType(int id) {
+        public ResponseMessage DeleteComponentType (int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
-            responseMessage = _componentTypeRepository.DeleteComponentType(id);
+            responseMessage = _componentTypeRepository.DeleteComponentType (id);
             return responseMessage;
         }
-  }
+    }
 }

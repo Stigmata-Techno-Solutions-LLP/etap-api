@@ -1,15 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models
-{
-    public partial class ProjectStructure
-    {
-        public ProjectStructure()
-        {
-            Component = new HashSet<Component>();
-            ComponentHistory = new HashSet<ComponentHistory>();
-            ProjectStructureDocuments = new HashSet<ProjectStructureDocuments>();
+namespace ETapManagement.Domain.Models {
+    public partial class ProjectStructure {
+        public ProjectStructure () {
+            Component = new HashSet<Component> ();
+            ComponentHistory = new HashSet<ComponentHistory> ();
+            ProjectStructureDocuments = new HashSet<ProjectStructureDocuments> ();
         }
 
         public int Id { get; set; }

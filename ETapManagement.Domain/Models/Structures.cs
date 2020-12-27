@@ -1,18 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models
-{
-    public partial class Structures
-    {
-        public Structures()
-        {
-            DispReqStructure = new HashSet<DispReqStructure>();
-            DispSubcontStructure = new HashSet<DispSubcontStructure>();
-            ProjectStructure = new HashSet<ProjectStructure>();
-            ScrapStructure = new HashSet<ScrapStructure>();
-            SiteDeclaration = new HashSet<SiteDeclaration>();
-            SiteReqStructure = new HashSet<SiteReqStructure>();
+namespace ETapManagement.Domain.Models {
+    public partial class Structures {
+        public Structures () {
+            DispReqStructure = new HashSet<DispReqStructure> ();
+            DispSubcontStructure = new HashSet<DispSubcontStructure> ();
+            ProjectStructure = new HashSet<ProjectStructure> ();
+            ScrapStructure = new HashSet<ScrapStructure> ();
+            SiteDeclaration = new HashSet<SiteDeclaration> ();
+            SiteReqStructure = new HashSet<SiteReqStructure> ();
         }
 
         public int Id { get; set; }

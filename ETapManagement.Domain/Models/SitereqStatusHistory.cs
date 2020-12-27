@@ -1,10 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models
-{
-    public partial class SitereqStatusHistory
-    {
+namespace ETapManagement.Domain.Models {
+    public partial class SitereqStatusHistory {
         public int Id { get; set; }
         public string MrNo { get; set; }
         public int SitereqId { get; set; }

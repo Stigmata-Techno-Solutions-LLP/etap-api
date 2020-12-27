@@ -17,7 +17,7 @@ namespace ETapManagement.Api.Controllers.Mobile {
         ISiteRequirementService _sitereqService;
         IAuthService _authService;
 
-        public MobileController(ISiteRequirementService sitereqService, IAuthService authService) {
+        public MobileController (ISiteRequirementService sitereqService, IAuthService authService) {
             _sitereqService = sitereqService;
         }
 
@@ -43,24 +43,23 @@ namespace ETapManagement.Api.Controllers.Mobile {
         //     }
         // }
 
-
-
         [HttpGet ("getSiteReqDetails")]
-        public IActionResult GetSiteReqDetails ([FromQuery]SiteRequirementDetailPayload reqPayload) {
+        public IActionResult GetSiteReqDetails ([FromQuery] SiteRequirementDetailPayload reqPayload) {
             try {
-                List<SiteRequirementMob> lstReq = new List<SiteRequirementMob>();
-                SiteRequirementMob req = new SiteRequirementMob();
+                List<SiteRequirementMob> lstReq = new List<SiteRequirementMob> ();
+                SiteRequirementMob req = new SiteRequirementMob ();
                 return Ok (lstReq);
             } catch (Exception e) {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
-          [HttpGet ("getSiteReqDetailsById/{id}")]
-        public IActionResult GetSiteReqDetailById(int id) {
+
+        [HttpGet ("getSiteReqDetailsById/{id}")]
+        public IActionResult GetSiteReqDetailById (int id) {
             try {
-                List<SiteRequirementStructure> lstReq = new List<SiteRequirementStructure>();
-                SiteRequirementMob req = new SiteRequirementMob();
+                List<SiteRequirementStructure> lstReq = new List<SiteRequirementStructure> ();
+                SiteRequirementMob req = new SiteRequirementMob ();
                 return Ok (lstReq);
             } catch (Exception e) {
                 Util.LogError (e);
@@ -68,4 +67,4 @@ namespace ETapManagement.Api.Controllers.Mobile {
             }
         }
     }
-} 
+}

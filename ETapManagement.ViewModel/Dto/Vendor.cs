@@ -5,41 +5,39 @@ using System.Text;
 
 namespace ETapManagement.ViewModel.Dto {
 
-    public class AddVendor
-    {
+    public class AddVendor {
         public int Id { get; set; }
 
         [Required]
-        [DataType(DataType.Text)]
-        [StringLength(20)]
-        [Display(Name = "Vendor Code")]
+        [DataType (DataType.Text)]
+        [StringLength (20)]
+        [Display (Name = "Vendor Code")]
         public string VendorCode { get; set; }
 
         [Required]
-        [DataType(DataType.Text)]
-        [StringLength(50)]
-        [Display(Name = "Name")]
+        [DataType (DataType.Text)]
+        [StringLength (50)]
+        [Display (Name = "Name")]
         public string Name { get; set; }
 
-        [DataType(DataType.Text)]
-        [StringLength(50)]
-        [Display(Name = "Email")]
+        [DataType (DataType.Text)]
+        [StringLength (50)]
+        [Display (Name = "Email")]
         public string Email { get; set; }
 
-        [DataType(DataType.Text)]
-        [StringLength(20)]
-        [Display(Name = "Phone Number")]
+        [DataType (DataType.Text)]
+        [StringLength (20)]
+        [Display (Name = "Phone Number")]
         public string PhoneNunmber { get; set; }
         public bool? IsDelete { get; set; }
         public bool? IsStatus { get; set; }
         public virtual ICollection<VendorServiceTypeDetail> VendorServiceTypeDetails { get; set; }
     }
-    public class VendorDetail
-    {
-        public int Id { get; set; } 
-        public string VendorCode { get; set; } 
-        public string Name { get; set; } 
-        public string Email { get; set; } 
+    public class VendorDetail {
+        public int Id { get; set; }
+        public string VendorCode { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
         public string PhoneNunmber { get; set; }
 
         public bool? IsDelete { get; set; }

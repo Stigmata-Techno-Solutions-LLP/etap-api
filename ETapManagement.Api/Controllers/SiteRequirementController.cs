@@ -15,7 +15,7 @@ namespace ETapManagement.Api.Controllers {
     public class SiteRequirementController : ControllerBase {
         ISiteRequirementService _sitereqService;
 
-        public SiteRequirementController(ISiteRequirementService sitereqService) {
+        public SiteRequirementController (ISiteRequirementService sitereqService) {
             _sitereqService = sitereqService;
         }
 
@@ -63,7 +63,7 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpGet ("getSiteReqDetails")]
-        public IActionResult GetSiteReqDetails ([FromQuery]SiteRequirementDetailPayload reqPayload) {
+        public IActionResult GetSiteReqDetails ([FromQuery] SiteRequirementDetailPayload reqPayload) {
             try {
                 var response = _sitereqService.GetRequirementDetails (reqPayload);
                 return Ok (response);
@@ -74,7 +74,7 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpGet ("getSiteReqDetailsById/{id}")]
-        public IActionResult GetSiteReqDetailById(int id) {
+        public IActionResult GetSiteReqDetailById (int id) {
             try {
                 var response = _sitereqService.GetRequirementDetailsById (id);
                 return Ok (response);
@@ -82,9 +82,9 @@ namespace ETapManagement.Api.Controllers {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
-        } 
+        }
 
-           [HttpPost ("WorkflowManagement")]
+        [HttpPost ("WorkflowManagement")]
         public IActionResult WorkflowManagement (WorkFlowSiteReqPayload siteRequirement) {
             try {
                 var response = _sitereqService.WorkflowSiteRequirement (siteRequirement);
@@ -98,8 +98,5 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-
-
-
     }
-} 
+}

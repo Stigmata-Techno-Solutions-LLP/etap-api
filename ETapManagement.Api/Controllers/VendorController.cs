@@ -14,7 +14,7 @@ namespace ETapManagement.Api.Controllers {
     public class VendorController : ControllerBase {
         IVendorService _vendorService;
 
-        public VendorController(IVendorService vendorService) {
+        public VendorController (IVendorService vendorService) {
             _vendorService = vendorService;
         }
 
@@ -62,7 +62,7 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpGet ("getVendorDetails")]
-        public IActionResult GetVendorDetails() {
+        public IActionResult GetVendorDetails () {
             try {
                 var response = _vendorService.GetVendorDetails ();
                 return Ok (response);
@@ -73,7 +73,7 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpGet ("getVendorDetailsById/{id}")]
-        public IActionResult GetVendorDetailsById(int id) {
+        public IActionResult GetVendorDetailsById (int id) {
             try {
                 var response = _vendorService.GetVendorDetailsById (id);
                 return Ok (response);
@@ -86,7 +86,7 @@ namespace ETapManagement.Api.Controllers {
         [HttpGet ("vendorCodeList")]
         public IActionResult GetVendorCodeList () {
             try {
-                var response = _vendorService.GetVendorCodeList();
+                var response = _vendorService.GetVendorCodeList ();
                 return Ok (response);
             } catch (Exception e) {
                 Util.LogError (e);

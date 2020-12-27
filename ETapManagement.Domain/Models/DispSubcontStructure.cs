@@ -1,10 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models
-{
-    public partial class DispSubcontStructure
-    {
+namespace ETapManagement.Domain.Models {
+    public partial class DispSubcontStructure {
         public int Id { get; set; }
         public int? DispreqsubcontId { get; set; }
         public int? StructId { get; set; }

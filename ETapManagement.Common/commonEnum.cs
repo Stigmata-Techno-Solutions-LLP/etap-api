@@ -6,34 +6,34 @@ namespace ETapManagement.Common {
             Level3 = 3,
             Level4 = 4
         }
-          public enum WorkFlowMode {
+        public enum WorkFlowMode {
             Approval = 1,
-            Rejection = 2,         
+            Rejection = 2,
         }
         public enum Rolename {
-            ADMIN=1,
-            SITE =2,
-            CMPC=3,
-            TWCC=4,
-            PROCUREMENT =5,
-            EHS=6,
-            FAA=7,
-            VENDOR=8,
-            BU=9,
-            IC=10,
-            PROJECTS =11
+            ADMIN = 1,
+            SITE = 2,
+            CMPC = 3,
+            TWCC = 4,
+            PROCUREMENT = 5,
+            EHS = 6,
+            FAA = 7,
+            VENDOR = 8,
+            BU = 9,
+            IC = 10,
+            PROJECTS = 11
         }
         public enum SurPlusDeclSatus {
-            NEW =1,
-            EHSAPPROVED=2,
-            QAAPPROVED=3,
-            READYTODISPATCH=4,
-            EHSREJECTED=5,
-            QAREJECTED=6
+            NEW = 1,
+            EHSAPPROVED = 2,
+            QAAPPROVED = 3,
+            READYTODISPATCH = 4,
+            EHSREJECTED = 5,
+            QAREJECTED = 6
         }
         public enum ComponentStatus {
-            M =1,
-            O=2,      
+            M = 1,
+            O = 2,
         }
     }
 

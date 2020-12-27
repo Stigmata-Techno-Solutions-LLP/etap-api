@@ -14,114 +14,83 @@ namespace ETapManagement.Api.Controllers {
     public class ICController : ControllerBase {
         IICService _iCService;
 
-        public ICController(IICService iCService) {
+        public ICController (IICService iCService) {
             _iCService = iCService;
         }
 
-        
-        [HttpPost("createIC")]
-        public IActionResult Create(AddIndependentCompany independentCompany)
-        {
-            try
-            {
-                var response = _iCService.CreateIC(independentCompany);
-                return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
-            }
-            catch (ValueNotFoundException e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+        [HttpPost ("createIC")]
+        public IActionResult Create (AddIndependentCompany independentCompany) {
+            try {
+                var response = _iCService.CreateIC (independentCompany);
+                return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
 
-        [HttpPut("updateIC/{id}")]
-        public IActionResult Update(AddIndependentCompany independentCompany, int id)
-        {
-            try
-            {
-                var response = _iCService.UpdateIC(independentCompany, id);
-                return Ok(new { message = response.Message, code = 204 });
-            }
-            catch (ValueNotFoundException e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+        [HttpPut ("updateIC/{id}")]
+        public IActionResult Update (AddIndependentCompany independentCompany, int id) {
+            try {
+                var response = _iCService.UpdateIC (independentCompany, id);
+                return Ok (new { message = response.Message, code = 204 });
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
 
         }
 
-        [HttpDelete("deleteIC/{id}")]
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                var response = _iCService.DeleteIC(id);
-                return Ok(new { message = response.Message, code = 204 });
-            }
-            catch (ValueNotFoundException e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+        [HttpDelete ("deleteIC/{id}")]
+        public IActionResult Delete (int id) {
+            try {
+                var response = _iCService.DeleteIC (id);
+                return Ok (new { message = response.Message, code = 204 });
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
 
-        [HttpGet("getIClist")]
-        public IActionResult GetICList()
-        {
-            try
-            {
-                var response = _iCService.GetICDetails();
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+        [HttpGet ("getIClist")]
+        public IActionResult GetICList () {
+            try {
+                var response = _iCService.GetICDetails ();
+                return Ok (response);
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
 
-        [HttpGet("getICDetailsById/{id}")]
-        public IActionResult GetICDetailById(int id)
-        {
-            try
-            {
-                var response = _iCService.GetICDetailsById(id);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+        [HttpGet ("getICDetailsById/{id}")]
+        public IActionResult GetICDetailById (int id) {
+            try {
+                var response = _iCService.GetICDetailsById (id);
+                return Ok (response);
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
 
-        [HttpGet("icCodeList")]
-        public IActionResult GetICCodeList()
-        {
-            try
-            {
-                var response = _iCService.GetICCodeList();
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+        [HttpGet ("icCodeList")]
+        public IActionResult GetICCodeList () {
+            try {
+                var response = _iCService.GetICCodeList ();
+                return Ok (response);
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
 

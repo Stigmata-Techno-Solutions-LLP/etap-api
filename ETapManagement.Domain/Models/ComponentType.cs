@@ -1,14 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models
-{
-    public partial class ComponentType
-    {
-        public ComponentType()
-        {
-            Component = new HashSet<Component>();
-            ComponentHistory = new HashSet<ComponentHistory>();
+namespace ETapManagement.Domain.Models {
+    public partial class ComponentType {
+        public ComponentType () {
+            Component = new HashSet<Component> ();
+            ComponentHistory = new HashSet<ComponentHistory> ();
         }
 
         public int Id { get; set; }
