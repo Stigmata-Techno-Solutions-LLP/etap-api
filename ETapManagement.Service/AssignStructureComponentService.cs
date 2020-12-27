@@ -67,14 +67,14 @@ namespace ETapManagement.Service {
             try {
                 if (fileslist == null) return true;
                 string uniqueFileName = null;
-                foreach (string file in fileslist) {
+                foreach (string file in fileslist[0].Split(',')) {
                     try {
                         int fileID = Convert.ToInt32 (file);
                     } catch (Exception ex) {
                         throw new ValueNotFoundException ("Document Id not valid one");
                     }
                 }
-                foreach (string file in fileslist) {
+                foreach (string file in fileslist[0].Split(',')) {
                     int fileID = 0;
                     try {
                         fileID = Convert.ToInt32 (file);
