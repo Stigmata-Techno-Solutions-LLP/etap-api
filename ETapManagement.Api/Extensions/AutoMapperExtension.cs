@@ -599,6 +599,54 @@ namespace ETapManagement.Api.Extensions
 					dest.StructId,
 					opt => opt.MapFrom(src => src.StructId))
 				.ReverseMap();
+
+			CreateMap<AddScrapStructure, ScrapStructure>()
+				.ForMember(dest =>
+				   dest.Id,
+					opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+					dest.SubconId,
+					opt => opt.MapFrom(src => src.SubconId))
+				.ForMember(dest =>
+					dest.StructId,
+					opt => opt.MapFrom(src => src.StructId))
+				.ForMember(dest =>
+					dest.ScrapRate,
+					opt => opt.MapFrom(src => src.ScrapRate))
+				.ForMember(dest =>
+					dest.AuctionId,
+					opt => opt.MapFrom(src => src.AuctionId))
+				.ForMember(dest =>
+					dest.Status,
+					opt => opt.MapFrom(src => src.Status)) 
+				.ForMember(dest =>
+					dest.IsDelete,
+					opt => opt.MapFrom(src => src.IsDelete))
+				.ReverseMap();
+
+			CreateMap<ScrapStructureDetail, ScrapStructure>()
+				.ForMember(dest =>
+				   dest.Id,
+					opt => opt.MapFrom(src => src.Id))
+				.ForMember(dest =>
+					dest.SubconId,
+					opt => opt.MapFrom(src => src.SubconId))
+				.ForMember(dest =>
+					dest.StructId,
+					opt => opt.MapFrom(src => src.StructId))
+				.ForMember(dest =>
+					dest.ScrapRate,
+					opt => opt.MapFrom(src => src.ScrapRate))
+				.ForMember(dest =>
+					dest.AuctionId,
+					opt => opt.MapFrom(src => src.AuctionId))
+				.ForMember(dest =>
+					dest.Status,
+					opt => opt.MapFrom(src => src.Status)) 
+				.ForMember(dest =>
+					dest.IsDelete,
+					opt => opt.MapFrom(src => src.IsDelete))
+				.ReverseMap();
 		}
 	}
 
