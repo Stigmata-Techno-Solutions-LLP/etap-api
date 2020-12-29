@@ -614,7 +614,7 @@ CREATE TABLE ETapManagement.dbo.disp_req_structure
   id int not null identity(1,1) primary key,
   dispreq_id int,
   struct_id int,
-  CONSTRAINT DispReqStructire_siteReq_fkey FOREIGN KEY (dispreq_id) REFERENCES site_requirement(id),
+  CONSTRAINT DispReqStructire_siteReq_fkey FOREIGN KEY (dispreq_id) REFERENCES dispatch_requirement(id),
   CONSTRAINT DispReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
 )
 
