@@ -114,15 +114,18 @@ namespace ETapManagement.Repository {
 
         public AssignStructureDtlsOnly GetAssignStructureDtlsById (ComponentQueryParam filterReq) {
             try {
+                 Structures structDetails = _context.Structures.Where(x=>x.Id ==filterReq.StructId ).FirstOrDefault();
                 AssignStructureDtlsOnly response  = new AssignStructureDtlsOnly();
-                ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Structure).Include (x => x.Structure.StructureType).Include (x => x.Component).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault ();
+                ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include(x=>x.Project).Include (x => x.Structure).Include (x => x.Structure.StructureType).Include (x => x.Component).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault ();
                var  responseMap = _mapper.Map<AssignStructureDtlsOnly> (pStruct);
                if (responseMap != null) {
                    response = responseMap;
+                   response.StrcutureTypeName = _context.StructureType.Where(x=>x.Id==structDetails.StructureTypeId).FirstOrDefault().Name;
+
                } else {
-                   Structures structDetails = _context.Structures.Where(x=>x.Id ==filterReq.StructId ).FirstOrDefault();
                response.StructureAttributes = structDetails.StructureAttributes;
                response.StructureId = structDetails.Id;
+               response.StrcutureTypeName = _context.StructureType.Where(x=>x.Id==structDetails.StructureTypeId).FirstOrDefault().Name;
 
                }
                 return response;
@@ -132,9 +135,19 @@ namespace ETapManagement.Repository {
         }
 
         public List<AssignStructureDtlsOnly> GetAssignStructureDtls () {
-            var result = _context.ProjectStructure.Include (x => x.Structure).Include (x => x.Project).Where (m => m.IsDelete == false).ToList ();
-            List<AssignStructureDtlsOnly> response = _mapper.Map<List<AssignStructureDtlsOnly>> (result);
-            return response;
+try {
+
+                List<AssignStructureDtlsOnly> result = new List<AssignStructureDtlsOnly> ();
+                result = _context.Query<AssignStructureDtlsOnly> ().FromSqlRaw ("select ps.structure_id StructureId, ps.project_id ProjectId, ps.drawing_no DrawingNo,s.name StrcutureName, s.struct_id StructureCode,st.name StrcutureTypeName, p.name ProjectName,s.structure_attributes StructureAttributes,ps.components_count ComponentsCount from project_structure ps inner join structures s on ps.structure_id = s.id inner join project p  on ps.project_id  = p.id inner join structure_type st on st.id =s.structure_type_id  where ps.is_delete =0 and s.is_delete =0 and p.is_delete =0 and st.is_delete =0").ToList ();
+                //result = _mapper.Map<List<SurplusDetails>> (sureplusDecl);
+
+
+          //  var result = _context.ProjectStructure.Include (x => x.Structure).Include (x => x.Project).Where (m => m.IsDelete == false).ToList ();
+          //  List<AssignStructureDtlsOnly> response = _mapper.Map<List<AssignStructureDtlsOnly>> (result);
+            return result;
+} catch(Exception ex) {
+    throw ex;
+}
         }
 
         public void Dispose () {
