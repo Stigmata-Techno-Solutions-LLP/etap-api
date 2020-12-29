@@ -14,6 +14,11 @@ namespace ETapManagement.ViewModel.Dto {
         public int RoleId { get; set; }
         public string Token { get; set; }
         public string RefreshToken { get; set; }
+        public int ProjectId {get;set;}
+        public int IndependentCompanyId {get;set;}
+        public int BusinessUnitId {get;set;}
+        public string ProjectCode {get;set;}
+        public string ProjectName {get;set;}
 
     }
 
