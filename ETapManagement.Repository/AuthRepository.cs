@@ -22,6 +22,7 @@ namespace ETapManagement.Repository {
 
                 Users user = _context.Users.Where (x => x.PsNo == userReq.Username && x.Password == userReq.Password && x.IsActive == true && x.IsDelete == false).FirstOrDefault ();
                 if (user == null) throw new ValueNotFoundException ("Username or password is incorrect");
+                Project project = _context.Project.Where(x => x.Id == user.ProjectId).FirstOrDefault();
                 result = new AuthenticateResponse {
                     FirstName = user.FirstName,
                     Id = user.Id,
@@ -29,7 +30,12 @@ namespace ETapManagement.Repository {
                     Email = user.Email,
                     IsActive = Convert.ToBoolean (user.IsActive),
                     PhoneNumber = user.Phoneno,
-                    RoleId = Convert.ToInt32 (user.RoleId)
+                    RoleId = Convert.ToInt32 (user.RoleId),
+                    ProjectId = Convert.ToInt32(user.ProjectId),
+                    BusinessUnitId = Convert.ToInt32(user.BuId),
+                    IndependentCompanyId = Convert.ToInt32(user.IcId),
+                    ProjectName = project != null ? project.Name : "",
+                    ProjectCode = project != null ? project.ProjCode : ""
                 };
 
                 return result;
