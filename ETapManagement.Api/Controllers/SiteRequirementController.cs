@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ETapManagement.Api.Controllers {
     [ApiController]
     [Route ("api/[controller]")]
+    [Authorize]
     public class SiteRequirementController : ControllerBase {
         ISiteRequirementService _sitereqService;
 

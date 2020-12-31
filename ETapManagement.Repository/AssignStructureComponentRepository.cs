@@ -98,7 +98,7 @@ namespace ETapManagement.Repository {
             projStruct.IsDelete = false;
             projStruct.DrawingNo = request.DrawingNo;
             projStruct.UpdatedAt = DateTime.Now;
-            projStruct.EstimatedWeight = request.EstimatedWeight;
+            projStruct.EstimatedWeight = Convert.ToDecimal( request.EstimatedWeight);
             return projStruct;
         }
 

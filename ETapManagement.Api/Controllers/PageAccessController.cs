@@ -18,6 +18,7 @@ namespace ETapManagement.Api.Controllers {
     [EnableCors ("AllowAll")]
     //[Authorize]
     [ApiController]
+    [Authorize]
     //[ValidateAntiForgeryToken]
 
     [Route ("api/[controller]")]

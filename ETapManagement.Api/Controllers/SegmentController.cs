@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ETapManagement.Api.Controllers {
     [ApiController]
     [Route ("api/[controller]")]
+    [Authorize]
     public class SegmentController : ControllerBase {
         ISegmentService _segmentService;
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,6 +15,7 @@ using Serilog;
 namespace ETapManagement.Api.Controllers {
     [EnableCors ("AllowAll")]
     //[Authorize]
+    [Authorize]
     [ApiController]
     [Route ("api/[controller]")]
 

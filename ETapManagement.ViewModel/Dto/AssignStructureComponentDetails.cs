@@ -22,7 +22,7 @@ namespace ETapManagement.ViewModel.Dto {
         [Required]
         [StringLength (100)]
         [Display (Name = "Estimated Weight")]
-        public decimal? EstimatedWeight { get; set; }
+        public string EstimatedWeight { get; set; }
 
         [Required]
         public string StructureAttributes { get; set; }
@@ -46,7 +46,7 @@ namespace ETapManagement.ViewModel.Dto {
         public int? ComponentsCount { get; set; }
         public string Status{ get;set; }
         public string CurrentStatus{ get;set; }
-        public decimal? TotalWeight{ get;set; } 
+        public string  TotalWeight{ get;set; } 
         public List<ComponentDetails> Components { get; set; }
         public List<Upload_Docs> structureDocs { get; set; }
     }

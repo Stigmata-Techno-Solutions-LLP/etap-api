@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ETapManagement.Api.Controllers {
     [ApiController]
     [Route ("api/[controller]")]
+    [Authorize]
     public class ProjectController : ControllerBase {
         IProjectService _projectService;
 
