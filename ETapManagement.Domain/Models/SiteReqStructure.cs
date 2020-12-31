@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class SiteReqStructure {
+namespace ETapManagement.Domain.Models
+{
+    public partial class SiteReqStructure
+    {
         public int Id { get; set; }
         public int SiteReqId { get; set; }
         public int StructId { get; set; }

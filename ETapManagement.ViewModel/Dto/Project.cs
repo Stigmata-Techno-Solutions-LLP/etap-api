@@ -20,6 +20,16 @@ namespace ETapManagement.ViewModel.Dto {
         [Display (Name = "Project Code")]
         public string ProjCode { get; set; }
 
+       
+        [StringLength (20)]
+        [Display (Name = "Job Code")]
+        public string JobCode { get; set; }
+
+           
+        [StringLength (20)]
+        [Display (Name = "EDRC Code")]
+        public string EDRCCode { get; set; }
+
         [DataType (DataType.Text)]
         [StringLength (10)]
         [Display (Name = "Area")]
@@ -35,10 +45,7 @@ namespace ETapManagement.ViewModel.Dto {
         //[RegularExpression("[^0-9]", ErrorMessage = "Business Unit must be numeric")]
         public int BUId { get; set; }
 
-        [Required]
-        [Display (Name = "Segment Id")]
-        //[RegularExpression("[^0-9]", ErrorMessage = "SEgment ID must be numeric")]
-        public int SegmentId { get; set; }
+       
 
         public bool IsDelete { get; set; }
 
@@ -55,8 +62,9 @@ namespace ETapManagement.ViewModel.Dto {
         public string ICName { get; set; }
         public int BUId { get; set; }
         public string BUName { get; set; }
-        public int SegmentId { get; set; }
-        public string SegmentName { get; set; }
+       
+        public string EDRCCode { get; set; }
+        public string JobCode { get; set; }
         public bool IsDelete { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedAt { get; set; }

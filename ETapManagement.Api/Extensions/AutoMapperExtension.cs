@@ -135,6 +135,9 @@ namespace ETapManagement.Api.Extensions {
                     dest.ProjCode,
                     opt => opt.MapFrom (src => src.ProjCode))
                 .ForMember (dest =>
+                    dest.JobCode,
+                    opt => opt.MapFrom (src => src.JobCode))    
+                .ForMember (dest =>
                     dest.Area,
                     opt => opt.MapFrom (src => src.Area))
                 .ForMember (dest =>
@@ -144,8 +147,8 @@ namespace ETapManagement.Api.Extensions {
                     dest.BuId,
                     opt => opt.MapFrom (src => src.BUId))
                 .ForMember (dest =>
-                    dest.SegmentId,
-                    opt => opt.MapFrom (src => src.SegmentId))
+                    dest.EdrcCode,
+                    opt => opt.MapFrom (src => src.EDRCCode))  
                 .ForMember (dest =>
                     dest.IsDelete,
                     opt => opt.MapFrom (src => src.IsDelete))
@@ -179,12 +182,6 @@ namespace ETapManagement.Api.Extensions {
                 .ForMember (dest =>
                     dest.BUName,
                     opt => opt.MapFrom (src => src.Bu.Name))
-                .ForMember (dest =>
-                    dest.SegmentId,
-                    opt => opt.MapFrom (src => src.SegmentId))
-                .ForMember (dest =>
-                    dest.SegmentName,
-                    opt => opt.MapFrom (src => src.Segment.Name))
                 .ForMember (dest =>
                     dest.IsDelete,
                     opt => opt.MapFrom (src => src.IsDelete))

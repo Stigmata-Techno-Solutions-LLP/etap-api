@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class ScrapStructure {
+namespace ETapManagement.Domain.Models
+{
+    public partial class ScrapStructure
+    {
         public int Id { get; set; }
         public int? SubconId { get; set; }
         public int? StructId { get; set; }

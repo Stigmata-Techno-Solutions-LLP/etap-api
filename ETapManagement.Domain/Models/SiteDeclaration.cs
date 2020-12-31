@@ -1,11 +1,14 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class SiteDeclaration {
-        public SiteDeclaration () {
-            SitedeclDocuments = new HashSet<SitedeclDocuments> ();
-            SitedeclStatusHistory = new HashSet<SitedeclStatusHistory> ();
+namespace ETapManagement.Domain.Models
+{
+    public partial class SiteDeclaration
+    {
+        public SiteDeclaration()
+        {
+            SitedeclDocuments = new HashSet<SitedeclDocuments>();
+            SitedeclStatusHistory = new HashSet<SitedeclStatusHistory>();
         }
 
         public int Id { get; set; }

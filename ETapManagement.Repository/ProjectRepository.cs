@@ -99,7 +99,6 @@ namespace ETapManagement.Repository {
                 List<ProjectDetail> result = new List<ProjectDetail> ();
                 var projects = _context.Project.Where (x => x.IsDelete == false)
                     .Include (s => s.ProjectSitelocation)
-                    .Include (s => s.Segment)
                     .Include (s => s.Ic)
                     .Include (s => s.Bu).ToList ();
                 result = _mapper.Map<List<ProjectDetail>> (projects);
@@ -114,7 +113,7 @@ namespace ETapManagement.Repository {
                 ProjectDetail result = new ProjectDetail ();
                 var project = _context.Project.Where (x => x.Id == id && x.IsDelete == false)
                     .Include (s => s.ProjectSitelocation)
-                    .Include (s => s.Segment)
+                  
                     .Include (s => s.Ic)
                     .Include (s => s.Bu).FirstOrDefault ();
                 result = _mapper.Map<ProjectDetail> (project);
@@ -136,7 +135,8 @@ namespace ETapManagement.Repository {
                         projectDB.Area = project.Area;
                         projectDB.IcId = project.ICId;
                         projectDB.BuId = project.BUId;
-                        projectDB.SegmentId = project.SegmentId;
+                        projectDB.EdrcCode = project.EDRCCode;
+                        projectDB.JobCode = project.JobCode;
                         projectDB.CreatedBy = 1; //TODO
                         projectDB.CreatedAt = DateTime.Now;
                         projectDB.UpdatedBy = 1; //TODO
@@ -172,9 +172,7 @@ namespace ETapManagement.Repository {
 
                             }
                         }
-
                         _context.SaveChanges ();
-
                         AuditLogs audit = new AuditLogs () {
                             Action = "Project",
                             Message = string.Format ("Project Updated Successfully {0}", project.Name),

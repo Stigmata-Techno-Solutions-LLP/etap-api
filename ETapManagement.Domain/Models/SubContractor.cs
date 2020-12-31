@@ -1,12 +1,15 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class SubContractor {
-        public SubContractor () {
-            DispatchreqSubcont = new HashSet<DispatchreqSubcont> ();
-            ScrapStructure = new HashSet<ScrapStructure> ();
-            SubContractorServiceType = new HashSet<SubContractorServiceType> ();
+namespace ETapManagement.Domain.Models
+{
+    public partial class SubContractor
+    {
+        public SubContractor()
+        {
+            DispatchreqSubcont = new HashSet<DispatchreqSubcont>();
+            ScrapStructure = new HashSet<ScrapStructure>();
+            SubContractorServiceType = new HashSet<SubContractorServiceType>();
         }
 
         public int Id { get; set; }

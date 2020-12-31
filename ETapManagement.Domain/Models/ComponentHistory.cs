@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class ComponentHistory {
+namespace ETapManagement.Domain.Models
+{
+    public partial class ComponentHistory
+    {
         public int Id { get; set; }
         public int ProjStructId { get; set; }
         public string CompId { get; set; }

@@ -19,6 +19,10 @@ namespace ETapManagement.ViewModel.Dto {
         [StringLength (100)]
         [Display (Name = "DrawingNo")]
         public string DrawingNo { get; set; }
+        [Required]
+        [StringLength (100)]
+        [Display (Name = "Estimated Weight")]
+        public decimal? EstimatedWeight { get; set; }
 
         [Required]
         public string StructureAttributes { get; set; }
@@ -34,11 +38,15 @@ namespace ETapManagement.ViewModel.Dto {
         public string DrawingNo { get; set; }
         public string StrcutureName { get; set; }
         public string StrcutureTypeName { get; set; }
-
         public string StructureCode { get; set; }
         public string ProjectName { get; set; }
+        public string ICName { get; set; }
+        public string BuName { get; set; }
         public string StructureAttributes { get; set; }
         public int? ComponentsCount { get; set; }
+        public string Status{ get;set; }
+        public string CurrentStatus{ get;set; }
+        public decimal? TotalWeight{ get;set; } 
         public List<ComponentDetails> Components { get; set; }
         public List<Upload_Docs> structureDocs { get; set; }
     }

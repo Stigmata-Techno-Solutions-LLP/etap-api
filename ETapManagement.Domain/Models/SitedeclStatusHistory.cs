@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class SitedeclStatusHistory {
+namespace ETapManagement.Domain.Models
+{
+    public partial class SitedeclStatusHistory
+    {
         public int Id { get; set; }
         public int? SitedecId { get; set; }
         public string Notes { get; set; }

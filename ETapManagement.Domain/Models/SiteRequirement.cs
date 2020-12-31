@@ -1,14 +1,17 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class SiteRequirement {
-        public SiteRequirement () {
-            DispReqStructure = new HashSet<DispReqStructure> ();
-            DispatchRequirement = new HashSet<DispatchRequirement> ();
-            SiteDeclaration = new HashSet<SiteDeclaration> ();
-            SiteReqStructure = new HashSet<SiteReqStructure> ();
-            SitereqStatusHistory = new HashSet<SitereqStatusHistory> ();
+namespace ETapManagement.Domain.Models
+{
+    public partial class SiteRequirement
+    {
+        public SiteRequirement()
+        {
+            DispReqStructure = new HashSet<DispReqStructure>();
+            DispatchRequirement = new HashSet<DispatchRequirement>();
+            SiteDeclaration = new HashSet<SiteDeclaration>();
+            SiteReqStructure = new HashSet<SiteReqStructure>();
+            SitereqStatusHistory = new HashSet<SitereqStatusHistory>();
         }
 
         public int Id { get; set; }

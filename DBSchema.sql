@@ -192,7 +192,7 @@ create table ETapManagement.dbo.independent_company
   name varchar(200) not NULL ,
   description varchar(500) NULL,
   is_active bit not null default 1,
-  is_delete bit not null DEFAULT 1,
+  is_delete bit not null DEFAULT 0,
   created_by int null,
   created_at datetime default CURRENT_TIMESTAMP,
   updated_by int null,
@@ -205,7 +205,7 @@ create table ETapManagement.dbo.structure_type
   id int NOT NULL IDENTITY(1,1) primary key,
   name varchar(200) not NULL ,
   is_active bit not null default 1,
-  is_delete bit not null DEFAULT 1,
+  is_delete bit not null DEFAULT 0,
   description varchar(500) NULL,
   created_by int null,
   created_at datetime default CURRENT_TIMESTAMP,
@@ -263,10 +263,10 @@ CREATE TABLE ETapManagement.dbo.project
   area varchar(10) null,
   ic_id int not null,
   bu_id int not null,
-  segment_id int not null,
+  job_code varchar(20) null,
+  edrc_code varchar(20) null,
   is_delete bit NOT NULL DEFAULT 0,
   is_active bit NULL,
-
   created_by int null,
   created_at datetime default CURRENT_TIMESTAMP,
   updated_by int null,
@@ -274,7 +274,6 @@ CREATE TABLE ETapManagement.dbo.project
   CONSTRAINT project_pkey PRIMARY KEY (id),
   CONSTRAINT project_icId_IC__fkey FOREIGN KEY (ic_id) REFERENCES independent_company(id),
   CONSTRAINT project_buId_BU__fkey FOREIGN KEY (bu_id) REFERENCES business_unit(id),
-  CONSTRAINT project_segmentId_segment__fkey FOREIGN KEY (segment_id) REFERENCES segment(id),
 )
 
 CREATE TABLE ETapManagement.dbo.project_sitelocation
@@ -338,6 +337,8 @@ CREATE TABLE ETapManagement.dbo.project_structure
   project_id int not null,
   drawing_no varchar(20) null,
   components_count int,
+  estimated_weight decimal(10,2),
+  structure_status varchar(20) null,
   is_delete bit NULL DEFAULT 0,
   created_by int null,
   created_at datetime default CURRENT_TIMESTAMP,

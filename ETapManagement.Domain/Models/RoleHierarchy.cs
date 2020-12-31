@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class RoleHierarchy {
+namespace ETapManagement.Domain.Models
+{
+    public partial class RoleHierarchy
+    {
         public int Id { get; set; }
         public string RoleName { get; set; }
         public string ScenarioType { get; set; }

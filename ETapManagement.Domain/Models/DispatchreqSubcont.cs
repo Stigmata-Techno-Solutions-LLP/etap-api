@@ -1,10 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace ETapManagement.Domain.Models {
-    public partial class DispatchreqSubcont {
-        public DispatchreqSubcont () {
-            DispSubcontStructure = new HashSet<DispSubcontStructure> ();
+namespace ETapManagement.Domain.Models
+{
+    public partial class DispatchreqSubcont
+    {
+        public DispatchreqSubcont()
+        {
+            DispSubcontStructure = new HashSet<DispSubcontStructure>();
         }
 
         public int Id { get; set; }
