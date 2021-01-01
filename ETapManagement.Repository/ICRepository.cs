@@ -27,6 +27,7 @@ namespace ETapManagement.Repository {
                 }
                 ResponseMessage responseMessage = new ResponseMessage ();
                 IndependentCompany ic = _mapper.Map<IndependentCompany> (independentCompany);
+        
                 _context.IndependentCompany.Add (ic);
                 _context.SaveChanges ();
 
