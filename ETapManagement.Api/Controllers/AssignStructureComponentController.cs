@@ -14,8 +14,7 @@ using Serilog;
 
 namespace ETapManagement.Api.Controllers {
     [EnableCors ("AllowAll")]
-    //[Authorize]
-    [Authorize]
+   // [Authorize]
     [ApiController]
     [Route ("api/[controller]")]
 

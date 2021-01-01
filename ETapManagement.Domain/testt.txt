@@ -1,3 +1,6 @@
+ using ETapManagement.ViewModel.Dto;
+
+ 
             modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SurplusDetails> ();
             modelBuilder.Query<AssignStructureDtlsOnly> ();

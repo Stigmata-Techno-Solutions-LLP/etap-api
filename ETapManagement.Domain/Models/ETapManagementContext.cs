@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
-
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
@@ -20,6 +19,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<ComponentHistory> ComponentHistory { get; set; }
         public virtual DbSet<ComponentType> ComponentType { get; set; }
         public virtual DbSet<DispReqStructure> DispReqStructure { get; set; }
+        public virtual DbSet<DispSubcontDocuments> DispSubcontDocuments { get; set; }
         public virtual DbSet<DispSubcontStructure> DispSubcontStructure { get; set; }
         public virtual DbSet<DispatchRequirement> DispatchRequirement { get; set; }
         public virtual DbSet<DispatchreqSubcont> DispatchreqSubcont { get; set; }
@@ -58,7 +58,8 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-                        modelBuilder.Query<SiteRequirementDetail> ();
+
+            modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SurplusDetails> ();
             modelBuilder.Query<AssignStructureDtlsOnly> ();
             modelBuilder.Entity<ApplicationForms>(entity =>
@@ -413,6 +414,36 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.DispReqStructure)
                     .HasForeignKey(d => d.StructId)
                     .HasConstraintName("DispReqStructire_structure_fkey");
+            });
+
+            modelBuilder.Entity<DispSubcontDocuments>(entity =>
+            {
+                entity.ToTable("disp_subcont_documents");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DispSubcontId).HasColumnName("disp_subcont_id");
+
+                entity.Property(e => e.FileName)
+                    .HasColumnName("file_name")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FileType)
+                    .HasColumnName("file_type")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Path)
+                    .HasColumnName("path")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.DispSubcont)
+                    .WithMany(p => p.DispSubcontDocuments)
+                    .HasForeignKey(d => d.DispSubcontId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("disp_subcont_id_docsID_fkey");
             });
 
             modelBuilder.Entity<DispSubcontStructure>(entity =>

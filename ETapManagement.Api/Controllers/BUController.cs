@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ETapManagement.Api.Controllers {
     [ApiController]
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     [Authorize]
     public class BUController : ControllerBase {
         IBUService _buService;

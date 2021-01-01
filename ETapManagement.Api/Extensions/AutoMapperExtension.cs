@@ -529,6 +529,9 @@ namespace ETapManagement.Api.Extensions {
                 .ForMember (dest =>
                     dest.Components,
                     opt => opt.MapFrom (src => src.Component))
+                .ForMember (dest =>
+                    dest.EstimatedWeight,
+                    opt => opt.MapFrom (src => src.EstimatedWeight))    
                 .ReverseMap ();
 
             CreateMap<UpdateBusinessUnit, BusinessUnit> ()

@@ -9,6 +9,9 @@ IF OBJECT_ID('ETapManagement.dbo.project_structure_documents', 'U') IS NOT NULL
   DROP TABLE ETapManagement.dbo.project_structure_documents;
 
 
+IF OBJECT_ID('ETapManagement.dbo.disp_subcont_documents', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.disp_subcont_documents;
+
 IF OBJECT_ID('ETapManagement.dbo.disp_subcont_structure', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.disp_subcont_structure;
 
@@ -656,6 +659,17 @@ CREATE TABLE ETapManagement.dbo.disp_subcont_structure
   struct_id int,
   CONSTRAINT dispreqsubcont_structure_siteReq_fkey FOREIGN KEY (dispreqsubcont_id) REFERENCES dispatchreq_subcont(id),
   CONSTRAINT disp_subcont_structure_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
+)
+
+CREATE TABLE disp_subcont_documents
+(
+  id int not null identity(1,1),
+  disp_subcont_id int not null,
+  file_name varchar(500) null,
+  file_type varchar(10) null,
+  "path" varchar(1000) null,
+  CONSTRAINT disp_subcont_documents_pkey PRIMARY KEY (id),
+  CONSTRAINT disp_subcont_id_docsID_fkey FOREIGN KEY (disp_subcont_id) REFERENCES dispatchreq_subcont(id),
 )
 
 CREATE TABLE ETapManagement.dbo.role_hierarchy

@@ -7,6 +7,7 @@ namespace ETapManagement.Domain.Models
     {
         public DispatchreqSubcont()
         {
+            DispSubcontDocuments = new HashSet<DispSubcontDocuments>();
             DispSubcontStructure = new HashSet<DispSubcontStructure>();
         }
 
@@ -36,6 +37,7 @@ namespace ETapManagement.Domain.Models
         public virtual DispatchRequirement Dispreq { get; set; }
         public virtual ServiceType Servicetype { get; set; }
         public virtual SubContractor Subcon { get; set; }
+        public virtual ICollection<DispSubcontDocuments> DispSubcontDocuments { get; set; }
         public virtual ICollection<DispSubcontStructure> DispSubcontStructure { get; set; }
     }
 }
