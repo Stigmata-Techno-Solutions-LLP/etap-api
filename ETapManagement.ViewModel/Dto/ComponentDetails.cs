@@ -15,8 +15,7 @@ namespace ETapManagement.ViewModel.Dto {
         public string CompTypeName { get; set; }
 
         [DataType (DataType.Text)]
-        [StringLength (10)]
-        [Display (Name = "Drawing No")]
+        [Display (Name = "Componenet Name")]
         public string ComponentName { get; set; }
 
         [DataType (DataType.Text)]

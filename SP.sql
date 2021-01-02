@@ -18,20 +18,16 @@ BEGIN
 	
 	END
 
-	--select case when status_internal in (@cond_status) then '0' else '1' end 'isAction', * from site_requirement sr where role_id = @roleId and status in (@status)
-	--select @cond_status
 	
- select '0' as 'isAction', mr_no as MrNo, Id, project_id as ProjectId, plan_startdate as PlanStartdate, plan_releasedate as PlanReleasedate,actual_startdate as ActualStartdate, actual_releasedate as ActualReleasedate,  require_wbs_id as RequireWbsId, actual_wbs_id as ActualWbsId, remarks as Remarks, status as Status, status_internal as StatusInternal, role_id as RoleId    into #resultset1 from site_requirement  where status_internal  in (select value from STRING_SPLIT(@cond_status,',') )
+ select 1 as 'isAction', mr_no as MrNo, Id, project_id as ProjectId, plan_startdate as PlanStartdate, plan_releasedate as PlanReleasedate,actual_startdate as ActualStartdate, actual_releasedate as ActualReleasedate,  require_wbs_id as RequireWbsId, actual_wbs_id as ActualWbsId, remarks as Remarks, status as Status, status_internal as StatusInternal, role_id as RoleId    into #resultset1 from site_requirement  where status_internal  in (select value from STRING_SPLIT(@cond_status,',') )
 
- -- select distinct sitereq_id INTO #distSiteReqId from sitereq_status_history where role_id = @role_id and sitereq_id  not in (select id from #resultset1) order by updated_at  desc
-	
- 
+	 
   SELECT sitereq_id INTO #distSiteReqId
     FROM (
   SELECT sitereq_id, updated_at, ROW_NUMBER() OVER (PARTITION BY sitereq_id ORDER BY updated_at desc) RN
         FROM sitereq_status_history where role_id = @role_id and sitereq_id  not in (select id from #resultset1)) S where RN =1
         
-	  select '1' as 'isAction', mr_no as MrNo, Id, project_id as ProjectId, plan_startdate as PlanStartdate, plan_releasedate as PlanReleasedate,actual_startdate as ActualStartdate, actual_releasedate as ActualReleasedate,  require_wbs_id as RequireWbsId, actual_wbs_id as ActualWbsId, remarks as Remarks, status as Status, status_internal as StatusInternal, role_id as RoleId   into #resultset2 from site_requirement sr where id  in (select sitereq_id from #distSiteReqId)
+	  select 0 as 'isAction', mr_no as MrNo, Id, project_id as ProjectId, plan_startdate as PlanStartdate, plan_releasedate as PlanReleasedate,actual_startdate as ActualStartdate, actual_releasedate as ActualReleasedate,  require_wbs_id as RequireWbsId, actual_wbs_id as ActualWbsId, remarks as Remarks, status as Status, status_internal as StatusInternal, role_id as RoleId   into #resultset2 from site_requirement sr where id  in (select sitereq_id from #distSiteReqId)
 	 
 	 select * from #resultset1 union all 
 	 select * from #resultset2
@@ -255,4 +251,14 @@ BEGIN
 	END
 
 END
+
+
+
+CREATE OR ALTER PROCEDURE sp_getDispatch( @role_name varchar(50),@role_hierarchy int  null)
+AS
+BEGIN
+	
+	select * from dispatch_requirement dr 
+END
+
         

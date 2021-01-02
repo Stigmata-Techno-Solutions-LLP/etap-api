@@ -527,9 +527,6 @@ namespace ETapManagement.Api.Extensions {
                     dest.StructureId,
                     opt => opt.MapFrom (src => src.StructureId))
                 .ForMember (dest =>
-                    dest.Components,
-                    opt => opt.MapFrom (src => src.Component))
-                .ForMember (dest =>
                     dest.EstimatedWeight,
                     opt => opt.MapFrom (src => src.EstimatedWeight))    
                 .ReverseMap ();
@@ -564,7 +561,7 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.ComponentsCount))
                 .ReverseMap ();
 
-            CreateMap<ComponentDetails, Component> ()
+            CreateMap< Component,ComponentDetails> ()
                 .ForMember (dest =>
                     dest.Id,
                     opt => opt.MapFrom (src => src.Id))
@@ -578,9 +575,12 @@ namespace ETapManagement.Api.Extensions {
                 .ForMember (dest =>
                     dest.DrawingNo,
                     opt => opt.MapFrom (src => src.DrawingNo))
-                // .ForMember (dest =>
-                // 	dest.CompType.Name,
-                // 	opt => opt.MapFrom (src => src.CompTypeName))
+                .ForMember (dest =>
+                	dest.CompTypeName,
+                	opt => opt.MapFrom (src => src.CompType.Name))
+                .ForMember (dest =>
+                	dest.ComponentName,
+                	opt => opt.MapFrom (src => src.CompName))    
                 .ForMember (dest =>
                     dest.ComponentNo,
                     opt => opt.MapFrom (src => src.ComponentNo))

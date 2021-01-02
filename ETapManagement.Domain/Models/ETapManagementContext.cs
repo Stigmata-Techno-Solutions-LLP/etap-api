@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using ETapManagement.ViewModel.Dto;
+ using ETapManagement.ViewModel.Dto;
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
+ 
 
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
@@ -58,7 +59,6 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SurplusDetails> ();
             modelBuilder.Query<AssignStructureDtlsOnly> ();
@@ -453,6 +453,10 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.DispreqsubcontId).HasColumnName("dispreqsubcont_id");
+
+                entity.Property(e => e.IsDelivered)
+                    .HasColumnName("is_Delivered")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.StructId).HasColumnName("struct_id");
 

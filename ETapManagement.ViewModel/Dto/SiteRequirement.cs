@@ -69,7 +69,7 @@ namespace ETapManagement.ViewModel.Dto {
     public class SiteRequirementDetail {
         public int Id { get; set; }
         public string MrNo { get; set; }
-        public string isAction { get; set; }
+        public Boolean isAction { get; set; }
 
         [Required]
         public int ProjectId { get; set; }

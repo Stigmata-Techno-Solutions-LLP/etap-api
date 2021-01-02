@@ -657,6 +657,7 @@ CREATE TABLE ETapManagement.dbo.disp_subcont_structure
   id int not null identity(1,1) primary key,
   dispreqsubcont_id int,
   struct_id int,
+  is_Delivered bit null default false,
   CONSTRAINT dispreqsubcont_structure_siteReq_fkey FOREIGN KEY (dispreqsubcont_id) REFERENCES dispatchreq_subcont(id),
   CONSTRAINT disp_subcont_structure_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
 )
