@@ -7,7 +7,6 @@ namespace ETapManagement.Domain.Models
     {
         public SiteRequirement()
         {
-            DispReqStructure = new HashSet<DispReqStructure>();
             DispatchRequirement = new HashSet<DispatchRequirement>();
             SiteDeclaration = new HashSet<SiteDeclaration>();
             SiteReqStructure = new HashSet<SiteReqStructure>();
@@ -34,7 +33,6 @@ namespace ETapManagement.Domain.Models
         public bool IsDelete { get; set; }
 
         public virtual Project Project { get; set; }
-        public virtual ICollection<DispReqStructure> DispReqStructure { get; set; }
         public virtual ICollection<DispatchRequirement> DispatchRequirement { get; set; }
         public virtual ICollection<SiteDeclaration> SiteDeclaration { get; set; }
         public virtual ICollection<SiteReqStructure> SiteReqStructure { get; set; }

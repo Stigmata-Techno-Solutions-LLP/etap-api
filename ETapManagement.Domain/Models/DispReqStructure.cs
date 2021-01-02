@@ -9,7 +9,7 @@ namespace ETapManagement.Domain.Models
         public int? DispreqId { get; set; }
         public int? StructId { get; set; }
 
-        public virtual SiteRequirement Dispreq { get; set; }
+        public virtual DispatchRequirement Dispreq { get; set; }
         public virtual Structures Struct { get; set; }
     }
 }
