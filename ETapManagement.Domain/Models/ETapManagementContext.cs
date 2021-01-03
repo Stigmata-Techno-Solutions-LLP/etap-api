@@ -6,6 +6,8 @@ namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
+      
+
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -22,6 +24,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<DispSubcontStructure> DispSubcontStructure { get; set; }
         public virtual DbSet<DispatchRequirement> DispatchRequirement { get; set; }
         public virtual DbSet<DispatchreqSubcont> DispatchreqSubcont { get; set; }
+        public virtual DbSet<DisreqStatusHistory> DisreqStatusHistory { get; set; }
         public virtual DbSet<IndependentCompany> IndependentCompany { get; set; }
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<ProjectSitelocation> ProjectSitelocation { get; set; }
@@ -634,6 +637,54 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.DispatchreqSubcont)
                     .HasForeignKey(d => d.SubconId)
                     .HasConstraintName("dispatchreq_subcont_subcont_fkey");
+            });
+
+            modelBuilder.Entity<DisreqStatusHistory>(entity =>
+            {
+                entity.ToTable("disreq_status_history");
+
+                entity.HasIndex(e => e.DispatchNo)
+                    .HasName("UQ__disreq_s__F7205CCD739EF029")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+
+                entity.Property(e => e.DispatchNo)
+                    .IsRequired()
+                    .HasColumnName("dispatch_no")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DispreqId).HasColumnName("dispreq_id");
+
+                entity.Property(e => e.Notes)
+                    .HasColumnName("notes")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StatusInternal)
+                    .HasColumnName("status_internal")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Dispreq)
+                    .WithMany(p => p.DisreqStatusHistory)
+                    .HasForeignKey(d => d.DispreqId)
+                    .HasConstraintName("dispatch_requirement_statushistory_dispreq_fkey");
             });
 
             modelBuilder.Entity<IndependentCompany>(entity =>

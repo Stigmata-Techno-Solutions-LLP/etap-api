@@ -69,7 +69,10 @@ namespace ETapManagement.ViewModel.Dto {
     public class SiteRequirementDetail {
         public int Id { get; set; }
         public string MrNo { get; set; }
-        public string isAction { get; set; }
+        public int isAction { get; set; }
+
+        public string ProjectName { get; set; }
+        public string StructureName { get; set; }
 
         [Required]
         public int ProjectId { get; set; }
@@ -95,6 +98,8 @@ namespace ETapManagement.ViewModel.Dto {
         public string Status { get; set; }
         public string StatusInternal { get; set; }
         public int RoleId { get; set; }
+        public DateTime? CreatedDate { get; set; }
+
     }
     public class SiteRequirementDetailPayload {
         public commonEnum.Rolename role_name { get; set; }
@@ -109,7 +114,7 @@ namespace ETapManagement.ViewModel.Dto {
         public commonEnum.WorkFlowMode mode { get; set; }
 
         public commonEnum.Rolename role_name { get; set; }
-        public string role_hierarchy { get; set; }
+        public int? role_hierarchy { get; set; }
 
     }
 

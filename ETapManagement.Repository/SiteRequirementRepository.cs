@@ -53,7 +53,6 @@ namespace ETapManagement.Repository {
                         }
                     }
                     _context.SaveChanges ();
-
                     SitereqStatusHistory siteStatusHist = new SitereqStatusHistory ();
                     siteStatusHist.MrNo = sitereq.MrNo;
                     siteStatusHist.RoleId = sitereq.RoleId;
@@ -138,12 +137,13 @@ namespace ETapManagement.Repository {
                 ResponseMessage resp = new ResponseMessage ();
 
                 if (reqPayload.mode == commonEnum.WorkFlowMode.Approval) {
-                    var siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_ApprovalRequirement {0}, {1},{2}", reqPayload.siteReqId, reqPayload.role_name, reqPayload.role_hierarchy);
+                    var siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_ApprovalRequirement {0}, {1},{2}", reqPayload.siteReqId, reqPayload.role_name.ToString(), null);
                     resp.Message = string.Format ("Requirement successfully Approved by {0}", reqPayload.role_name);
-
+                    if (siteRequirements == -1) throw new ValueNotFoundException ("Approval opearation not allowed ");
                 } else if (reqPayload.mode == commonEnum.WorkFlowMode.Rejection) {
-                    var siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_RejectRequirement {0}, {1}", reqPayload.siteReqId, reqPayload.role_name, reqPayload.role_hierarchy);
+                    var siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_RejectRequirement {0}, {1}, {2}", reqPayload.siteReqId, reqPayload.role_name.ToString(), reqPayload.role_hierarchy);
                     resp.Message = string.Format ("Requirement successfully Rejected by {0}", reqPayload.role_name);
+                    if (siteRequirements == -1) throw new ValueNotFoundException ("Rejection opearation not allowed");
 
                 }
 
