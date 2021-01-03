@@ -19,7 +19,7 @@ namespace ETapManagement.Repository {
         public AuthenticateResponse ValidateUser (AuthenticateRequest userReq) {
             try {
                 AuthenticateResponse result = null;
-                Users user = _context.Users.Include(x=>x.RoleId).Include(x=>x.Project).Where (x => x.PsNo == userReq.Username && x.Password == userReq.Password && x.IsActive == true && x.IsDelete == false).FirstOrDefault ();
+                Users user = _context.Users.Include(x=>x.Role).Include(x=>x.Project).Where (x => x.PsNo == userReq.Username && x.Password == userReq.Password && x.IsActive == true && x.IsDelete == false).FirstOrDefault ();
                 if (user == null) throw new ValueNotFoundException ("Username or password is incorrect");
                 Project project = _context.Project.Where(x => x.Id == user.ProjectId).FirstOrDefault();
                 result = new AuthenticateResponse {
