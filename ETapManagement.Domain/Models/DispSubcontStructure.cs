@@ -9,7 +9,6 @@ namespace ETapManagement.Domain.Models
         public int? DispreqsubcontId { get; set; }
         public int? StructId { get; set; }
         public bool? IsDelivered { get; set; }
-
         public virtual DispatchreqSubcont Dispreqsubcont { get; set; }
         public virtual Structures Struct { get; set; }
     }

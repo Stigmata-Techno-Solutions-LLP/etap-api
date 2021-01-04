@@ -835,6 +835,22 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.SurplusDate))
                 .ReverseMap ();
 
+            CreateMap<SiteDispatchUpload, DispSubcontDocuments> ()
+                .ForMember (dest =>
+                    dest.Id,
+                    opt => opt.MapFrom (src => src.Id))
+                .ForMember (dest =>
+                    dest.FileName,
+                    opt => opt.MapFrom (src => src.FileName))
+                .ForMember (dest =>
+                    dest.FileType,
+                    opt => opt.MapFrom (src => src.FileType))
+
+                .ForMember (dest =>
+                    dest.Path,
+                    opt => opt.MapFrom (src => src.Path))
+                .ReverseMap ();
+
         }
     }
 
