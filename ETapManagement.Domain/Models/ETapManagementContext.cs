@@ -60,6 +60,8 @@ namespace ETapManagement.Domain.Models
         {
 
             modelBuilder.Query<SiteRequirementDetail> ();
+            modelBuilder.Query<SiteDispatchDetail>();
+            modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
             modelBuilder.Query<AssignStructureDtlsOnly> ();
             modelBuilder.Entity<ApplicationForms>(entity =>
