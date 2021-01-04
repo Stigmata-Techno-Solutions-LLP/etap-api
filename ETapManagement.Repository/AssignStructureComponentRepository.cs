@@ -118,8 +118,11 @@ namespace ETapManagement.Repository {
                 Structures structDetails = _context.Structures.Where (x => x.Id == filterReq.StructId).FirstOrDefault ();
                 Project projDB = _context.Project.Include(x=>x.Ic).Include(x=>x.Bu).Where(x=>x.Id == filterReq.ProjectId).FirstOrDefault();
                 AssignStructureDtlsOnly response = new AssignStructureDtlsOnly ();
-                ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Project).Include (x => x.Structure).Include (x => x.Structure.StructureType).Include (x => x.Component).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault ();
+                ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Project).Include (x => x.Structure).Include (x => x.Structure.StructureType).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault ();
+                List<Component> lstComp = _context.Component.Include(x=>x.CompType).Where(m=>m.ProjStructId == pStruct.Id).ToList();
                 var responseMap = _mapper.Map<AssignStructureDtlsOnly> (pStruct);
+                var responseMapComp = _mapper.Map<List<ComponentDetails>> (lstComp);
+                responseMap.Components = responseMapComp;
                 if (responseMap != null) {
                     response = responseMap;
                     response.StrcutureTypeName = _context.StructureType.Where (x => x.Id == structDetails.StructureTypeId).FirstOrDefault ().Name;

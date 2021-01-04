@@ -613,6 +613,23 @@ CREATE TABLE ETapManagement.dbo.dispatch_requirement
 
 )
 
+
+
+CREATE TABLE ETapManagement.dbo.disreq_status_history
+(
+  id int not null identity(1,1) primary key,
+  dispatch_no varchar(20) not null unique,
+  dispreq_id int null,
+  status varchar(50) null,
+  status_internal varchar(100) null,
+  notes varchar(500) null,
+  role_id int,
+  created_by int null,
+  created_at datetime default CURRENT_TIMESTAMP,
+  CONSTRAINT dispatch_requirement_statushistory_dispreq_fkey FOREIGN KEY (dispreq_id) REFERENCES dispatch_requirement(id),
+
+)
+
 CREATE TABLE ETapManagement.dbo.disp_req_structure
 (
   id int not null identity(1,1) primary key,
@@ -657,6 +674,7 @@ CREATE TABLE ETapManagement.dbo.disp_subcont_structure
   id int not null identity(1,1) primary key,
   dispreqsubcont_id int,
   struct_id int,
+  is_Delivered bit null default false,
   CONSTRAINT dispreqsubcont_structure_siteReq_fkey FOREIGN KEY (dispreqsubcont_id) REFERENCES dispatchreq_subcont(id),
   CONSTRAINT disp_subcont_structure_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
 )

@@ -53,19 +53,19 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
-        [HttpPost("UpdateSiteDispatch")]
+        [HttpPut("UpdateSiteDispatch")]
         public IActionResult UpdateSiteDispatch([FromForm] SiteDispatchDetailPayload request)
         {
             try
             {
-                if (request.UploadDocs != null)
+                if (request.uploadDocs != null)
                 {
-                    if (request.UploadDocs.Length > 5) throw new ValueNotFoundException("Document count should not greater than 5");
-                    foreach (IFormFile file in request.UploadDocs)
+                    if (request.uploadDocs.Length > 5) throw new ValueNotFoundException("Document count should not greater than 5");
+                    foreach (IFormFile file in request.uploadDocs)
                     {
                         if (constantVal.AllowedDocFileTypes.Where(x => x.Contains(file.ContentType)).Count() == 0) throw new ValueNotFoundException(string.Format("File Type {0} is not allowed", file.ContentType));
                     }
-                    if (request.UploadDocs.Select(x => x.Length).Sum() > 50000000) throw new ValueNotFoundException(" File size exceeded limit");
+                    if (request.uploadDocs.Select(x => x.Length).Sum() > 50000000) throw new ValueNotFoundException(" File size exceeded limit");
                 }
 
                 var projectStructure = _siteDispatchService.UpdateSiteDispatch(request);

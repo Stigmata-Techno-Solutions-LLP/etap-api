@@ -86,19 +86,60 @@ namespace ETapManagement.Repository
                 {
                     try
                     {
-                        var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where(x => x.DispreqId == siteDispatchDetailPayload.DispatchRequestSubContractorId).FirstOrDefault();
+                        var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where(x => x.DispreqId == siteDispatchDetailPayload.dispatchRequestSubContractorId).FirstOrDefault();
                         if(siteDispatchRequestSubContractor != null)
                         {
-                            siteDispatchRequestSubContractor.DispatchDate = siteDispatchDetailPayload.DispatchDate;
-                            siteDispatchRequestSubContractor.WorkorderNo = siteDispatchDetailPayload.WorkOrderNumber;
+                            siteDispatchRequestSubContractor.DispatchDate = siteDispatchDetailPayload.dispatchDate;
+                            siteDispatchRequestSubContractor.WorkorderNo = siteDispatchDetailPayload.workOrderNumber;
                             _context.SaveChanges();
                         }
-                        var dispatchSubContractorStructure = _context.DispSubcontStructure.Where(x=> x.DispreqsubcontId == siteDispatchDetailPayload.DispatchRequestSubContractorId && x.StructId == siteDispatchDetailPayload.StructureId) .FirstOrDefault();
+                        var dispatchSubContractorStructure = _context.DispSubcontStructure.Where(x=> x.DispreqsubcontId == siteDispatchDetailPayload.dispatchRequestSubContractorId && x.StructId == siteDispatchDetailPayload.structureId) .FirstOrDefault();
                         if(dispatchSubContractorStructure != null)
                         {
-                            //Save Changes Error because IsDelivered is not found.
+                            dispatchSubContractorStructure.IsDelivered = true;
+                            _context.SaveChanges();
                         }
                         responseMessage.Message = "Site Dispatch updated successfully.";
+                        transaction.Commit();
+                        return responseMessage;
+                    }
+                    catch(Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw ex;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ResponseMessage RevertSiteDispatch(SiteDispatchDetailPayload siteDispatchDetailPayload)
+        {
+            ResponseMessage responseMessage = new ResponseMessage();
+            try
+            {
+                using(var transaction = _context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where(x => x.DispreqId == siteDispatchDetailPayload.dispatchRequestSubContractorId).FirstOrDefault();
+                        if(siteDispatchRequestSubContractor != null)
+                        {
+                            siteDispatchRequestSubContractor.DispatchDate = null;
+                            siteDispatchRequestSubContractor.WorkorderNo = null;
+                            _context.SaveChanges();
+                        }
+                        var dispatchSubContractorStructure = _context.DispSubcontStructure.Where(x=> x.DispreqsubcontId == siteDispatchDetailPayload.dispatchRequestSubContractorId && x.StructId == siteDispatchDetailPayload.structureId) .FirstOrDefault();
+                        if(dispatchSubContractorStructure != null)
+                        {
+                            dispatchSubContractorStructure.IsDelivered = false;
+                            _context.SaveChanges();
+                        }
+                        responseMessage.Message = "Site Dispatch updated successfully.";
+                        transaction.Commit();
                         return responseMessage;
                     }
                     catch(Exception ex)

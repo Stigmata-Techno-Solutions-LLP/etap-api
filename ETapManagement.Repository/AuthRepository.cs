@@ -19,8 +19,7 @@ namespace ETapManagement.Repository {
         public AuthenticateResponse ValidateUser (AuthenticateRequest userReq) {
             try {
                 AuthenticateResponse result = null;
-
-                Users user = _context.Users.Where (x => x.PsNo == userReq.Username && x.Password == userReq.Password && x.IsActive == true && x.IsDelete == false).FirstOrDefault ();
+                Users user = _context.Users.Include(x=>x.Role).Include(x=>x.Project).Where (x => x.PsNo == userReq.Username && x.Password == userReq.Password && x.IsActive == true && x.IsDelete == false).FirstOrDefault ();
                 if (user == null) throw new ValueNotFoundException ("Username or password is incorrect");
                 Project project = _context.Project.Where(x => x.Id == user.ProjectId).FirstOrDefault();
                 result = new AuthenticateResponse {
@@ -34,10 +33,10 @@ namespace ETapManagement.Repository {
                     ProjectId = Convert.ToInt32(user.ProjectId),
                     BusinessUnitId = Convert.ToInt32(user.BuId),
                     IndependentCompanyId = Convert.ToInt32(user.IcId),
-                    ProjectName = project != null ? project.Name : "",
-                    ProjectCode = project != null ? project.ProjCode : ""
+                    ProjectName = user.Project.Name,
+                    ProjectCode = user.Project.ProjCode,
+                    RoleName = user.Role.Name
                 };
-
                 return result;
             } catch (Exception ex) {
                 throw ex;

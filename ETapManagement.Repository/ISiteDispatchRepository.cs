@@ -9,6 +9,7 @@ namespace ETapManagement.Repository {
         public List<StructureListCode> GetStructureListCodes(int dispatchRequirementId);
         public ResponseMessage UpdateSiteDispatch(SiteDispatchDetailPayload siteDispatchDetailPayload);
         public ResponseMessage UpdateSiteDispatchDocuments(SiteDispatchUpload uploadDocs, int dispatchRequestSubContractorId);
+        public ResponseMessage RevertSiteDispatch(SiteDispatchDetailPayload siteDispatchDetailPayload);
 
     }
 }

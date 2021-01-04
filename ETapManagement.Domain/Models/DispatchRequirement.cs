@@ -7,7 +7,9 @@ namespace ETapManagement.Domain.Models
     {
         public DispatchRequirement()
         {
+            DispReqStructure = new HashSet<DispReqStructure>();
             DispatchreqSubcont = new HashSet<DispatchreqSubcont>();
+            DisreqStatusHistory = new HashSet<DisreqStatusHistory>();
         }
 
         public int Id { get; set; }
@@ -29,6 +31,8 @@ namespace ETapManagement.Domain.Models
         public virtual ServiceType Servicetype { get; set; }
         public virtual SiteRequirement Sitereq { get; set; }
         public virtual Project ToProject { get; set; }
+        public virtual ICollection<DispReqStructure> DispReqStructure { get; set; }
         public virtual ICollection<DispatchreqSubcont> DispatchreqSubcont { get; set; }
+        public virtual ICollection<DisreqStatusHistory> DisreqStatusHistory { get; set; }
     }
 }

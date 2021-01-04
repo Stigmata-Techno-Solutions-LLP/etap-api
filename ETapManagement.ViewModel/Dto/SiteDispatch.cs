@@ -48,12 +48,12 @@ namespace ETapManagement.ViewModel.Dto
 
     public class SiteDispatchDetailPayload
     {
-        public int DispatchRequestSubContractorId { get; set; }
-        public string WorkOrderNumber { get; set; }
-        public DateTime DispatchDate { get; set; }
-        public int UpdatedBy { get; set; }
-        public int StructureId { get; set; }
-        public IFormFile[] UploadDocs { get; set; }
+        public int dispatchRequestSubContractorId { get; set; }
+        public string workOrderNumber { get; set; }
+        public DateTime dispatchDate { get; set; }
+        public int updatedBy { get; set; }
+        public int structureId { get; set; }
+        public IFormFile[] uploadDocs { get; set; }
 
     }
 
