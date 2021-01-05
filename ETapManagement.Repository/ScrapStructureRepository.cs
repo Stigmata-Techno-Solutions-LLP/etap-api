@@ -29,7 +29,7 @@ namespace ETapManagement.Repository {
 
                 scrapStructureDB.CreatedBy = 1; //TODO
                 scrapStructureDB.CreatedAt = DateTime.Now;
-
+                scrapStructureDB.Status = "SCRAPPED";
                 _context.ScrapStructure.Add(scrapStructureDB);
                 _context.SaveChanges(); 
 
@@ -111,16 +111,15 @@ namespace ETapManagement.Repository {
                         scrapStructureDB.StructId = scrapStructure.StructId;
                         scrapStructureDB.ScrapRate = scrapStructure.ScrapRate;
                         scrapStructureDB.AuctionId = scrapStructure.AuctionId;
-                        scrapStructureDB.Status = scrapStructure.Status;
+                        scrapStructureDB.Status = "SCRAPPED";
                         scrapStructureDB.UpdatedBy = 1; //TODO
-                        scrapStructureDB.UpdatedAt = DateTime.Now; 
-                         
+                        scrapStructureDB.UpdatedAt = DateTime.Now;                          
                         _context.SaveChanges();
 
                         AuditLogs audit = new AuditLogs()
                         {
                             Action = "Scrap Structure",
-                            Message = string.Format("Scrap Structure Updated Successfully {0}", scrapStructure.Id),
+                            Message = string.Format("Scrap Structure Updated Successfully {0}", id),
                             CreatedAt = DateTime.Now,
                             CreatedBy = 1 //TODO
                         };
