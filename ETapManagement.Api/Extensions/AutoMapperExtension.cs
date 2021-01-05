@@ -877,7 +877,7 @@ namespace ETapManagement.Api.Extensions {
 					opt => opt.MapFrom(src => src.IsDelete))
 				.ReverseMap();
 
-			CreateMap<ScrapStructureDetail, ScrapStructure>()
+			CreateMap<ScrapStructure,ScrapStructureDetail>()
 				.ForMember(dest =>
 				   dest.Id,
 					opt => opt.MapFrom(src => src.Id))
@@ -893,6 +893,12 @@ namespace ETapManagement.Api.Extensions {
 				.ForMember(dest =>
 					dest.AuctionId,
 					opt => opt.MapFrom(src => src.AuctionId))
+                .ForMember(dest =>
+					dest.StructName,
+					opt => opt.MapFrom(src => src.Struct.Name))
+                .ForMember(dest =>
+					dest.VendorName,
+					opt => opt.MapFrom(src => src.Subcon.Name))                    
 				.ForMember(dest =>
 					dest.Status,
 					opt => opt.MapFrom(src => src.Status)) 

@@ -37,6 +37,8 @@ namespace ETapManagement.ViewModel.Dto {
         public int Id { get; set; }
         public int SubconId { get; set; }
         public int StructId { get; set; }
+        public string StructName { get; set; }
+        public string VendorName { get; set; }
         public decimal ScrapRate { get; set; }
         public string AuctionId { get; set; }
         public string Status { get; set; }

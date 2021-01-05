@@ -41,7 +41,7 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpPut ("updateScrapStruct/{id}")]
-        public IActionResult Update (AddScrapStructure scrapStructure, int id) {
+        public IActionResult Update ([FromForm] AddScrapStructure scrapStructure, int id) {
             try {
                 var response = _scrapStructureService.UpdateScrapStructure (scrapStructure, id);
                 return Ok (new { message = response.Message, code = 204 });
