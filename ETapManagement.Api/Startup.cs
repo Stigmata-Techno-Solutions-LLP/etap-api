@@ -81,6 +81,9 @@ namespace ETapManagement.Api {
 
 			services.AddScoped<IScrapStructureRepository, ScrapStructureRepository>();
 			services.AddScoped<IScrapStructureService, ScrapStructureService>();
+
+            services.AddScoped<IDispatchReqSubConRepository, DispatchReqSubConRepository>();
+            services.AddScoped<IDispatchService, DispatchService>();
             
             services.AddAntiforgery (options => options.HeaderName = "X-XSRF-TOKEN");
 
