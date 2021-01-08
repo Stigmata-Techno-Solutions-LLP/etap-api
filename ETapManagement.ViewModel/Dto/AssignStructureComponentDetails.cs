@@ -47,7 +47,7 @@ namespace ETapManagement.ViewModel.Dto {
         public string Status{ get;set; }
         public string CurrentStatus{ get;set; }
          public decimal?  EstimatedWeight{ get;set; } 
-        public string  TotalWeight{ get;set; } 
+        public decimal?  TotalWeight{ get;set; } 
         public List<ComponentDetails> Components { get; set; }
         public List<Upload_Docs> structureDocs { get; set; }
     }
