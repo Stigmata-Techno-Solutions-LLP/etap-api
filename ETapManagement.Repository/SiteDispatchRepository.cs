@@ -40,7 +40,7 @@ namespace ETapManagement.Repository
             }
         }
 
-        public List<StructureListCode> GetStructureListCodes(int dispatchRequirementId)
+        public List<StructureListCode> GetStructureListCodesByDispId(int dispatchRequirementId)
         {
             try
             {
@@ -55,12 +55,11 @@ namespace ETapManagement.Repository
             }
         }
 
-        public ResponseMessage UpdateSiteDispatchDocuments(SiteDispatchUpload uploadDocs, int dispatchRequestSubContractorId)
+        public ResponseMessage UpdateSiteDispatchVendorDocuments(SiteDispatchUpload uploadDocs, int dispatchRequestSubContractorId)
         {
             ResponseMessage responseMessage = new ResponseMessage();
             try
             {
-
                 DispSubcontDocuments doc = new DispSubcontDocuments();
                 doc.FileName = uploadDocs.FileName;
                 doc.FileType = uploadDocs.FileType;
@@ -77,7 +76,7 @@ namespace ETapManagement.Repository
             }
         }
 
-        public ResponseMessage UpdateSiteDispatch(SiteDispatchDetailPayload siteDispatchDetailPayload)
+        public ResponseMessage UpdateSiteDispatchVendor(DispatchVendorAddPayload DispatchVendorAddPayload)
         {
             ResponseMessage responseMessage = new ResponseMessage();
             try
@@ -86,14 +85,14 @@ namespace ETapManagement.Repository
                 {
                     try
                     {
-                        var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where(x => x.DispreqId == siteDispatchDetailPayload.dispatchRequestSubContractorId).FirstOrDefault();
+                        var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where(x => x.DispreqId == DispatchVendorAddPayload.dispatchRequestSubContractorId).FirstOrDefault();
                         if(siteDispatchRequestSubContractor != null)
                         {
-                            siteDispatchRequestSubContractor.DispatchDate = siteDispatchDetailPayload.dispatchDate;
-                            siteDispatchRequestSubContractor.WorkorderNo = siteDispatchDetailPayload.workOrderNumber;
+                            siteDispatchRequestSubContractor.DispatchDate = DispatchVendorAddPayload.dispatchDate;
+                            siteDispatchRequestSubContractor.WorkorderNo = DispatchVendorAddPayload.workOrderNumber;
                             _context.SaveChanges();
                         }
-                        var dispatchSubContractorStructure = _context.DispSubcontStructure.Where(x=> x.DispreqsubcontId == siteDispatchDetailPayload.dispatchRequestSubContractorId && x.StructId == siteDispatchDetailPayload.structureId) .FirstOrDefault();
+                        var dispatchSubContractorStructure = _context.DispSubcontStructure.Where(x=> x.DispreqsubcontId == DispatchVendorAddPayload.dispatchRequestSubContractorId && x.StructId == DispatchVendorAddPayload.structureId) .FirstOrDefault();
                         if(dispatchSubContractorStructure != null)
                         {
                             dispatchSubContractorStructure.IsDelivered = true;
@@ -116,7 +115,7 @@ namespace ETapManagement.Repository
             }
         }
 
-        public ResponseMessage RevertSiteDispatch(SiteDispatchDetailPayload siteDispatchDetailPayload)
+        public ResponseMessage RevertSiteDispatchVendor(DispatchVendorAddPayload DispatchVendorAddPayload)
         {
             ResponseMessage responseMessage = new ResponseMessage();
             try
@@ -125,14 +124,14 @@ namespace ETapManagement.Repository
                 {
                     try
                     {
-                        var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where(x => x.DispreqId == siteDispatchDetailPayload.dispatchRequestSubContractorId).FirstOrDefault();
+                        var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where(x => x.DispreqId == DispatchVendorAddPayload.dispatchRequestSubContractorId).FirstOrDefault();
                         if(siteDispatchRequestSubContractor != null)
                         {
                             siteDispatchRequestSubContractor.DispatchDate = null;
                             siteDispatchRequestSubContractor.WorkorderNo = null;
                             _context.SaveChanges();
                         }
-                        var dispatchSubContractorStructure = _context.DispSubcontStructure.Where(x=> x.DispreqsubcontId == siteDispatchDetailPayload.dispatchRequestSubContractorId && x.StructId == siteDispatchDetailPayload.structureId) .FirstOrDefault();
+                        var dispatchSubContractorStructure = _context.DispSubcontStructure.Where(x=> x.DispreqsubcontId == DispatchVendorAddPayload.dispatchRequestSubContractorId && x.StructId == DispatchVendorAddPayload.structureId) .FirstOrDefault();
                         if(dispatchSubContractorStructure != null)
                         {
                             dispatchSubContractorStructure.IsDelivered = false;

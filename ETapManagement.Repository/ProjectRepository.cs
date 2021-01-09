@@ -97,10 +97,10 @@ namespace ETapManagement.Repository {
         public List<ProjectDetail> GetProjectDetails () {
             try {
                 List<ProjectDetail> result = new List<ProjectDetail> ();
-                var projects = _context.Project.Where (x => x.IsDelete == false).OrderByDescending(x=>x.CreatedAt)
+                var projects = _context.Project
                     .Include (s => s.ProjectSitelocation)
                     .Include (s => s.Ic)
-                    .Include (s => s.Bu).ToList ();
+                    .Include (s => s.Bu).Where(x => x.IsDelete == false).OrderByDescending(x=>x.CreatedAt).ToList();
                 result = _mapper.Map<List<ProjectDetail>> (projects);
                 return result;
             } catch (Exception ex) {

@@ -50,7 +50,7 @@ namespace ETapManagement.ViewModel.Dto
         public int? role_hierarchy { get; set; }
     }
 
-    public class SiteDispatchDetailPayload
+    public class DispatchVendorAddPayload
     {
         public int dispatchRequestSubContractorId { get; set; }
         public string workOrderNumber { get; set; }

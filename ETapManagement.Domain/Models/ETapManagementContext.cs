@@ -1,13 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using ETapManagement.ViewModel.Dto;
+ using ETapManagement.ViewModel.Dto;
+
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-      
-
+    
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -36,9 +36,12 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<ScrapStructure> ScrapStructure { get; set; }
         public virtual DbSet<Segment> Segment { get; set; }
         public virtual DbSet<ServiceType> ServiceType { get; set; }
+        public virtual DbSet<SiteCompPhysicalverf> SiteCompPhysicalverf { get; set; }
         public virtual DbSet<SiteDeclaration> SiteDeclaration { get; set; }
+        public virtual DbSet<SitePhysicalVerf> SitePhysicalVerf { get; set; }
         public virtual DbSet<SiteReqStructure> SiteReqStructure { get; set; }
         public virtual DbSet<SiteRequirement> SiteRequirement { get; set; }
+        public virtual DbSet<SiteStructurePhysicalverf> SiteStructurePhysicalverf { get; set; }
         public virtual DbSet<SitedeclDocuments> SitedeclDocuments { get; set; }
         public virtual DbSet<SitedeclStatusHistory> SitedeclStatusHistory { get; set; }
         public virtual DbSet<SitereqStatusHistory> SitereqStatusHistory { get; set; }
@@ -60,7 +63,6 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
@@ -1087,6 +1089,47 @@ namespace ETapManagement.Domain.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<SiteCompPhysicalverf>(entity =>
+            {
+                entity.ToTable("site_comp_physicalverf");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CompId).HasColumnName("comp_id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+
+                entity.Property(e => e.Qrcode).HasColumnName("qrcode");
+
+                entity.Property(e => e.Remarks)
+                    .HasColumnName("remarks")
+                    .HasMaxLength(2000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SitestructureVerfid).HasColumnName("sitestructure_verfid");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+                entity.HasOne(d => d.SitestructureVerf)
+                    .WithMany(p => p.SiteCompPhysicalverf)
+                    .HasForeignKey(d => d.SitestructureVerfid)
+                    .HasConstraintName("site_comp_physicalverf_site_structure_physicalverf_fkey");
+            });
+
             modelBuilder.Entity<SiteDeclaration>(entity =>
             {
                 entity.ToTable("site_declaration");
@@ -1142,6 +1185,33 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.SiteDeclaration)
                     .HasForeignKey(d => d.StructId)
                     .HasConstraintName("siteDec_structure_fkey");
+            });
+
+            modelBuilder.Entity<SitePhysicalVerf>(entity =>
+            {
+                entity.ToTable("site_physical_verf");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+
+                entity.Property(e => e.DuedateFrom)
+                    .HasColumnName("duedate_from")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.DuedateTo)
+                    .HasColumnName("duedate_to")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.InspectionId)
+                    .HasColumnName("inspection_id")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<SiteReqStructure>(entity =>
@@ -1249,6 +1319,67 @@ namespace ETapManagement.Domain.Models
                     .HasForeignKey(d => d.ProjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("siteReq_proj_fkey");
+            });
+
+            modelBuilder.Entity<SiteStructurePhysicalverf>(entity =>
+            {
+                entity.ToTable("site_structure_physicalverf");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+
+                entity.Property(e => e.DuedateFrom)
+                    .HasColumnName("duedate_from")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.DuedateTo)
+                    .HasColumnName("duedate_to")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ProjectId).HasColumnName("project_id");
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.Property(e => e.SiteVerfId).HasColumnName("site_verf_id");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StatusInternal)
+                    .HasColumnName("status_internal")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StructId).HasColumnName("struct_id");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.SiteStructurePhysicalverf)
+                    .HasForeignKey(d => d.ProjectId)
+                    .HasConstraintName("site_structure_physicalverf_proj_fkey");
+
+                entity.HasOne(d => d.SiteVerf)
+                    .WithMany(p => p.SiteStructurePhysicalverf)
+                    .HasForeignKey(d => d.SiteVerfId)
+                    .HasConstraintName("site_structure_physicalverf_site_physical_verf_fkey");
+
+                entity.HasOne(d => d.Struct)
+                    .WithMany(p => p.SiteStructurePhysicalverf)
+                    .HasForeignKey(d => d.StructId)
+                    .HasConstraintName("site_structure_physicalverf_strucutre_fkey");
             });
 
             modelBuilder.Entity<SitedeclDocuments>(entity =>

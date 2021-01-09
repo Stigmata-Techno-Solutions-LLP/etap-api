@@ -13,6 +13,7 @@ namespace ETapManagement.Domain.Models
             ScrapStructure = new HashSet<ScrapStructure>();
             SiteDeclaration = new HashSet<SiteDeclaration>();
             SiteReqStructure = new HashSet<SiteReqStructure>();
+            SiteStructurePhysicalverf = new HashSet<SiteStructurePhysicalverf>();
         }
 
         public int Id { get; set; }
@@ -34,5 +35,6 @@ namespace ETapManagement.Domain.Models
         public virtual ICollection<ScrapStructure> ScrapStructure { get; set; }
         public virtual ICollection<SiteDeclaration> SiteDeclaration { get; set; }
         public virtual ICollection<SiteReqStructure> SiteReqStructure { get; set; }
+        public virtual ICollection<SiteStructurePhysicalverf> SiteStructurePhysicalverf { get; set; }
     }
 }
