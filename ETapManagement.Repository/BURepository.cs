@@ -7,6 +7,7 @@ using ETapManagement.Common;
 using ETapManagement.Domain;
 using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
+using Microsoft.EntityFrameworkCore;
 
 namespace ETapManagement.Repository {
     public class BURepository : IBURepository {
@@ -100,7 +101,7 @@ namespace ETapManagement.Repository {
         public List<BusinessUnitDetail> GetBUDetails () {
             try {
                 List<BusinessUnitDetail> result = new List<BusinessUnitDetail> ();
-                var buDetails = _context.BusinessUnit.Where (x => x.IsDelete == false).ToList ();
+                var buDetails = _context.BusinessUnit.Include(c=>c.Ic).Where (x => x.IsDelete == false).OrderByDescending(x=>x.CreatedAt).ToList ();
                 result = _mapper.Map<List<BusinessUnitDetail>> (buDetails);
                 return result;
             } catch (Exception ex) {

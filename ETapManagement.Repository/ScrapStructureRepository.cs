@@ -74,7 +74,7 @@ namespace ETapManagement.Repository {
             try
             {
                 List<ScrapStructureDetail> result = new List<ScrapStructureDetail>();
-                var scrapStructures = _context.ScrapStructure.Include(c=>c.Subcon).Include(x=>x.Struct).Where(x => x.IsDelete == false).ToList();
+                var scrapStructures = _context.ScrapStructure.Include(c=>c.Subcon).Include(x=>x.Struct).Where(x => x.IsDelete == false).OrderByDescending(x=>x.CreatedAt).ToList();
                 result = _mapper.Map<List<ScrapStructureDetail>>(scrapStructures);
                 return result;
             }

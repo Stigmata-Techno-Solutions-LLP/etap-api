@@ -22,7 +22,7 @@ namespace ETapManagement.Repository {
 
         public List<ComponentDetails> GetComponent () {
             List<ComponentDetails> response = new List<ComponentDetails> ();
-            var responsedb = _context.Component.Where (x => x.IsDelete == false).ToList ();
+            var responsedb = _context.Component.Where (x => x.IsDelete == false).OrderByDescending(x=>x.CreatedAt).ToList ();
             response = _mapper.Map<List<ComponentDetails>> (responsedb);
             return response;
         }
