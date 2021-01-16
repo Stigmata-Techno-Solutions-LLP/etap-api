@@ -56,7 +56,7 @@ namespace ETapManagement.Repository {
 
         public List<WorkBreakDownDetails> GetWBSDetailsList () {
             try {
-                List<WorkBreakDownDetails> lstWBS = _mapper.Map<List<WorkBreakDownDetails>> (_context.WorkBreakdown.Include (c => c.Project).Where (x => x.IsDelete == false).ToList ());
+                List<WorkBreakDownDetails> lstWBS = _mapper.Map<List<WorkBreakDownDetails>> (_context.WorkBreakdown.Include (c => c.Project).Where (x => x.IsDelete == false).OrderByDescending(c=>c.CreatedAt).ToList ());
                 return lstWBS;
             } catch (Exception ex) {
                 throw ex;

@@ -92,7 +92,7 @@ namespace ETapManagement.Repository {
         public List<VendorDetail> GetVendorDetails () {
             try {
                 List<VendorDetail> result = new List<VendorDetail> ();
-                var vendors = _context.SubContractor.Where (x => x.IsDelete == false)
+                var vendors = _context.SubContractor.Where (x => x.IsDelete == false).OrderByDescending(c=>c.CreatedAt)
                     .Include (s => s.SubContractorServiceType).ToList ();
                 result = _mapper.Map<List<VendorDetail>> (vendors);
                 return result;

@@ -440,13 +440,16 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.IsDelete))
                 .ReverseMap ();
 
-            CreateMap<BusinessUnitDetail, BusinessUnit> ()
+            CreateMap<BusinessUnit,BusinessUnitDetail> ()
                 .ForMember (dest =>
                     dest.Id,
                     opt => opt.MapFrom (src => src.Id))
                 .ForMember (dest =>
                     dest.Name,
                     opt => opt.MapFrom (src => src.Name))
+                .ForMember (dest =>
+                    dest.ICName,
+                    opt => opt.MapFrom (src => src.Ic.Name))                    
                 .ForMember (dest =>
                     dest.IsDelete,
                     opt => opt.MapFrom (src => src.IsDelete))
@@ -906,7 +909,35 @@ namespace ETapManagement.Api.Extensions {
 					dest.IsDelete,
 					opt => opt.MapFrom(src => src.IsDelete))
 				.ReverseMap();
-		}    
+
+            CreateMap<DispatchreqSubcont, OSDispatchReqSubCont>()
+                .ForMember(dest =>
+                   dest.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest =>
+                    dest.DispatchNo,
+                    opt => opt.MapFrom(src => src.DispatchNo))
+                .ForMember(dest =>
+                    dest.DispreqId,
+                    opt => opt.MapFrom(src => src.DispreqId))
+                .ReverseMap();
+
+            CreateMap<DispatchreqSubcont, FBDispatchReqSubCont>()
+                .ForMember(dest =>
+                   dest.Id,
+                    opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest =>
+                    dest.DispatchNo,
+                    opt => opt.MapFrom(src => src.DispatchNo))
+                .ForMember(dest =>
+                    dest.DispreqId,
+                    opt => opt.MapFrom(src => src.DispreqId))            
+                .ForMember(dest =>
+                    dest.IsDelete,
+                    opt => opt.MapFrom(src => src.IsDelete))
+                .ReverseMap();
+
+        }    
 
 }
 }

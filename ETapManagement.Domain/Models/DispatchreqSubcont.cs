@@ -15,16 +15,9 @@ namespace ETapManagement.Domain.Models
         public int? DispreqId { get; set; }
         public string DispatchNo { get; set; }
         public int? SubconId { get; set; }
-        public decimal? MonthlyRent { get; set; }
         public int? ServicetypeId { get; set; }
-        public decimal? ContractYears { get; set; }
-        public DateTime? PlanReleasedate { get; set; }
-        public DateTime? ExpectedReleasedate { get; set; }
-        public DateTime? ActualStartdate { get; set; }
-        public DateTime? DispatchDate { get; set; }
         public string WorkorderNo { get; set; }
         public int? Quantity { get; set; }
-        public decimal? FabricationCost { get; set; }
         public string Status { get; set; }
         public string StatusInternal { get; set; }
         public int? RoleId { get; set; }

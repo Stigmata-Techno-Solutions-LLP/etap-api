@@ -1,5 +1,14 @@
 
 
+IF OBJECT_ID('ETapManagement.dbo.site_comp_physicalverf', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.site_comp_physicalverf ;
+ 
+IF OBJECT_ID('ETapManagement.dbo.site_structure_physicalverf', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.site_structure_physicalverf ;
+ 
+IF OBJECT_ID('ETapManagement.dbo.site_physical_verf', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.site_physical_verf ;
+
 IF OBJECT_ID('ETapManagement.dbo.component_history', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.component_history ;
 
@@ -646,16 +655,9 @@ CREATE TABLE ETapManagement.dbo.dispatchreq_subcont
   dispreq_id int ,
   dispatch_no varchar(20),
   subcon_id int,
-  monthly_rent decimal(10,2),
   servicetype_id int,
-  contract_years decimal(10,2),
-  plan_releasedate datetime null,
-  expected_releasedate datetime null,
-  actual_startdate datetime null,
-  dispatch_date datetime null,
   workorder_no varchar(20) null,
   quantity int,
-  fabrication_cost decimal(10,2),
   status varchar(50) null,
   status_internal varchar(100) null,
   role_id int,
@@ -675,6 +677,14 @@ CREATE TABLE ETapManagement.dbo.disp_subcont_structure
   dispreqsubcont_id int,
   struct_id int,
   is_Delivered bit null default false,
+  fabrication_cost decimal (10,2) null,
+  monthly_rent decimal(10,2) null,
+  contract_years decimal(10,2) null,
+  plan_releasedate datetime null,
+  expected_releasedate datetime null,
+  actual_startdate datetime null,
+  dispatch_date datetime null,
+  
   CONSTRAINT dispreqsubcont_structure_siteReq_fkey FOREIGN KEY (dispreqsubcont_id) REFERENCES dispatchreq_subcont(id),
   CONSTRAINT disp_subcont_structure_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
 )
@@ -701,7 +711,52 @@ CREATE TABLE ETapManagement.dbo.role_hierarchy
   view_details_status varchar(500),
 )
 
-
+CREATE TABLE ETapManagement.dbo.site_physical_verf
+(
+  id int not null identity(1,1) primary key,
+  duedate_from datetime,
+  duedate_to datetime,
+  inspection_id varchar(20),  
+  created_by int null,
+  created_at datetime default CURRENT_TIMESTAMP,
+ )
+ 
+ 
+ CREATE TABLE ETapManagement.dbo.site_structure_physicalverf
+(
+  id int not null identity(1,1) primary key,
+  site_verf_id int,
+  project_id int,
+  struct_id int,
+  duedate_from datetime,
+  duedate_to datetime,
+  status varchar(50) null,
+  status_internal varchar(50) null, 
+  role_id int null,
+  created_by int null,
+	created_at datetime default CURRENT_TIMESTAMP,
+	updated_by int null,
+	updated_at datetime null,
+	CONSTRAINT site_structure_physicalverf_site_physical_verf_fkey FOREIGN KEY (site_verf_id) REFERENCES site_physical_verf(id),
+	  CONSTRAINT site_structure_physicalverf_proj_fkey FOREIGN KEY (project_id) REFERENCES project(id),
+	  CONSTRAINT site_structure_physicalverf_strucutre_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
+ )
+   
+  CREATE TABLE ETapManagement.dbo.site_comp_physicalverf
+(
+  id int not null identity(1,1) primary key,
+  sitestructure_verfid int,
+  comp_id int,
+  qrcode int,
+  remarks varchar(2000),  
+  status varchar(50) null, 
+  created_by int null,
+created_at datetime default CURRENT_TIMESTAMP,
+updated_by int null,
+updated_at datetime null,
+CONSTRAINT site_comp_physicalverf_site_structure_physicalverf_fkey FOREIGN KEY (sitestructure_verfid) REFERENCES site_structure_physicalverf(id),
+ )
+ 
 select *
 from INFORMATION_SCHEMA.TABLES t 
 

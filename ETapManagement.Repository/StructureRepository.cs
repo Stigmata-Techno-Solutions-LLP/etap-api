@@ -23,7 +23,7 @@ namespace ETapManagement.Repository {
 
         public List<StructureDetails> GetStructure () {
             List<StructureDetails> response = new List<StructureDetails> ();
-            var responsedb = _context.Structures.Where (x => x.IsDelete == false).ToList ();
+            var responsedb = _context.Structures.Where (x => x.IsDelete == false).OrderByDescending(c=>c.CreatedAt).ToList ();
             response = _mapper.Map<List<StructureDetails>> (responsedb);
             return response;
         }

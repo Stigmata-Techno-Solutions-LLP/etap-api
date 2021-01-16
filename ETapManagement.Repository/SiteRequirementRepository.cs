@@ -26,7 +26,6 @@ namespace ETapManagement.Repository {
 
             using (var transaction = _context.Database.BeginTransaction ()) {
                 try {
-
                     ResponseMessage responseMessage = new ResponseMessage ();
                     SiteRequirement sitereq = _mapper.Map<SiteRequirement> (siteRequirement);
 

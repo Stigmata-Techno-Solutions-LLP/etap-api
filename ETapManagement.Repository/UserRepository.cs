@@ -22,7 +22,7 @@ namespace ETapManagement.Repository {
 
         public List<UserDetails> getUser () {
             List<UserDetails> result = new List<UserDetails> ();
-            var users = _context.Users.Where (x => x.IsDelete == false).ToList ();
+            var users = _context.Users.Where (x => x.IsDelete == false).OrderByDescending(c=>c.CreatedAt).ToList ();
             result = _mapper.Map<List<UserDetails>> (users);
             return result;
         }

@@ -29,6 +29,10 @@ namespace ETapManagement.ViewModel.Dto
         public int SubContractorId { get; set; }
         public string SubContractorName { get; set; }
         public int DispatchRequestSubContractorId { get; set; }
+        // public decimal? FabricationCost { get; set; }
+        // public decimal? MonthlyRent {get;set;}
+        // public decimal? ContractYears {get;set;}
+        // public DateTime? PlanReleaseDate {get;set;}
 
     }
 
@@ -46,7 +50,7 @@ namespace ETapManagement.ViewModel.Dto
         public int? role_hierarchy { get; set; }
     }
 
-    public class SiteDispatchDetailPayload
+    public class DispatchVendorAddPayload
     {
         public int dispatchRequestSubContractorId { get; set; }
         public string workOrderNumber { get; set; }
@@ -59,11 +63,11 @@ namespace ETapManagement.ViewModel.Dto
 
     public class SiteDispatchUpload
     {
-        public int Id {get;set;}
-        public int DispatchSubContractorId {get;set;}
-        public string FileName {get;set;}
-        public string FileType {get;set;}
-        public string Path {get;set;}
+        public int Id { get; set; }
+        public int DispatchSubContractorId { get; set; }
+        public string FileName { get; set; }
+        public string FileType { get; set; }
+        public string Path { get; set; }
     }
 
 }

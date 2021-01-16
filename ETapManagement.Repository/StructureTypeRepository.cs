@@ -79,7 +79,7 @@ namespace ETapManagement.Repository {
         public List<StructureTypeDetail> GetStructureTypeDetails () {
             try {
                 List<StructureTypeDetail> result = new List<StructureTypeDetail> ();
-                var structureTypes = _context.StructureType.Where (x => x.IsDelete == false).ToList ();
+                var structureTypes = _context.StructureType.Where (x => x.IsDelete == false).OrderByDescending(c=>c.CreatedAt).ToList ();
                 result = _mapper.Map<List<StructureTypeDetail>> (structureTypes);
                 return result;
             } catch (Exception ex) {
