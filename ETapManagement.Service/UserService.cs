@@ -42,7 +42,7 @@ namespace ETapManagement.Service {
             userDetails.password = Cryptography.Encrypt (_appSettings.SecretKeyPwd, pwd);
             responseMessage = _userRepository.AddUser (userDetails);
 
-            bool isEmailSent = Util.SendMail ("Password for L & T project", "<h1>Password for the user : " + userDetails.firstName + " " + userDetails.lastName + " </h1><br /><br /><p>Your Username is " + userDetails.userName + "</p><br /><p>Your Password is " + pwd + "</p>", userDetails.email, _appSettings.FromEmail, _appSettings.Password, _appSettings.Server, _appSettings.Port, _appSettings.Username);
+            bool isEmailSent = Util.SendMail("Password for L & T project", "<h1>Password for the user : " + userDetails.firstName + " " + userDetails.lastName + " </h1><br /><br /><p>Your Username is " + userDetails.userName + "</p><br /><p>Your Password is " + pwd + "</p>", userDetails.email, _appSettings.FromEmail, _appSettings.Password, _appSettings.Server, _appSettings.Port, _appSettings.Username);
             if (isEmailSent)
                 return responseMessage;
             else {
@@ -74,21 +74,6 @@ namespace ETapManagement.Service {
             return responseMessage;
         }
 
-        public Task Execute (string apiKey, string subject, string message, List<string> emails) {
-            var client = new SendGridClient (apiKey);
-            var msg = new SendGridMessage () {
-                From = new EmailAddress (_appSettings.FromEmail, "L&T ETapManagement"),
-                Subject = subject,
-                PlainTextContent = message,
-                HtmlContent = message
-            };
-
-            foreach (var email in emails) {
-                msg.AddTo (new EmailAddress (email));
-            }
-
-            Task response = client.SendEmailAsync (msg);
-            return response;
-        }
+      
     }
 }

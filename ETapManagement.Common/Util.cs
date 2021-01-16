@@ -47,6 +47,28 @@ namespace ETapManagement.Common {
                 return false;
             }
         }
+
+        public static bool SendMail_SendGrid (string subject, string bodyHtml, string toEmail, string fromMail, string pwd, string server, int port, string userName) {
+            bool isEMailSent = false;
+            try {
+                var client = new SendGridClient (pwd);
+                var msg = new SendGridMessage () {
+                    From = new EmailAddress (fromMail, "L&T ETapManagement"),
+                    Subject = subject,
+                    HtmlContent = bodyHtml
+                };
+
+                msg.AddTo (new EmailAddress (toEmail));
+
+                Task response = client.SendEmailAsync(msg);
+
+                isEMailSent = true;
+                return isEMailSent;
+            } catch (Exception ex) {
+                Log.Logger.Error (ex.Message);
+                return false;
+            }
+        }
         public static string Base64Decode (string base64EncodedData) {
             try {
 

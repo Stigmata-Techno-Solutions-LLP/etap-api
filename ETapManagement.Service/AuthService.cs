@@ -144,23 +144,6 @@ namespace ETapManagement.Service {
             return responseMessage;
         }
 
-        public void SendMail (string subject, string bodyHtml, string toEmail) {
-            try {
-                var email = new MimeMessage ();
-                email.Sender = MailboxAddress.Parse (_appSettings.FromEmail);
-                email.To.Add (MailboxAddress.Parse (toEmail));
-                email.Subject = subject;
-                email.Body = new TextPart (TextFormat.Html) { Text = bodyHtml };
-
-                // send email
-                using var smtp = new SmtpClient ();
-                smtp.Connect (_appSettings.Server, Convert.ToInt32 (_appSettings.Port), SecureSocketOptions.StartTls);
-                smtp.Authenticate (_appSettings.Username, _appSettings.Password);
-                smtp.Send (email);
-                smtp.Disconnect (true);
-            } catch (Exception ex) {
-                string error = ex.Message;
-            }
-        }
+  
     }
 }
