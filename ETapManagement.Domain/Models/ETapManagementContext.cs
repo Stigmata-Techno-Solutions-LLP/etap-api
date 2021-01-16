@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
- using ETapManagement.ViewModel.Dto;
-
+using ETapManagement.ViewModel.Dto;
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
-    {
-    
+    {       
+
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -63,11 +62,13 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Query<SiteRequirementDetail> ();
+                      modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
             modelBuilder.Query<AssignStructureDtlsOnly> ();
+            modelBuilder.Query<AvailableStructureForReuse> ();
+            
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -458,11 +459,39 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.ActualStartdate)
+                    .HasColumnName("actual_startdate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ContractYears)
+                    .HasColumnName("contract_years")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.DispatchDate)
+                    .HasColumnName("dispatch_date")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.DispreqsubcontId).HasColumnName("dispreqsubcont_id");
+
+                entity.Property(e => e.ExpectedReleasedate)
+                    .HasColumnName("expected_releasedate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FabricationCost)
+                    .HasColumnName("fabrication_cost")
+                    .HasColumnType("decimal(10, 2)");
 
                 entity.Property(e => e.IsDelivered)
                     .HasColumnName("is_Delivered")
                     .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.MonthlyRent)
+                    .HasColumnName("monthly_rent")
+                    .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.PlanReleasedate)
+                    .HasColumnName("plan_releasedate")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.StructId).HasColumnName("struct_id");
 
@@ -554,24 +583,12 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.ActualStartdate)
-                    .HasColumnName("actual_startdate")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.ContractYears)
-                    .HasColumnName("contract_years")
-                    .HasColumnType("decimal(10, 2)");
-
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
-
-                entity.Property(e => e.DispatchDate)
-                    .HasColumnName("dispatch_date")
-                    .HasColumnType("datetime");
 
                 entity.Property(e => e.DispatchNo)
                     .HasColumnName("dispatch_no")
@@ -580,23 +597,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DispreqId).HasColumnName("dispreq_id");
 
-                entity.Property(e => e.ExpectedReleasedate)
-                    .HasColumnName("expected_releasedate")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.FabricationCost)
-                    .HasColumnName("fabrication_cost")
-                    .HasColumnType("decimal(10, 2)");
-
                 entity.Property(e => e.IsDelete).HasColumnName("is_delete");
-
-                entity.Property(e => e.MonthlyRent)
-                    .HasColumnName("monthly_rent")
-                    .HasColumnType("decimal(10, 2)");
-
-                entity.Property(e => e.PlanReleasedate)
-                    .HasColumnName("plan_releasedate")
-                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
 

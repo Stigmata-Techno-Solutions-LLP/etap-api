@@ -9,6 +9,13 @@ namespace ETapManagement.Domain.Models
         public int? DispreqsubcontId { get; set; }
         public int? StructId { get; set; }
         public bool? IsDelivered { get; set; }
+        public decimal? MonthlyRent { get; set; }
+        public decimal? ContractYears { get; set; }
+        public decimal? FabricationCost { get; set; }
+        public DateTime? PlanReleasedate { get; set; }
+        public DateTime? ExpectedReleasedate { get; set; }
+        public DateTime? ActualStartdate { get; set; }
+        public DateTime? DispatchDate { get; set; }
 
         public virtual DispatchreqSubcont Dispreqsubcont { get; set; }
         public virtual Structures Struct { get; set; }

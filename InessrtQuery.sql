@@ -32,6 +32,7 @@ insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,c
 INSERT INTO [dbo].[service_type]([name] ,[description]) VALUES('Fabrication' ,'Fabrication')
 INSERT INTO [dbo].[service_type]([name] ,[description]) VALUES('Outsourcing' ,'Outsourcing')
 INSERT INTO [dbo].[service_type]([name] ,[description]) VALUES('Scrap' ,'Scrap')
+insert into service_type values('Reuse','Reuse')
 
 
 

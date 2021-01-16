@@ -27,6 +27,51 @@ namespace ETapManagement.Api.Controllers
         }
 
 
+
+  [HttpPost ("createDispatch")]
+        public IActionResult Create (AddDispatch siteRequirement) {
+            try {
+                var response = _siteDispatchService.CreateDispatch(siteRequirement);
+                return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+        [HttpGet("getAvailStructureForReuse")]
+        public IActionResult GetAvailStructureForReuse(int siteReqId)
+        {
+            try
+            {
+                var response = _siteDispatchService.AvailableStructureForReuse(siteReqId);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+        [HttpGet("verifyStructureQtyforDispatch")]
+        public IActionResult VerifyStructureQtyforDispatch(int siteReqId)
+        {
+            try
+            {
+                var response = _siteDispatchService.VerifyStructureQtyforDispatch(siteReqId);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
         [HttpGet("getSiteDispatchDetails")]
         public IActionResult GetSiteDispatchDetails([FromQuery] SiteDispatchPayload siteDispatchPayload)
         {

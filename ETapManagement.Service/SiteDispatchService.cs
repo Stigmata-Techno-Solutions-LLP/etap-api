@@ -59,6 +59,25 @@ namespace ETapManagement.Service
             return response;
         }
 
+           public List<VerifyStructureQty> VerifyStructureQtyforDispatch(int siteRequirementId)
+        {
+            List<VerifyStructureQty> lstVerifyStructureQty = _siteDispatchRepository.VerifyStructureQtyforDispatch(siteRequirementId);
+            return lstVerifyStructureQty;
+        }
+
+           public List<AvailableStructureForReuse> AvailableStructureForReuse(int dispatchRequirementId)
+        {
+            List<AvailableStructureForReuse> structureList= _siteDispatchRepository.AvailableStructureForReuse(dispatchRequirementId);
+            return structureList;
+        }
+
+
+        public ResponseMessage CreateDispatch (AddDispatch siteDsipatch) {
+            ResponseMessage responseMessage = new ResponseMessage ();
+            responseMessage = _siteDispatchRepository.CreateDispatch(siteDsipatch);
+            return responseMessage;
+        }
+
         private string UploadedFile(IFormFile file)
         {
             try

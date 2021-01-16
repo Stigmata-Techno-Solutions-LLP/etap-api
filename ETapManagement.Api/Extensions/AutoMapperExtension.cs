@@ -920,21 +920,6 @@ namespace ETapManagement.Api.Extensions {
                 .ForMember(dest =>
                     dest.DispreqId,
                     opt => opt.MapFrom(src => src.DispreqId))
-                .ForMember(dest =>
-                    dest.ActualStartdate,
-                    opt => opt.MapFrom(src => src.ActualStartdate))
-                .ForMember(dest =>
-                    dest.ContractYears,
-                    opt => opt.MapFrom(src => src.ContractYears))
-                .ForMember(dest =>
-                    dest.ExpectedReleasedate,
-                    opt => opt.MapFrom(src => src.ExpectedReleasedate))
-                .ForMember(dest =>
-                    dest.IsDelete,
-                    opt => opt.MapFrom(src => src.IsDelete))
-                .ForMember(dest =>
-                    dest.MonthlyRent,
-                    opt => opt.MapFrom(src => src.MonthlyRent))
                 .ReverseMap();
 
             CreateMap<DispatchreqSubcont, FBDispatchReqSubCont>()
@@ -946,14 +931,12 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom(src => src.DispatchNo))
                 .ForMember(dest =>
                     dest.DispreqId,
-                    opt => opt.MapFrom(src => src.DispreqId))
-                .ForMember(dest =>
-                    dest.FabricationCost,
-                    opt => opt.MapFrom(src => src.FabricationCost))                 
+                    opt => opt.MapFrom(src => src.DispreqId))            
                 .ForMember(dest =>
                     dest.IsDelete,
                     opt => opt.MapFrom(src => src.IsDelete))
                 .ReverseMap();
+
         }    
 
 }

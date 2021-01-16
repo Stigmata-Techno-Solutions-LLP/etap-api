@@ -29,11 +29,22 @@ namespace ETapManagement.Common {
             QAAPPROVED = 3,
             READYTODISPATCH = 4,
             EHSREJECTED = 5,
-            QAREJECTED = 6
+            QAREJECTED = 6,
+            DISPATCHED = 7,
+        }
+        public enum SiteDispatchSatus {
+            NEW = 1,
+           
         }
         public enum ComponentStatus {
             M = 1,
             O = 2,
+        }
+        public enum ServiceType {
+            Fabrication=1,
+            OutSourcing=2,
+            Scrap=3,
+            Reuse=4 
         }
     }
 

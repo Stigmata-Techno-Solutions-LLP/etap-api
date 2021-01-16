@@ -32,8 +32,6 @@ namespace ETapManagement.Repository {
                 dispatchreqSubcont.StatusInternal = "New";
                 dispatchreqSubcont.ServicetypeId = 2;
                 
-
-                
                 //Add the dispatch subcont structure
                 if (oSDispatchReqSubCont.VendorStructures.Any())
                 {
@@ -49,14 +47,15 @@ namespace ETapManagement.Repository {
                             DispSubcontStructure dispSubcontStructure = new DispSubcontStructure();
                             dispSubcontStructure.StructId = item.StructureId;
                             dispSubcontStructure.DispreqsubcontId = dispatchreqSubcont.Id;
+                            dispSubcontStructure.MonthlyRent = item.MonthlyRent;
+                            dispSubcontStructure.PlanReleasedate = item.PlanReleasedate;
+                            dispSubcontStructure.ExpectedReleasedate = item.ExpectedReleasedate;
+                            dispSubcontStructure.ActualStartdate = item.ActualStartdate;                            
                             _context.DispSubcontStructure.Add(dispSubcontStructure);
                             _context.SaveChanges();
-                        }
-                         
+                        }                         
                     }
-
                 }
-
                 responseMessage.Message = "Vendor is assigned successfully";
                 return responseMessage;
             }
@@ -75,10 +74,7 @@ namespace ETapManagement.Repository {
                 dispatchreqSubcont.CreatedBy = 1; //TODO
                 dispatchreqSubcont.Status = "New";
                 dispatchreqSubcont.StatusInternal = "New";
-                dispatchreqSubcont.ServicetypeId = 2;
-
-
-
+                dispatchreqSubcont.ServicetypeId = 1;
                 //Add the dispatch subcont structure
                 if (fBDispatchReqSubCont.VendorStructures.Any())
                 {
@@ -94,14 +90,12 @@ namespace ETapManagement.Repository {
                             DispSubcontStructure dispSubcontStructure = new DispSubcontStructure();
                             dispSubcontStructure.StructId = item.StructureId;
                             dispSubcontStructure.DispreqsubcontId = dispatchreqSubcont.Id;
+                            dispSubcontStructure.FabricationCost = item.FabricationCost;
                             _context.DispSubcontStructure.Add(dispSubcontStructure);
                             _context.SaveChanges();
                         }
-
                     }
-
                 }
-
                 responseMessage.Message = "Vendor is assigned successfully";
                 return responseMessage;
             }

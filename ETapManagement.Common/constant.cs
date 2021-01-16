@@ -8,5 +8,9 @@ namespace ETapManagement.Common {
         public static string MRNoPrefix = "MR";
         public static string ProjCodePrefix = "PROJ";
 
+        public static string DispReusePrefix = "DA";
+        public static string DispVendorPrefix = "DC";
+
+
     }
 }
