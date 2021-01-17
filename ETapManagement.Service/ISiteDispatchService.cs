@@ -7,7 +7,7 @@ namespace ETapManagement.Service {
     public interface ISiteDispatchService {
        
        public List<SiteDispatchDetail> GetSiteDispatchDetails(SiteDispatchPayload siteDispatchPayload);
-       public List<StructureListCode> GetStructureListCodesByDispId(int dispatchRequirementId);
+       public List<StructureListCode> GetStructureListCodesByDispId(DispatchStructureCodePayload dispatchRequirement);
        public ResponseMessage UpdateSiteDispatchVendor(DispatchVendorAddPayload DispatchVendorAddPayload);
         public List<VerifyStructureQty> VerifyStructureQtyforDispatch (int siteReqId);
 

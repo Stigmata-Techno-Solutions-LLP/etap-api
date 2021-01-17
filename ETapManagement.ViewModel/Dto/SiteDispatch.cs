@@ -9,26 +9,26 @@ namespace ETapManagement.ViewModel.Dto
 {
     public class SiteDispatchDetail
     {
-        public string MRNo { get; set; }
+        public string? MRNo { get; set; }
 
-        public string DispatchNo { get; set; }
+        public string? DispatchNo { get; set; }
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
-        public string StatusInternal { get; set; }
+        public string? StatusInternal { get; set; }
 
         public DateTime CreatedDateTime { get; set; }
 
-        public int DispatchId { get; set; }
+        public int? DispatchId { get; set; }
 
-        public int SiteRequestId { get; set; }
+        public int? SiteRequestId { get; set; }
 
-        public string ServiceType { get; set; }
+        public string? ServiceType { get; set; }
 
-        public int ServiceTypeId { get; set; }
-        public int SubContractorId { get; set; }
+        public int? ServiceTypeId { get; set; }
+        public int? SubContractorId { get; set; }
         public string SubContractorName { get; set; }
-        public int DispatchRequestSubContractorId { get; set; }
+        public int? DispatchRequestSubContractorId { get; set; }
         // public decimal? FabricationCost { get; set; }
         // public decimal? MonthlyRent {get;set;}
         // public decimal? ContractYears {get;set;}
@@ -44,6 +44,14 @@ namespace ETapManagement.ViewModel.Dto
 
     }
 
+
+    public class DispatchStructureCodePayload
+    {
+        [Required]
+        public int dispReqId { get; set; }
+        [Required]
+        public commonEnum.Rolename role_hierarchy { get; set; }
+    }
     public class SiteDispatchPayload
     {
         public commonEnum.Rolename role_name { get; set; }

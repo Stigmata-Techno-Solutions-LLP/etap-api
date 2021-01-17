@@ -709,6 +709,7 @@ CREATE TABLE ETapManagement.dbo.role_hierarchy
   new_status varchar(50),
   chk_status varchar(50),
   view_details_status varchar(500),
+  service_type varchar(100)
 )
 
 CREATE TABLE ETapManagement.dbo.site_physical_verf

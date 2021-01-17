@@ -87,12 +87,12 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
-        [HttpGet("getStructureListCode/{dispatachRequirementId}")]
-        public IActionResult GetStructureListCode(int dispatachRequirementId)
+        [HttpGet("getStructureListCode")]
+        public IActionResult GetStructureListCode([FromQuery] DispatchStructureCodePayload dispatachRequirement)
         {
             try
             {
-                var response = _siteDispatchService.GetStructureListCodesByDispId(dispatachRequirementId);
+                var response = _siteDispatchService.GetStructureListCodesByDispId(dispatachRequirement);
                 return Ok(response);
             }
             catch (Exception e)

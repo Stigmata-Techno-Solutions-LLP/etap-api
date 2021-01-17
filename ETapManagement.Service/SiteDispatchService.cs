@@ -26,9 +26,9 @@ namespace ETapManagement.Service
             return siteDispatchDetails;
         }
 
-        public List<StructureListCode> GetStructureListCodesByDispId(int dispatchRequirementId)
+        public List<StructureListCode> GetStructureListCodesByDispId(DispatchStructureCodePayload dispatchRequirement)
         {
-            List<StructureListCode> structureListCodes = _siteDispatchRepository.GetStructureListCodesByDispId(dispatchRequirementId);
+            List<StructureListCode> structureListCodes = _siteDispatchRepository.GetStructureListCodesByDispId(dispatchRequirement);
             return structureListCodes;
         }
 
