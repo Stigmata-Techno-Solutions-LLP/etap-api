@@ -79,11 +79,7 @@ namespace ETapManagement.Repository {
 
                                 if (compTypeDB == null) throw new ValueNotFoundException ("Component Type Name doesn't exist");
                                 if (compdb != null) {
-                                    comp.CompStatus = "M";
                                     compdb = ConstructComponent (projectStructureID, comp, compdb, compTypeDB);
-                                    ComponentHistory compHist = _mapper.Map<ComponentHistory> (compdb);
-                                    compHist.Id = 0;
-                                    _context.ComponentHistory.Add (compHist);
                                     _context.SaveChanges ();
                                 } else {
                                     Component component = null;
