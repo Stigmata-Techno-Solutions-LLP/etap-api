@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ETapManagement.Api.Controllers {
     [ApiController]
     [Route ("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class ProjectController : ControllerBase {
         IProjectService _projectService;
 
@@ -46,7 +46,6 @@ namespace ETapManagement.Api.Controllers {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
-
         }
 
         [HttpDelete ("deleteProj/{id}")]
@@ -95,6 +94,5 @@ namespace ETapManagement.Api.Controllers {
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
-
     }
 }

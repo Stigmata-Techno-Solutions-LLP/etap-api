@@ -74,7 +74,7 @@ namespace ETapManagement.Repository {
             try {
                 var componentType = _context.ComponentType.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (componentType != null) {
-                    if (_context.ComponentType.Where (x => x.Name == componentTypeDetails.Name && x.IsDelete == false).Count () > 0) {
+                    if (_context.ComponentType.Where (x => x.Name == componentTypeDetails.Name &&  x.Id != id && x.IsDelete == false).Count () > 0) {
                         throw new ValueNotFoundException ("ComponentType Name already exist.");
                     } else {
                         componentType.Name = componentTypeDetails.Name;

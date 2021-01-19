@@ -39,16 +39,16 @@ namespace ETapManagement.Repository {
                 _context.SaveChanges ();
 
                 //Add the site location
-                if (project.ProjectSiteLocationDetails.Any ()) {
-                    foreach (var item in project.ProjectSiteLocationDetails) {
-                        ProjectSitelocation projectSitelocation = new ProjectSitelocation ();
-                        projectSitelocation.Name = item.Name;
-                        projectSitelocation.ProjectId = projectDB.Id;
-                        _context.ProjectSitelocation.Add (projectSitelocation);
-                    }
+                // if (project.ProjectSiteLocationDetails.Any ()) {
+                //     foreach (var item in project.ProjectSiteLocationDetails) {
+                //         ProjectSitelocation projectSitelocation = new ProjectSitelocation ();
+                //         projectSitelocation.Name = item.Name;
+                //         projectSitelocation.ProjectId = projectDB.Id;
+                //         _context.ProjectSitelocation.Add (projectSitelocation);
+                //     }
 
-                }
-                _context.SaveChanges ();
+                // }
+                // _context.SaveChanges ();
                 responseMessage.Message = "Project created sucessfully";
                 return responseMessage;
             } catch (Exception ex) {

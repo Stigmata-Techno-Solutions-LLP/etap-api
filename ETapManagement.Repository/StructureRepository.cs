@@ -69,9 +69,9 @@ namespace ETapManagement.Repository {
             try {
                 int structCount = _context.Structures.Count () + 1;
                 string structId = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
-                if (_context.Structures.Where (x => x.Id == structureDetails.Id && x.IsDelete == false).Count () > 0) {
-                    throw new ValueNotFoundException ("Structure Id already exist.");
-                } else {
+                // if (_context.Structures.Where (x => x.Id == structureDetails.Id && x.IsDelete == false).Count () > 0) {
+                //     throw new ValueNotFoundException ("Structure Id already exist.");
+                // } else {
                     var structureDb = _mapper.Map<Structures> (structureDetails);
                     structureDb.StructId = structId;
                     _context.Structures.Add (structureDb);
@@ -80,7 +80,7 @@ namespace ETapManagement.Repository {
                     return response = new ResponseMessage () {
                         Message = "Structure added successfully."
                     };
-                }
+               // }
             } catch (Exception ex) {
                 throw ex;
             }
@@ -91,9 +91,9 @@ namespace ETapManagement.Repository {
             try {
                 var structure = _context.Structures.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (structure != null) {
-                    if (_context.Structures.Where (x => x.Id == structureDetails.Id && x.IsDelete == false).Count () > 0) {
-                        throw new ValueNotFoundException ("Structure already exist.");
-                    } else {
+                    // if (_context.Structures.Where (x => x.Id != structureDetails.Id && x.IsDelete == false).Count () > 0) {
+                    //     throw new ValueNotFoundException ("Structure already exist.");
+                    // } else {
                         structure.IsActive = structureDetails.IsActive;
                         structure.Name = structureDetails.Name;
                         structure.StructureAttributes = structureDetails.StructureAttributes;
@@ -104,7 +104,7 @@ namespace ETapManagement.Repository {
                         return responseMessage = new ResponseMessage () {
                             Message = "Structure updated successfully.",
                         };
-                    }
+                    //}
                 } else {
                     throw new ValueNotFoundException ("Structure not available.");
                 }
