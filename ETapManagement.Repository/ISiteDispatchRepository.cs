@@ -14,5 +14,9 @@ namespace ETapManagement.Repository {
 
         public List<AvailableStructureForReuse> AvailableStructureForReuse (int siteReqId);
         public ResponseMessage CreateDispatch (AddDispatch dispatchReq);
+        public ResponseMessage DispatchComponentScan (SiteDispatchScan siteDispScan);
+        public ResponseMessage DispatchScanStructureDocuments (SiteDispatchScanUpload uploadDocs, int StructureId, int dispReqId);
+        public string DispatchScanStructureRemoveDocs (int docId);
+                public ResponseMessage DispatchTransferPrice (DispatchTransferPrice dispTrnsfer);
     }
 }

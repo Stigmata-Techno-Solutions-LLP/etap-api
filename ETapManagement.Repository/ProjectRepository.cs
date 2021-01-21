@@ -34,7 +34,7 @@ namespace ETapManagement.Repository {
                 string projCode = constantVal.ProjCodePrefix + projCount.ToString ().PadLeft (6, '0');
                 ResponseMessage responseMessage = new ResponseMessage ();
                 Project projectDB = _mapper.Map<Project> (project);
-                project.ProjCode = projCode;
+                projectDB.ProjCode = projCode;
                 _context.Project.Add (projectDB);
                 _context.SaveChanges ();
 

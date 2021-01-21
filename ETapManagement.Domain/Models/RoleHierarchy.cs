@@ -12,5 +12,6 @@ namespace ETapManagement.Domain.Models
         public string NewStatus { get; set; }
         public string ChkStatus { get; set; }
         public string ViewDetailsStatus { get; set; }
+        public string ServiceType { get; set; }
     }
 }

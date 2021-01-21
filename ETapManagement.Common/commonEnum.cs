@@ -34,17 +34,37 @@ namespace ETapManagement.Common {
         }
         public enum SiteDispatchSatus {
             NEW = 1,
-           
+            PARTIALDELIVERED=2,
+           DELIVERED=3,
+           PARTIALLYSCANNED=4,
+            CMPCAPPROVED=5,
+           FAAAPPROVED=6
+          
         }
         public enum ComponentStatus {
-            M = 1,
-            O = 2,
+            NEW =1,
+           USABLE =2,
+            SCRAP =3
         }
+
+           public enum ComponentInternalStatus {
+            NEW = 1,
+            INUSE = 2,
+            SCANNINGFAILED = 3,
+            IDLE=4
+        }
+
         public enum ServiceType {
             Fabrication=1,
             OutSourcing=2,
             Scrap=3,
             Reuse=4 
+        }
+        public enum StructureStatus {
+            NEW=1,
+            DISPATCHINPROGRESS=2,
+            INUSE=3,
+            PARTIALLYSCANNED=4
         }
     }
 

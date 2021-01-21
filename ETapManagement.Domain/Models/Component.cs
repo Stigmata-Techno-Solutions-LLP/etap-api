@@ -5,6 +5,11 @@ namespace ETapManagement.Domain.Models
 {
     public partial class Component
     {
+        public Component()
+        {
+            DispStructureComp = new HashSet<DispStructureComp>();
+        }
+
         public int Id { get; set; }
         public int ProjStructId { get; set; }
         public string CompId { get; set; }
@@ -31,5 +36,6 @@ namespace ETapManagement.Domain.Models
 
         public virtual ComponentType CompType { get; set; }
         public virtual ProjectStructure ProjStruct { get; set; }
+        public virtual ICollection<DispStructureComp> DispStructureComp { get; set; }
     }
 }

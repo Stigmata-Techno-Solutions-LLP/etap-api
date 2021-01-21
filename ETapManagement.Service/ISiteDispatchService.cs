@@ -13,5 +13,10 @@ namespace ETapManagement.Service {
 
         public List<AvailableStructureForReuse> AvailableStructureForReuse (int siteReqId);
         public ResponseMessage CreateDispatch (AddDispatch dispatchReq);
+        public ResponseMessage DispatchComponentScan (SiteDispatchScan siteDispScan);
+
+        public ResponseMessage DispatchScanDocuments (SiteDispatchStructureDocs scanComp);
+                public ResponseMessage DispatchTransferPrice (DispatchTransferPrice dispTrnsfer);
+
     }
 }

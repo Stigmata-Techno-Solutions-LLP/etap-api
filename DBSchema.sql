@@ -29,8 +29,18 @@ IF OBJECT_ID('ETapManagement.dbo.dispatchreq_subcont', 'U') IS NOT NULL
   DROP TABLE ETapManagement.dbo.dispatchreq_subcont;
 
 
+
+IF OBJECT_ID('ETapManagement.dbo.disp_structure_comp', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.disp_structure_comp;
+
+
+
 IF OBJECT_ID('ETapManagement.dbo.disp_req_structure', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.disp_req_structure;
+
+
+IF OBJECT_ID('ETapManagement.dbo.disp_structure_documents', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.disp_structure_documents;
 
 IF OBJECT_ID('ETapManagement.dbo.dispatch_requirement', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.dispatch_requirement;
@@ -646,6 +656,32 @@ CREATE TABLE ETapManagement.dbo.disp_req_structure
   struct_id int,
   CONSTRAINT DispReqStructire_siteReq_fkey FOREIGN KEY (dispreq_id) REFERENCES dispatch_requirement(id),
   CONSTRAINT DispReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
+)
+
+
+CREATE TABLE disp_structure_comp	
+(
+  id int not null identity(1,1),
+  disp_structure_id int not null,
+  disp_comp_id int not null,
+  last_scandate datetime null,
+  comp_status varchar(20) null,
+  remarks varchar(100) null,
+  scanned_by int null,
+  CONSTRAINT disp_structure_comp_pkey PRIMARY KEY (id),
+  CONSTRAINT disp_req_structure_comp_id_StructureID_fkey FOREIGN KEY (disp_structure_id) REFERENCES disp_req_structure(id),
+  CONSTRAINT disp_req_structure_comp_id_CompID_fkey FOREIGN KEY (disp_comp_id) REFERENCES component(id),
+)
+
+CREATE TABLE disp_structure_documents	
+(
+  id int not null identity(1,1),
+  disp_structure_id int not null,
+  file_name varchar(500) null,
+  file_type varchar(10) null,
+  "path" varchar(1000) null,
+  CONSTRAINT disp_structure_documents_pkey PRIMARY KEY (id),
+  CONSTRAINT disp_req_structure_docs_id_docsID_fkey FOREIGN KEY (disp_structure_id) REFERENCES disp_req_structure(id),
 )
 
 

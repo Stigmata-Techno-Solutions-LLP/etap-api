@@ -28,7 +28,7 @@ namespace ETapManagement.Repository {
             SiteRequirement siteReqr = _context.SiteRequirement.Include (c => c.SiteReqStructure).Where (x => x.Id == dispatchReq.RequirementId).FirstOrDefault ();
             if (dispatchReq.dispStructureDtls.Count () == 0) throw new ValueNotFoundException ("Struct Count should be greatedr than 0");
             if (siteReqr == null) throw new ValueNotFoundException ("Site RequirementId doesn't Exist");
-            if (_context.DispatchRequirement.Where(x=>x.SitereqId ==  dispatchReq.RequirementId).Count()>0) throw new ValueNotFoundException ("Site RequirementId already dispatched");
+            if (_context.DispatchRequirement.Where (x => x.SitereqId == dispatchReq.RequirementId).Count () > 0) throw new ValueNotFoundException ("Site RequirementId already dispatched");
 
             if (siteReqr.SiteReqStructure.Sum (x => x.Quantity) != dispatchReq.dispStructureDtls.Count ()) throw new ValueNotFoundException ("Given Structure Count doesn't match with Requiremnt Structure Count");
             // foreach (DispatchStructure dispStr in dispatchReq.dispStructureDtls) {
@@ -59,13 +59,13 @@ namespace ETapManagement.Repository {
                         dispReq.Status = commonEnum.SiteDispatchSatus.NEW.ToString ();
                         dispReq.StatusInternal = commonEnum.SiteDispatchSatus.NEW.ToString ();
                         dispReq.ToProjectid = dispatchReq.ToProjectId;
-                        _context.DispatchRequirement.Add (dispReq);                       
+                        _context.DispatchRequirement.Add (dispReq);
                         respDispatch = "," + dispatchNo;
                     }
-                     _context.SaveChanges ();
+                    _context.SaveChanges ();
                     transaction.Commit ();
                 } catch (Exception ex) {
-                    transaction.Rollback();
+                    transaction.Rollback ();
                 }
 
             }
@@ -118,12 +118,12 @@ namespace ETapManagement.Repository {
         public List<StructureListCode> GetStructureListCodesByDispId (DispatchStructureCodePayload dispatchRequirement) {
             try {
                 List<StructureListCode> result = new List<StructureListCode> ();
-                if (dispatchRequirement.role_hierarchy == commonEnum.Rolename.PROCUREMENT ){
-                var structureListCodes = _context.Query<StructureListCode> ().FromSqlRaw ("select s.Id as Id,s.struct_id as StructureId,s.name as StructureName from dispatch_requirement dr  inner join disp_req_structure drs on dr.id  = drs.dispreq_id inner join structures s on drs.struct_id =s.id where dispreq_id ={0}", dispatchRequirement.dispReqId).ToList ();
-                result = _mapper.Map<List<StructureListCode>> (structureListCodes);
+                if (dispatchRequirement.role_hierarchy == commonEnum.Rolename.PROCUREMENT) {
+                    var structureListCodes = _context.Query<StructureListCode> ().FromSqlRaw ("select s.Id as Id,s.struct_id as StructureId,s.name as StructureName from dispatch_requirement dr  inner join disp_req_structure drs on dr.id  = drs.dispreq_id inner join structures s on drs.struct_id =s.id where dispreq_id ={0}", dispatchRequirement.dispReqId).ToList ();
+                    result = _mapper.Map<List<StructureListCode>> (structureListCodes);
                 } else if (dispatchRequirement.role_hierarchy == commonEnum.Rolename.VENDOR) {
-                var structureListCodes = _context.Query<StructureListCode> ().FromSqlRaw ("select dss.struct_id as Id, (SELECT struct_id FROM structures WHERE dss.struct_id = id) as StructureId, (SELECT name FROM structures WHERE dss.struct_id = id) as StructureName from dispatchreq_subcont ds  inner join disp_subcont_structure dss on ds.id  = dss.dispreqsubcont_id where dispreq_id = {0}", dispatchRequirement.dispReqId).ToList ();
-                result = _mapper.Map<List<StructureListCode>> (structureListCodes);
+                    var structureListCodes = _context.Query<StructureListCode> ().FromSqlRaw ("select dss.struct_id as Id, (SELECT struct_id FROM structures WHERE dss.struct_id = id) as StructureId, (SELECT name FROM structures WHERE dss.struct_id = id) as StructureName from dispatchreq_subcont ds  inner join disp_subcont_structure dss on ds.id  = dss.dispreqsubcont_id where dispreq_id = {0}", dispatchRequirement.dispReqId).ToList ();
+                    result = _mapper.Map<List<StructureListCode>> (structureListCodes);
                 }
                 return result;
             } catch (Exception ex) {
@@ -166,7 +166,7 @@ namespace ETapManagement.Repository {
                     try {
                         var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where (x => x.DispreqId == DispatchVendorAddPayload.dispatchRequestSubContractorId).FirstOrDefault ();
                         if (siteDispatchRequestSubContractor != null) {
-                          //  siteDispatchRequestSubContractor.DispatchDate = DispatchVendorAddPayload.dispatchDate;
+                            //  siteDispatchRequestSubContractor.DispatchDate = DispatchVendorAddPayload.dispatchDate;
                             siteDispatchRequestSubContractor.WorkorderNo = DispatchVendorAddPayload.workOrderNumber;
                             _context.SaveChanges ();
                         }
@@ -195,7 +195,7 @@ namespace ETapManagement.Repository {
                     try {
                         var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where (x => x.DispreqId == DispatchVendorAddPayload.dispatchRequestSubContractorId).FirstOrDefault ();
                         if (siteDispatchRequestSubContractor != null) {
-                          //  siteDispatchRequestSubContractor.DispatchDate = null;
+                            //  siteDispatchRequestSubContractor.DispatchDate = null;
                             siteDispatchRequestSubContractor.WorkorderNo = null;
                             _context.SaveChanges ();
                         }
@@ -212,6 +212,104 @@ namespace ETapManagement.Repository {
                         throw ex;
                     }
                 }
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public ResponseMessage DispatchComponentScan (SiteDispatchScan siteDispScan) {
+            // siteDispScan.fromProjId
+            ResponseMessage res = new ResponseMessage ();
+            DispatchRequirement dispReq = _context.DispatchRequirement.Where (x => x.Id == siteDispScan.dispId).FirstOrDefault ();
+            if (dispReq == null) throw new ValueNotFoundException ("Dispatch ID doesnt exists.");
+            ProjectStructure prjStruct = _context.ProjectStructure.Where (x => x.StructureId == siteDispScan.structureId && x.ProjectId == siteDispScan.projectId).FirstOrDefault ();
+            if (prjStruct == null) throw new ValueNotFoundException ("Project/Structure ID doesnt exists.");
+
+            using (var transaction = _context.Database.BeginTransaction ()) {
+                try {
+
+                    // dispComp.Remarks = "";
+                    foreach (SiteDispScanComp ssc in siteDispScan.lstScanComp) {
+
+                        DispStructureComp dispComp = new DispStructureComp ();
+                        dispComp.DispStructureId = dispReq.Id;
+                        dispComp.ScannedBy = 1; //TODO
+                        dispComp.LastScandate = DateTime.Now;
+                        dispComp.CompStatus = "SCANNED";
+                        dispComp.DispCompId = ssc.componentId;
+                        _context.DispStructureComp.Add (dispComp);
+
+                        Component cmp = _context.Component.Where (x => x.Id == ssc.componentId).FirstOrDefault ();
+                        if (cmp == null) throw new ValueNotFoundException ("Compoent ID doesnt exists.");
+                        cmp.QrCode = ssc.qrCode;
+                        cmp.CompStatus = commonEnum.ComponentInternalStatus.INUSE.ToString ();
+                        _context.SaveChanges ();
+                    }
+
+                    int compMasterCount = _context.Component.Where (x => x.ProjStructId == prjStruct.Id && x.CompStatus == commonEnum.ComponentStatus.USABLE.ToString ()).Count ();
+                    int compdispCount = _context.DispReqStructure.Where (x => x.StructId == siteDispScan.structureId && x.DispreqId == siteDispScan.dispId).FirstOrDefault ().DispStructureComp.Count ();
+                    if (compMasterCount == compdispCount) {
+                        dispReq.Status = commonEnum.SiteDispatchSatus.DELIVERED.ToString ();
+                        dispReq.StatusInternal = commonEnum.SiteDispatchSatus.DELIVERED.ToString ();
+
+                    } else {
+                        dispReq.Status = commonEnum.SiteDispatchSatus.PARTIALLYSCANNED.ToString ();
+                        dispReq.StatusInternal = commonEnum.SiteDispatchSatus.PARTIALLYSCANNED.ToString ();
+                    }
+                    _context.SaveChanges ();
+                    transaction.Commit ();
+                    res.Message = "Components Scanned Successfully";
+                    return res;
+                } catch (Exception ex) {
+                    transaction.Rollback ();
+                    throw ex;
+                }
+            }
+        }
+        public ResponseMessage DispatchScanStructureDocuments (SiteDispatchScanUpload uploadDocs, int structureId, int dispReqId) {
+            ResponseMessage responseMessage = new ResponseMessage ();
+            try {
+                DispReqStructure dispStrucutre = _context.DispReqStructure.Where (x => x.StructId == structureId && x.DispreqId == dispReqId).FirstOrDefault ();
+                DispStructureDocuments doc = new DispStructureDocuments ();
+                doc.FileName = uploadDocs.FileName;
+                doc.FileType = uploadDocs.FileType;
+                doc.Path = uploadDocs.Path;
+                doc.DispStructureId = dispStrucutre.Id;
+                _context.DispStructureDocuments.Add (doc);
+                _context.SaveChanges ();
+                responseMessage.Message = "File uploaded successfully";
+                return responseMessage;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public string DispatchScanStructureRemoveDocs (int docId) {
+            try {
+                DispStructureDocuments structDocs = _context.DispStructureDocuments.Where (x => x.Id == docId).FirstOrDefault ();
+                _context.DispStructureDocuments.Remove (structDocs);
+                _context.SaveChanges ();
+                return structDocs.Path;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public ResponseMessage DispatchTransferPrice (DispatchTransferPrice dispTrnsfer) {
+            // siteDispScan.fromProjId
+            try {
+                ResponseMessage res = new ResponseMessage ();
+                DispatchRequirement dispReq = _context.DispatchRequirement.Include(c=>c.Servicetype).Where (x => x.Id == dispTrnsfer.dispReqId).FirstOrDefault ();
+                if (dispReq == null) throw new ValueNotFoundException ("Dispatch ID doesnt exists.");
+
+                if (dispReq.Servicetype.Name != commonEnum.ServiceType.Reuse.ToString ()) throw new ValueNotFoundException ("Not valid service type");
+                if (dispReq.Status != commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ()) throw new ValueNotFoundException ("Dispatch not allowed to approve");
+                dispReq.TransferPrice = dispTrnsfer.transferPrice;
+                dispReq.Status = commonEnum.SiteDispatchSatus.FAAAPPROVED.ToString ();
+                dispReq.StatusInternal = commonEnum.SiteDispatchSatus.FAAAPPROVED.ToString ();
+                _context.SaveChanges ();
+                res.Message = "Transfer Price updated successfully";
+                return res;
             } catch (Exception ex) {
                 throw ex;
             }

@@ -5,7 +5,8 @@ using ETapManagement.ViewModel.Dto;
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
-    {       
+    {
+    
 
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
@@ -19,6 +20,8 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<ComponentHistory> ComponentHistory { get; set; }
         public virtual DbSet<ComponentType> ComponentType { get; set; }
         public virtual DbSet<DispReqStructure> DispReqStructure { get; set; }
+        public virtual DbSet<DispStructureComp> DispStructureComp { get; set; }
+        public virtual DbSet<DispStructureDocuments> DispStructureDocuments { get; set; }
         public virtual DbSet<DispSubcontDocuments> DispSubcontDocuments { get; set; }
         public virtual DbSet<DispSubcontStructure> DispSubcontStructure { get; set; }
         public virtual DbSet<DispatchRequirement> DispatchRequirement { get; set; }
@@ -62,13 +65,14 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-                      modelBuilder.Query<SiteRequirementDetail> ();
+
+
+          modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
             modelBuilder.Query<AssignStructureDtlsOnly> ();
             modelBuilder.Query<AvailableStructureForReuse> ();
-            
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -421,6 +425,75 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.DispReqStructure)
                     .HasForeignKey(d => d.StructId)
                     .HasConstraintName("DispReqStructire_structure_fkey");
+            });
+
+            modelBuilder.Entity<DispStructureComp>(entity =>
+            {
+                entity.ToTable("disp_structure_comp");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CompStatus)
+                    .HasColumnName("comp_status")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DispCompId).HasColumnName("disp_comp_id");
+
+                entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
+
+                entity.Property(e => e.LastScandate)
+                    .HasColumnName("last_scandate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Remarks)
+                    .HasColumnName("remarks")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ScannedBy).HasColumnName("scanned_by");
+
+                entity.HasOne(d => d.DispComp)
+                    .WithMany(p => p.DispStructureComp)
+                    .HasForeignKey(d => d.DispCompId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("disp_req_structure_comp_id_CompID_fkey");
+
+                entity.HasOne(d => d.DispStructure)
+                    .WithMany(p => p.DispStructureComp)
+                    .HasForeignKey(d => d.DispStructureId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("disp_req_structure_comp_id_StructureID_fkey");
+            });
+
+            modelBuilder.Entity<DispStructureDocuments>(entity =>
+            {
+                entity.ToTable("disp_structure_documents");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
+
+                entity.Property(e => e.FileName)
+                    .HasColumnName("file_name")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FileType)
+                    .HasColumnName("file_type")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Path)
+                    .HasColumnName("path")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.DispStructure)
+                    .WithMany(p => p.DispStructureDocuments)
+                    .HasForeignKey(d => d.DispStructureId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("disp_req_structure_docs_id_docsID_fkey");
             });
 
             modelBuilder.Entity<DispSubcontDocuments>(entity =>
@@ -933,6 +1006,11 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.ScenarioType)
                     .HasColumnName("scenario_type")
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ServiceType)
+                    .HasColumnName("service_type")
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ViewDetailsStatus)
