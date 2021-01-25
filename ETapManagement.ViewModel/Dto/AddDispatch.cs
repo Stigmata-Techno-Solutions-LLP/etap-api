@@ -13,6 +13,7 @@ namespace ETapManagement.ViewModel.Dto {
 
     public class DispatchStructure {
         public int ServiceTypeId { get; set; }
+         public int ProjectId { get; set; }
         public int StructureId { get; set; }
         public string StructureName { get; set; }
         public int? FromProjectId { get; set; }
@@ -34,8 +35,10 @@ namespace ETapManagement.ViewModel.Dto {
 
  public class StructureListForDipatch {
         public string StructureName { get; set; }
-        public string StructureTypeName{get;set;}
+      //  public string StructureTypeName{get;set;}
          public int StructureId { get; set; }
+         public int ProjectId { get; set; }
+
          public string ProjectName {get;set;}
         public string? StructureCode { get; set; }
         public string? AvailProjectName { get; set; }        

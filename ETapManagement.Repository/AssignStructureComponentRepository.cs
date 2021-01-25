@@ -43,6 +43,8 @@ namespace ETapManagement.Repository {
                         } else {
                             ProjectStructure projStructdb = null;
                             projStructdb = ConstructProjectStructure (request, projStructdb);
+                            projStructdb.StructureStatus = commonEnum.StructureStatus.AVAILABLE.ToString();
+                            projStructdb.CurrentStatus = commonEnum.StructureInternalStatus.NEW.ToString();
                             _context.ProjectStructure.Add (projStructdb);
                             _context.SaveChanges ();
                             projectStructureID = projStructdb.Id;
@@ -99,6 +101,7 @@ namespace ETapManagement.Repository {
             projStruct.DrawingNo = request.DrawingNo;
             projStruct.UpdatedAt = DateTime.Now;
             projStruct.EstimatedWeight = Convert.ToDecimal( request.EstimatedWeight);
+       
             return projStruct;
         }
 

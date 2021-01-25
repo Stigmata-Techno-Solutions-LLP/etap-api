@@ -62,14 +62,19 @@ namespace ETapManagement.Repository {
                         dispReq.StatusInternal = commonEnum.SiteDispatchSatus.NEW.ToString ();
                         dispReq.ToProjectid = dispatchReq.ToProjectId;
                         _context.DispatchRequirement.Add (dispReq);
-                        _context.SaveChanges ();
+                       
 
                         DispReqStructure dispStrcture = new DispReqStructure ();
                         dispStrcture.StructId = dispStr.StructureId;
                         dispStrcture.DispreqId = dispReq.Id;
                         _context.DispReqStructure.Add (dispStrcture);
-                        _context.SaveChanges ();
-                        //respDispatch = "," + dispatchNo;
+                     
+
+                        ProjectStructure structDB = _context.ProjectStructure.Where(x=>x.StructureId == dispStr.StructureId && x.ProjectId == dispStr.ProjectId).FirstOrDefault();
+                        structDB.CurrentStatus = commonEnum.StructureInternalStatus.DISPATCHINPROGRESS.ToString();
+                        structDB.StructureStatus =commonEnum.StructureStatus.NOTAVAILABLE.ToString();
+                        _context.SaveChanges();
+                       
                     }
                     _context.SaveChanges ();
                     if (siteReqr.SiteReqStructure.Sum (x => x.Quantity) != _context.DispatchRequirement.Where (x => x.SitereqId == dispatchReq.RequirementId).FirstOrDefault ().DispReqStructure.Count ()) {
@@ -106,16 +111,11 @@ namespace ETapManagement.Repository {
                 List<VerifyStructureQty> lstVerifyStructureQty = new List<VerifyStructureQty> ();
                 List<StructureListForDipatch> lstStructureListForDipatch = new List<StructureListForDipatch> ();
                 List<SiteReqStructure> lstReqStr = _context.SiteReqStructure.Include (x => x.Struct).Where (x => x.SiteReqId == siteReqId).ToList ();
-                var lstStructure = _context.ProjectStructure.Include (a => a.Structure).Include (a => a.Project).Where (x => x.StructureStatus == commonEnum.StructureStatus.AVAILABLE.ToString () ||  x.StructureStatus == commonEnum.StructureStatus.NEW.ToString ()).ToList ();
+                var lstStructure = _context.ProjectStructure.Include(a => a.Structure).Include (a => a.Project).Where (x => x.StructureStatus == commonEnum.StructureStatus.AVAILABLE.ToString () ||  x.StructureStatus == commonEnum.StructureStatus.NEW.ToString ()).ToList ();
                 List<AvailableStructureForReuse> lstReuse = this.AvailableStructureForReuse (siteReqId);
                 foreach (SiteReqStructure strRerq in lstReqStr) {
                     int availStructCount = _context.ProjectStructure.Where (x => x.Structure.Name == strRerq.Struct.Name).Count ();
-                    // if (strRerq.Quantity < availStructCount) {
-                    //     VerifyStructureQty verifyQuantity = new VerifyStructureQty ();
-                    //     verifyQuantity.Quantity = strRerq.Quantity.Value - availStructCount;
-                    //     verifyQuantity.StructureName = strRerq.Struct.Name;
-                    //     lstVerifyStructureQty.Add (verifyQuantity);
-                    // }
+                  
                     for (int i = 0; i < strRerq.Quantity; i++) {
 
                         ProjectStructure projStrt = lstStructure.Where (x => x.Structure.Name == strRerq.Struct.Name).FirstOrDefault ();
@@ -130,15 +130,17 @@ namespace ETapManagement.Repository {
                                 strctDisp.StructureCode = availReuse.StructureCode;
                                 strctDisp.StructureName = availReuse.StructureName;
                                 strctDisp.StructureId = availReuse.StructureId;
+                                strctDisp.ProjectId = projStrt.ProjectId;
                                 strctDisp.ProjectName = projStrt.Project.Name;
                                 lstReuse.Remove (availReuse);
                             } else {
                                 strctDisp.StructureCode = projStrt.Structure.StructId;
                                 strctDisp.StructureName = projStrt.Structure.Name;
                                 strctDisp.StructureId = projStrt.StructureId;
+                                strctDisp.ProjectId = projStrt.ProjectId;
                                 strctDisp.ProjectName = projStrt.Project.Name;
                             }
-
+                            lstStructureListForDipatch.Add (strctDisp);
                             lstStructure.Remove (projStrt);
                         } else {
 
