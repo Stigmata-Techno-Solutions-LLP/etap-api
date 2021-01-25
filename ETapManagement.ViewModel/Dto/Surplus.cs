@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -11,6 +11,8 @@ namespace ETapManagement.ViewModel.Dto {
         [Required]
         public int DispStructId { get; set; }
 
+        [Required]
+        public int FromProjectId { get; set; }
         [Required]
         public DateTime SurplusDate { get; set; }
         public IFormFile[] uploadDocs { get; set; }

@@ -119,11 +119,12 @@ namespace ETapManagement.Repository {
                 Project projDB = _context.Project.Include(x=>x.Ic).Include(x=>x.Bu).Where(x=>x.Id == filterReq.ProjectId).FirstOrDefault();
                 AssignStructureDtlsOnly response = new AssignStructureDtlsOnly ();
                 ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Project).Include (x => x.Structure).Include (x => x.Structure.StructureType).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault ();
-                List<Component> lstComp = _context.Component.Include(x=>x.CompType).Where(m=>m.ProjStructId == pStruct.Id).ToList();
+               
+                if (pStruct != null) {
+                 List<Component> lstComp = _context.Component.Include(x=>x.CompType).Where(m=>m.ProjStructId == pStruct.Id).ToList();
                 var responseMap = _mapper.Map<AssignStructureDtlsOnly> (pStruct);
                 var responseMapComp = _mapper.Map<List<ComponentDetails>> (lstComp);
                 responseMap.Components = responseMapComp;
-                if (responseMap != null) {
                     response = responseMap;
                     response.StrcutureTypeName = _context.StructureType.Where (x => x.Id == structDetails.StructureTypeId).FirstOrDefault ().Name;
                     response.ICName = projDB.Ic.Name;
@@ -143,9 +144,8 @@ namespace ETapManagement.Repository {
 
         public List<AssignStructureDtlsOnly> GetAssignStructureDtls () {
             try {
-
                 List<AssignStructureDtlsOnly> result = new List<AssignStructureDtlsOnly> ();
-                result = _context.Query<AssignStructureDtlsOnly> ().FromSqlRaw ("select ic.name ICName,bu.name BuName,ps.structure_id StructureId, ps.project_id ProjectId, ps.drawing_no DrawingNo,s.name StrcutureName, s.struct_id StructureCode,st.name StrcutureTypeName, p.name ProjectName,s.structure_attributes StructureAttributes,ps.components_count ComponentsCount, ps.structure_status Status,  ps.estimated_weight TotalWeight,ps.estimated_weight EstimatedWeight, ps.current_status CurrentStatus from project_structure ps inner join structures s on ps.structure_id = s.id inner join project p  on ps.project_id  = p.id inner join structure_type st on st.id =s.structure_type_id  inner join independent_company ic  on ic.id = p.ic_id inner join business_unit bu on bu.id = p.bu_id where ps.is_delete =0 and s.is_delete =0 and p.is_delete =0 and st.is_delete =0 order by ps.created_at desc").ToList ();
+                result = _context.Query<AssignStructureDtlsOnly> ().FromSqlRaw ("select ic.name ICName,bu.name BuName,ps.structure_id StructureId, ps.project_id ProjectId, ps.drawing_no DrawingNo,s.name StrcutureName, s.struct_id StructureCode,st.name StrcutureTypeName, p.name ProjectName,s.structure_attributes StructureAttributes,ps.components_count ComponentsCount, ps.structure_status Status,  (select sum(width)  from component c where proj_struct_id = ps.id) as TotalWeight,ps.estimated_weight EstimatedWeight, ps.current_status CurrentStatus from project_structure ps inner join structures s on ps.structure_id = s.id inner join project p  on ps.project_id  = p.id inner join structure_type st on st.id =s.structure_type_id  inner join independent_company ic  on ic.id = p.ic_id inner join business_unit bu on bu.id = p.bu_id where ps.is_delete =0 and s.is_delete =0 and p.is_delete =0 and st.is_delete =0 order by ps.created_at desc").ToList ();
                 //result = _mapper.Map<List<SurplusDetails>> (sureplusDecl);
 
                 //  var result = _context.ProjectStructure.Include (x => x.Structure).Include (x => x.Project).Where (m => m.IsDelete == false).ToList ();

@@ -57,12 +57,12 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
-        [HttpGet("verifyStructureQtyforDispatch")]
-        public IActionResult VerifyStructureQtyforDispatch(int siteReqId)
+        [HttpGet("GetReqmntStructureforDispatch/{siteReqId}")]
+        public IActionResult GetRequirementStructureReadyforDisaptch(int siteReqId)
         {
             try
             {
-                var response = _siteDispatchService.VerifyStructureQtyforDispatch(siteReqId);
+                var response = _siteDispatchService.GetRequirementStructureDispatchDetails(siteReqId);
                 return Ok(response);
             }
             catch (Exception e)
@@ -212,7 +212,7 @@ namespace ETapManagement.Api.Controllers
         }
 
 
-            [HttpPost("DispatchStructureUpload")]
+        [HttpPost("DispatchStructureUpload")]
         public IActionResult DispatchStructureUpload([FromForm] SiteDispatchStructureDocs request)
         {
             try
@@ -239,6 +239,35 @@ namespace ETapManagement.Api.Controllers
             {
                 Util.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+
+        [HttpPost ("SiteDispatchApproval")]
+        public IActionResult SiteDispatchApproval (SiteDispatchApproval disp) {
+            try {
+                var response = _siteDispatchService.SiteDispatchApproval (disp);
+                return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+         [HttpPost ("SiteDispatchRejection")]
+        public IActionResult SiteDispatchRejection (SiteDispatchApproval disp) {
+            try {
+                var response = _siteDispatchService.SiteDispatchRejection (disp);
+                return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
     

@@ -18,18 +18,38 @@ namespace ETapManagement.ViewModel.Dto {
         public int? FromProjectId { get; set; }
         public int? SurPlusDeclId {get;set;}
     }
-    public class AvailableStructureForReuse {
+
+          public class AvailableStructureForReuse {
         public string StructureName { get; set; }
          public int StructureId { get; set; }
-          public int StructureCode { get; set; }
+          public string StructureCode { get; set; }
         public string FromProjectName { get; set; }        
         public int FromProjectId { get; set; }   
-        public int SurPlusDeclId { get; set; }       
+        public int SurPlusDeclId { get; set; }  
+    } 
+
+    
+
+
+
+ public class StructureListForDipatch {
+        public string StructureName { get; set; }
+        public string StructureTypeName{get;set;}
+         public int StructureId { get; set; }
+         public string ProjectName {get;set;}
+        public string? StructureCode { get; set; }
+        public string? AvailProjectName { get; set; }        
+        public int? AvailProjectId { get; set; }   
+        public int? SurPlusDeclId { get; set; }       
     } 
 
     public class VerifyStructureQty {
         public string StructureName{get;set;}
         public int Quantity{get;set;}
+    }
+    public class SiteRequirementDispatch {
+        public List<VerifyStructureQty> lstVerifyStructureQty {get;set;}
+        public List<StructureListForDipatch> lstStructforDispatch{get;set;}
     }
 
 }

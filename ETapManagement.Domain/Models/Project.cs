@@ -10,6 +10,7 @@ namespace ETapManagement.Domain.Models
             DispatchRequirement = new HashSet<DispatchRequirement>();
             ProjectSitelocation = new HashSet<ProjectSitelocation>();
             ProjectStructure = new HashSet<ProjectStructure>();
+            SiteDeclaration = new HashSet<SiteDeclaration>();
             SiteRequirement = new HashSet<SiteRequirement>();
             SiteStructurePhysicalverf = new HashSet<SiteStructurePhysicalverf>();
             Users = new HashSet<Users>();
@@ -36,6 +37,7 @@ namespace ETapManagement.Domain.Models
         public virtual ICollection<DispatchRequirement> DispatchRequirement { get; set; }
         public virtual ICollection<ProjectSitelocation> ProjectSitelocation { get; set; }
         public virtual ICollection<ProjectStructure> ProjectStructure { get; set; }
+        public virtual ICollection<SiteDeclaration> SiteDeclaration { get; set; }
         public virtual ICollection<SiteRequirement> SiteRequirement { get; set; }
         public virtual ICollection<SiteStructurePhysicalverf> SiteStructurePhysicalverf { get; set; }
         public virtual ICollection<Users> Users { get; set; }

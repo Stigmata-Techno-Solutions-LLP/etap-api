@@ -24,30 +24,32 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage CreateDispatch (AddDispatch dispatchReq) {
 
-            string respDispatch = "";
+            string dispatchNo = "";
             SiteRequirement siteReqr = _context.SiteRequirement.Include (c => c.SiteReqStructure).Where (x => x.Id == dispatchReq.RequirementId).FirstOrDefault ();
+            // if (siteReqr.StatusInternal == )
             if (dispatchReq.dispStructureDtls.Count () == 0) throw new ValueNotFoundException ("Struct Count should be greatedr than 0");
             if (siteReqr == null) throw new ValueNotFoundException ("Site RequirementId doesn't Exist");
-            if (_context.DispatchRequirement.Where (x => x.SitereqId == dispatchReq.RequirementId).Count () > 0) throw new ValueNotFoundException ("Site RequirementId already dispatched");
+            //    if (_context.DispatchRequirement.Where (x => x.SitereqId == dispatchReq.RequirementId).Count () > 0) throw new ValueNotFoundException ("Site RequirementId already dispatched");
 
-            if (siteReqr.SiteReqStructure.Sum (x => x.Quantity) != dispatchReq.dispStructureDtls.Count ()) throw new ValueNotFoundException ("Given Structure Count doesn't match with Requiremnt Structure Count");
+            // if (siteReqr.SiteReqStructure.Sum (x => x.Quantity) != dispatchReq.dispStructureDtls.Count ()) throw new ValueNotFoundException ("Given Structure Count doesn't match with Requiremnt Structure Count");
+
             // foreach (DispatchStructure dispStr in dispatchReq.dispStructureDtls) {
             //     if (siteReqr.SiteReqStructure.Where (x => x.Struct.Name == dispStr.StructureName).Count () <= 0) throw new ValueNotFoundException ("Strucure Name doesn't match in given Requirement Id");
             // }
-            int dispReuseCount = _context.DispatchRequirement.Where (x => x.Servicetype.Name == commonEnum.ServiceType.Reuse.ToString ()).Count () + 1;
-            int dispVendorCount = _context.DispatchRequirement.Where (x => x.Servicetype.Name != commonEnum.ServiceType.Reuse.ToString ()).Count () + 1;
+            int dispReuseCount = _context.DispatchRequirement.Include (m => m.Servicetype).Where (x => x.Servicetype.Name == commonEnum.ServiceType.Reuse.ToString ()).Count () + 1;
+            int dispVendorCount = _context.DispatchRequirement.Include (m => m.Servicetype).Where (x => x.Servicetype.Name != commonEnum.ServiceType.Reuse.ToString ()).Count () + 1;
             ResponseMessage resp = new ResponseMessage ();
             using (var transaction = _context.Database.BeginTransaction ()) {
                 try {
                     foreach (DispatchStructure dispStr in dispatchReq.dispStructureDtls) {
-                        string dispatchNo = "";
+
                         ServiceType servType = _context.ServiceType.Where (x => x.Id == dispStr.ServiceTypeId).FirstOrDefault ();
                         if (servType.Name == commonEnum.ServiceType.Reuse.ToString ()) {
                             dispatchNo = constantVal.DispReusePrefix + dispReuseCount.ToString ().PadLeft (6, '0');
-                            dispReuseCount += 1;
+                            //   dispReuseCount += 1;
                         } else {
                             dispatchNo = constantVal.DispVendorPrefix + dispVendorCount.ToString ().PadLeft (6, '0');
-                            dispVendorCount += 1;
+                            //  dispVendorCount += 1;
                         }
                         DispatchRequirement dispReq = new DispatchRequirement ();
                         dispReq.CreatedAt = DateTime.Now;
@@ -60,45 +62,98 @@ namespace ETapManagement.Repository {
                         dispReq.StatusInternal = commonEnum.SiteDispatchSatus.NEW.ToString ();
                         dispReq.ToProjectid = dispatchReq.ToProjectId;
                         _context.DispatchRequirement.Add (dispReq);
-                        respDispatch = "," + dispatchNo;
+                        _context.SaveChanges ();
+
+                        DispReqStructure dispStrcture = new DispReqStructure ();
+                        dispStrcture.StructId = dispStr.StructureId;
+                        dispStrcture.DispreqId = dispReq.Id;
+                        _context.DispReqStructure.Add (dispStrcture);
+                        _context.SaveChanges ();
+                        //respDispatch = "," + dispatchNo;
+                    }
+                    _context.SaveChanges ();
+                    if (siteReqr.SiteReqStructure.Sum (x => x.Quantity) != _context.DispatchRequirement.Where (x => x.SitereqId == dispatchReq.RequirementId).FirstOrDefault ().DispReqStructure.Count ()) {
+                        siteReqr.Status = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
+                        siteReqr.StatusInternal = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
+                    } else {
+                        siteReqr.Status = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
+                        siteReqr.StatusInternal = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
                     }
                     _context.SaveChanges ();
                     transaction.Commit ();
                 } catch (Exception ex) {
                     transaction.Rollback ();
+                    throw ex;
                 }
-
             }
-            resp.Message = string.Format ("DispatchNo {0} Created successfully ", respDispatch.Substring (1));
+            resp.Message = string.Format ("DispatchNo {0} Created successfully ", dispatchNo);
             return resp;
         }
 
         public List<AvailableStructureForReuse> AvailableStructureForReuse (int siteReqId) {
             try {
                 List<AvailableStructureForReuse> result = new List<AvailableStructureForReuse> ();
-                string strQuery = string.Format ("select  sd.id SurPlusDeclId,s.name StructureName, s.id StructureId, s.struct_id StructureCode, p2.name FromProjectName, p2.id FromProjectId from site_declaration sd inner join structures s ON sd.struct_id =s.id inner join site_requirement sr ON sr.id =sd.sitereq_id  inner join project p2 ON  sr.project_id = p2.id  inner join project_structure ps ON ps.project_id = p2.id and ps.structure_id =s.id  where sd.status ='READYTODISPATCH' and ps.current_status = 'AVAILABLE' and s.name in ( (select distinct  s.name from site_requirement sr inner join site_req_structure srs on sr.id = srs.site_req_id  inner join structures s on s.id =srs.struct_id  where sr.id ={0}))", siteReqId);
+                string strQuery = string.Format ("select  sd.id SurPlusDeclId,s.name StructureName, s.id StructureId, s.struct_id StructureCode, p2.name FromProjectName, sd.from_projectid FromProjectId from site_declaration sd inner join structures s ON sd.struct_id =s.id inner join project p2 ON  sd.from_projectid = p2.id  inner join project_structure ps ON ps.project_id = p2.id and ps.structure_id =s.id  where sd.status ='READYTODISPATCH' and ps.current_status = 'AVAILABLE' and s.name in ( (select distinct  s.name from site_requirement sr inner join site_req_structure srs on sr.id = srs.site_req_id  inner join structures s on s.id =srs.struct_id  where sr.id ={0}))", siteReqId);
                 result = _context.Query<AvailableStructureForReuse> ().FromSqlRaw (strQuery).ToList ();
-
                 return result;
             } catch (Exception ex) {
                 throw ex;
             }
         }
 
-        public List<VerifyStructureQty> VerifyStructureQtyforDispatch (int siteReqId) {
+        public SiteRequirementDispatch GetRequirementStructureDispatchDetails (int siteReqId) {
             try {
                 List<VerifyStructureQty> lstVerifyStructureQty = new List<VerifyStructureQty> ();
+                List<StructureListForDipatch> lstStructureListForDipatch = new List<StructureListForDipatch> ();
                 List<SiteReqStructure> lstReqStr = _context.SiteReqStructure.Include (x => x.Struct).Where (x => x.SiteReqId == siteReqId).ToList ();
+                var lstStructure = _context.ProjectStructure.Include (a => a.Structure).Include (a => a.Project).Where (x => x.StructureStatus == commonEnum.StructureStatus.AVAILABLE.ToString () ||  x.StructureStatus == commonEnum.StructureStatus.NEW.ToString ()).ToList ();
+                List<AvailableStructureForReuse> lstReuse = this.AvailableStructureForReuse (siteReqId);
                 foreach (SiteReqStructure strRerq in lstReqStr) {
                     int availStructCount = _context.ProjectStructure.Where (x => x.Structure.Name == strRerq.Struct.Name).Count ();
-                    if (strRerq.Quantity != availStructCount) {
-                        VerifyStructureQty verifyQuantity = new VerifyStructureQty ();
-                        verifyQuantity.Quantity = strRerq.Quantity.Value - availStructCount;
-                        verifyQuantity.StructureName = strRerq.Struct.Name;
-                        lstVerifyStructureQty.Add (verifyQuantity);
+                    // if (strRerq.Quantity < availStructCount) {
+                    //     VerifyStructureQty verifyQuantity = new VerifyStructureQty ();
+                    //     verifyQuantity.Quantity = strRerq.Quantity.Value - availStructCount;
+                    //     verifyQuantity.StructureName = strRerq.Struct.Name;
+                    //     lstVerifyStructureQty.Add (verifyQuantity);
+                    // }
+                    for (int i = 0; i < strRerq.Quantity; i++) {
+
+                        ProjectStructure projStrt = lstStructure.Where (x => x.Structure.Name == strRerq.Struct.Name).FirstOrDefault ();
+                        AvailableStructureForReuse availReuse = lstReuse.Where (x => x.StructureName == strRerq.Struct.Name).FirstOrDefault ();
+                        if (projStrt != null) {
+                            StructureListForDipatch strctDisp = new StructureListForDipatch();
+                            if (availReuse != null) {
+                                strctDisp.AvailProjectId = availReuse.FromProjectId;
+                                strctDisp.AvailProjectName = availReuse.FromProjectName;
+                                strctDisp.SurPlusDeclId = availReuse.SurPlusDeclId;
+
+                                strctDisp.StructureCode = availReuse.StructureCode;
+                                strctDisp.StructureName = availReuse.StructureName;
+                                strctDisp.StructureId = availReuse.StructureId;
+                                strctDisp.ProjectName = projStrt.Project.Name;
+                                lstReuse.Remove (availReuse);
+                            } else {
+                                strctDisp.StructureCode = projStrt.Structure.StructId;
+                                strctDisp.StructureName = projStrt.Structure.Name;
+                                strctDisp.StructureId = projStrt.StructureId;
+                                strctDisp.ProjectName = projStrt.Project.Name;
+                            }
+
+                            lstStructure.Remove (projStrt);
+                        } else {
+
+                            VerifyStructureQty verifyQuantity = new VerifyStructureQty ();
+                            verifyQuantity.Quantity = strRerq.Quantity.Value - availStructCount;
+                            verifyQuantity.StructureName = strRerq.Struct.Name;
+                            lstVerifyStructureQty.Add (verifyQuantity);
+                        }
+
                     }
                 }
-                return lstVerifyStructureQty;
+                SiteRequirementDispatch steDispatchReady = new SiteRequirementDispatch ();
+                steDispatchReady.lstStructforDispatch = lstStructureListForDipatch;
+                steDispatchReady.lstVerifyStructureQty = lstVerifyStructureQty;
+                return steDispatchReady;
             } catch (Exception ex) {
                 throw ex;
             }
@@ -164,7 +219,12 @@ namespace ETapManagement.Repository {
             try {
                 using (var transaction = _context.Database.BeginTransaction ()) {
                     try {
-                        var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where (x => x.DispreqId == DispatchVendorAddPayload.dispatchRequestSubContractorId).FirstOrDefault ();
+                        string[] strAllowedService = { commonEnum.ServiceType.Fabrication.ToString (), commonEnum.ServiceType.OutSourcing.ToString () };
+                        var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where (x => x.Id == DispatchVendorAddPayload.dispatchRequestSubContractorId).FirstOrDefault ();
+
+                        DispatchRequirement dispReq = _context.DispatchRequirement.Include (c => c.Servicetype).Where (x => x.Id == siteDispatchRequestSubContractor.DispreqId).FirstOrDefault ();
+                        if (dispReq.StatusInternal != commonEnum.SiteDispatchSatus.TOSITEAPPROVED.ToString () && !strAllowedService.Contains (dispReq.Servicetype.Name)) throw new ValueNotFoundException ("Assign Vendor not allowed");
+
                         if (siteDispatchRequestSubContractor != null) {
                             //  siteDispatchRequestSubContractor.DispatchDate = DispatchVendorAddPayload.dispatchDate;
                             siteDispatchRequestSubContractor.WorkorderNo = DispatchVendorAddPayload.workOrderNumber;
@@ -175,6 +235,16 @@ namespace ETapManagement.Repository {
                             dispatchSubContractorStructure.IsDelivered = true;
                             _context.SaveChanges ();
                         }
+
+                        if (_context.DispSubcontStructure.Where (x => x.DispreqsubcontId == DispatchVendorAddPayload.dispatchRequestSubContractorId && x.IsDelivered == false).Count () > 0) {
+                            dispReq.StatusInternal = commonEnum.SiteDispatchSatus.PARTIALDELIVERED.ToString ();
+                            dispReq.Status = commonEnum.SiteDispatchSatus.PARTIALDELIVERED.ToString ();
+                        } else {
+                            dispReq.StatusInternal = commonEnum.SiteDispatchSatus.DELIVERED.ToString ();
+                            dispReq.Status = commonEnum.SiteDispatchSatus.DELIVERED.ToString ();
+                        }
+                        _context.SaveChanges ();
+
                         responseMessage.Message = "Site Dispatch updated successfully.";
                         transaction.Commit ();
                         return responseMessage;
@@ -193,7 +263,7 @@ namespace ETapManagement.Repository {
             try {
                 using (var transaction = _context.Database.BeginTransaction ()) {
                     try {
-                        var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where (x => x.DispreqId == DispatchVendorAddPayload.dispatchRequestSubContractorId).FirstOrDefault ();
+                        var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where (x => x.Id == DispatchVendorAddPayload.dispatchRequestSubContractorId).FirstOrDefault ();
                         if (siteDispatchRequestSubContractor != null) {
                             //  siteDispatchRequestSubContractor.DispatchDate = null;
                             siteDispatchRequestSubContractor.WorkorderNo = null;
@@ -299,7 +369,7 @@ namespace ETapManagement.Repository {
             // siteDispScan.fromProjId
             try {
                 ResponseMessage res = new ResponseMessage ();
-                DispatchRequirement dispReq = _context.DispatchRequirement.Include(c=>c.Servicetype).Where (x => x.Id == dispTrnsfer.dispReqId).FirstOrDefault ();
+                DispatchRequirement dispReq = _context.DispatchRequirement.Include (c => c.Servicetype).Where (x => x.Id == dispTrnsfer.dispReqId).FirstOrDefault ();
                 if (dispReq == null) throw new ValueNotFoundException ("Dispatch ID doesnt exists.");
 
                 if (dispReq.Servicetype.Name != commonEnum.ServiceType.Reuse.ToString ()) throw new ValueNotFoundException ("Not valid service type");
@@ -313,6 +383,101 @@ namespace ETapManagement.Repository {
             } catch (Exception ex) {
                 throw ex;
             }
+        }
+
+        public ResponseMessage SiteDispatchApproval (SiteDispatchApproval dispAppr) {
+            ResponseMessage res = new ResponseMessage ();
+            string status = "";
+            string internalStatus = "";
+            ServiceType servType = _context.ServiceType.Where (x => x.Id == dispAppr.serviceTypeId).FirstOrDefault ();
+            Roles roleDB = _context.Roles.Where (x => x.Name == dispAppr.roleName).FirstOrDefault ();
+            DispatchRequirement dispReq = _context.DispatchRequirement.Where (x => x.Id == dispAppr.dispReqId).FirstOrDefault ();
+
+            if (servType.Name == commonEnum.ServiceType.Reuse.ToString ()) {
+                if (dispAppr.roleName == commonEnum.Rolename.CMPC.ToString () && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.NEW.ToString ()) {
+                    status = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
+                    internalStatus = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
+                } else if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 3 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.FAAAPPROVED.ToString ()) {
+                    status = commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ();
+                    internalStatus = commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ();
+                } else if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 4 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ()) {
+                    status = commonEnum.SiteDispatchSatus.TOSITEAPPROVED.ToString ();
+                    internalStatus = commonEnum.SiteDispatchSatus.TOSITEAPPROVED.ToString ();
+                } else {
+                    throw new ValueNotFoundException (String.Format ("Not allowed to approve for this role:{0}", dispAppr.roleName));
+                }
+            } else {
+                if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 3 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString ()) {
+                    status = commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ();
+                    internalStatus = commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ();
+                } else {
+                    throw new ValueNotFoundException (String.Format ("Not allowed to approve for this role:{0}", dispAppr.roleName));
+                }
+            }
+
+            dispReq.Status = status;
+            dispReq.StatusInternal = internalStatus;
+            dispReq.RoleId = 1; //TODO
+            dispReq.UpdatedAt = DateTime.Now;
+            dispReq.UpdatedBy = 1; //TODO
+
+            DisreqStatusHistory dispStatusHist = new DisreqStatusHistory ();
+            dispStatusHist.DispatchNo = dispReq.DispatchNo;
+            dispStatusHist.DispreqId = dispReq.Id;
+            dispStatusHist.RoleId = dispAppr.roleId;
+            dispStatusHist.Status = status;
+            dispStatusHist.StatusInternal = internalStatus;
+            dispStatusHist.CreatedAt = DateTime.Now;
+            dispStatusHist.CreatedBy = 1; //TODO
+            res.Message = String.Format (" site dispatch {0} Approved Successfully.", dispReq.DispatchNo);
+            return res;
+        }
+
+        public ResponseMessage SiteDispatchRejection (SiteDispatchApproval dispAppr) {
+            ResponseMessage res = new ResponseMessage ();
+            string status = "";
+            string internalStatus = "";
+            ServiceType servType = _context.ServiceType.Where (x => x.Id == dispAppr.serviceTypeId).FirstOrDefault ();
+            Roles roleDB = _context.Roles.Where (x => x.Name == dispAppr.roleName).FirstOrDefault ();
+            DispatchRequirement dispReq = _context.DispatchRequirement.Where (x => x.Id == dispAppr.dispReqId).FirstOrDefault ();
+            if (roleDB == null) throw new ValueNotFoundException (String.Format ("Rolename doesnt exists. {0}", dispAppr.roleName));
+            if (dispReq == null) throw new ValueNotFoundException (String.Format ("Dispatch Id doesnt exists"));
+
+            if (servType.Name == commonEnum.ServiceType.Reuse.ToString ()) {
+                if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 3 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.FAAAPPROVED.ToString ()) {
+                    status = commonEnum.SiteDispatchSatus.REJECT.ToString ();
+                    internalStatus = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
+                } else if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 4) {
+                    status = commonEnum.SiteDispatchSatus.REJECT.ToString ();
+                    internalStatus = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
+                } else {
+                    throw new ValueNotFoundException (String.Format ("Not allowed to approve for this role:{0}", dispAppr.roleName));
+                }
+            } else {
+                if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 3 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString ()) {
+                    status = commonEnum.SiteDispatchSatus.REJECT.ToString ();
+                    internalStatus = commonEnum.SiteDispatchSatus.NEW.ToString ();
+                } else {
+                    throw new ValueNotFoundException (String.Format ("Not allowed to approve for this role:{0}", dispAppr.roleName));
+                }
+            }
+
+            dispReq.Status = status;
+            dispReq.StatusInternal = internalStatus;
+            dispReq.RoleId = 1; //TODO
+            dispReq.UpdatedAt = DateTime.Now;
+            dispReq.UpdatedBy = 1; //TODO
+
+            DisreqStatusHistory dispStatusHist = new DisreqStatusHistory ();
+            dispStatusHist.DispatchNo = dispReq.DispatchNo;
+            dispStatusHist.DispreqId = dispReq.Id;
+            dispStatusHist.RoleId = dispAppr.roleId;
+            dispStatusHist.Status = status;
+            dispStatusHist.StatusInternal = internalStatus;
+            dispStatusHist.CreatedAt = DateTime.Now;
+            dispStatusHist.CreatedBy = 1; //TODO
+            res.Message = String.Format (" site dispatch {0} Rejected Successfully.", dispReq.DispatchNo);
+            return res;
         }
 
     }

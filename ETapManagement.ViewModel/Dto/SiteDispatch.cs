@@ -109,4 +109,13 @@ namespace ETapManagement.ViewModel.Dto {
         public string roleName { get;set;}
         public decimal? transferPrice{get;set;}
     }
+
+       public class SiteDispatchApproval {
+
+        public int dispReqId {get;set;}
+        public string roleName { get;set;}
+        public int roleId{get;set;}
+        public int serviceTypeId{get;set;}
+        public int roleHierarchy{get;set;}
+    }
 }

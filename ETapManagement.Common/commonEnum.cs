@@ -38,7 +38,13 @@ namespace ETapManagement.Common {
            DELIVERED=3,
            PARTIALLYSCANNED=4,
             CMPCAPPROVED=5,
-           FAAAPPROVED=6
+           FAAAPPROVED=6,
+           FROMSITEAPPROVED=7,
+           TOSITEAPPROVED=8,
+           REJECT=9,
+           PROCAPPROVED=10,
+           PARTIALLYDISPATCHED=11,
+           DISPATCHED =12
           
         }
         public enum ComponentStatus {
@@ -60,11 +66,23 @@ namespace ETapManagement.Common {
             Scrap=3,
             Reuse=4 
         }
-        public enum StructureStatus {
+        public enum StructureInternalStatus {
             NEW=1,
             DISPATCHINPROGRESS=2,
             INUSE=3,
-            PARTIALLYSCANNED=4
+            PARTIALLYSCANNED=4,
+        }
+
+        public enum StructureStatus {
+            NEW=1,
+            AVAILABLE=2,
+            NOTAVAILABLE=3,
+       
+        }
+        public enum SiteRequiremntStatus{
+            NEW=1,
+            PARTIALLYDISPATCHED=2,
+            DISPATCHED=2
         }
     }
 

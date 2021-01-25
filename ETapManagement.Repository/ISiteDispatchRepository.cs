@@ -10,13 +10,16 @@ namespace ETapManagement.Repository {
         public ResponseMessage UpdateSiteDispatchVendor(DispatchVendorAddPayload DispatchVendorAddPayload);
         public ResponseMessage UpdateSiteDispatchVendorDocuments(SiteDispatchUpload uploadDocs, int dispatchRequestSubContractorId);
         public ResponseMessage RevertSiteDispatchVendor(DispatchVendorAddPayload DispatchVendorAddPayload);
-        public List<VerifyStructureQty> VerifyStructureQtyforDispatch (int siteReqId);
 
         public List<AvailableStructureForReuse> AvailableStructureForReuse (int siteReqId);
         public ResponseMessage CreateDispatch (AddDispatch dispatchReq);
         public ResponseMessage DispatchComponentScan (SiteDispatchScan siteDispScan);
         public ResponseMessage DispatchScanStructureDocuments (SiteDispatchScanUpload uploadDocs, int StructureId, int dispReqId);
         public string DispatchScanStructureRemoveDocs (int docId);
-                public ResponseMessage DispatchTransferPrice (DispatchTransferPrice dispTrnsfer);
+         public ResponseMessage DispatchTransferPrice (DispatchTransferPrice dispTrnsfer);
+         public SiteRequirementDispatch GetRequirementStructureDispatchDetails (int siteReqId);
+         public ResponseMessage SiteDispatchApproval (SiteDispatchApproval dispAppr);
+          public ResponseMessage SiteDispatchRejection (SiteDispatchApproval dispAppr);
+
     }
 }

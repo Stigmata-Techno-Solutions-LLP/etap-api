@@ -48,7 +48,7 @@ namespace ETapManagement.Repository {
                 } else {
                     Users userDtls = _mapper.Map<Users> (userDetails);
                     _context.Users.Add (userDtls);
-                    _context.SaveChanges ();
+                    _context.SaveChanges();
                     AuditLogs audit = new AuditLogs () {
                         Action = "User",
                         Message = string.Format ("New User added Succussfully {0}", userDetails.userName),

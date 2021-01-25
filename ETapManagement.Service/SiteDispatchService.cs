@@ -39,22 +39,21 @@ namespace ETapManagement.Service {
                     layerDoc.FileType = Path.GetExtension (file.FileName);
                     response = new ResponseMessage ();
                     response = this._siteDispatchRepository.UpdateSiteDispatchVendorDocuments (layerDoc, DispatchVendorAddPayload.dispatchRequestSubContractorId);
-                    if (String.IsNullOrEmpty (response.Message)) {
-                        response = _siteDispatchRepository.RevertSiteDispatchVendor (DispatchVendorAddPayload);
-                        response.Message = "Error. Kindly try again.";
-                    } else
-                        response.Message = "Site dispatch and Documents are update successfully.";
+                    // if (String.IsNullOrEmpty (response.Message)) {
+                    //     response = _siteDispatchRepository.RevertSiteDispatchVendor (DispatchVendorAddPayload);
+                    //     response.Message = "Error. Kindly try again.";
+                    // } else
+                    //     response.Message = "Site dispatch and Documents are update successfully.";
                 }
             }
 
             return response;
         }
 
-        public List<VerifyStructureQty> VerifyStructureQtyforDispatch (int siteRequirementId) {
-            List<VerifyStructureQty> lstVerifyStructureQty = _siteDispatchRepository.VerifyStructureQtyforDispatch (siteRequirementId);
-            return lstVerifyStructureQty;
+  
+        public SiteRequirementDispatch GetRequirementStructureDispatchDetails (int siteRequirementId) {
+           return _siteDispatchRepository.GetRequirementStructureDispatchDetails (siteRequirementId);
         }
-
         public List<AvailableStructureForReuse> AvailableStructureForReuse (int dispatchRequirementId) {
             List<AvailableStructureForReuse> structureList = _siteDispatchRepository.AvailableStructureForReuse (dispatchRequirementId);
             return structureList;
@@ -143,6 +142,18 @@ namespace ETapManagement.Service {
     public ResponseMessage DispatchTransferPrice (DispatchTransferPrice scanComp) {
             ResponseMessage response = new ResponseMessage ();
             response = _siteDispatchRepository.DispatchTransferPrice (scanComp);
+            return response;
+        }
+
+            public ResponseMessage SiteDispatchApproval (SiteDispatchApproval scanComp) {
+            ResponseMessage response = new ResponseMessage ();
+            response = _siteDispatchRepository.SiteDispatchApproval (scanComp);
+            return response;
+        }
+
+            public ResponseMessage SiteDispatchRejection (SiteDispatchApproval scanComp) {
+            ResponseMessage response = new ResponseMessage ();
+            response = _siteDispatchRepository.SiteDispatchRejection (scanComp);
             return response;
         }
     }

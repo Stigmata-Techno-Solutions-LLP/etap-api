@@ -26,7 +26,7 @@ namespace ETapManagement.Repository {
         public ResponseMessage BulkInsertWBS (List<AddWorkBreakDown> lstWorkBreakDown) {
             try {
                 foreach (AddWorkBreakDown wbs in lstWorkBreakDown) {
-                    WorkBreakdown wbData = _context.WorkBreakdown.Where (x => x.WbsId == wbs.WorkBreakDownCode && x.IsDelete == false).FirstOrDefault ();
+                    WorkBreakdown wbData = _context.WorkBreakdown.Where (x => x.WbsId == wbs.WorkBreakDownCode && x.ProjectId==wbs.ProjectId && x.IsDelete == false).FirstOrDefault ();
                     if (wbData == null) {
                         WorkBreakdown data = _mapper.Map<WorkBreakdown> (wbs);
                         _context.WorkBreakdown.Add (data);
@@ -37,7 +37,7 @@ namespace ETapManagement.Repository {
                         wbData.SubSegment = wbs.SubSegment;
                         wbData.Elements = wbs.Element;
                         wbData.UpdatedAt = DateTime.Now;
-                        _context.SaveChanges ();
+                        _context.SaveChanges();
                     }
                 }
                 AuditLogs audit = new AuditLogs () {

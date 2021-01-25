@@ -835,6 +835,9 @@ namespace ETapManagement.Api.Extensions {
                     dest.StructId,
                     opt => opt.MapFrom (src => src.DispStructId))
                 .ForMember (dest =>
+                    dest.FromProjectid,
+                    opt => opt.MapFrom (src => src.FromProjectId))    
+                .ForMember (dest =>
                     dest.SurplusFromdate,
                     opt => opt.MapFrom (src => src.SurplusDate))
                 .ReverseMap ();

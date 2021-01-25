@@ -24,7 +24,9 @@ namespace ETapManagement.Domain.Models
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public bool IsDelete { get; set; }
+        public int? FromProjectid { get; set; }
 
+        public virtual Project FromProject { get; set; }
         public virtual SiteRequirement Sitereq { get; set; }
         public virtual Structures Struct { get; set; }
         public virtual ICollection<SitedeclDocuments> SitedeclDocuments { get; set; }

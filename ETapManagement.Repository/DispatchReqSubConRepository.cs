@@ -25,6 +25,9 @@ namespace ETapManagement.Repository {
             try
             {                
                 ResponseMessage responseMessage = new ResponseMessage();
+                string[] strAllowedService = {commonEnum.ServiceType.Fabrication.ToString(),commonEnum.ServiceType.OutSourcing.ToString()};
+                DispatchRequirement dispReq = _context.DispatchRequirement.Include(c=>c.Servicetype).Where(x=>x.DispatchNo == oSDispatchReqSubCont.DispatchNo).FirstOrDefault();
+                if (dispReq.StatusInternal != commonEnum.SiteDispatchSatus.NEW.ToString() && !strAllowedService.Contains( dispReq.Servicetype.Name))    throw new ValueNotFoundException ("Assign Vendor not allowed"); 
                 DispatchreqSubcont dispatchreqSubcont = _mapper.Map<DispatchreqSubcont>(oSDispatchReqSubCont);
                 dispatchreqSubcont.CreatedAt = DateTime.Now;
                 dispatchreqSubcont.CreatedBy = 1; //TODO
@@ -56,7 +59,10 @@ namespace ETapManagement.Repository {
                         }                         
                     }
                 }
-                responseMessage.Message = "Vendor is assigned successfully";
+                dispReq.StatusInternal= commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
+                dispReq.Status =commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
+                _context.SaveChanges();
+                responseMessage.Message = "Vendor assigned successfully";
                 return responseMessage;
             }
             catch (Exception ex)
@@ -69,6 +75,10 @@ namespace ETapManagement.Repository {
             try
             {
                 ResponseMessage responseMessage = new ResponseMessage();
+                string[] strAllowedService = {commonEnum.ServiceType.Fabrication.ToString(),commonEnum.ServiceType.OutSourcing.ToString()};
+                DispatchRequirement dispReq = _context.DispatchRequirement.Include(c=>c.Servicetype).Where(x=>x.DispatchNo == fBDispatchReqSubCont.DispatchNo).FirstOrDefault();
+                if (dispReq.StatusInternal != commonEnum.SiteDispatchSatus.NEW.ToString() && !strAllowedService.Contains( dispReq.Servicetype.Name))    throw new ValueNotFoundException ("Assign Vendor not allowed"); 
+  
                 DispatchreqSubcont dispatchreqSubcont = _mapper.Map<DispatchreqSubcont>(fBDispatchReqSubCont);
                 dispatchreqSubcont.CreatedAt = DateTime.Now;
                 dispatchreqSubcont.CreatedBy = 1; //TODO
@@ -96,6 +106,9 @@ namespace ETapManagement.Repository {
                         }
                     }
                 }
+                dispReq.StatusInternal= commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
+                dispReq.Status =commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
+                _context.SaveChanges();
                 responseMessage.Message = "Vendor is assigned successfully";
                 return responseMessage;
             }

@@ -6,7 +6,6 @@ namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-    
 
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
@@ -65,7 +64,6 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
 
           modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
@@ -1222,6 +1220,8 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
+                entity.Property(e => e.FromProjectid).HasColumnName("from_projectid");
+
                 entity.Property(e => e.IsDelete).HasColumnName("is_delete");
 
                 entity.Property(e => e.Notes)
@@ -1254,6 +1254,11 @@ namespace ETapManagement.Domain.Models
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+                entity.HasOne(d => d.FromProject)
+                    .WithMany(p => p.SiteDeclaration)
+                    .HasForeignKey(d => d.FromProjectid)
+                    .HasConstraintName("FK__site_decl__from___320D340E");
 
                 entity.HasOne(d => d.Sitereq)
                     .WithMany(p => p.SiteDeclaration)
