@@ -16,6 +16,7 @@ namespace ETapManagement.Domain.Models
         public int CompTypeId { get; set; }
         public string DrawingNo { get; set; }
         public int? ComponentNo { get; set; }
+        public string CompName { get; set; }
         public bool? IsGroup { get; set; }
         public decimal? Leng { get; set; }
         public decimal? Breath { get; set; }
@@ -32,7 +33,6 @@ namespace ETapManagement.Domain.Models
         public bool? IsDelete { get; set; }
         public bool? IsActive { get; set; }
         public string CompStatus { get; set; }
-        public string CompName { get; set; }
 
         public virtual ComponentType CompType { get; set; }
         public virtual ProjectStructure ProjStruct { get; set; }

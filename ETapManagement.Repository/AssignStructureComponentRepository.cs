@@ -121,7 +121,7 @@ namespace ETapManagement.Repository {
                 Structures structDetails = _context.Structures.Where (x => x.Id == filterReq.StructId).FirstOrDefault ();
                 Project projDB = _context.Project.Include(x=>x.Ic).Include(x=>x.Bu).Where(x=>x.Id == filterReq.ProjectId).FirstOrDefault();
                 AssignStructureDtlsOnly response = new AssignStructureDtlsOnly ();
-                ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Project).Include (x => x.Structure).Include (x => x.Structure.StructureType).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault ();
+                ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Project).Include (x => x.Structure).Include (x => x.Structure.StructureType).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault();
                
                 if (pStruct != null) {
                  List<Component> lstComp = _context.Component.Include(x=>x.CompType).Where(m=>m.ProjStructId == pStruct.Id).ToList();
@@ -135,6 +135,7 @@ namespace ETapManagement.Repository {
                 } else {
                     response.StructureAttributes = structDetails.StructureAttributes;
                     response.StructureId = structDetails.Id;
+                    response.StructureCode = structDetails.StructId;
                     response.StrcutureTypeName = _context.StructureType.Where (x => x.Id == structDetails.StructureTypeId).FirstOrDefault ().Name;
                     response.ICName = projDB.Ic.Name;
                     response.BuName = projDB.Bu.Name;

@@ -744,7 +744,7 @@ namespace ETapManagement.Api.Extensions {
 
             CreateMap<AddSiteRequirement, SiteRequirement> ()
                 .ForMember (dest =>
-                    dest.ProjectId,
+                    dest.FromProjectId,
                     opt => opt.MapFrom (src => src.ProjectId))
                 .ForMember (dest =>
                     dest.PlanStartdate,
@@ -783,7 +783,7 @@ namespace ETapManagement.Api.Extensions {
                     dest.MrNo,
                     opt => opt.MapFrom (src => src.MrNo))
                 .ForMember (dest =>
-                    dest.ProjectId,
+                    dest.FromProjectId,
                     opt => opt.MapFrom (src => src.ProjectId))
                 .ForMember (dest =>
                     dest.PlanStartdate,
@@ -835,7 +835,7 @@ namespace ETapManagement.Api.Extensions {
                     dest.StructId,
                     opt => opt.MapFrom (src => src.DispStructId))
                 .ForMember (dest =>
-                    dest.FromProjectid,
+                    dest.FromProjectId,
                     opt => opt.MapFrom (src => src.FromProjectId))    
                 .ForMember (dest =>
                     dest.SurplusFromdate,

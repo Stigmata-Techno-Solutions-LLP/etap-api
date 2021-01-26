@@ -6,7 +6,6 @@ namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -65,7 +64,8 @@ namespace ETapManagement.Domain.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-          modelBuilder.Query<SiteRequirementDetail> ();
+
+            modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -181,7 +181,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.CompName)
                     .HasColumnName("comp_name")
-                    .HasMaxLength(200)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.CompStatus)
@@ -282,11 +282,6 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.CompName)
-                    .HasColumnName("comp_name")
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.CompStatus)
                     .HasColumnName("comp_status")
                     .HasMaxLength(20)
@@ -368,7 +363,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("component_type");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__componen__72E12F1B8C5D6051")
+                    .HasName("UQ__componen__72E12F1BD92E48E4")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -582,7 +577,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("dispatch_requirement");
 
                 entity.HasIndex(e => e.DispatchNo)
-                    .HasName("UQ__dispatch__F7205CCD56093039")
+                    .HasName("UQ__dispatch__F7205CCD7382AD40")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -720,7 +715,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("disreq_status_history");
 
                 entity.HasIndex(e => e.DispatchNo)
-                    .HasName("UQ__disreq_s__F7205CCD739EF029")
+                    .HasName("UQ__disreq_s__F7205CCD317E9D4D")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1127,7 +1122,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("segment");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__segment__72E12F1B6A218608")
+                    .HasName("UQ__segment__72E12F1BBE93F90A")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1149,7 +1144,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("service_type");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__service___72E12F1BD81B7083")
+                    .HasName("UQ__service___72E12F1B2B9D961A")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1220,7 +1215,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
-                entity.Property(e => e.FromProjectid).HasColumnName("from_projectid");
+                entity.Property(e => e.FromProjectId).HasColumnName("from_project_id");
 
                 entity.Property(e => e.IsDelete).HasColumnName("is_delete");
 
@@ -1254,11 +1249,6 @@ namespace ETapManagement.Domain.Models
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
-
-                entity.HasOne(d => d.FromProject)
-                    .WithMany(p => p.SiteDeclaration)
-                    .HasForeignKey(d => d.FromProjectid)
-                    .HasConstraintName("FK__site_decl__from___320D340E");
 
                 entity.HasOne(d => d.Sitereq)
                     .WithMany(p => p.SiteDeclaration)
@@ -1333,7 +1323,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("site_requirement");
 
                 entity.HasIndex(e => e.MrNo)
-                    .HasName("UQ__site_req__AE8CB972E87C7F1E")
+                    .HasName("UQ__site_req__AE8CB9728B4DCC1B")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1355,6 +1345,8 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
+                entity.Property(e => e.FromProjectId).HasColumnName("from_project_id");
+
                 entity.Property(e => e.IsDelete).HasColumnName("is_delete");
 
                 entity.Property(e => e.MrNo)
@@ -1370,8 +1362,6 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.PlanStartdate)
                     .HasColumnName("plan_startdate")
                     .HasColumnType("datetime");
-
-                entity.Property(e => e.ProjectId).HasColumnName("project_id");
 
                 entity.Property(e => e.Remarks)
                     .HasColumnName("remarks")
@@ -1398,9 +1388,9 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
 
-                entity.HasOne(d => d.Project)
+                entity.HasOne(d => d.FromProject)
                     .WithMany(p => p.SiteRequirement)
-                    .HasForeignKey(d => d.ProjectId)
+                    .HasForeignKey(d => d.FromProjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("siteReq_proj_fkey");
             });

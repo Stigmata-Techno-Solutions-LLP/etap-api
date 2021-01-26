@@ -160,7 +160,7 @@ namespace ETapManagement.Repository {
                     if (_context.SiteRequirement.Where (x => x.Id != id && x.IsDelete == false).Count () > 0) {
                         throw new ValueNotFoundException ("Site Requirement Id doesnot exist.");
                     } else {
-                        siteReq.ProjectId = siteRequirement.ProjectId;
+                        siteReq.FromProjectId = siteRequirement.ProjectId;
                         siteReq.PlanStartdate = siteRequirement.PlanStartdate;
                         siteReq.PlanReleasedate = siteRequirement.PlanReleasedate;
                         siteReq.ActualStartdate = siteRequirement.ActualStartdate;

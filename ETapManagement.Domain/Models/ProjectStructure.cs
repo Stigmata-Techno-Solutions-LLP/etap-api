@@ -17,14 +17,14 @@ namespace ETapManagement.Domain.Models
         public int ProjectId { get; set; }
         public string DrawingNo { get; set; }
         public int? ComponentsCount { get; set; }
+        public decimal? EstimatedWeight { get; set; }
+        public string StructureStatus { get; set; }
+        public string CurrentStatus { get; set; }
         public bool? IsDelete { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public decimal? EstimatedWeight { get; set; }
-        public string StructureStatus { get; set; }
-        public string CurrentStatus { get; set; }
 
         public virtual Project Project { get; set; }
         public virtual Structures Structure { get; set; }

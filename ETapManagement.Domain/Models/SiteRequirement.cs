@@ -15,7 +15,7 @@ namespace ETapManagement.Domain.Models
 
         public int Id { get; set; }
         public string MrNo { get; set; }
-        public int ProjectId { get; set; }
+        public int FromProjectId { get; set; }
         public DateTime PlanStartdate { get; set; }
         public DateTime PlanReleasedate { get; set; }
         public DateTime ActualStartdate { get; set; }
@@ -32,7 +32,7 @@ namespace ETapManagement.Domain.Models
         public DateTime? UpdatedAt { get; set; }
         public bool IsDelete { get; set; }
 
-        public virtual Project Project { get; set; }
+        public virtual Project FromProject { get; set; }
         public virtual ICollection<DispatchRequirement> DispatchRequirement { get; set; }
         public virtual ICollection<SiteDeclaration> SiteDeclaration { get; set; }
         public virtual ICollection<SiteReqStructure> SiteReqStructure { get; set; }

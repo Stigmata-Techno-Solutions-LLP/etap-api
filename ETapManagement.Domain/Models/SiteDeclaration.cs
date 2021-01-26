@@ -14,6 +14,7 @@ namespace ETapManagement.Domain.Models
         public int Id { get; set; }
         public int? SitereqId { get; set; }
         public int? StructId { get; set; }
+        public int? FromProjectId { get; set; }
         public DateTime SurplusFromdate { get; set; }
         public string Status { get; set; }
         public string StatusInternal { get; set; }
@@ -24,9 +25,7 @@ namespace ETapManagement.Domain.Models
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public bool IsDelete { get; set; }
-        public int? FromProjectid { get; set; }
 
-        public virtual Project FromProject { get; set; }
         public virtual SiteRequirement Sitereq { get; set; }
         public virtual Structures Struct { get; set; }
         public virtual ICollection<SitedeclDocuments> SitedeclDocuments { get; set; }

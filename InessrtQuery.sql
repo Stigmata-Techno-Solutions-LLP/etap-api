@@ -24,8 +24,26 @@ insert into business_unit  values(1,'Port',1,0,1,getdate(),null,null)
 
 insert into segment values ('SEG001','')
 
-insert into project   values ('BMRC RT 02','PROJ001',200,1,1,1,0,1,1,getdate(),null,null)
+
+
+insert into project   values ('BMRC RT 02','PROJ001',200,1,1,'JOB001','ERDC0001',0,1,1,getdate(),null,null)
 insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('admin','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,1,getdate(),null,null,null,1,1,1)
+
+insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_bu','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,4,getdate(),null,null,null,1,1,1)
+
+insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_twcc','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,6,getdate(),null,null,null,1,1,1)
+
+insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_cmpc','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,5,getdate(),null,null,null,1,1,1)
+
+insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_site','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,13,getdate(),null,null,null,1,1,1)
+
+insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_vendor','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,12,getdate(),null,null,null,1,1,1)
+insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_qa','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,9,getdate(),null,null,null,1,1,1)
+insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_ehs','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,11,getdate(),null,null,null,1,1,1)
+insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_faa','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,10,getdate(),null,null,null,1,1,1)
+insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_proc','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,8,getdate(),null,null,null,1,1,1)
+
+
 
 
 
@@ -43,45 +61,29 @@ insert into structure_type values('LG & Bridge Builders',1,0,'',1,getdate(),null
 
 
 
-        
-      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('SITE','REQUIREMENT',1,'NEW','REJECT','')
-                
-      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('BU','REQUIREMENT',2,'BUAPPROVED','NEW','')
-        
-      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('CMPC','REQUIREMENT',3,'CMPCAPPROVED','BUAPPROVED,TWCCAPPROVED','')
-        
-      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('TWCC','REQUIREMENT',3,'TWCCAPPROVED','BUAPPROVED,CMPCAPPROVED','')
-        
-      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('TWCC','REQUIREMENT',4,'DISPATCHED','READYTODISPATCH','')
-        
 
-        
-      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('SITE','DECLARATION',1,'NEW','','REJECT,NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH,EHSREJECTED,QAREJECTED')
-                
-      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('EHS','DECLARATION',2,'EHSAPPROVED','NEW','EHSAPPROVED,READYTODISPATCH,EHSREJECTED,QAREJECTED')
-        
-      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('QA','DECLARATION',3,'READYTODISPATCH','EHSAPPROVED','READYTODISPATCH,QAREJECTED')
-              
-      insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('TWCC','DECLARATION',4,'READYTODISPATCH','','READYTODISPATCH')
-        
-         insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('CMPC','DECLARATION',5,'READYTODISPATCH','','READYTODISPATCH')
-        
-                 insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('BU','DECLARATION',6,'READYTODISPATCH','','READYTODISPATCH')
-        
-          insert into role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status)
-        values('PROCUREMENT','DECLARATION',7,'SCRAPPED','QAREJECTED,EHSREJECTED','')
-      
-        
-      
-        
+
+
+        INSERT INTO ETapManagement.dbo.role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
+('SITE','REQUIREMENT',1,'NEW','REJECT','REJECT,NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH',NULL)
+,('BU','REQUIREMENT',2,'BUAPPROVED','NEW','NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH',NULL)
+,('CMPC','REQUIREMENT',3,'CMPCAPPROVED','BUAPPROVED,TWCCAPPROVED','BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH',NULL)
+,('TWCC','REQUIREMENT',3,'TWCCAPPROVED','BUAPPROVED,CMPCAPPROVED','BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH',NULL)
+,('TWCC','REQUIREMENT',4,'DISPATCHED','READYTODISPATCH','READYTODISPATCH',NULL)
+,('SITE','DECLARATION',1,'NEW','','REJECT,NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH,EHSREJECTED,QAREJECTED',NULL)
+,('EHS','DECLARATION',2,'EHSAPPROVED','NEW','EHSAPPROVED,READYTODISPATCH,EHSREJECTED,QAREJECTED',NULL)
+,('QA','DECLARATION',3,'READYTODISPATCH','EHSAPPROVED','READYTODISPATCH,QAREJECTED',NULL)
+,('TWCC','DECLARATION',4,'READYTODISPATCH','','READYTODISPATCH',NULL)
+,('CMPC','DECLARATION',5,'READYTODISPATCH','','READYTODISPATCH',NULL)
+;
+INSERT INTO ETapManagement.dbo.role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
+('BU','DECLARATION',6,'READYTODISPATCH','','READYTODISPATCH',NULL)
+,('PROCUREMENT','DECLARATION',7,'SCRAPPED','QAREJECTED,EHSREJECTED','',NULL)
+,('PROCUREMENT','DISPATCH',1,'PROCAPPROVED','NEW',NULL,'1,2')
+,('CMPC','DISPATCH',1,'CMPCAPPROVED','NEW',NULL,'4')
+,('FAA','DISPATCH',2,'FAAAPPROVED','CMPCAPPROVED','TOSITEAPPROVED,FAAAPPROVED,FROMSITEAPPROVED,DISPATCHED','4')
+,('SITE','DISPATCH',3,'FROMSITEAPPROVED','FAAAPPROVED','FAAAPPROVED','4')
+,('SITE','DISPATCH',4,'TOSITEAPPROVED','PROCAPPROVED,FROMSITEAPPROVED','REJECT,NEW,PROCAPPROVED,TOSITEAPPROVED,VENDORAPPROVED,FAAAPPROVED,FROMSITEAPPROVED','1,2,4')
+,('VENDOR','DISPATCH',5,'DISPATCHED','TOSITEAPPROVED','PROCAPPROVED,TOSITEAPPROVED,VENDORAPPROVED,FAAAPPROVED,FROMSITEAPPROVED','1,2')
+,('SITE','DISPATCH',5,'DISPATCHED','TOSITEAPPROVED','TOSITEAPPROVED','4')
+;

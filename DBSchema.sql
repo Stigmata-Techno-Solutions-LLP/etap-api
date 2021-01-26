@@ -1,5 +1,4 @@
 
-
 IF OBJECT_ID('ETapManagement.dbo.site_comp_physicalverf', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.site_comp_physicalverf ;
  
@@ -12,8 +11,7 @@ IF OBJECT_ID('ETapManagement.dbo.site_physical_verf', 'U') IS NOT NULL
 IF OBJECT_ID('ETapManagement.dbo.component_history', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.component_history ;
 
-IF OBJECT_ID('ETapManagement.dbo.component', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.component;
+
 IF OBJECT_ID('ETapManagement.dbo.project_structure_documents', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.project_structure_documents;
 
@@ -34,14 +32,18 @@ IF OBJECT_ID('ETapManagement.dbo.disp_structure_comp', 'U') IS NOT NULL
   DROP TABLE ETapManagement.dbo.disp_structure_comp;
 
 
+IF OBJECT_ID('ETapManagement.dbo.disp_structure_documents', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.disp_structure_documents;
+
 
 IF OBJECT_ID('ETapManagement.dbo.disp_req_structure', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.disp_req_structure;
 
 
-IF OBJECT_ID('ETapManagement.dbo.disp_structure_documents', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.disp_structure_documents;
-
+ IF OBJECT_ID('ETapManagement.dbo.disreq_status_history', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.disreq_status_history;
+ IF OBJECT_ID('ETapManagement.dbo.disp_req_structure', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.disp_req_structure;
 IF OBJECT_ID('ETapManagement.dbo.dispatch_requirement', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.dispatch_requirement;
 
@@ -149,10 +151,17 @@ IF OBJECT_ID('ETapManagement.dbo.sub_contractor', 'U') IS NOT NULL
 IF OBJECT_ID('ETapManagement.dbo.roles', 'U') IS NOT NULL 
   DROP TABLE ETapManagement.dbo.roles;
 IF OBJECT_ID('ETapManagement.dbo.role_hierarchy', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.roles;
+  DROP TABLE ETapManagement.dbo.role_hierarchy;
 
-
-
+IF OBJECT_ID('ETapManagement.dbo.component', 'U') IS NOT NULL 
+  DROP TABLE ETapManagement.dbo.component;
+  
+ 
+ 
+ 
+ 
+ 
+ 
 
 CREATE TABLE ETapManagement.dbo.roles
 (
@@ -361,6 +370,7 @@ CREATE TABLE ETapManagement.dbo.project_structure
   components_count int,
   estimated_weight decimal(10,2),
   structure_status varchar(20) null,
+  current_status varchar(20) null,
   is_delete bit NULL DEFAULT 0,
   created_by int null,
   created_at datetime default CURRENT_TIMESTAMP,
@@ -394,6 +404,7 @@ CREATE TABLE ETapManagement.dbo.component
   comp_type_id int not null,
   drawing_no varchar(20) null,
   component_no int null,
+  comp_name varchar(20) NULL,
   is_group bit null default 0,
   leng decimal(10,6) null,
   breath decimal(10,6) null,
@@ -493,7 +504,7 @@ CREATE TABLE ETapManagement.dbo.site_requirement
 (
   id int not null identity(1,1) primary key,
   mr_no varchar(20) not null unique,
-  project_id int not null,
+  from_project_id int not null,
   plan_startdate datetime not null,
   plan_releasedate datetime not null,
   actual_startdate datetime not null,
@@ -509,7 +520,7 @@ CREATE TABLE ETapManagement.dbo.site_requirement
   updated_by int null,
   updated_at datetime null,
   is_delete bit not null DEFAULT 0,
-  CONSTRAINT siteReq_proj_fkey FOREIGN KEY (project_id) REFERENCES project(id),
+  CONSTRAINT siteReq_proj_fkey FOREIGN KEY (from_project_id) REFERENCES project(id),
 )
 
 CREATE TABLE ETapManagement.dbo.site_req_structure
@@ -546,6 +557,7 @@ CREATE TABLE ETapManagement.dbo.site_declaration
   id int not null identity(1,1) primary key,
   sitereq_id int,
   struct_id int,
+  from_project_id int,
   surplus_fromdate datetime not null,
   "status" varchar(50) null,
   status_internal varchar(100) null,
@@ -712,7 +724,7 @@ CREATE TABLE ETapManagement.dbo.disp_subcont_structure
   id int not null identity(1,1) primary key,
   dispreqsubcont_id int,
   struct_id int,
-  is_Delivered bit null default false,
+  is_Delivered bit null default 0,
   fabrication_cost decimal (10,2) null,
   monthly_rent decimal(10,2) null,
   contract_years decimal(10,2) null,
