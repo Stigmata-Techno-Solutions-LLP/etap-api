@@ -40,6 +40,7 @@ namespace ETapManagement.ViewModel.Dto {
 
         [Required]
         public int ProjectId { get; set; }
+        public string ProjectName{get;set;}
 
         [Required]
         public DateTime PlanStartdate { get; set; }

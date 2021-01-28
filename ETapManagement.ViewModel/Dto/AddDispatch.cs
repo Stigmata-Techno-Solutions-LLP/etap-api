@@ -35,6 +35,7 @@ namespace ETapManagement.ViewModel.Dto {
 
  public class StructureListForDipatch {
         public string StructureName { get; set; }
+        public string DispStructureStatus {get;set;} 
       //  public string StructureTypeName{get;set;}
          public int StructureId { get; set; }
          public int ProjectId { get; set; }

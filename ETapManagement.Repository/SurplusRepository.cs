@@ -60,7 +60,7 @@ namespace ETapManagement.Repository {
                         surplusDb.CreatedAt = DateTime.Now;
                         surplusDb.CreatedBy = 1; //TODO
                         surplusDb.RoleId = 4; //TODO
-                        surplusDb.SitereqId = 11;
+                       // surplusDb.SitereqId = 11;
                         _context.SiteDeclaration.Add (surplusDb);
                         _context.SaveChanges ();
 

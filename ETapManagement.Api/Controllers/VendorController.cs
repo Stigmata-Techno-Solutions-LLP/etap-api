@@ -95,5 +95,17 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
+
+        [HttpGet ("GetServiceTypeNameList")]
+        public IActionResult GetServiceTypeNameList () {
+            try {
+                var response = _vendorService.GetServiceTypeNameList();
+                return Ok (response);
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
     }
 }

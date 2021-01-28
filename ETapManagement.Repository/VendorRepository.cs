@@ -89,6 +89,22 @@ namespace ETapManagement.Repository {
             }
         }
 
+
+        public List<Code> GetServiceTypeNameList () {
+            try {
+                List<Code> result = new List<Code> ();
+                var vendors = _context.ServiceType.ToList ();
+                foreach (var item in vendors) {
+                    result.Add (new Code () {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
         public List<VendorDetail> GetVendorDetails () {
             try {
                 List<VendorDetail> result = new List<VendorDetail> ();

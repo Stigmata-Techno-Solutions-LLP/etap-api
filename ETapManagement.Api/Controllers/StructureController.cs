@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Serilog;
-
+using System.Collections.Generic;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ETapManagement.Api.Controllers {
     [EnableCors ("AllowAll")]
     //[Authorize]
     [ApiController]
-    [Authorize]
+   // [Authorize]
     [Route ("api/[controller]")]
 
     public class StructureController : ControllerBase {
@@ -28,7 +28,8 @@ namespace ETapManagement.Api.Controllers {
         [HttpGet ("getstructure")]
         public IActionResult GetStructure () {
             try {
-                var response = _structureService.GetStructures ();
+                List<StructureDetails> response = null;
+                 response = _structureService.GetStructures ();
                 return Ok (response);
             } catch (Exception e) {
                 Util.LogError (e);

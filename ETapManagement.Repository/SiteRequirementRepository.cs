@@ -33,12 +33,12 @@ namespace ETapManagement.Repository {
                     string mrno = constantVal.MRNoPrefix + siteReqCount.ToString ().PadLeft (6, '0');
                     sitereq.CreatedAt = DateTime.Now;
                     sitereq.CreatedBy = 1; //TODO
-                    sitereq.RoleId = 4; // TODO
-                    sitereq.MrNo = mrno;
+                    sitereq.RoleId = 13; // TODO
+                    sitereq.MrNo = mrno;                  
                     sitereq.Status = "NEW";
                     sitereq.StatusInternal = "NEW";
                     _context.SiteRequirement.Add (sitereq);
-                    _context.SaveChanges ();
+                    _context.SaveChanges();
 
                     //Add the site requirement structure
                     if (siteRequirement.SiteRequirementStructures.Any ()) {
@@ -122,7 +122,7 @@ namespace ETapManagement.Repository {
         public SiteRequirementDetailWithStruct GetRequirementDetailsById (int id) {
             try {
                 SiteRequirementDetailWithStruct result = new SiteRequirementDetailWithStruct ();
-                var siteRequirement = _context.SiteRequirement.Where (x => x.IsDelete == false)
+                var siteRequirement = _context.SiteRequirement.Include(b=>b.FromProject).Where (x => x.IsDelete == false)
                     .Include (s => s.SiteReqStructure).FirstOrDefault ();
                 result = _mapper.Map<SiteRequirementDetailWithStruct> (siteRequirement);
                 return result;
