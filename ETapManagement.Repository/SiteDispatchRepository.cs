@@ -123,7 +123,7 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
                 var lstStructure = _context.ProjectStructure.Include (a => a.Structure).Include (a => a.Project).Where (x => x.StructureStatus == commonEnum.StructureStatus.AVAILABLE.ToString () || x.StructureStatus == commonEnum.StructureStatus.NEW.ToString ()).ToList ();
                 List<AvailableStructureForReuse> lstReuse = this.AvailableStructureForReuse (siteReqId);
                 foreach (SiteReqStructure strRerq in lstReqStr) {
-                    int availStructCount = _context.ProjectStructure.Where (x => x.Structure.Name == strRerq.Struct.Name && (x.StructureStatus == commonEnum.StructureStatus.AVAILABLE.ToString () || x.StructureStatus == commonEnum.StructureStatus.NEW.ToString ())).Count ();
+                  //  int availStructCount = _context.ProjectStructure.Where(x => x.Structure.Name == strRerq.Struct.Name && (x.StructureStatus == commonEnum.StructureStatus.AVAILABLE.ToString () || x.StructureStatus == commonEnum.StructureStatus.NEW.ToString ())).Count();
 
                     for (int i = 0; i < strRerq.Quantity; i++) {
                         ProjectStructure projStrt = lstStructure.Where (x => x.Structure.Name == strRerq.Struct.Name).FirstOrDefault ();
@@ -154,16 +154,21 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
                         } else {
 
                             VerifyStructureQty verifyQuantity = new VerifyStructureQty ();
-                            verifyQuantity.Quantity = strRerq.Quantity.Value - availStructCount;
+                            // verifyQuantity.Quantity +=1;
                             verifyQuantity.StructureName = strRerq.Struct.Name;
                             lstVerifyStructureQty.Add (verifyQuantity);
                         }
 
                     }
                 }
+            //  lstVerifyStructureQty.GroupBy(x=>x.StructureName).ToList();
+                lstVerifyStructureQty = (from m in lstVerifyStructureQty group m.Quantity by m.StructureName into g
+                    select new VerifyStructureQty { StructureName = g.Key, Quantity = g.Count() }).ToList();
                 SiteRequirementDispatch steDispatchReady = new SiteRequirementDispatch ();
                 steDispatchReady.lstStructforDispatch = lstStructureListForDipatch;
                 steDispatchReady.lstVerifyStructureQty = lstVerifyStructureQty;
+
+             
                 return steDispatchReady;
             } catch (Exception ex) {
                 throw ex;
