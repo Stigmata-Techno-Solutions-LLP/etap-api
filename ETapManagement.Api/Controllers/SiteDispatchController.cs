@@ -63,7 +63,10 @@ namespace ETapManagement.Api.Controllers
             try
             {
                 var response = _siteDispatchService.GetRequirementStructureDispatchDetails(siteReqId);
-                return Ok(response);
+                return Ok(response);        
+             } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
             }
             catch (Exception e)
             {

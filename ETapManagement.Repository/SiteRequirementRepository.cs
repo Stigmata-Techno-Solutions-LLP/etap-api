@@ -122,9 +122,12 @@ namespace ETapManagement.Repository {
         public SiteRequirementDetailWithStruct GetRequirementDetailsById (int id) {
             try {
                 SiteRequirementDetailWithStruct result = new SiteRequirementDetailWithStruct ();
-                var siteRequirement = _context.SiteRequirement.Include(b=>b.FromProject).Where (x => x.IsDelete == false)
+                var siteRequirement = _context.SiteRequirement.Include(b=>b.FromProject).Where(x => x.IsDelete == false && x.Id == id)
                     .Include (s => s.SiteReqStructure).FirstOrDefault ();
+                var reqStrucutre =  _context.SiteReqStructure.Include(r=>r.Struct).Where(x=>x.SiteReqId == id).ToList();
+                siteRequirement.SiteReqStructure = reqStrucutre;
                 result = _mapper.Map<SiteRequirementDetailWithStruct> (siteRequirement);
+
                 return result;
             } catch (Exception ex) {
                 throw ex;

@@ -821,7 +821,7 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.SiteReqStructure))
                 .ReverseMap ();
 
-            CreateMap<SiteRequirementStructure, SiteReqStructure> ()
+            CreateMap< SiteReqStructure,SiteRequirementStructure> ()
                 .ForMember (dest =>
                     dest.Id,
                     opt => opt.MapFrom (src => src.Id))
@@ -831,6 +831,9 @@ namespace ETapManagement.Api.Extensions {
                 .ForMember (dest =>
                     dest.StructId,
                     opt => opt.MapFrom (src => src.StructId))
+                .ForMember (dest =>
+                    dest.StructName,
+                    opt => opt.MapFrom (src => src.Struct.Name))                    
                 .ReverseMap ();
 
             CreateMap<AddSurplus, SiteDeclaration> ()
