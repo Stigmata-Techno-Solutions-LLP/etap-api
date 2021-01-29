@@ -152,6 +152,7 @@ namespace ETapManagement.Repository {
                             foreach (var item in addedSiteLocations) {
                                 ProjectSitelocation projectSitelocation = new ProjectSitelocation ();
                                 projectSitelocation.Name = item.Name;
+                                projectSitelocation.ProjectId = id;
                                 _context.ProjectSitelocation.Add (projectSitelocation);
                             }
                         }
