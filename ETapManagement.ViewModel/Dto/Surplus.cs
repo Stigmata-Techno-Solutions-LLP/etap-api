@@ -23,6 +23,7 @@ namespace ETapManagement.ViewModel.Dto {
         public int? SiteReqId { get; set; }
         public string isAction { get; set; }
         public string StructureTypeName { get; set; }
+        public string StructureCode{get;set;}
 
         public int StructureId { get; set; }
         public string StructureName { get; set; }
