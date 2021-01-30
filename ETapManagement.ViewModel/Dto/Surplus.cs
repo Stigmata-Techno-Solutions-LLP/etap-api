@@ -26,6 +26,8 @@ namespace ETapManagement.ViewModel.Dto {
 
         public int StructureId { get; set; }
         public string StructureName { get; set; }
+        public string ProjectName{get;set;}
+        public string ProjectCode{get;set;}
 
         public DateTime SurplusDate { get; set; }
 
