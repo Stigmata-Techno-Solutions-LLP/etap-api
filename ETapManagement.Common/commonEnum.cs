@@ -21,7 +21,20 @@ namespace ETapManagement.Common {
             VENDOR = 8,
             BU = 9,
             IC = 10,
-            PROJECTS = 11
+            PROJECTS = 11,
+            QA=12
+        }
+           public enum SurplusRolename {
+            ADMIN = 1,
+            SITE = 2,
+            CMPC = 3,
+            TWCC = 4,
+            PROCUREMENT = 5,
+            EHS = 6,
+            BU = 9,
+            IC = 10,
+            PROJECTS = 11,
+            QA=12
         }
         public enum SurPlusDeclSatus {
             NEW = 1,

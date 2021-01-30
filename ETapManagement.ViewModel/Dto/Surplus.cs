@@ -20,7 +20,7 @@ namespace ETapManagement.ViewModel.Dto {
     }
     public class SurplusDetails {
         public int Id { get; set; }
-        public int SiteReqId { get; set; }
+        public int? SiteReqId { get; set; }
         public string isAction { get; set; }
         public string StructureTypeName { get; set; }
 
@@ -48,7 +48,7 @@ namespace ETapManagement.ViewModel.Dto {
         [Required]
         public commonEnum.WorkFlowMode mode { get; set; }
 
-        public commonEnum.Rolename role_name { get; set; }
+        public commonEnum.SurplusRolename role_name { get; set; }
         public string role_hierarchy { get; set; }
 
     }

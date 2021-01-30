@@ -29,7 +29,7 @@ insert into segment values ('SEG001','')
 insert into project   values ('BMRC RT 02','PROJ001',200,1,1,'JOB001','ERDC0001',0,1,1,getdate(),null,null)
 insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('admin','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,1,getdate(),null,null,null,1,1,1)
 
-insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_bu','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,4,getdate(),null,null,null,1,1,1)
+insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id,first_name ) values('stig_bu','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,4,getdate(),null,null,null,1,1,1)
 
 insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_twcc','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,6,getdate(),null,null,null,1,1,1)
 
@@ -64,6 +64,7 @@ insert into structure_type values('LG & Bridge Builders',1,0,'',1,getdate(),null
 
 
 
+
         INSERT INTO ETapManagement.dbo.role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
 ('SITE','REQUIREMENT',1,'NEW','REJECT','REJECT,NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH',NULL)
 ,('BU','REQUIREMENT',2,'BUAPPROVED','NEW','NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH',NULL)
@@ -73,6 +74,7 @@ insert into structure_type values('LG & Bridge Builders',1,0,'',1,getdate(),null
 ,('SITE','DECLARATION',1,'NEW','','REJECT,NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH,EHSREJECTED,QAREJECTED',NULL)
 ,('EHS','DECLARATION',2,'EHSAPPROVED','NEW','EHSAPPROVED,READYTODISPATCH,EHSREJECTED,QAREJECTED',NULL)
 ,('QA','DECLARATION',3,'READYTODISPATCH','EHSAPPROVED','READYTODISPATCH,QAREJECTED',NULL)
+,('PROCUREMENT','DECLARATION',3,null,'EHSREJECTED,QAREJECTED','',NULL)
 ,('TWCC','DECLARATION',4,'READYTODISPATCH','','READYTODISPATCH',NULL)
 ,('CMPC','DECLARATION',5,'READYTODISPATCH','','READYTODISPATCH',NULL)
 ;

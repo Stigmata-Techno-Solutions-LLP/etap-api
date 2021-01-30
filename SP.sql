@@ -234,14 +234,14 @@ BEGIN
 	if (@role_hierarchy is null)
 	BEGIN 
 		
-	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name and scenario_type ='REQUIREMENT')
-	SET @new_status= (select top 1 chk_status from role_hierarchy where  role_hierarchy  = (select top 1 role_hierarchy from role_hierarchy where role_name =@role_name and scenario_type ='REQUIREMENT') -1)
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name and scenario_type ='DECLARATION')
+	SET @new_status= (select top 1 chk_status from role_hierarchy where  role_hierarchy  = (select top 1 role_hierarchy from role_hierarchy where role_name =@role_name and scenario_type ='DECLARATION') -1)
 
 	END 
 ELSE 
 BEGIN 	
-		SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name and role_hierarchy  = @role_hierarchy and scenario_type ='REQUIREMENT')
-		SET @new_status= (select top 1 chk_status from role_hierarchy where role_hierarchy  = @role_hierarchy and scenario_type ='REQUIREMENT')
+		SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name and role_hierarchy  = @role_hierarchy and scenario_type ='DECLARATION')
+		SET @new_status= (select top 1 chk_status from role_hierarchy where role_hierarchy  = @role_hierarchy and scenario_type ='DECLARATION')
 
 	END
 	--select @cond_status 
