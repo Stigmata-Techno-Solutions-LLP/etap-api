@@ -64,16 +64,20 @@ namespace ETapManagement.Repository {
                         _context.SiteDeclaration.Add (surplusDb);
                         _context.SaveChanges ();
 
-                        //  SitedeclStatusHistory siteStatusHist = new SitedeclStatusHistory ();
-                        //  siteStatusHist.SitedecId = surplusDb.Id;
-                        // siteStatusHist.RoleId = surplusDb.RoleId;
-                        // siteStatusHist.SitedecId = surplusDb.SitereqId;
-                        // siteStatusHist.Status = surplusDb.Status;
-                        // siteStatusHist.Notes ="";
-                        // siteStatusHist.StatusInternal = surplusDb.StatusInternal;
-                        // siteStatusHist.UpdatedAt = DateTime.Now;
-                        // siteStatusHist.UpdatedBy = 1; //TODO;
-                        // _context.SitedeclStatusHistory.Add (siteStatusHist);
+                         SitedeclStatusHistory siteStatusHist = new SitedeclStatusHistory ();
+                         siteStatusHist.SitedecId = surplusDb.Id;
+                        siteStatusHist.RoleId = surplusDb.RoleId;
+                        siteStatusHist.SitedecId = surplusDb.SitereqId;
+                        siteStatusHist.Status = surplusDb.Status;
+                        siteStatusHist.Notes ="";
+                        siteStatusHist.StatusInternal = surplusDb.StatusInternal;
+                        siteStatusHist.UpdatedAt = DateTime.Now;
+                        siteStatusHist.UpdatedBy = 1; //TODO;
+                        _context.SitedeclStatusHistory.Add (siteStatusHist);
+                        _context.SaveChanges ();
+
+                        ProjectStructure projStructDB = _context.ProjectStructure.Where(x=>x.StructureId ==surplusDetails.DispStructId).FirstOrDefault();
+                        projStructDB.CurrentStatus = commonEnum.StructureInternalStatus.SURPLUSINITIATED.ToString();
                         _context.SaveChanges ();
                         transaction.Commit ();
                         return surplusDb.Id;

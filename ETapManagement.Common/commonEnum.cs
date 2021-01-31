@@ -84,13 +84,15 @@ namespace ETapManagement.Common {
             DISPATCHINPROGRESS=2,
             INUSE=3,
             PARTIALLYSCANNED=4,
+            SURPLUSINITIATED=5,
+            READYTOREUSE=6,
+            SCRAPPED=7
         }
 
         public enum StructureStatus {
             NEW=1,
             AVAILABLE=2,
-            NOTAVAILABLE=3,
-       
+            NOTAVAILABLE=3,       
         }
         public enum SiteRequiremntStatus{
             NEW=1,
