@@ -40,6 +40,7 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage AddComponentType (ComponentTypeDetails componentTypeDetails) {
             ResponseMessage response = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
                 //TODO: ID auto incremented??
                 if (_context.ComponentType.Where (x => x.Id == componentTypeDetails.Id && x.IsDelete == false).Count () > 0) {
@@ -48,6 +49,8 @@ namespace ETapManagement.Repository {
                     throw new ValueNotFoundException ("ComponentType Name already exist.");
                 } else {
                     var componentType = _mapper.Map<ComponentType> (componentTypeDetails);
+                    componentType.UpdatedAt =DateTime.Now;
+                    componentType.UpdatedBy = lgnUser.Id;
                     _context.ComponentType.Add (componentType);
                     _context.SaveChanges ();
 
@@ -71,6 +74,7 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage UpdateComponentType (ComponentTypeDetails componentTypeDetails, int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
                 var componentType = _context.ComponentType.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (componentType != null) {
@@ -80,6 +84,8 @@ namespace ETapManagement.Repository {
                         componentType.Name = componentTypeDetails.Name;
                         componentType.Description = componentTypeDetails.Description;
                         componentType.IsActive = componentTypeDetails.isActive;
+                        componentType.UpdatedBy = lgnUser.Id;
+                        componentType.UpdatedAt=DateTime.Now;
                         _context.SaveChanges ();
 
                         /*AuditLogs audit = new AuditLogs () {
@@ -104,10 +110,11 @@ namespace ETapManagement.Repository {
         public ResponseMessage DeleteComponentType (int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
             try {
-
+LoginUser lgnUser =   WebHelpers.GetLoggedUser();
                 var componentType = _context.ComponentType.Where (x => x.Id == id).FirstOrDefault ();
                 if (componentType == null) throw new ValueNotFoundException ("ComponentType Id doesnt exist.");
-
+                componentType.UpdatedAt = DateTime.Now;
+                componentType.UpdatedBy = lgnUser.Id;
                 //_context.ComponentType.Remove(componentType);
                 componentType.IsDelete = true;
                 _context.SaveChanges ();

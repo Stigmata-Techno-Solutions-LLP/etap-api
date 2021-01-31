@@ -79,45 +79,7 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-        // [HttpPut("updatesurplus/{id}")]
-        // public IActionResult UpdateSurplus(SurplusDetails surplus, int id)
-        // {
-        // 	try
-        // 	{
-        // 		var response = _surplusService.UpdateSurplus(surplus, id);
-        // 		return Ok(new { message = response.Message, code = 204 });
-        // 	}
-        // 	catch (ValueNotFoundException e)
-        // 	{
-        // 		Util.LogError(e);
-        // 		return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
-        // 	}
-        // 	catch (Exception e)
-        // 	{
-        // 		Util.LogError(e);
-        // 		return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-        // 	}
-        // }
-
-        // [HttpDelete("deletesurplus/{id}")]
-        // public IActionResult DeleteSurplus(int id)
-        // {
-        // 	try
-        // 	{
-        // 		var response = _surplusService.DeleteSurplus(id);
-        // 		return Ok(new { message = response.Message, code = 204 });
-        // 	}
-        // 	catch (ValueNotFoundException e)
-        // 	{
-        // 		Util.LogError(e);
-        // 		return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
-        // 	}
-        // 	catch (Exception e)
-        // 	{
-        // 		Util.LogError(e);
-        // 		return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-        // 	}
-        // }
+       
 
         [HttpPost ("WorkflowManagement")]
         public IActionResult WorkflowManagement (WorkFlowSurplusDeclPayload siteDecl) {

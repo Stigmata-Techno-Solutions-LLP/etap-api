@@ -23,11 +23,14 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage CreateStructureType (AddStructureType structureType) {
             try {
+                LoginUser lgnUser =   WebHelpers.GetLoggedUser();
                 if (_context.StructureType.Where (x => x.Name == structureType.Name && x.IsDelete == false).Count () > 0) {
                     throw new ValueNotFoundException ("Structure Type  Name already exist.");
                 }
                 ResponseMessage responseMessage = new ResponseMessage ();
                 StructureType st = _mapper.Map<StructureType> (structureType);
+                st.CreatedBy = lgnUser.Id;
+                st.CreatedAt=DateTime.Now;
                 _context.StructureType.Add (st);
                 _context.SaveChanges ();
 
@@ -41,15 +44,16 @@ namespace ETapManagement.Repository {
         public ResponseMessage DeleteStructureType (int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
             try {
-
+                LoginUser lgnUser =   WebHelpers.GetLoggedUser();
                 var structureType = _context.StructureType.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (structureType == null) throw new ValueNotFoundException ("Structure Type Id doesnt exist.");
                 structureType.IsDelete = true;
+                structureType.UpdatedAt=DateTime.Now;
+                structureType.UpdatedBy=lgnUser.Id;
                 _context.SaveChanges ();
                 AuditLogs audit = new AuditLogs () {
                     Action = "Structure Type",
-                    Message = string.Format ("Structure Type Deleted  Succussfully {0}", structureType.Id),
-                    CreatedAt = DateTime.Now,
+                    Message = string.Format ("Structure Type Deleted  Succussfully {0}", structureType.Id),                   
                 };
                 _commonRepo.AuditLog (audit);
                 return responseMessage = new ResponseMessage () {
@@ -100,6 +104,7 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage UpdateStructureType (AddStructureType structureType, int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
                 var st = _context.StructureType.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (st != null) {
@@ -109,12 +114,13 @@ namespace ETapManagement.Repository {
                         st.Name = structureType.Name;
                         st.Description = structureType.Description;
                         st.IsActive = structureType.IsActive;
+                        st.UpdatedAt= DateTime.Now;
+                        st.UpdatedBy=lgnUser.Id;
                         _context.SaveChanges ();
 
                         AuditLogs audit = new AuditLogs () {
                             Action = "Structure Type",
-                            Message = string.Format ("Update Structure Type  successfully {0}", structureType.Name),
-                            CreatedAt = DateTime.Now
+                            Message = string.Format ("Update Structure Type  successfully {0}", structureType.Name),                        
                         };
                         _commonRepo.AuditLog (audit);
                         return responseMessage = new ResponseMessage () {

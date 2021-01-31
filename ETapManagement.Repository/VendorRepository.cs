@@ -23,13 +23,14 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage CreateVendor (AddVendor vendor) {
             try {
+                LoginUser lgnUser =   WebHelpers.GetLoggedUser();
                 if (_context.SubContractor.Where (x => x.Name == vendor.Name && x.IsDelete == false).Count () > 0) {
                     throw new ValueNotFoundException ("Vendor  Name already exist.");
                 }
                 ResponseMessage responseMessage = new ResponseMessage ();
                 SubContractor sc = _mapper.Map<SubContractor> (vendor);
                 sc.CreatedAt = DateTime.Now;
-                sc.CreatedBy = 1; //TODO
+                sc.CreatedBy = lgnUser.Id;
                 _context.SubContractor.Add (sc);
                 _context.SaveChanges ();
 
@@ -52,12 +53,14 @@ namespace ETapManagement.Repository {
         }
 
         public ResponseMessage DeleteVendor (int id) {
-            ResponseMessage responseMessage = new ResponseMessage ();
+            ResponseMessage responseMessage = new ResponseMessage();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
-
                 var vendor = _context.SubContractor.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (vendor == null) throw new ValueNotFoundException ("Vendor Id doesnt exist.");
                 vendor.IsDelete = true;
+                vendor.UpdatedBy = lgnUser.Id;
+                vendor.UpdatedAt=DateTime.Now;
                 _context.SaveChanges ();
                 AuditLogs audit = new AuditLogs () {
                     Action = "Vendor",
@@ -131,6 +134,7 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage UpdateVendor (AddVendor vendor, int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
                 var sc = _context.SubContractor.Where (x => x.Id == id && x.IsDelete == false)
                     .Include (s => s.SubContractorServiceType).FirstOrDefault ();
@@ -141,7 +145,7 @@ namespace ETapManagement.Repository {
                         sc.Name = vendor.Name;
                         sc.VendorCode = vendor.VendorCode;
                         sc.IsStatus = vendor.IsStatus;
-                        sc.UpdatedBy = 1; //TODO
+                        sc.UpdatedBy = lgnUser.Id;
                         sc.UpdatedAt = DateTime.Now;
                         _context.SaveChanges ();
 
@@ -178,14 +182,11 @@ namespace ETapManagement.Repository {
 
                             }
                         }
-
                         _context.SaveChanges ();
 
                         AuditLogs audit = new AuditLogs () {
                             Action = "Vendor",
                             Message = string.Format ("Vendor Updated  Succussfully {0}", vendor.Name),
-                            CreatedAt = DateTime.Now,
-                            CreatedBy = 1 //TODO
                         };
                         _commonRepo.AuditLog (audit);
                         return responseMessage = new ResponseMessage () {

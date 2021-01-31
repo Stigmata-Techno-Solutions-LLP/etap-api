@@ -43,6 +43,7 @@ namespace ETapManagement.Repository {
 
         public int AddSurplus (AddSurplus surplusDetails) {
             ResponseMessage response = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             using (var transaction = _context.Database.BeginTransaction ()) {
 
                 try {
@@ -53,13 +54,12 @@ namespace ETapManagement.Repository {
                     // else
                     {
                         SiteDeclaration surplusDb = _mapper.Map<SiteDeclaration> (surplusDetails);
-                        surplusDb.CreatedAt = DateTime.Now;
-                        surplusDb.UpdatedBy = 1; //TODO;
+                        surplusDb.CreatedAt = DateTime.Now;                        
                         surplusDb.Status = commonEnum.SurPlusDeclSatus.NEW.ToString ();
                         surplusDb.StatusInternal = commonEnum.SurPlusDeclSatus.NEW.ToString ();
                         surplusDb.CreatedAt = DateTime.Now;
-                        surplusDb.CreatedBy = 1; //TODO
-                        surplusDb.RoleId = 4; //TODO
+                        surplusDb.CreatedBy = lgnUser.Id; 
+                        surplusDb.RoleId = lgnUser.RoleId; 
                        // surplusDb.SitereqId = 11;
                         _context.SiteDeclaration.Add (surplusDb);
                         _context.SaveChanges ();
@@ -72,7 +72,7 @@ namespace ETapManagement.Repository {
                         siteStatusHist.Notes ="";
                         siteStatusHist.StatusInternal = surplusDb.StatusInternal;
                         siteStatusHist.UpdatedAt = DateTime.Now;
-                        siteStatusHist.UpdatedBy = 1; //TODO;
+                        siteStatusHist.UpdatedBy = lgnUser.Id;
                         _context.SitedeclStatusHistory.Add (siteStatusHist);
                         _context.SaveChanges ();
 
@@ -116,61 +116,6 @@ namespace ETapManagement.Repository {
                 throw ex;
             }
         }
-
-        public ResponseMessage UpdateSurplus (SurplusDetails surplusDetails, int id) {
-            ResponseMessage responseMessage = new ResponseMessage ();
-            try {
-                // var surplus = _context.Surplus.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
-                // if (surplus != null)
-                // {
-                // 	if (_context.Surplus.Where(x => x.Id == surplusDetails.Id && x.IsDelete == false).Count() > 0)
-                // 	{
-                // 		throw new ValueNotFoundException("surplus already exist.");
-                // 	}
-                // 	else
-                // 	{
-                // 		surplus.ProjectId = surplusDetails.ProjectId;
-                // 		surplus.StructureId = surplusDetails.StructureId;
-                // 		surplus.StructureTypeId = surplusDetails.StructureTypeId;
-                // 		surplus.SurplusFrom = surplusDetails.SurplusFrom;
-                // 		surplus.Site = surplusDetails.Site;
-                // 		surplus.Photo = surplusDetails.Photo;
-                // 		surplus.IsDelete = surplusDetails.IsDelete;
-                // 		surplus.UpdatedAt = DateTime.Now;
-                // 		_context.SaveChanges();
-
-                return responseMessage = new ResponseMessage () {
-                    Message = "surplus updated successfully.",
-                };
-                // 	}
-                // }
-                // else
-                // {
-                // 	throw new ValueNotFoundException("surplus not available.");
-                // }
-            } catch (Exception ex) {
-                throw ex;
-            }
-        }
-
-        public ResponseMessage DeleteSurplus (int id) {
-            ResponseMessage responseMessage = new ResponseMessage ();
-            try {
-
-                // var surplus = _context.Surplus.Where(x => x.Id == id).FirstOrDefault();
-                // if (surplus == null) throw new ValueNotFoundException("Surplus Id doesnt exist.");
-
-                // surplus.IsDelete = true;
-                // _context.SaveChanges();
-
-                return responseMessage = new ResponseMessage () {
-                    Message = "Surplus deleted successfully."
-                };
-            } catch (Exception ex) {
-                throw ex;
-            }
-        }
-
         public ResponseMessage WorkflowSurplusDecl (WorkFlowSurplusDeclPayload reqPayload) {
 
             int siteRequirements = 0;

@@ -7,8 +7,6 @@ namespace ETapManagement.Service {
         List<SurplusDetails> GetSurplus (SiteDeclarationDetailsPayload reqPayload);
         SurplusDetails GetSurplusById (int id);
         ResponseMessage AddSurplus (AddSurplus surplusDetails);
-        ResponseMessage UpdateSurplus (SurplusDetails surplusDetails, int id);
-        ResponseMessage DeleteSurplus (int id);
         ResponseMessage WorkflowSurplusDecl (WorkFlowSurplusDeclPayload reqPayload);
 
     }

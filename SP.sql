@@ -268,11 +268,19 @@ END
 
 
 
-CREATE OR ALTER PROCEDURE sp_getDispatch( @role_name varchar(50),@role_hierarchy int  null)
+
+
+CREATE   PROCEDURE [dbo].[sp_getDispatch]( @role_name varchar(50),@role_hierarchy int  null)
 AS
 BEGIN
 	
-	select * from dispatch_requirement dr 
+	SELECT sr.mr_no as MRNo, dr.dispatch_no as DispatchNo, dr.status as Status, 
+		dr.status_internal as StatusInternal, dr.created_at as CreatedDateTime, 
+		dr.id as DispatchId, sr.id as SiteRequestId, 
+		(SELECT name FROM service_type WHERE id= dr.servicetype_id) as ServiceType, dr.servicetype_id as ServiceTypeId, 
+		drs.subcon_id as SubContractorId, (SELECT name FROM sub_contractor WHERE id = drs.subcon_id) as SubContractorName,
+		drs.id as DispatchRequestSubContractorId
+		FROM dispatch_requirement dr
+				INNER JOIN site_requirement sr ON sr.id = dr.sitereq_id
+				LEFT OUTER JOIN dispatchreq_subcont drs ON drs.dispreq_id = dr.id
 END
-
-        

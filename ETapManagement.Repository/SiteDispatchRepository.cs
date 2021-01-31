@@ -25,6 +25,7 @@ namespace ETapManagement.Repository {
         public ResponseMessage CreateDispatch (AddDispatch dispatchReq) {
 
             string dispatchNo = "";
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             SiteRequirement siteReqr = _context.SiteRequirement.Include (c => c.SiteReqStructure).Where (x => x.Id == dispatchReq.RequirementId).FirstOrDefault ();
                 if (_context.SiteRequirement.Where (x => x.Id == dispatchReq.RequirementId && x.StatusInternal == commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ()).Count () > 0) throw new ValueNotFoundException ("Site RequirementId already dispatched");
 
@@ -57,9 +58,9 @@ namespace ETapManagement.Repository {
                         }
                         DispatchRequirement dispReq = new DispatchRequirement ();
                         dispReq.CreatedAt = DateTime.Now;
-                        dispReq.CreatedBy = 1; //TODO
+                        dispReq.CreatedBy = lgnUser.Id; 
                         dispReq.DispatchNo = dispatchNo;
-                        dispReq.RoleId = 1; // TODO
+                        dispReq.RoleId = lgnUser.RoleId;
                         dispReq.ServicetypeId = dispStr.ServiceTypeId;
                         dispReq.SitereqId = dispatchReq.RequirementId;
                         dispReq.Status = commonEnum.SiteDispatchSatus.NEW.ToString ();
@@ -77,12 +78,14 @@ namespace ETapManagement.Repository {
                         ProjectStructure structDB = _context.ProjectStructure.Where (x => x.StructureId == dispStr.StructureId && x.ProjectId == dispStr.ProjectId).FirstOrDefault ();
                         structDB.CurrentStatus = commonEnum.StructureInternalStatus.DISPATCHINPROGRESS.ToString ();
                         structDB.StructureStatus = commonEnum.StructureStatus.NOTAVAILABLE.ToString ();
+                        structDB.UpdatedAt = DateTime.Now;
+                        structDB.UpdatedBy = lgnUser.Id;
                         _context.SaveChanges ();
 
                     }
                     _context.SaveChanges ();
                     var dispatchedStrucCount = (from dr in _context.DispatchRequirement join drs in _context.DispReqStructure on dr.Id equals drs.DispreqId where dr.SitereqId == dispatchReq.RequirementId select new { }).Count ();
-SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchReq.RequirementId).FirstOrDefault();
+                    SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchReq.RequirementId).FirstOrDefault();
                     if (siteReqr.SiteReqStructure.Sum (x => x.Quantity) > dispatchedStrucCount) {
                         dbSiteReq.Status = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
                         dbSiteReq.StatusInternal = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
@@ -178,7 +181,7 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
         public List<SiteDispatchDetail> GetSiteDispatchDetails (SiteDispatchPayload siteDispatchPayload) {
             try {
                 List<SiteDispatchDetail> result = new List<SiteDispatchDetail> ();
-                var siteDispatchDetails = _context.Query<SiteDispatchDetail> ().FromSqlRaw ("exec sp_getDispatch {0}, {1}", siteDispatchPayload.role_name.ToString(), siteDispatchPayload.role_hierarchy).ToList ();
+                var siteDispatchDetails = _context.Query<SiteDispatchDetail> ().FromSqlRaw ("exec sp_getDispatch {0}, {1},{2},{3}", siteDispatchPayload.role_name.ToString(), siteDispatchPayload.role_hierarchy,siteDispatchPayload.ProjectId,siteDispatchPayload.VendorId).ToList ();
                 result = _mapper.Map<List<SiteDispatchDetail>> (siteDispatchDetails);
                 return result;
             } catch (Exception ex) {
@@ -305,6 +308,7 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
 
         public ResponseMessage DispatchComponentScan (SiteDispatchScan siteDispScan) {
             // siteDispScan.fromProjId
+            LoginUser lgnUser = WebHelpers.GetLoggedUser();
             ResponseMessage res = new ResponseMessage ();
             DispatchRequirement dispReq = _context.DispatchRequirement.Where (x => x.Id == siteDispScan.dispId).FirstOrDefault ();
             if (dispReq == null) throw new ValueNotFoundException ("Dispatch ID doesnt exists.");
@@ -319,7 +323,7 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
 
                         DispStructureComp dispComp = new DispStructureComp ();
                         dispComp.DispStructureId = dispReq.Id;
-                        dispComp.ScannedBy = 1; //TODO
+                        dispComp.ScannedBy = lgnUser.Id;
                         dispComp.LastScandate = DateTime.Now;
                         dispComp.CompStatus = "SCANNED";
                         dispComp.DispCompId = ssc.componentId;
@@ -385,6 +389,7 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
             // siteDispScan.fromProjId
             try {
                 ResponseMessage res = new ResponseMessage ();
+                LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
                 DispatchRequirement dispReq = _context.DispatchRequirement.Include (c => c.Servicetype).Where (x => x.Id == dispTrnsfer.dispReqId).FirstOrDefault ();
                 if (dispReq == null) throw new ValueNotFoundException ("Dispatch ID doesnt exists.");
 
@@ -393,6 +398,8 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
                 dispReq.TransferPrice = dispTrnsfer.transferPrice;
                 dispReq.Status = commonEnum.SiteDispatchSatus.FAAAPPROVED.ToString ();
                 dispReq.StatusInternal = commonEnum.SiteDispatchSatus.FAAAPPROVED.ToString ();
+                dispReq.UpdatedBy = lgnUSer.Id;
+                dispReq.UpdatedAt = DateTime.Now;
                 _context.SaveChanges ();
                 res.Message = "Transfer Price updated successfully";
                 return res;
@@ -403,6 +410,7 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
 
         public ResponseMessage SiteDispatchApproval (SiteDispatchApproval dispAppr) {
             ResponseMessage res = new ResponseMessage ();
+             LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
             string status = "";
             string internalStatus = "";
             ServiceType servType = _context.ServiceType.Where (x => x.Id == dispAppr.serviceTypeId).FirstOrDefault ();
@@ -433,9 +441,9 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
 
             dispReq.Status = status;
             dispReq.StatusInternal = internalStatus;
-            dispReq.RoleId = 1; //TODO
+            dispReq.RoleId = lgnUSer.RoleId; //TODO
             dispReq.UpdatedAt = DateTime.Now;
-            dispReq.UpdatedBy = 1; //TODO
+            dispReq.UpdatedBy = lgnUSer.Id; //TODO
 
             DisreqStatusHistory dispStatusHist = new DisreqStatusHistory ();
             dispStatusHist.DispatchNo = dispReq.DispatchNo;
@@ -444,13 +452,14 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
             dispStatusHist.Status = status;
             dispStatusHist.StatusInternal = internalStatus;
             dispStatusHist.CreatedAt = DateTime.Now;
-            dispStatusHist.CreatedBy = 1; //TODO
+            dispStatusHist.CreatedBy = lgnUSer.Id; //TODO
             res.Message = String.Format (" site dispatch {0} Approved Successfully.", dispReq.DispatchNo);
             return res;
         }
 
         public ResponseMessage SiteDispatchRejection (SiteDispatchApproval dispAppr) {
             ResponseMessage res = new ResponseMessage ();
+              LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
             string status = "";
             string internalStatus = "";
             ServiceType servType = _context.ServiceType.Where (x => x.Id == dispAppr.serviceTypeId).FirstOrDefault ();
@@ -480,9 +489,9 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
 
             dispReq.Status = status;
             dispReq.StatusInternal = internalStatus;
-            dispReq.RoleId = 1; //TODO
+            dispReq.RoleId =lgnUSer.RoleId;
             dispReq.UpdatedAt = DateTime.Now;
-            dispReq.UpdatedBy = 1; //TODO
+            dispReq.UpdatedBy = lgnUSer.Id; 
 
             DisreqStatusHistory dispStatusHist = new DisreqStatusHistory ();
             dispStatusHist.DispatchNo = dispReq.DispatchNo;
@@ -491,7 +500,7 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
             dispStatusHist.Status = status;
             dispStatusHist.StatusInternal = internalStatus;
             dispStatusHist.CreatedAt = DateTime.Now;
-            dispStatusHist.CreatedBy = 1; //TODO
+            dispStatusHist.CreatedBy = lgnUSer.Id; 
             res.Message = String.Format (" site dispatch {0} Rejected Successfully.", dispReq.DispatchNo);
             return res;
         }

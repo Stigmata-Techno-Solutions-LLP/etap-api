@@ -66,6 +66,7 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage AddStructure (StructureDetails structureDetails) {
             ResponseMessage response = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
                 int structCount = _context.Structures.Count () + 1;
                 string structId = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
@@ -74,6 +75,8 @@ namespace ETapManagement.Repository {
                 // } else {
                     var structureDb = _mapper.Map<Structures> (structureDetails);
                     structureDb.StructId = structId;
+                    structureDb.CreatedBy=lgnUser.Id;
+                    structureDb.CreatedAt= DateTime.Now;
                     _context.Structures.Add (structureDb);
                     _context.SaveChanges ();
 
@@ -88,6 +91,7 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage UpdateStructure (StructureDetails structureDetails, int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
                 var structure = _context.Structures.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (structure != null) {
@@ -99,8 +103,8 @@ namespace ETapManagement.Repository {
                         structure.StructureAttributes = structureDetails.StructureAttributes;
                         structure.StructureTypeId = structureDetails.StructureTypeId;
                         structure.UpdatedAt = DateTime.Now;
+                        structure.UpdatedBy=lgnUser.Id;
                         _context.SaveChanges ();
-
                         return responseMessage = new ResponseMessage () {
                             Message = "Structure updated successfully.",
                         };
@@ -115,12 +119,15 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage DeleteStructure (int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
 
                 var componentType = _context.Structures.Where (x => x.Id == id).FirstOrDefault ();
                 if (componentType == null) throw new ValueNotFoundException ("Structure Id doesnt exist.");
 
                 componentType.IsDelete = true;
+                componentType.UpdatedBy=lgnUser.Id;
+                componentType.UpdatedAt=DateTime.Now;
                 _context.SaveChanges ();
 
                 return responseMessage = new ResponseMessage () {

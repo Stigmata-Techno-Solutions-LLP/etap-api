@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-
+using Microsoft.AspNetCore.Http;
 namespace ETapManagement.Common {
     public static class Cryptography {
         #region Settings

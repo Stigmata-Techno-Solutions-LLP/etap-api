@@ -25,12 +25,13 @@ namespace ETapManagement.Repository {
             try
             {                
                 ResponseMessage responseMessage = new ResponseMessage();
+                LoginUser lgnUser =   WebHelpers.GetLoggedUser();
                 string[] strAllowedService = {commonEnum.ServiceType.Fabrication.ToString(),commonEnum.ServiceType.OutSourcing.ToString()};
                 DispatchRequirement dispReq = _context.DispatchRequirement.Include(c=>c.Servicetype).Where(x=>x.DispatchNo == oSDispatchReqSubCont.DispatchNo).FirstOrDefault();
                 if (dispReq.StatusInternal != commonEnum.SiteDispatchSatus.NEW.ToString() && !strAllowedService.Contains( dispReq.Servicetype.Name))    throw new ValueNotFoundException ("Assign Vendor not allowed"); 
                 DispatchreqSubcont dispatchreqSubcont = _mapper.Map<DispatchreqSubcont>(oSDispatchReqSubCont);
                 dispatchreqSubcont.CreatedAt = DateTime.Now;
-                dispatchreqSubcont.CreatedBy = 1; //TODO
+                dispatchreqSubcont.CreatedBy = lgnUser.Id;
                 dispatchreqSubcont.Status = "New";
                 dispatchreqSubcont.StatusInternal = "New";
                 dispatchreqSubcont.ServicetypeId = 2;
@@ -53,14 +54,27 @@ namespace ETapManagement.Repository {
                             dispSubcontStructure.MonthlyRent = item.MonthlyRent;
                             dispSubcontStructure.PlanReleasedate = item.PlanReleasedate;
                             dispSubcontStructure.ExpectedReleasedate = item.ExpectedReleasedate;
-                            dispSubcontStructure.ActualStartdate = item.ActualStartdate;                            
+                            dispSubcontStructure.ActualStartdate = item.ActualStartdate;                                      
                             _context.DispSubcontStructure.Add(dispSubcontStructure);
                             _context.SaveChanges();
                         }                         
                     }
                 }
+
+                /**disaptch status update***/
                 dispReq.StatusInternal= commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
                 dispReq.Status =commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
+
+                /***dsiaptch status historyt insert****/
+                DisreqStatusHistory dispHist = new DisreqStatusHistory();
+                dispHist.DispatchNo = dispReq.DispatchNo;
+                dispHist.CreatedAt = DateTime.Now;
+                dispHist.CreatedBy = lgnUser.Id;
+                dispHist.Status = dispReq.Status ;
+                dispHist.StatusInternal = dispReq.StatusInternal;
+                dispHist.DispreqId = dispReq.Id;
+                dispHist.RoleId = lgnUser.RoleId;
+                _context.DisreqStatusHistory.Add(dispHist);            
                 _context.SaveChanges();
                 responseMessage.Message = "Vendor assigned successfully";
                 return responseMessage;
@@ -75,13 +89,14 @@ namespace ETapManagement.Repository {
             try
             {
                 ResponseMessage responseMessage = new ResponseMessage();
+                LoginUser lgnUser =   WebHelpers.GetLoggedUser();
                 string[] strAllowedService = {commonEnum.ServiceType.Fabrication.ToString(),commonEnum.ServiceType.OutSourcing.ToString()};
                 DispatchRequirement dispReq = _context.DispatchRequirement.Include(c=>c.Servicetype).Where(x=>x.DispatchNo == fBDispatchReqSubCont.DispatchNo).FirstOrDefault();
                 if (dispReq.StatusInternal != commonEnum.SiteDispatchSatus.NEW.ToString() && !strAllowedService.Contains( dispReq.Servicetype.Name))    throw new ValueNotFoundException ("Assign Vendor not allowed"); 
   
                 DispatchreqSubcont dispatchreqSubcont = _mapper.Map<DispatchreqSubcont>(fBDispatchReqSubCont);
                 dispatchreqSubcont.CreatedAt = DateTime.Now;
-                dispatchreqSubcont.CreatedBy = 1; //TODO
+                dispatchreqSubcont.CreatedBy = lgnUser.Id;
                 dispatchreqSubcont.Status = "New";
                 dispatchreqSubcont.StatusInternal = "New";
                 dispatchreqSubcont.ServicetypeId = 1;
@@ -108,7 +123,19 @@ namespace ETapManagement.Repository {
                 }
                 dispReq.StatusInternal= commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
                 dispReq.Status =commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
+                  _context.SaveChanges();
+                  /***dsiaptch status historyt insert****/
+                DisreqStatusHistory dispHist = new DisreqStatusHistory();
+                dispHist.DispatchNo = dispReq.DispatchNo;
+                dispHist.CreatedAt = DateTime.Now;
+                dispHist.CreatedBy = lgnUser.Id;
+                dispHist.Status = dispReq.Status ;
+                dispHist.StatusInternal = dispReq.StatusInternal;
+                dispHist.DispreqId = dispReq.Id;
+                dispHist.RoleId = lgnUser.RoleId;
+                _context.DisreqStatusHistory.Add(dispHist);            
                 _context.SaveChanges();
+              
                 responseMessage.Message = "Vendor is assigned successfully";
                 return responseMessage;
             }

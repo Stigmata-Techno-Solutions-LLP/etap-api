@@ -23,7 +23,7 @@ namespace ETapManagement.Repository {
         }
 
         public ResponseMessage CreateRequirement (AddSiteRequirement siteRequirement) {
-
+LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             using (var transaction = _context.Database.BeginTransaction ()) {
                 try {
                     ResponseMessage responseMessage = new ResponseMessage ();
@@ -32,11 +32,11 @@ namespace ETapManagement.Repository {
                     int siteReqCount = _context.SiteRequirement.Count () + 1;
                     string mrno = constantVal.MRNoPrefix + siteReqCount.ToString ().PadLeft (6, '0');
                     sitereq.CreatedAt = DateTime.Now;
-                    sitereq.CreatedBy = 1; //TODO
-                    sitereq.RoleId = 13; // TODO
+                    sitereq.CreatedBy = lgnUser.Id;
+                    sitereq.RoleId = lgnUser.RoleId;
                     sitereq.MrNo = mrno;                  
-                    sitereq.Status = "NEW";
-                    sitereq.StatusInternal = "NEW";
+                    sitereq.Status = commonEnum.SiteRequiremntStatus.NEW.ToString();
+                    sitereq.StatusInternal = commonEnum.SiteRequiremntStatus.NEW.ToString();
                     _context.SiteRequirement.Add (sitereq);
                     _context.SaveChanges();
 
@@ -59,7 +59,7 @@ namespace ETapManagement.Repository {
                     siteStatusHist.StatusInternal = sitereq.StatusInternal;
                     siteStatusHist.SitereqId = sitereq.Id;
                     siteStatusHist.UpdatedAt = DateTime.Now;
-                    siteStatusHist.UpdatedBy = 1; //TODO
+                    siteStatusHist.UpdatedBy = lgnUser.Id;
                     _context.SitereqStatusHistory.Add (siteStatusHist);
                     _context.SaveChanges ();
                     responseMessage.Message = "Site Requirement created sucessfully";
@@ -74,16 +74,19 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage DeleteRequirement (int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
+
             try {
 
                 var siteRequirement = _context.SiteRequirement.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (siteRequirement == null) throw new ValueNotFoundException ("Site Requirement Id doesnt exist.");
                 siteRequirement.IsDelete = true;
+                siteRequirement.UpdatedAt=DateTime.Now;
+                siteRequirement.UpdatedBy=lgnUser.Id;
                 _context.SaveChanges ();
                 AuditLogs audit = new AuditLogs () {
                     Action = "Site Requirement",
-                    Message = string.Format ("Site Requirement Deleted  Successfully {0}", siteRequirement.Id),
-                    CreatedAt = DateTime.Now,
+                    Message = string.Format ("Site Requirement Deleted  Successfully {0}", siteRequirement.Id),              
                 };
                 _commonRepo.AuditLog (audit);
                 return responseMessage = new ResponseMessage () {
@@ -157,6 +160,7 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage UpdateRequirement (AddSiteRequirement siteRequirement, int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
                 var siteReq = _context.SiteRequirement.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (siteReq != null) {
@@ -175,8 +179,8 @@ namespace ETapManagement.Repository {
                         siteReq.Remarks = siteRequirement.Remarks;
                         siteReq.Status = siteRequirement.Status;
                         siteReq.StatusInternal = siteRequirement.StatusInternal;
-                        siteReq.RoleId = 1; //TODO
-                        siteReq.UpdatedBy = 1; //TODO
+                        siteReq.RoleId = lgnUser.RoleId;
+                        siteReq.UpdatedBy = lgnUser.Id; 
                         siteReq.UpdatedAt = DateTime.Now;
 
                         var siteReqStructures = _context.SiteReqStructure.Where (x => x.SiteReqId == siteReq.Id).ToList ();
@@ -221,14 +225,12 @@ namespace ETapManagement.Repository {
                         siteStatusHist.Status = siteReq.Status;
                         siteStatusHist.StatusInternal = siteReq.StatusInternal;
                         siteStatusHist.UpdatedAt = DateTime.Now;
-                        siteStatusHist.UpdatedBy = 1; //TODO
+                        siteStatusHist.UpdatedBy = lgnUser.Id; 
                         _context.SitereqStatusHistory.Add (siteStatusHist);
                         _context.SaveChanges ();
                         AuditLogs audit = new AuditLogs () {
                             Action = "Site Requirement",
                             Message = string.Format ("Site Requirement Updated Successfully {0}", siteReq.Id),
-                            CreatedAt = DateTime.Now,
-                            CreatedBy = 1 //TODO
                         };
                         _commonRepo.AuditLog (audit);
                         return responseMessage = new ResponseMessage () {

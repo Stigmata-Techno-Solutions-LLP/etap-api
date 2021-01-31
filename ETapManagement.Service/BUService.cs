@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ETapManagement.Repository;
 using ETapManagement.ViewModel.Dto;
-
+using ETapManagement.Common;
 namespace ETapManagement.Service {
     public class BUService : IBUService {
         IBURepository _buRepository;
@@ -25,6 +25,7 @@ namespace ETapManagement.Service {
         }
 
         public List<Code> GetBUCodeList () {
+           var data =  Common.WebHelpers.HttpContext;
             List<Code> codes = _buRepository.GetBUCodeList ();
             return codes;
         }

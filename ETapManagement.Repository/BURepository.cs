@@ -24,7 +24,7 @@ namespace ETapManagement.Repository {
         public ResponseMessage CreateBU (AddBusinessUnit businessunit) {
             try {
                 ResponseMessage responseMessage = new ResponseMessage ();
-
+                LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
                 using (var transaction = _context.Database.BeginTransaction ()) {
                     try {
                         foreach (var item in businessunit.lstBussUnit) {
@@ -35,7 +35,7 @@ namespace ETapManagement.Repository {
                             bizzUnit.IcId = businessunit.IcId;
                             bizzUnit.Name = item.Name;
                             bizzUnit.CreatedAt = DateTime.Now;
-                            bizzUnit.CreatedBy = 1; //TODO
+                            bizzUnit.CreatedBy = lgnUSer.Id;
                             _context.BusinessUnit.Add (bizzUnit);
                         }
                         _context.SaveChanges ();
@@ -60,12 +60,15 @@ namespace ETapManagement.Repository {
         }
 
         public ResponseMessage DeleteBU (int id) {
+            LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
             ResponseMessage responseMessage = new ResponseMessage ();
             try {
 
                 var bu = _context.BusinessUnit.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (bu == null) throw new ValueNotFoundException ("Business Unit Id doesnt exist.");
                 bu.IsDelete = true;
+                bu.UpdatedAt  = DateTime.Now;
+                bu.UpdatedBy = lgnUSer.Id;
                 _context.SaveChanges ();
                 AuditLogs audit = new AuditLogs () {
                     Action = "Business Unit",
@@ -83,6 +86,8 @@ namespace ETapManagement.Repository {
 
         public List<Code> GetBUCodeList () {
             try {
+                LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
+
                 List<Code> result = new List<Code> ();
                 var bus = _context.BusinessUnit.Where (x => x.IsDelete == false).ToList ();
                 foreach (var item in bus) {
@@ -121,6 +126,7 @@ namespace ETapManagement.Repository {
         }
 
         public ResponseMessage UpdateBU (UpdateBusinessUnit businessunit, int id) {
+            LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
             ResponseMessage responseMessage = new ResponseMessage ();
             try {
                 var bu = _context.BusinessUnit.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
@@ -131,7 +137,7 @@ namespace ETapManagement.Repository {
                         bu.Name = businessunit.Name;
                         bu.IcId = businessunit.IcId;
                         bu.UpdatedAt = DateTime.Now;
-                        bu.UpdatedBy = 1; //TODO
+                        bu.UpdatedBy = lgnUSer.Id;
 
                         _context.SaveChanges ();
 
@@ -139,7 +145,7 @@ namespace ETapManagement.Repository {
                             Action = "Business Unit",
                             Message = string.Format ("Business Unit Updated Successfully {0}", businessunit.Name),
                             CreatedAt = DateTime.Now,
-                            CreatedBy = 1 //TODO
+                            CreatedBy = lgnUSer.Id
                         };
                         _commonRepo.AuditLog (audit);
                         return responseMessage = new ResponseMessage () {

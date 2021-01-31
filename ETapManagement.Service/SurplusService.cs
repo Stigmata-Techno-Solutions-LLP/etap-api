@@ -36,33 +36,6 @@ namespace ETapManagement.Service {
             return surplus;
         }
 
-        // public ResponseMessage AddSurplus(AddSurplus surplus)
-        // {
-        // 	ResponseMessage responseMessage = new ResponseMessage();
-        // 	responseMessage = _surplusRepository.AddSurplus(surplus);
-
-        // 	if (responseMessage != null)
-        // 		return responseMessage;
-        // 	else
-        // 	{
-        // 		return new ResponseMessage()
-        // 		{
-        // 			Message = "",
-        // 		};
-        // 	}
-        // }
-
-        public ResponseMessage UpdateSurplus (SurplusDetails surplus, int id) {
-            ResponseMessage responseMessage = new ResponseMessage ();
-            responseMessage = _surplusRepository.UpdateSurplus (surplus, id);
-            return responseMessage;
-        }
-
-        public ResponseMessage DeleteSurplus (int id) {
-            ResponseMessage responseMessage = new ResponseMessage ();
-            responseMessage = _surplusRepository.DeleteSurplus (id);
-            return responseMessage;
-        }
 
         public ResponseMessage WorkflowSurplusDecl (WorkFlowSurplusDeclPayload reqPayload) {
             ResponseMessage responseMessage = new ResponseMessage ();

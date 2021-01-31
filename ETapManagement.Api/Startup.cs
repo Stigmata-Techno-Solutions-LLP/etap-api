@@ -19,6 +19,8 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using OwaspHeaders.Core.Extensions;
+using ETapManagement.Common;
+using Microsoft.AspNetCore.Http;
 namespace ETapManagement.Api {
     public class Startup {
         public IConfiguration Configuration { get; }
@@ -120,6 +122,7 @@ namespace ETapManagement.Api {
 
             // HttpContext for log enrichment 
             services.AddHttpContextAccessor ();
+    services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Swagger settings
             services.AddApiDoc ();
@@ -185,6 +188,8 @@ namespace ETapManagement.Api {
             app.UseEndpoints (endpoints => {
                 endpoints.MapControllers ();
             });
+            WebHelpers.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
+
             // app.UseCors(options => options.AllowAnyOrigin());  
 
         }

@@ -25,10 +25,13 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage BulkInsertWBS (List<AddWorkBreakDown> lstWorkBreakDown) {
             try {
+                LoginUser lgnUser =   WebHelpers.GetLoggedUser();
                 foreach (AddWorkBreakDown wbs in lstWorkBreakDown) {
                     WorkBreakdown wbData = _context.WorkBreakdown.Where (x => x.WbsId == wbs.WorkBreakDownCode && x.ProjectId==wbs.ProjectId && x.IsDelete == false).FirstOrDefault ();
                     if (wbData == null) {
                         WorkBreakdown data = _mapper.Map<WorkBreakdown> (wbs);
+                        data.CreatedAt=DateTime.Now;
+                        data.CreatedBy = lgnUser.Id;
                         _context.WorkBreakdown.Add (data);
                         _context.SaveChanges ();
                     } else {
@@ -37,6 +40,7 @@ namespace ETapManagement.Repository {
                         wbData.SubSegment = wbs.SubSegment;
                         wbData.Elements = wbs.Element;
                         wbData.UpdatedAt = DateTime.Now;
+
                         _context.SaveChanges();
                     }
                 }
@@ -85,16 +89,17 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage DeleteWBS (int Id) {
             try {
+                LoginUser lgnUser =   WebHelpers.GetLoggedUser();
                 WorkBreakdown wbData = _context.WorkBreakdown.Where (x => x.Id == Id && x.IsDelete == false).FirstOrDefault ();
                 if (wbData == null) throw new ValueNotFoundException ("WBS Id doesn't exist.");
 
                 wbData.IsDelete = true;
+                wbData.UpdatedBy = lgnUser.Id;
                 wbData.UpdatedAt = DateTime.Now;
                 _context.SaveChanges ();
                 AuditLogs audit = new AuditLogs () {
                     Action = "WBS Delete",
-                    Message = string.Format ("WBS Id: {0}, deleted  successfully", wbData.WbsId),
-                    CreatedBy = null //TODO:will get from session
+                    Message = string.Format ("WBS Id: {0}, deleted  successfully", wbData.WbsId),                    
                 };
                 _commonRepo.AuditLog (audit);
                 return new ResponseMessage () {

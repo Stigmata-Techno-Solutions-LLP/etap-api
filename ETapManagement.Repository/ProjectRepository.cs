@@ -27,6 +27,7 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage CreateProject (AddProject project) {
             try {
+                  LoginUser lgnUser =   WebHelpers.GetLoggedUser();
                 if (_context.Project.Where (x => x.Name == project.Name && x.IsDelete == false).Count () > 0) {
                     throw new ValueNotFoundException ("Project  Name already exist.");
                 }
@@ -35,20 +36,10 @@ namespace ETapManagement.Repository {
                 ResponseMessage responseMessage = new ResponseMessage ();
                 Project projectDB = _mapper.Map<Project> (project);
                 projectDB.ProjCode = projCode;
+                projectDB.CreatedBy = lgnUser.Id;
+                projectDB.CreatedAt = DateTime.Now;
                 _context.Project.Add (projectDB);
-                _context.SaveChanges ();
-
-                //Add the site location
-                // if (project.ProjectSiteLocationDetails.Any ()) {
-                //     foreach (var item in project.ProjectSiteLocationDetails) {
-                //         ProjectSitelocation projectSitelocation = new ProjectSitelocation ();
-                //         projectSitelocation.Name = item.Name;
-                //         projectSitelocation.ProjectId = projectDB.Id;
-                //         _context.ProjectSitelocation.Add (projectSitelocation);
-                //     }
-
-                // }
-                // _context.SaveChanges ();
+                _context.SaveChanges ();               
                 responseMessage.Message = "Project created sucessfully";
                 return responseMessage;
             } catch (Exception ex) {
@@ -58,16 +49,18 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage DeleteProject (int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
+              LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
 
                 var project = _context.Project.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (project == null) throw new ValueNotFoundException ("Project Id doesnt exist.");
                 project.IsDelete = true;
+                project.CreatedBy = lgnUser.Id;
                 _context.SaveChanges ();
                 AuditLogs audit = new AuditLogs () {
                     Action = "Project",
                     Message = string.Format ("Project Deleted  Successfully {0}", project.Id),
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = DateTime.Now,                  
                 };
                 _commonRepo.AuditLog (audit);
                 return responseMessage = new ResponseMessage () {
@@ -125,6 +118,7 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage UpdateProject (AddProject project, int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
+              LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
                 var projectDB = _context.Project.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (projectDB != null) {
@@ -136,10 +130,8 @@ namespace ETapManagement.Repository {
                         projectDB.IcId = project.ICId;
                         projectDB.BuId = project.BUId;
                         projectDB.EdrcCode = project.EDRCCode;
-                        projectDB.JobCode = project.JobCode;
-                        projectDB.CreatedBy = 1; //TODO
-                        projectDB.CreatedAt = DateTime.Now;
-                        projectDB.UpdatedBy = 1; //TODO
+                        projectDB.JobCode = project.JobCode;                                         
+                        projectDB.UpdatedBy = lgnUser.Id;
                         projectDB.UpdatedAt = DateTime.Now;
 
                         var projectLocations = _context.ProjectSitelocation.Where (x => x.ProjectId == project.Id).ToList ();
@@ -176,9 +168,7 @@ namespace ETapManagement.Repository {
                         _context.SaveChanges ();
                         AuditLogs audit = new AuditLogs () {
                             Action = "Project",
-                            Message = string.Format ("Project Updated Successfully {0}", project.Name),
-                            CreatedAt = DateTime.Now,
-                            CreatedBy = 1 //TODO
+                            Message = string.Format ("Project Updated Successfully {0}", project.Name),                                                   
                         };
                         _commonRepo.AuditLog (audit);
                         return responseMessage = new ResponseMessage () {

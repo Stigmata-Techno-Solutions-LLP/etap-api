@@ -6,6 +6,8 @@ using AutoMapper;
 using ETapManagement.Common;
 using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
+using ETapManagement.Common;
+
 
 namespace ETapManagement.Repository {
 
@@ -51,6 +53,7 @@ namespace ETapManagement.Repository {
         }
 
         public ResponseMessage AddComponents (AddComponents request) {
+             LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
             ResponseMessage response = new ResponseMessage ();
             response.Message = "Components added succusfully";
             // if (request?.ProjectStructureDetail == null)
@@ -105,11 +108,13 @@ namespace ETapManagement.Repository {
         }
 
         private Component ConstructComponent (int projectStructureID, ComponentDetails comp, Component compdb, ComponentType compTypeDB) {
+             LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
             if (compdb == null) {
                 compdb = new Component ();
                 int count = _context.Component.Count () + 1;
                 string id = constantVal.ComponentIdPrefix + count.ToString ().PadLeft (6, '0');
                 compdb.CompId = id;
+                compdb.CreatedBy = lgnUSer.Id;
                 compdb.CreatedAt = DateTime.Now;
             }
             compdb.ProjStructId = projectStructureID;
@@ -157,11 +162,14 @@ namespace ETapManagement.Repository {
         }
 
         public ResponseMessage DeleteComponent (int id) {
+            LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
             ResponseMessage responseMessage = new ResponseMessage ();
             try {
                 var component = _context.Component.Where (x => x.Id == id).FirstOrDefault ();
                 if (component == null) throw new ValueNotFoundException ("Component Id doesnt exist.");
                 component.IsDelete = true;
+                component.UpdatedBy = lgnUSer.Id;
+                component.UpdatedAt = DateTime.Now;
                 _context.SaveChanges ();
                 return responseMessage = new ResponseMessage () {
                     Message = "Component deleted successfully."

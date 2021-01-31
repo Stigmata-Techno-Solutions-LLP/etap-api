@@ -53,6 +53,8 @@ namespace ETapManagement.ViewModel.Dto {
     public class SiteDispatchPayload {
         public commonEnum.Rolename role_name { get; set; }
         public int? role_hierarchy { get; set; }
+        public int? ProjectId{get;set;}
+        public int? VendorId{get;set;}
     }
 
     public class DispatchVendorAddPayload {

@@ -6,6 +6,7 @@ using AutoMapper;
 using ETapManagement.Domain;
 using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
+using ETapManagement.Common;
 
 namespace ETapManagement.Repository {
     public class SegmentRepository : ISegmentRepository {

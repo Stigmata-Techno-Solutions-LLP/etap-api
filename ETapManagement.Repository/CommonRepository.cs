@@ -29,7 +29,9 @@ namespace ETapManagement.Repository {
 
         public void AuditLog (AuditLogs audit) {
             try {
+                  LoginUser lgnUser =   WebHelpers.GetLoggedUser();
                 audit.CreatedAt = DateTime.Now;
+                audit.CreatedBy =lgnUser.Id;
                 _context.AuditLogs.Add (audit);
                 _context.SaveChanges ();
             } catch (Exception ex) {

@@ -6,6 +6,7 @@ using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using ETapManagement.Common;
 
 namespace ETapManagement.Repository {
 

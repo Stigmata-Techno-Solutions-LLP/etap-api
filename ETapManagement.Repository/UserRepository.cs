@@ -39,6 +39,7 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage AddUser (UserDetails userDetails) {
             ResponseMessage responseMessage = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
                 userDetails.userId = 0;
                 if (_context.Users.Where (x => x.Email == userDetails.email && x.IsDelete == false).Count () > 0) {
@@ -48,13 +49,13 @@ namespace ETapManagement.Repository {
                 } else {
                     Users userDtls = _mapper.Map<Users> (userDetails);
                     userDetails.isActive= true;
+                    userDtls.CreatedBy = lgnUser.Id;
+                    userDtls.CreatedAt = DateTime.Now;
                     _context.Users.Add (userDtls);
                     _context.SaveChanges();
                     AuditLogs audit = new AuditLogs () {
                         Action = "User",
                         Message = string.Format ("New User added Succussfully {0}", userDetails.userName),
-                        CreatedAt = DateTime.Now,
-                        CreatedBy = userDetails.createdBy
                     };
                     _commonRepo.AuditLog (audit);
                     return responseMessage = new ResponseMessage () {
@@ -68,6 +69,7 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage UpdateUser (UserDetails userDetails, int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
                 var userData = _context.Users.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (userData != null) {
@@ -88,13 +90,12 @@ namespace ETapManagement.Repository {
                         userData.ProjectId = userDetails.ProjectId;
                         userData.IcId = userDetails.ICId;
                         userData.BuId = userDetails.BUId;
-                        userData.UpdatedBy = userDetails.updatedBy;
+                        userData.UpdatedBy = lgnUser.Id;
+                        userData.UpdatedAt = DateTime.Now;
                         _context.SaveChanges ();
                         AuditLogs audit = new AuditLogs () {
                             Action = "User",
                             Message = string.Format ("Update User  Succussfully {0}", userDetails.userName),
-                            CreatedAt = DateTime.Now,
-                            CreatedBy = userDetails.userId
                         };
                         _commonRepo.AuditLog (audit);
                         return responseMessage = new ResponseMessage () {
@@ -111,16 +112,18 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage DeleteUser (int id) {
             ResponseMessage responseMessage = new ResponseMessage ();
+            LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try {
 
                 var userData = _context.Users.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (userData == null) throw new ValueNotFoundException ("User Id doesnt exist.");
                 userData.IsDelete = true;
+                userData.UpdatedAt=  DateTime.Now;
+                userData.UpdatedBy = lgnUser.Id;
                 _context.SaveChanges ();
                 AuditLogs audit = new AuditLogs () {
                     Action = "User",
-                    Message = string.Format ("Update User  Succussfully {0}", userData.PsNo),
-                    CreatedAt = DateTime.Now,
+                    Message = string.Format ("Update User  Succussfully {0}", userData.PsNo),                   
                 };
                 _commonRepo.AuditLog (audit);
                 return responseMessage = new ResponseMessage () {

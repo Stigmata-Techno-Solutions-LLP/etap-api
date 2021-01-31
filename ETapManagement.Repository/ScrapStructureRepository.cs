@@ -26,10 +26,15 @@ namespace ETapManagement.Repository {
             { 
                 ResponseMessage responseMessage = new ResponseMessage();
                 ScrapStructure scrapStructureDB = _mapper.Map<ScrapStructure>(scrapStructure);
-
-                scrapStructureDB.CreatedBy = 1; //TODO
+                LoginUser lgnUser =   WebHelpers.GetLoggedUser();
+                scrapStructureDB.CreatedBy = lgnUser.Id; //TODO
                 scrapStructureDB.CreatedAt = DateTime.Now;
-                scrapStructureDB.Status = "SCRAPPED";
+                scrapStructureDB.Status = commonEnum.StructureInternalStatus.SCRAPPED.ToString();
+
+                /*udpate structure status*/
+                ProjectStructure prjStruct = _context.ProjectStructure.Where(x=>x.StructureId== scrapStructureDB.StructId).FirstOrDefault();
+                prjStruct.StructureStatus =commonEnum.StructureStatus.NOTAVAILABLE.ToString();
+                prjStruct.CurrentStatus = commonEnum.StructureInternalStatus.SCRAPPED.ToString();
                 _context.ScrapStructure.Add(scrapStructureDB);
                 _context.SaveChanges(); 
 
@@ -45,18 +50,19 @@ namespace ETapManagement.Repository {
         public ResponseMessage DeleteScrapStructure(int id)
         {
             ResponseMessage responseMessage = new ResponseMessage();
+              LoginUser lgnUser =   WebHelpers.GetLoggedUser();
             try
             {
-
                 var scrapStructure = _context.ScrapStructure.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
                 if (scrapStructure == null) throw new ValueNotFoundException("Scrap Structre Id doesnt exist.");
                 scrapStructure.IsDelete = true;
+                scrapStructure.UpdatedAt = DateTime.Now;
+                scrapStructure.UpdatedBy = lgnUser.Id;
                 _context.SaveChanges();
                 AuditLogs audit = new AuditLogs()
                 {
                     Action = "Scrap Structure",
-                    Message = string.Format("Scrap Structure Deleted  Successfully {0}", scrapStructure.Id),
-                    CreatedAt = DateTime.Now,
+                    Message = string.Format("Scrap Structure Deleted  Successfully {0}", scrapStructure.Id),                    
                 };
                 _commonRepo.AuditLog(audit);
                 return responseMessage = new ResponseMessage()
