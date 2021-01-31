@@ -27,6 +27,8 @@ namespace ETapManagement.ViewModel.Dto {
         public int? SubContractorId { get; set; }
         public string SubContractorName { get; set; }
         public int? DispatchRequestSubContractorId { get; set; }
+
+        public string StructureName{get;set;}
         // public decimal? FabricationCost { get; set; }
         // public decimal? MonthlyRent {get;set;}
         // public decimal? ContractYears {get;set;}

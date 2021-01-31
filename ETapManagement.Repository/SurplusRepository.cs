@@ -177,12 +177,12 @@ namespace ETapManagement.Repository {
             try {
                 ResponseMessage resp = new ResponseMessage ();
                 if (reqPayload.mode == commonEnum.WorkFlowMode.Approval) {
-                    siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_ApprovalDeclaration {0}, {1},{2},{3}", reqPayload.decl_id, reqPayload.role_name, reqPayload.role_hierarchy, 1); // TODO
+                    siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_ApprovalDeclaration {0}, {1},{2},{3}", reqPayload.decl_id, reqPayload.role_name.ToString(), reqPayload.role_hierarchy, 1); // TODO
                     resp.Message = string.Format ("Surplus Declaration successfully Approved by {0}", reqPayload.role_name);
                     if (siteRequirements <= 0) throw new ValueNotFoundException ("User doesn't allow to approve.");
 
                 } else if (reqPayload.mode == commonEnum.WorkFlowMode.Rejection) {
-                    siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_RejectionDeclaration {0}, {1}, {2}, {3}", reqPayload.decl_id, reqPayload.role_name, reqPayload.role_hierarchy, 1); //TODO
+                    siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_RejectionDeclaration {0}, {1}, {2}, {3}", reqPayload.decl_id, reqPayload.role_name.ToString(), reqPayload.role_hierarchy, 1); //TODO
                     resp.Message = string.Format ("Surplus Declaration successfully Rejected by {0}", reqPayload.role_name);
                     if (siteRequirements <= 0) throw new ValueNotFoundException ("User doesn't allow to reject.");
                 }
