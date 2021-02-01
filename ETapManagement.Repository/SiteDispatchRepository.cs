@@ -178,7 +178,7 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
         public List<SiteDispatchDetail> GetSiteDispatchDetails (SiteDispatchPayload siteDispatchPayload) {
             try {
                 List<SiteDispatchDetail> result = new List<SiteDispatchDetail> ();
-                var siteDispatchDetails = _context.Query<SiteDispatchDetail> ().FromSqlRaw ("exec sp_getDispatch {0}, {1}", siteDispatchPayload.role_name.ToString(), siteDispatchPayload.role_hierarchy).ToList ();
+                var siteDispatchDetails = _context.Query<SiteDispatchDetail> ().FromSqlRaw ("exec sp_getDispatch {0}, {1},{2},{3}", siteDispatchPayload.role_name.ToString(), siteDispatchPayload.role_hierarchy,siteDispatchPayload.ProjectId,siteDispatchPayload.VendorId).ToList ();
                 result = _mapper.Map<List<SiteDispatchDetail>> (siteDispatchDetails);
                 return result;
             } catch (Exception ex) {
