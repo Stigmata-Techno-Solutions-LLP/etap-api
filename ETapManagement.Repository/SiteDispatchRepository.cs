@@ -82,7 +82,7 @@ namespace ETapManagement.Repository {
                     }
                     _context.SaveChanges ();
                     var dispatchedStrucCount = (from dr in _context.DispatchRequirement join drs in _context.DispReqStructure on dr.Id equals drs.DispreqId where dr.SitereqId == dispatchReq.RequirementId select new { }).Count ();
-SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchReq.RequirementId).FirstOrDefault();
+                    SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchReq.RequirementId).FirstOrDefault();
                     if (siteReqr.SiteReqStructure.Sum (x => x.Quantity) > dispatchedStrucCount) {
                         dbSiteReq.Status = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
                         dbSiteReq.StatusInternal = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
@@ -117,10 +117,12 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
             try {
                 List<VerifyStructureQty> lstVerifyStructureQty = new List<VerifyStructureQty> ();
                 List<StructureListForDipatch> lstStructureListForDipatch = new List<StructureListForDipatch> ();
-                if (_context.SiteRequirement.Where (x => x.Id == siteReqId && x.StatusInternal == commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ()).Count () > 0) throw new ValueNotFoundException ("Site RequirementId already dispatched");
+               // if (_context.SiteRequirement.Where (x => x.Id == siteReqId && x.StatusInternal == commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ()).Count () > 0) throw new ValueNotFoundException ("Site RequirementId already dispatched");
                 List<SiteReqStructure> lstReqStr = _context.SiteReqStructure.Include (x => x.Struct).Where (x => x.SiteReqId == siteReqId).ToList ();
-                List<DispatchRequirement> lstDispReq = _context.DispatchRequirement.Include (v => v.DispReqStructure).Where (x => x.SitereqId == siteReqId).ToList ();
-                var lstStructure = _context.ProjectStructure.Include (a => a.Structure).Include (a => a.Project).Where (x => x.StructureStatus == commonEnum.StructureStatus.AVAILABLE.ToString () || x.StructureStatus == commonEnum.StructureStatus.NEW.ToString ()).ToList ();
+              //  List<DispatchRequirement> lstDispReq = _context.DispatchRequirement.Include (v => v.DispReqStructure).Where (x => x.SitereqId == siteReqId).ToList ();
+               var lstDispReq = (from dr in _context.DispatchRequirement join drs in _context.DispReqStructure on dr.Id equals drs.DispreqId where dr.SitereqId == siteReqId select new { StructId = drs.StructId}).ToList();
+
+                var lstStructure = _context.ProjectStructure.Include (a => a.Structure).Include (a => a.Project).Where (x => x.StructureStatus == commonEnum.StructureStatus.AVAILABLE.ToString () || x.CurrentStatus == commonEnum.StructureInternalStatus.DISPATCHINPROGRESS.ToString ()).ToList ();
                 List<AvailableStructureForReuse> lstReuse = this.AvailableStructureForReuse (siteReqId);
                 foreach (SiteReqStructure strRerq in lstReqStr) {
                   //  int availStructCount = _context.ProjectStructure.Where(x => x.Structure.Name == strRerq.Struct.Name && (x.StructureStatus == commonEnum.StructureStatus.AVAILABLE.ToString () || x.StructureStatus == commonEnum.StructureStatus.NEW.ToString ())).Count();
@@ -130,7 +132,8 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
                         AvailableStructureForReuse availReuse = lstReuse.Where (x => x.StructureName == strRerq.Struct.Name).FirstOrDefault ();
                         if (projStrt != null) {
                             StructureListForDipatch strctDisp = new StructureListForDipatch ();
-                            strctDisp.DispStructureStatus = lstDispReq.ToList ().Select (x => x.DispReqStructure.Where (x => x.StructId == strRerq.StructId)).Count () > 0 ? commonEnum.SiteDispatchSatus.DISPATCHED.ToString () : commonEnum.SiteDispatchSatus.NEW.ToString ();
+                           //todo using linq query int dt = lstDispReq.ToList ().Where(x=>x.DispReqStructure.ToList().Where(c=>c.StructId == projStrt.StructureId)).Count();
+                        strctDisp.DispStructureStatus = lstDispReq.ToList().Where (x =>  x.StructId == Convert.ToInt32(projStrt.StructureId)).Count () > 0 ? commonEnum.SiteDispatchSatus.DISPATCHED.ToString () : commonEnum.SiteDispatchSatus.NEW.ToString ();
                             if (availReuse != null) {
                                 strctDisp.AvailProjectId = availReuse.FromProjectId;
                                 strctDisp.AvailProjectName = availReuse.FromProjectName;
@@ -152,7 +155,6 @@ SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchRe
                             lstStructureListForDipatch.Add (strctDisp);
                             lstStructure.Remove (projStrt);
                         } else {
-
                             VerifyStructureQty verifyQuantity = new VerifyStructureQty ();
                             // verifyQuantity.Quantity +=1;
                             verifyQuantity.StructureName = strRerq.Struct.Name;
