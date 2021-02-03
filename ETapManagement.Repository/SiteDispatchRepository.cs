@@ -425,7 +425,7 @@ namespace ETapManagement.Repository {
                     throw new ValueNotFoundException (String.Format ("Not allowed to approve for this role:{0}", dispAppr.roleName));
                 }
             } else {
-                if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 3 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString ()) {
+                if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 4 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString ()) {
                     status = commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ();
                     internalStatus = commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ();
                 } else {
@@ -447,6 +447,8 @@ namespace ETapManagement.Repository {
             dispStatusHist.StatusInternal = internalStatus;
             dispStatusHist.CreatedAt = DateTime.Now;
             dispStatusHist.CreatedBy = 1; //TODO
+            _context.DisreqStatusHistory.Add(dispStatusHist);
+            _context.SaveChanges();
             res.Message = String.Format (" site dispatch {0} Approved Successfully.", dispReq.DispatchNo);
             return res;
         }
