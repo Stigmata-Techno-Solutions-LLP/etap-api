@@ -6,6 +6,7 @@ namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
+     
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -57,13 +58,12 @@ namespace ETapManagement.Domain.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=landt.ctxkj3vcelr3.ap-southeast-1.rds.amazonaws.com;Database=ETapManagement;User Id=admin;Password=PlH34cwug3tqupePJcAp;");
+                optionsBuilder.UseSqlServer("Server=landt.ctxkj3vcelr3.ap-southeast-1.rds.amazonaws.com;Database=ETapManagementSIT;User Id=admin;Password=PlH34cwug3tqupePJcAp;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
 
             modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
@@ -71,12 +71,13 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<SurplusDetails> ();
             modelBuilder.Query<AssignStructureDtlsOnly> ();
             modelBuilder.Query<AvailableStructureForReuse> ();
+            
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("application_forms_name_key")
+                    .HasName("SIT_application_forms_name_key")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -160,7 +161,7 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.BusinessUnit)
                     .HasForeignKey(d => d.IcId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("business_unit_icId_IC__fkey");
+                    .HasConstraintName("SIT_business_unit_icId_IC__fkey");
             });
 
             modelBuilder.Entity<Component>(entity =>
@@ -257,13 +258,13 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.Component)
                     .HasForeignKey(d => d.CompTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("comp_comptype_fkey");
+                    .HasConstraintName("SIT_comp_comptype_fkey");
 
                 entity.HasOne(d => d.ProjStruct)
                     .WithMany(p => p.Component)
                     .HasForeignKey(d => d.ProjStructId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("comp_projstruct_fkey");
+                    .HasConstraintName("SIT_comp_projstruct_fkey");
             });
 
             modelBuilder.Entity<ComponentHistory>(entity =>
@@ -349,13 +350,13 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.ComponentHistory)
                     .HasForeignKey(d => d.CompTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("comphistory_comptype_fkey");
+                    .HasConstraintName("SIT_comphistory_comptype_fkey");
 
                 entity.HasOne(d => d.ProjStruct)
                     .WithMany(p => p.ComponentHistory)
                     .HasForeignKey(d => d.ProjStructId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("comphistory_projstruct_fkey");
+                    .HasConstraintName("SIT_comphistory_projstruct_fkey");
             });
 
             modelBuilder.Entity<ComponentType>(entity =>
@@ -363,7 +364,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("component_type");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__componen__72E12F1BD92E48E4")
+                    .HasName("UQ__componen__72E12F1BD207358A")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -407,17 +408,18 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DispreqId).HasColumnName("dispreq_id");
 
-                entity.Property(e => e.StructId).HasColumnName("struct_id");
+                entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
 
                 entity.HasOne(d => d.Dispreq)
                     .WithMany(p => p.DispReqStructure)
                     .HasForeignKey(d => d.DispreqId)
-                    .HasConstraintName("DispReqStructire_siteReq_fkey");
+                    .HasConstraintName("SIT_DispReqStructire_siteReq_fkey");
 
-                entity.HasOne(d => d.Struct)
+                entity.HasOne(d => d.ProjStruct)
                     .WithMany(p => p.DispReqStructure)
-                    .HasForeignKey(d => d.StructId)
-                    .HasConstraintName("DispReqStructire_structure_fkey");
+                    .HasForeignKey(d => d.ProjStructId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("SIT_DispReqStructire_structure_fkey");
             });
 
             modelBuilder.Entity<DispStructureComp>(entity =>
@@ -450,13 +452,13 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.DispStructureComp)
                     .HasForeignKey(d => d.DispCompId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("disp_req_structure_comp_id_CompID_fkey");
+                    .HasConstraintName("SIT_disp_req_structure_comp_id_CompID_fkey");
 
                 entity.HasOne(d => d.DispStructure)
                     .WithMany(p => p.DispStructureComp)
                     .HasForeignKey(d => d.DispStructureId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("disp_req_structure_comp_id_StructureID_fkey");
+                    .HasConstraintName("SIT_disp_req_structure_comp_id_StructureID_fkey");
             });
 
             modelBuilder.Entity<DispStructureDocuments>(entity =>
@@ -486,7 +488,7 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.DispStructureDocuments)
                     .HasForeignKey(d => d.DispStructureId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("disp_req_structure_docs_id_docsID_fkey");
+                    .HasConstraintName("SIT_disp_req_structure_docs_id_docsID_fkey");
             });
 
             modelBuilder.Entity<DispSubcontDocuments>(entity =>
@@ -516,7 +518,7 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.DispSubcontDocuments)
                     .HasForeignKey(d => d.DispSubcontId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("disp_subcont_id_docsID_fkey");
+                    .HasConstraintName("SIT_disp_subcont_id_docsID_fkey");
             });
 
             modelBuilder.Entity<DispSubcontStructure>(entity =>
@@ -559,17 +561,18 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("plan_releasedate")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.StructId).HasColumnName("struct_id");
+                entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
 
                 entity.HasOne(d => d.Dispreqsubcont)
                     .WithMany(p => p.DispSubcontStructure)
                     .HasForeignKey(d => d.DispreqsubcontId)
-                    .HasConstraintName("dispreqsubcont_structure_siteReq_fkey");
+                    .HasConstraintName("SIT_dispreqsubcont_structure_siteReq_fkey");
 
-                entity.HasOne(d => d.Struct)
+                entity.HasOne(d => d.ProjStruct)
                     .WithMany(p => p.DispSubcontStructure)
-                    .HasForeignKey(d => d.StructId)
-                    .HasConstraintName("disp_subcont_structure_structure_fkey");
+                    .HasForeignKey(d => d.ProjStructId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("SIT_disp_subcont_structure_structure_fkey");
             });
 
             modelBuilder.Entity<DispatchRequirement>(entity =>
@@ -577,7 +580,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("dispatch_requirement");
 
                 entity.HasIndex(e => e.DispatchNo)
-                    .HasName("UQ__dispatch__F7205CCD7382AD40")
+                    .HasName("UQ__dispatch__F7205CCDFF03DE1F")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -630,17 +633,17 @@ namespace ETapManagement.Domain.Models
                 entity.HasOne(d => d.Servicetype)
                     .WithMany(p => p.DispatchRequirement)
                     .HasForeignKey(d => d.ServicetypeId)
-                    .HasConstraintName("dispatch_requirement_servicetype_fkey");
+                    .HasConstraintName("SIT_dispatch_requirement_servicetype_fkey");
 
                 entity.HasOne(d => d.Sitereq)
                     .WithMany(p => p.DispatchRequirement)
                     .HasForeignKey(d => d.SitereqId)
-                    .HasConstraintName("dispatch_requirement_siteReq_fkey");
+                    .HasConstraintName("SIT_dispatch_requirement_siteReq_fkey");
 
                 entity.HasOne(d => d.ToProject)
                     .WithMany(p => p.DispatchRequirement)
                     .HasForeignKey(d => d.ToProjectid)
-                    .HasConstraintName("dispatch_requirement_proj_fkey");
+                    .HasConstraintName("SIT_dispatch_requirement_proj_fkey");
             });
 
             modelBuilder.Entity<DispatchreqSubcont>(entity =>
@@ -697,17 +700,17 @@ namespace ETapManagement.Domain.Models
                 entity.HasOne(d => d.Dispreq)
                     .WithMany(p => p.DispatchreqSubcont)
                     .HasForeignKey(d => d.DispreqId)
-                    .HasConstraintName("dispatchreq_subcont_dispatch_requirement_fkey");
+                    .HasConstraintName("SIT_dispatchreq_subcont_dispatch_requirement_fkey");
 
                 entity.HasOne(d => d.Servicetype)
                     .WithMany(p => p.DispatchreqSubcont)
                     .HasForeignKey(d => d.ServicetypeId)
-                    .HasConstraintName("dispatchreq_subcont_servicetype_fkey");
+                    .HasConstraintName("SIT_dispatchreq_subcont_servicetype_fkey");
 
                 entity.HasOne(d => d.Subcon)
                     .WithMany(p => p.DispatchreqSubcont)
                     .HasForeignKey(d => d.SubconId)
-                    .HasConstraintName("dispatchreq_subcont_subcont_fkey");
+                    .HasConstraintName("SIT_dispatchreq_subcont_subcont_fkey");
             });
 
             modelBuilder.Entity<DisreqStatusHistory>(entity =>
@@ -715,7 +718,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("disreq_status_history");
 
                 entity.HasIndex(e => e.DispatchNo)
-                    .HasName("UQ__disreq_s__F7205CCD317E9D4D")
+                    .HasName("UQ__disreq_s__F7205CCD51FCCA99")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -755,7 +758,7 @@ namespace ETapManagement.Domain.Models
                 entity.HasOne(d => d.Dispreq)
                     .WithMany(p => p.DisreqStatusHistory)
                     .HasForeignKey(d => d.DispreqId)
-                    .HasConstraintName("dispatch_requirement_statushistory_dispreq_fkey");
+                    .HasConstraintName("SIT_dispatch_requirement_statushistory_dispreq_fkey");
             });
 
             modelBuilder.Entity<IndependentCompany>(entity =>
@@ -853,13 +856,13 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.Project)
                     .HasForeignKey(d => d.BuId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("project_buId_BU__fkey");
+                    .HasConstraintName("SIT_project_buId_BU__fkey");
 
                 entity.HasOne(d => d.Ic)
                     .WithMany(p => p.Project)
                     .HasForeignKey(d => d.IcId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("project_icId_IC__fkey");
+                    .HasConstraintName("SIT_project_icId_IC__fkey");
             });
 
             modelBuilder.Entity<ProjectSitelocation>(entity =>
@@ -879,7 +882,7 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.ProjectSitelocation)
                     .HasForeignKey(d => d.ProjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("project_sitelocation_projectId_fkey");
+                    .HasConstraintName("SIT_project_sitelocation_projectId_fkey");
             });
 
             modelBuilder.Entity<ProjectStructure>(entity =>
@@ -917,6 +920,14 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.ProjectId).HasColumnName("project_id");
 
+                entity.Property(e => e.StructCode)
+                    .IsRequired()
+                    .HasColumnName("struct_code")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StructureAttributes).HasColumnName("structure_attributes");
+
                 entity.Property(e => e.StructureId).HasColumnName("structure_id");
 
                 entity.Property(e => e.StructureStatus)
@@ -934,13 +945,13 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.ProjectStructure)
                     .HasForeignKey(d => d.ProjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("projstructure_proj_fkey");
+                    .HasConstraintName("SIT_projstructure_proj_fkey");
 
                 entity.HasOne(d => d.Structure)
                     .WithMany(p => p.ProjectStructure)
                     .HasForeignKey(d => d.StructureId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("projstructure_structures_fkey");
+                    .HasConstraintName("SIT_projstructure_structures_fkey");
             });
 
             modelBuilder.Entity<ProjectStructureDocuments>(entity =>
@@ -970,7 +981,7 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.ProjectStructureDocuments)
                     .HasForeignKey(d => d.ProjectStructureId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("project_structure_id_psID_fkey");
+                    .HasConstraintName("SIT_project_structure_id_psID_fkey");
             });
 
             modelBuilder.Entity<RoleHierarchy>(entity =>
@@ -1017,7 +1028,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("roles");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("site_roles_name_key")
+                    .HasName("SIT_site_roles_name_key")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1058,13 +1069,13 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.RolesApplicationforms)
                     .HasForeignKey(d => d.FormId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("rolesforms_forms_id_fkey");
+                    .HasConstraintName("SIT_rolesforms_forms_id_fkey");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.RolesApplicationforms)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("rolesforms_roles_id_fkey");
+                    .HasConstraintName("SIT_rolesforms_roles_id_fkey");
             });
 
             modelBuilder.Entity<ScrapStructure>(entity =>
@@ -1087,6 +1098,8 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.IsDelete).HasColumnName("is_delete");
 
+                entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
+
                 entity.Property(e => e.ScrapRate)
                     .HasColumnName("scrap_rate")
                     .HasColumnType("decimal(10, 2)");
@@ -1096,8 +1109,6 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructId).HasColumnName("struct_id");
-
                 entity.Property(e => e.SubconId).HasColumnName("subcon_id");
 
                 entity.Property(e => e.UpdatedAt)
@@ -1106,15 +1117,16 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
 
-                entity.HasOne(d => d.Struct)
+                entity.HasOne(d => d.ProjStruct)
                     .WithMany(p => p.ScrapStructure)
-                    .HasForeignKey(d => d.StructId)
-                    .HasConstraintName("scrap_strucure_structure_fkey");
+                    .HasForeignKey(d => d.ProjStructId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("SIT_scrap_strucure_structure_fkey");
 
                 entity.HasOne(d => d.Subcon)
                     .WithMany(p => p.ScrapStructure)
                     .HasForeignKey(d => d.SubconId)
-                    .HasConstraintName("scrap_structure_subcon_fkey");
+                    .HasConstraintName("SIT_scrap_structure_subcon_fkey");
             });
 
             modelBuilder.Entity<Segment>(entity =>
@@ -1122,7 +1134,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("segment");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__segment__72E12F1BBE93F90A")
+                    .HasName("UQ__segment__72E12F1BEEFCED41")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1144,7 +1156,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("service_type");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__service___72E12F1B2B9D961A")
+                    .HasName("UQ__service___72E12F1BFEF3E50E")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1199,7 +1211,7 @@ namespace ETapManagement.Domain.Models
                 entity.HasOne(d => d.SitestructureVerf)
                     .WithMany(p => p.SiteCompPhysicalverf)
                     .HasForeignKey(d => d.SitestructureVerfid)
-                    .HasConstraintName("site_comp_physicalverf_site_structure_physicalverf_fkey");
+                    .HasConstraintName("SIT_site_comp_physicalverf_site_structure_physicalverf_fkey");
             });
 
             modelBuilder.Entity<SiteDeclaration>(entity =>
@@ -1224,9 +1236,9 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
-                entity.Property(e => e.RoleId).HasColumnName("role_id");
+                entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
 
-                entity.Property(e => e.SitereqId).HasColumnName("sitereq_id");
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
 
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
@@ -1238,8 +1250,6 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructId).HasColumnName("struct_id");
-
                 entity.Property(e => e.SurplusFromdate)
                     .HasColumnName("surplus_fromdate")
                     .HasColumnType("datetime");
@@ -1250,15 +1260,15 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
 
-                entity.HasOne(d => d.Sitereq)
+                entity.HasOne(d => d.FromProject)
                     .WithMany(p => p.SiteDeclaration)
-                    .HasForeignKey(d => d.SitereqId)
-                    .HasConstraintName("siteDec_siteReq_fkey");
+                    .HasForeignKey(d => d.FromProjectId)
+                    .HasConstraintName("SIT_siteDecl_proj_fkey");
 
-                entity.HasOne(d => d.Struct)
+                entity.HasOne(d => d.ProjStruct)
                     .WithMany(p => p.SiteDeclaration)
-                    .HasForeignKey(d => d.StructId)
-                    .HasConstraintName("siteDec_structure_fkey");
+                    .HasForeignKey(d => d.ProjStructId)
+                    .HasConstraintName("SIT_siteDec_structure_fkey");
             });
 
             modelBuilder.Entity<SitePhysicalVerf>(entity =>
@@ -1299,23 +1309,25 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
+
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
 
                 entity.Property(e => e.SiteReqId).HasColumnName("site_req_id");
 
-                entity.Property(e => e.StructId).HasColumnName("struct_id");
+                entity.Property(e => e.StructureAttributes).HasColumnName("structure_attributes");
+
+                entity.HasOne(d => d.ProjStruct)
+                    .WithMany(p => p.SiteReqStructure)
+                    .HasForeignKey(d => d.ProjStructId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("SIT_siteReqStructire_structure_fkey");
 
                 entity.HasOne(d => d.SiteReq)
                     .WithMany(p => p.SiteReqStructure)
                     .HasForeignKey(d => d.SiteReqId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("siteReqStructire_siteReq_fkey");
-
-                entity.HasOne(d => d.Struct)
-                    .WithMany(p => p.SiteReqStructure)
-                    .HasForeignKey(d => d.StructId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("siteReqStructire_structure_fkey");
+                    .HasConstraintName("SIT_siteReqStructire_siteReq_fkey");
             });
 
             modelBuilder.Entity<SiteRequirement>(entity =>
@@ -1323,7 +1335,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("site_requirement");
 
                 entity.HasIndex(e => e.MrNo)
-                    .HasName("UQ__site_req__AE8CB9728B4DCC1B")
+                    .HasName("UQ__site_req__AE8CB9728B1E3DEA")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1392,7 +1404,7 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.SiteRequirement)
                     .HasForeignKey(d => d.FromProjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("siteReq_proj_fkey");
+                    .HasConstraintName("SIT_siteReq_proj_fkey");
             });
 
             modelBuilder.Entity<SiteStructurePhysicalverf>(entity =>
@@ -1416,7 +1428,7 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("duedate_to")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.ProjectId).HasColumnName("project_id");
+                entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
 
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
 
@@ -1432,28 +1444,22 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructId).HasColumnName("struct_id");
-
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updated_at")
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
 
-                entity.HasOne(d => d.Project)
+                entity.HasOne(d => d.ProjStruct)
                     .WithMany(p => p.SiteStructurePhysicalverf)
-                    .HasForeignKey(d => d.ProjectId)
-                    .HasConstraintName("site_structure_physicalverf_proj_fkey");
+                    .HasForeignKey(d => d.ProjStructId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("SIT_site_structure_physicalverf_strucutre_fkey");
 
                 entity.HasOne(d => d.SiteVerf)
                     .WithMany(p => p.SiteStructurePhysicalverf)
                     .HasForeignKey(d => d.SiteVerfId)
-                    .HasConstraintName("site_structure_physicalverf_site_physical_verf_fkey");
-
-                entity.HasOne(d => d.Struct)
-                    .WithMany(p => p.SiteStructurePhysicalverf)
-                    .HasForeignKey(d => d.StructId)
-                    .HasConstraintName("site_structure_physicalverf_strucutre_fkey");
+                    .HasConstraintName("SIT_site_structure_physicalverf_site_physical_verf_fkey");
             });
 
             modelBuilder.Entity<SitedeclDocuments>(entity =>
@@ -1483,7 +1489,7 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.SitedeclDocuments)
                     .HasForeignKey(d => d.SitedecId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("sitedecl_documents_sitedecl_fkey");
+                    .HasConstraintName("SIT_sitedecl_documents_sitedecl_fkey");
             });
 
             modelBuilder.Entity<SitedeclStatusHistory>(entity =>
@@ -1520,7 +1526,7 @@ namespace ETapManagement.Domain.Models
                 entity.HasOne(d => d.Sitedec)
                     .WithMany(p => p.SitedeclStatusHistory)
                     .HasForeignKey(d => d.SitedecId)
-                    .HasConstraintName("siteDeclStatus_siteDec_fkey");
+                    .HasConstraintName("SIT_siteDeclStatus_siteDec_fkey");
             });
 
             modelBuilder.Entity<SitereqStatusHistory>(entity =>
@@ -1564,7 +1570,7 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.SitereqStatusHistory)
                     .HasForeignKey(d => d.SitereqId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("sitereq_status_history_sitereq_fkey");
+                    .HasConstraintName("SIT_sitereq_status_history_sitereq_fkey");
             });
 
             modelBuilder.Entity<StructureType>(entity =>
@@ -1628,12 +1634,6 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructId)
-                    .IsRequired()
-                    .HasColumnName("struct_id")
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.StructureAttributes).HasColumnName("structure_attributes");
 
                 entity.Property(e => e.StructureTypeId).HasColumnName("structure_type_id");
@@ -1648,7 +1648,7 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.Structures)
                     .HasForeignKey(d => d.StructureTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("structures_structuretype_fkey");
+                    .HasConstraintName("SIT_structures_structuretype_fkey");
             });
 
             modelBuilder.Entity<SubContractor>(entity =>
@@ -1714,13 +1714,13 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.SubContractorServiceType)
                     .HasForeignKey(d => d.ServicetypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("subST_servieType_fkey");
+                    .HasConstraintName("SIT_subST_servieType_fkey");
 
                 entity.HasOne(d => d.Subcont)
                     .WithMany(p => p.SubContractorServiceType)
                     .HasForeignKey(d => d.SubcontId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("subST_subconractor_fkey");
+                    .HasConstraintName("SIT_subST_subconractor_fkey");
             });
 
             modelBuilder.Entity<Users>(entity =>
@@ -1795,25 +1795,25 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.BuId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("users_bu_fkey");
+                    .HasConstraintName("SIT_users_bu_fkey");
 
                 entity.HasOne(d => d.Ic)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.IcId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("users_ic_fkey");
+                    .HasConstraintName("SIT_users_ic_fkey");
 
                 entity.HasOne(d => d.Project)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.ProjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("users_proj_fkey");
+                    .HasConstraintName("SIT_users_proj_fkey");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("user_roles_id_fkey");
+                    .HasConstraintName("SIT_user_roles_id_fkey");
             });
 
             modelBuilder.Entity<WorkBreakdown>(entity =>
@@ -1871,7 +1871,7 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.WorkBreakdown)
                     .HasForeignKey(d => d.ProjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("wbs_proj_fkey");
+                    .HasConstraintName("SIT_wbs_proj_fkey");
             });
 
             OnModelCreatingPartial(modelBuilder);

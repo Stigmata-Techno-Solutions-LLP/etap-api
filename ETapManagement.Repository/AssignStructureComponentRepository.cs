@@ -97,6 +97,7 @@ namespace ETapManagement.Repository {
             }
             projStruct.ProjectId = request.ProjectId;
             projStruct.StructureId = request.StructureId;
+            projStruct.StructCode = request.StructureCode;
             projStruct.IsDelete = false;
             projStruct.DrawingNo = request.DrawingNo;
             projStruct.UpdatedAt = DateTime.Now;

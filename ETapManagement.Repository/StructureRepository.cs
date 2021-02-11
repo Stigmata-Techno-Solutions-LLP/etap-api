@@ -73,7 +73,6 @@ namespace ETapManagement.Repository {
                 //     throw new ValueNotFoundException ("Structure Id already exist.");
                 // } else {
                     var structureDb = _mapper.Map<Structures> (structureDetails);
-                    structureDb.StructId = structId;
                     _context.Structures.Add (structureDb);
                     _context.SaveChanges ();
 

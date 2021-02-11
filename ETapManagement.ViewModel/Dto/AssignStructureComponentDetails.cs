@@ -12,6 +12,10 @@ namespace ETapManagement.ViewModel.Dto {
         public int StructureId { get; set; }
 
         [Required]
+        [Display (Name = "StructureCode")]
+        public string StructureCode { get; set; }
+
+        [Required]
         [Display (Name = "ProjectId")]
         public int ProjectId { get; set; }
 
