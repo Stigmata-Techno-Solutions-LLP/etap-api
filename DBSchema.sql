@@ -345,12 +345,11 @@ CREATE TABLE ETapManagement.dbo.users
 CREATE TABLE ETapManagement.dbo.structures
 (
   id int not null identity(1,1),
-  struct_id varchar(10) not null,
   name varchar(50) not null,
   structure_type_id int not null ,
   is_delete bit NOT NULL DEFAULT 0,
   is_active bit NULL ,
-  structure_attributes nvarchar(max) null,
+  structure_attributes_def nvarchar(max) null,
   created_by int null,
   created_at datetime default CURRENT_TIMESTAMP,
   updated_by int null,
@@ -365,9 +364,11 @@ CREATE TABLE ETapManagement.dbo.project_structure
 (
   id int not null identity(1,1),
   structure_id int not null ,
+  struct_code varchar(10) not null,
   project_id int not null,
   drawing_no varchar(20) null,
   components_count int,
+  structure_attributes_val nvarchar(max) null,
   estimated_weight decimal(10,2),
   structure_status varchar(20) null,
   current_status varchar(20) null,
@@ -400,6 +401,7 @@ CREATE TABLE ETapManagement.dbo.component
 (
   id int not null identity(1,1),
   proj_struct_id int not null,
+
   comp_id varchar(20) not null,
   comp_type_id int not null,
   drawing_no varchar(20) null,
@@ -410,7 +412,7 @@ CREATE TABLE ETapManagement.dbo.component
   breath decimal(10,6) null,
   height decimal(10,6) null,
   thickness decimal(10,6) null,
-  width decimal(10,6) null,
+  weight decimal(10,6) null,
   make_type varchar(30) null,
   is_tag bit null,
   qr_code varchar(200) null,
@@ -439,7 +441,7 @@ CREATE TABLE ETapManagement.dbo.component_history
   breath decimal(10,6) null,
   height decimal(10,6) null,
   thickness decimal(10,6) null,
-  width decimal(10,6) null,
+  weight decimal(10,6) null,
   make_type varchar(30) null,
   is_tag bit null,
   qr_code varchar(200) null,
@@ -505,12 +507,6 @@ CREATE TABLE ETapManagement.dbo.site_requirement
   id int not null identity(1,1) primary key,
   mr_no varchar(20) not null unique,
   from_project_id int not null,
-  plan_startdate datetime not null,
-  plan_releasedate datetime not null,
-  actual_startdate datetime not null,
-  actual_releasedate datetime not null,
-  require_wbs_id int not null,
-  actual_wbs_id int not null,
   remarks varchar(500) null,
   status varchar(50) null,
   status_internal varchar(100) null,
@@ -528,13 +524,18 @@ CREATE TABLE ETapManagement.dbo.site_req_structure
   id int not null identity(1,1) primary key,
   site_req_id int not null,
   struct_id int not null,
+  structure_attributes_val nvarchar(max) null,
   drawing_no varchar(20) null,
-  quantity int ,
+  plan_startdate datetime not null,
+  plan_releasedate datetime not null,
+  actual_startdate datetime not null,
+  actual_releasedate datetime not null,
+  require_wbs_id int not null,
+  actual_wbs_id int not null,  
+  quantity int,
   CONSTRAINT siteReqStructire_siteReq_fkey FOREIGN KEY (site_req_id) REFERENCES site_requirement(id),
   CONSTRAINT siteReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
 )
-
-
 
 
 CREATE TABLE ETapManagement.dbo.sitereq_status_history
@@ -569,7 +570,7 @@ CREATE TABLE ETapManagement.dbo.site_declaration
   updated_at datetime null,
   is_delete bit not null DEFAULT 0,
   CONSTRAINT siteDec_siteReq_fkey FOREIGN KEY (sitereq_id) REFERENCES site_requirement(id),
-  CONSTRAINT siteDec_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
+  CONSTRAINT siteDec_projstructure_fkey FOREIGN KEY (struct_id) REFERENCES project_structure(id),
 )
 
 
@@ -615,7 +616,7 @@ CREATE TABLE ETapManagement.dbo.scrap_structure
   updated_by int null,
   updated_at datetime null,
   is_delete bit not null DEFAULT 0,
-  CONSTRAINT scrap_strucure_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
+  CONSTRAINT scrap_strucure_projstructure_fkey FOREIGN KEY (struct_id) REFERENCES project_structure(id),
   CONSTRAINT scrap_structure_subcon_fkey FOREIGN KEY (subcon_id) REFERENCES sub_contractor(id),
 
 )
@@ -666,8 +667,9 @@ CREATE TABLE ETapManagement.dbo.disp_req_structure
   id int not null identity(1,1) primary key,
   dispreq_id int,
   struct_id int,
+  is_modification bit,
   CONSTRAINT DispReqStructire_siteReq_fkey FOREIGN KEY (dispreq_id) REFERENCES dispatch_requirement(id),
-  CONSTRAINT DispReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
+  CONSTRAINT DispReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES project_structure(id),
 )
 
 
@@ -734,7 +736,7 @@ CREATE TABLE ETapManagement.dbo.disp_subcont_structure
   dispatch_date datetime null,
   
   CONSTRAINT dispreqsubcont_structure_siteReq_fkey FOREIGN KEY (dispreqsubcont_id) REFERENCES dispatchreq_subcont(id),
-  CONSTRAINT disp_subcont_structure_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
+  CONSTRAINT disp_subcont_structure_structure_fkey FOREIGN KEY (struct_id) REFERENCES project_structure(id),
 )
 
 CREATE TABLE disp_subcont_documents
@@ -788,7 +790,7 @@ CREATE TABLE ETapManagement.dbo.site_physical_verf
 	updated_at datetime null,
 	CONSTRAINT site_structure_physicalverf_site_physical_verf_fkey FOREIGN KEY (site_verf_id) REFERENCES site_physical_verf(id),
 	  CONSTRAINT site_structure_physicalverf_proj_fkey FOREIGN KEY (project_id) REFERENCES project(id),
-	  CONSTRAINT site_structure_physicalverf_strucutre_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
+	  CONSTRAINT site_structure_physicalverf_strucutre_fkey FOREIGN KEY (struct_id) REFERENCES project_structure(id),
  )
    
   CREATE TABLE ETapManagement.dbo.site_comp_physicalverf
