@@ -1,169 +1,170 @@
 
-IF OBJECT_ID('ETapManagement.dbo.site_comp_physicalverf', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.site_comp_physicalverf ;
+
+
+ IF OBJECT_ID('ETapManagementSIT.dbo.site_comp_physicalverf', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.site_comp_physicalverf ;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.site_structure_physicalverf', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.site_structure_physicalverf ;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.site_physical_verf', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.site_physical_verf ;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.component_history', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.component_history ;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.project_structure_documents', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.project_structure_documents;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.disp_subcont_documents', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.disp_subcont_documents;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.disp_subcont_structure', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.disp_subcont_structure;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.dispatchreq_subcont', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.dispatchreq_subcont;
+
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.disp_structure_comp', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.disp_structure_comp;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.disp_structure_documents', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.disp_structure_documents;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.disp_req_structure', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.disp_req_structure;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.disreq_status_history', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.disreq_status_history;
+IF OBJECT_ID('ETapManagementSIT.dbo.disp_req_structure', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.disp_req_structure;
+IF OBJECT_ID('ETapManagementSIT.dbo.dispatch_requirement', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.dispatch_requirement;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.sitedecl_documents', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.sitedecl_documents;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.sitedecl_status_history', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.sitedecl_status_history;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.site_declaration', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.site_declaration;
+
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.sitereq_status_history', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.sitereq_status_history;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.site_req_structure', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.site_req_structure;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.site_requirement', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.site_requirement;
+
+
+
+
+
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.scrap_structure', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.scrap_structure;
+
+
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.work_breakdown', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.work_breakdown;
+
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.users', 'U') IS NOT NULL 
+DROP TABLE ETapManagementSIT.dbo.users;
+
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.audit_logs', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.audit_logs;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.roles_applicationforms', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.roles_applicationforms;
+
+
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.application_forms', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.application_forms;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.project_sitelocation', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.project_sitelocation ;
+
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.component', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.component;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.project_structure', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.project_structure;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.project', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.project;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.structures', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.structures;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.businessUnit_IC', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.businessUnit_IC ;
+IF OBJECT_ID('ETapManagementSIT.dbo.business_unit', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.business_unit ;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.independent_company', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.independent_company;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.structure_type', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.structure_type;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.component_type', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.component_type;
+
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.subContractor_serviceType', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.subContractor_serviceType;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.service_type', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.service_type;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.segment', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.segment;
+
+IF OBJECT_ID('ETapManagementSIT.dbo.sub_contractor', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.sub_contractor;
+
+
+IF OBJECT_ID('ETapManagementSIT.dbo.roles', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.roles;
+IF OBJECT_ID('ETapManagementSIT.dbo.role_hierarchy', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.role_hierarchy;
+
  
-IF OBJECT_ID('ETapManagement.dbo.site_structure_physicalverf', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.site_structure_physicalverf ;
- 
-IF OBJECT_ID('ETapManagement.dbo.site_physical_verf', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.site_physical_verf ;
-
-IF OBJECT_ID('ETapManagement.dbo.component_history', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.component_history ;
-
-
-IF OBJECT_ID('ETapManagement.dbo.project_structure_documents', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.project_structure_documents;
-
-
-IF OBJECT_ID('ETapManagement.dbo.disp_subcont_documents', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.disp_subcont_documents;
-
-IF OBJECT_ID('ETapManagement.dbo.disp_subcont_structure', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.disp_subcont_structure;
-
-
-IF OBJECT_ID('ETapManagement.dbo.dispatchreq_subcont', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.dispatchreq_subcont;
-
-
-
-IF OBJECT_ID('ETapManagement.dbo.disp_structure_comp', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.disp_structure_comp;
-
-
-IF OBJECT_ID('ETapManagement.dbo.disp_structure_documents', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.disp_structure_documents;
-
-
-IF OBJECT_ID('ETapManagement.dbo.disp_req_structure', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.disp_req_structure;
-
-
- IF OBJECT_ID('ETapManagement.dbo.disreq_status_history', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.disreq_status_history;
- IF OBJECT_ID('ETapManagement.dbo.disp_req_structure', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.disp_req_structure;
-IF OBJECT_ID('ETapManagement.dbo.dispatch_requirement', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.dispatch_requirement;
-
-IF OBJECT_ID('ETapManagement.dbo.sitedecl_documents', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.sitedecl_documents;
-
-
-IF OBJECT_ID('ETapManagement.dbo.sitedecl_status_history', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.sitedecl_status_history;
-
-IF OBJECT_ID('ETapManagement.dbo.site_declaration', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.site_declaration;
-
-
-
-IF OBJECT_ID('ETapManagement.dbo.sitereq_status_history', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.sitereq_status_history;
-
-IF OBJECT_ID('ETapManagement.dbo.site_req_structure', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.site_req_structure;
-
-
-IF OBJECT_ID('ETapManagement.dbo.site_requirement', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.site_requirement;
-
-
-
-
-
-
-
-IF OBJECT_ID('ETapManagement.dbo.scrap_structure', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.scrap_structure;
-
-
-
-
-IF OBJECT_ID('ETapManagement.dbo.project_structure', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.project_structure;
-
-IF OBJECT_ID('ETapManagement.dbo.work_breakdown', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.work_breakdown;
-
-
-IF OBJECT_ID('ETapManagement.dbo.users', 'U') IS NOT NULL 
-DROP TABLE ETapManagement.dbo.users;
-
-IF OBJECT_ID('ETapManagement.dbo.project_sitelocation', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.project_sitelocation ;
-
-IF OBJECT_ID('ETapManagement.dbo.project', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.project;
-
-
-
-IF OBJECT_ID('ETapManagement.dbo.structures_attributes', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.structures_attributes;
-
-IF OBJECT_ID('ETapManagement.dbo.structures', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.structures;
-
-IF OBJECT_ID('ETapManagement.dbo.audit_logs', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.audit_logs;
-
-IF OBJECT_ID('ETapManagement.dbo.roles_applicationforms', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.roles_applicationforms;
-
-
-
-
-IF OBJECT_ID('ETapManagement.dbo.application_forms', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.application_forms;
-
-
-IF OBJECT_ID('ETapManagement.dbo.businessUnit_IC', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.businessUnit_IC ;
-IF OBJECT_ID('ETapManagement.dbo.business_unit', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.business_unit ;
-
-IF OBJECT_ID('ETapManagement.dbo.independent_company', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.independent_company;
-
-IF OBJECT_ID('ETapManagement.dbo.structure_type', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.structure_type;
-
-
-IF OBJECT_ID('ETapManagement.dbo.component_type', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.component_type;
-
-
-
-IF OBJECT_ID('ETapManagement.dbo.subContractor_serviceType', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.subContractor_serviceType;
-
-IF OBJECT_ID('ETapManagement.dbo.service_type', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.service_type;
-
-IF OBJECT_ID('ETapManagement.dbo.segment', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.segment;
-
-IF OBJECT_ID('ETapManagement.dbo.sub_contractor', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.sub_contractor;
-
-
-IF OBJECT_ID('ETapManagement.dbo.roles', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.roles;
-IF OBJECT_ID('ETapManagement.dbo.role_hierarchy', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.role_hierarchy;
-
-IF OBJECT_ID('ETapManagement.dbo.component', 'U') IS NOT NULL 
-  DROP TABLE ETapManagement.dbo.component;
-  
- 
- 
- 
- 
  
  
 
-CREATE TABLE ETapManagement.dbo.roles
+CREATE TABLE ETapManagementSIT.dbo.roles
 (
   id int NOT NULL IDENTITY (1,1),
   "name" varchar(30) NOT NULL,
@@ -175,7 +176,7 @@ CREATE TABLE ETapManagement.dbo.roles
 
 
 
-CREATE TABLE ETapManagement.dbo.application_forms
+CREATE TABLE ETapManagementSIT.dbo.application_forms
 (
   id int NOT NULL IDENTITY (1,1),
   "name" varchar(30) NOT NULL,
@@ -190,7 +191,7 @@ CREATE TABLE ETapManagement.dbo.application_forms
 
 
 
-CREATE TABLE ETapManagement.dbo.roles_applicationforms
+CREATE TABLE ETapManagementSIT.dbo.roles_applicationforms
 (
   id int NOT NULL IDENTITY(1,1),
   form_id int NOT NULL,
@@ -206,7 +207,7 @@ CREATE TABLE ETapManagement.dbo.roles_applicationforms
 
 
 
-CREATE TABLE ETapManagement.dbo.audit_logs
+CREATE TABLE ETapManagementSIT.dbo.audit_logs
 (
   id int not null identity(1,1),
   action varchar(100) null,
@@ -217,7 +218,7 @@ CREATE TABLE ETapManagement.dbo.audit_logs
 
 )
 
-create table ETapManagement.dbo.independent_company
+create table ETapManagementSIT.dbo.independent_company
 (
   id int NOT NULL IDENTITY(1,1) primary key,
   name varchar(200) not NULL ,
@@ -231,7 +232,7 @@ create table ETapManagement.dbo.independent_company
 
 )
 
-create table ETapManagement.dbo.structure_type
+create table ETapManagementSIT.dbo.structure_type
 (
   id int NOT NULL IDENTITY(1,1) primary key,
   name varchar(200) not NULL ,
@@ -243,7 +244,7 @@ create table ETapManagement.dbo.structure_type
   updated_by int null,
   updated_at datetime
 )
-create table ETapManagement.dbo.component_type
+create table ETapManagementSIT.dbo.component_type
 (
   id int NOT NULL IDENTITY(1,1) primary key,
   name varchar(200) not NULL unique,
@@ -256,21 +257,21 @@ create table ETapManagement.dbo.component_type
   updated_at datetime
 )
 
-create table ETapManagement.dbo.segment
+create table ETapManagementSIT.dbo.segment
 (
   id int NOT NULL IDENTITY(1,1) primary key,
   name varchar(200) not NULL unique,
   description varchar(500) NULL
 )
 
-create table ETapManagement.dbo.service_type
+create table ETapManagementSIT.dbo.service_type
 (
   id int NOT NULL IDENTITY(1,1) primary key,
   name varchar(200) not NULL unique,
   description varchar(500) NULL
 )
 
-CREATE TABLE ETapManagement.dbo.business_unit
+CREATE TABLE ETapManagementSIT.dbo.business_unit
 (
   id int not null identity(1,1),
   ic_id int not null,
@@ -286,7 +287,7 @@ CREATE TABLE ETapManagement.dbo.business_unit
 )
 
 
-CREATE TABLE ETapManagement.dbo.project
+CREATE TABLE ETapManagementSIT.dbo.project
 (
   id int not null identity(1,1),
   "name" varchar(100) null ,
@@ -307,7 +308,7 @@ CREATE TABLE ETapManagement.dbo.project
   CONSTRAINT project_buId_BU__fkey FOREIGN KEY (bu_id) REFERENCES business_unit(id),
 )
 
-CREATE TABLE ETapManagement.dbo.project_sitelocation
+CREATE TABLE ETapManagementSIT.dbo.project_sitelocation
 (
   id int not null identity(1,1),
   "name" varchar(100) null ,
@@ -316,7 +317,7 @@ CREATE TABLE ETapManagement.dbo.project_sitelocation
   CONSTRAINT project_sitelocation_projectId_fkey FOREIGN KEY (project_id) REFERENCES project(id),
 )
 
-CREATE TABLE ETapManagement.dbo.users
+CREATE TABLE ETapManagementSIT.dbo.users
 (
   id int NOT NULL identity(1,1),
   project_id int not null,
@@ -342,7 +343,7 @@ CREATE TABLE ETapManagement.dbo.users
   CONSTRAINT users_bu_fkey FOREIGN KEY (bu_id) REFERENCES business_unit(id),
 );
 
-CREATE TABLE ETapManagement.dbo.structures
+CREATE TABLE ETapManagementSIT.dbo.structures
 (
   id int not null identity(1,1),
   name varchar(50) not null,
@@ -360,7 +361,7 @@ CREATE TABLE ETapManagement.dbo.structures
 
 
 
-CREATE TABLE ETapManagement.dbo.project_structure
+CREATE TABLE ETapManagementSIT.dbo.project_structure
 (
   id int not null identity(1,1),
   structure_id int not null ,
@@ -397,7 +398,7 @@ CREATE TABLE project_structure_documents
 )
 
 
-CREATE TABLE ETapManagement.dbo.component
+CREATE TABLE ETapManagementSIT.dbo.component
 (
   id int not null identity(1,1),
   proj_struct_id int not null,
@@ -428,7 +429,7 @@ CREATE TABLE ETapManagement.dbo.component
   CONSTRAINT comp_comptype_fkey FOREIGN KEY (comp_type_id) REFERENCES component_type(id),
 )
 
-CREATE TABLE ETapManagement.dbo.component_history
+CREATE TABLE ETapManagementSIT.dbo.component_history
 (
   id int not null identity(1,1),
   proj_struct_id int not null,
@@ -456,7 +457,7 @@ CREATE TABLE ETapManagement.dbo.component_history
 )
 
 
-CREATE TABLE ETapManagement.dbo.work_breakdown
+CREATE TABLE ETapManagementSIT.dbo.work_breakdown
 (
   id int not null identity(1,1),
   wbs_id varchar(20) not null ,
@@ -474,7 +475,7 @@ CREATE TABLE ETapManagement.dbo.work_breakdown
   CONSTRAINT wbs_proj_fkey FOREIGN KEY (project_id) REFERENCES project(id),
 )
 
-CREATE TABLE ETapManagement.dbo.sub_contractor
+CREATE TABLE ETapManagementSIT.dbo.sub_contractor
 (
   id int not null identity(1,1),
   vendor_code varchar(20) not null,
@@ -491,7 +492,7 @@ CREATE TABLE ETapManagement.dbo.sub_contractor
 )
 
 
-CREATE TABLE ETapManagement.dbo.subContractor_serviceType
+CREATE TABLE ETapManagementSIT.dbo.subContractor_serviceType
 (
   id int not null identity(1,1),
   subcont_id int not null,
@@ -502,7 +503,7 @@ CREATE TABLE ETapManagement.dbo.subContractor_serviceType
 )
 
 
-CREATE TABLE ETapManagement.dbo.site_requirement
+CREATE TABLE ETapManagementSIT.dbo.site_requirement
 (
   id int not null identity(1,1) primary key,
   mr_no varchar(20) not null unique,
@@ -519,7 +520,7 @@ CREATE TABLE ETapManagement.dbo.site_requirement
   CONSTRAINT siteReq_proj_fkey FOREIGN KEY (from_project_id) REFERENCES project(id),
 )
 
-CREATE TABLE ETapManagement.dbo.site_req_structure
+CREATE TABLE ETapManagementSIT.dbo.site_req_structure
 (
   id int not null identity(1,1) primary key,
   site_req_id int not null,
@@ -534,11 +535,11 @@ CREATE TABLE ETapManagement.dbo.site_req_structure
   actual_wbs_id int not null,  
   quantity int,
   CONSTRAINT siteReqStructire_siteReq_fkey FOREIGN KEY (site_req_id) REFERENCES site_requirement(id),
-  CONSTRAINT siteReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
+  CONSTRAINT siteReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES project_structure(id),
 )
 
 
-CREATE TABLE ETapManagement.dbo.sitereq_status_history
+CREATE TABLE ETapManagementSIT.dbo.sitereq_status_history
 (
   id int not null identity(1,1) primary key,
   mr_no varchar(20) not null ,
@@ -553,7 +554,7 @@ CREATE TABLE ETapManagement.dbo.sitereq_status_history
 )
 
 
-CREATE TABLE ETapManagement.dbo.site_declaration
+CREATE TABLE ETapManagementSIT.dbo.site_declaration
 (
   id int not null identity(1,1) primary key,
   sitereq_id int,
@@ -575,7 +576,7 @@ CREATE TABLE ETapManagement.dbo.site_declaration
 
 
 
-CREATE TABLE ETapManagement.dbo.sitedecl_status_history
+CREATE TABLE ETapManagementSIT.dbo.sitedecl_status_history
 (
   id int not null identity(1,1) primary key,
   sitedec_id int,
@@ -603,7 +604,7 @@ CREATE TABLE sitedecl_documents
 )
 
 
-CREATE TABLE ETapManagement.dbo.scrap_structure
+CREATE TABLE ETapManagementSIT.dbo.scrap_structure
 (
   id int not null identity(1,1) primary key,
   subcon_id int,
@@ -622,7 +623,7 @@ CREATE TABLE ETapManagement.dbo.scrap_structure
 )
 
 
-CREATE TABLE ETapManagement.dbo.dispatch_requirement
+CREATE TABLE ETapManagementSIT.dbo.dispatch_requirement
 (
   id int not null identity(1,1) primary key,
   dispatch_no varchar(20) not null unique,
@@ -647,7 +648,7 @@ CREATE TABLE ETapManagement.dbo.dispatch_requirement
 
 
 
-CREATE TABLE ETapManagement.dbo.disreq_status_history
+CREATE TABLE ETapManagementSIT.dbo.disreq_status_history
 (
   id int not null identity(1,1) primary key,
   dispatch_no varchar(20) not null unique,
@@ -662,7 +663,7 @@ CREATE TABLE ETapManagement.dbo.disreq_status_history
 
 )
 
-CREATE TABLE ETapManagement.dbo.disp_req_structure
+CREATE TABLE ETapManagementSIT.dbo.disp_req_structure
 (
   id int not null identity(1,1) primary key,
   dispreq_id int,
@@ -699,7 +700,7 @@ CREATE TABLE disp_structure_documents
 )
 
 
-CREATE TABLE ETapManagement.dbo.dispatchreq_subcont
+CREATE TABLE ETapManagementSIT.dbo.dispatchreq_subcont
 (
   id int not null identity(1,1) primary key,
   dispreq_id int ,
@@ -721,7 +722,7 @@ CREATE TABLE ETapManagement.dbo.dispatchreq_subcont
   CONSTRAINT dispatchreq_subcont_servicetype_fkey FOREIGN KEY (servicetype_id) REFERENCES service_type(id),
 )
 
-CREATE TABLE ETapManagement.dbo.disp_subcont_structure
+CREATE TABLE ETapManagementSIT.dbo.disp_subcont_structure
 (
   id int not null identity(1,1) primary key,
   dispreqsubcont_id int,
@@ -750,7 +751,7 @@ CREATE TABLE disp_subcont_documents
   CONSTRAINT disp_subcont_id_docsID_fkey FOREIGN KEY (disp_subcont_id) REFERENCES dispatchreq_subcont(id),
 )
 
-CREATE TABLE ETapManagement.dbo.role_hierarchy
+CREATE TABLE ETapManagementSIT.dbo.role_hierarchy
 (
   id int not null identity(1,1) PRIMARY KEY,
   role_name varchar(20),
@@ -762,7 +763,7 @@ CREATE TABLE ETapManagement.dbo.role_hierarchy
   service_type varchar(100)
 )
 
-CREATE TABLE ETapManagement.dbo.site_physical_verf
+CREATE TABLE ETapManagementSIT.dbo.site_physical_verf
 (
   id int not null identity(1,1) primary key,
   duedate_from datetime,
@@ -773,7 +774,7 @@ CREATE TABLE ETapManagement.dbo.site_physical_verf
  )
  
  
- CREATE TABLE ETapManagement.dbo.site_structure_physicalverf
+ CREATE TABLE ETapManagementSIT.dbo.site_structure_physicalverf
 (
   id int not null identity(1,1) primary key,
   site_verf_id int,
@@ -793,7 +794,7 @@ CREATE TABLE ETapManagement.dbo.site_physical_verf
 	  CONSTRAINT site_structure_physicalverf_strucutre_fkey FOREIGN KEY (struct_id) REFERENCES project_structure(id),
  )
    
-  CREATE TABLE ETapManagement.dbo.site_comp_physicalverf
+  CREATE TABLE ETapManagementSIT.dbo.site_comp_physicalverf
 (
   id int not null identity(1,1) primary key,
   sitestructure_verfid int,
