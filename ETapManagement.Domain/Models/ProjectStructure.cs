@@ -24,10 +24,10 @@ namespace ETapManagement.Domain.Models
         public int ProjectId { get; set; }
         public string DrawingNo { get; set; }
         public int? ComponentsCount { get; set; }
+        public string StructureAttributesVal { get; set; }
         public decimal? EstimatedWeight { get; set; }
         public string StructureStatus { get; set; }
         public string CurrentStatus { get; set; }
-        public string StructureAttributes { get; set; }
         public bool? IsDelete { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }

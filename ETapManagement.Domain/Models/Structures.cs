@@ -15,7 +15,7 @@ namespace ETapManagement.Domain.Models
         public int StructureTypeId { get; set; }
         public bool IsDelete { get; set; }
         public bool? IsActive { get; set; }
-        public string StructureAttributes { get; set; }
+        public string StructureAttributesDef { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }

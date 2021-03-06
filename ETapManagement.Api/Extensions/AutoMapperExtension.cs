@@ -12,7 +12,6 @@ namespace ETapManagement.Api.Extensions {
             services.AddAutoMapper (typeof (MappingProfile));
         }
     }
-
     public class MappingProfile : Profile {
 
         public MappingProfile () {
@@ -481,7 +480,7 @@ namespace ETapManagement.Api.Extensions {
                     dest.StructureTypeId,
                     opt => opt.MapFrom (src => src.StructureTypeId))
                 .ForMember (dest =>
-                    dest.StructureAttributes,
+                    dest.StructureAttributesDef,
                     opt => opt.MapFrom (src => src.StructureAttributes))
                 .ForMember (dest =>
                     dest.IsActive,
@@ -517,13 +516,13 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.Project.Name))
                 .ForMember (dest =>
                     dest.StructureCode,
-                    opt => opt.MapFrom (src => src.Structure.StructId))
+                    opt => opt.MapFrom (src => src.StructCode))
                 .ForMember (dest =>
                     dest.ProjectId,
                     opt => opt.MapFrom (src => src.ProjectId))
                 .ForMember (dest =>
                     dest.StructureAttributes,
-                    opt => opt.MapFrom (src => src.Structure.StructureAttributes))
+                    opt => opt.MapFrom (src => src.StructureAttributesVal))
                 .ForMember (dest =>
                     dest.structureDocs,
                     opt => opt.MapFrom (src => src.ProjectStructureDocuments))
@@ -616,8 +615,8 @@ namespace ETapManagement.Api.Extensions {
                     dest.QrCode,
                     opt => opt.MapFrom (src => src.QrCode))
                 .ForMember (dest =>
-                    dest.Width,
-                    opt => opt.MapFrom (src => src.Width))
+                    dest.Weight,
+                    opt => opt.MapFrom (src => src.Weight))
                 .ForMember (dest =>
                     dest.MakeType,
                     opt => opt.MapFrom (src => src.MakeType))
@@ -674,8 +673,8 @@ namespace ETapManagement.Api.Extensions {
                     dest.QrCode,
                     opt => opt.MapFrom (src => src.QrCode))
                 .ForMember (dest =>
-                    dest.Width,
-                    opt => opt.MapFrom (src => src.Width))
+                    dest.Weight,
+                    opt => opt.MapFrom (src => src.Weight))
                 .ForMember (dest =>
                     dest.MakeType,
                     opt => opt.MapFrom (src => src.MakeType))
@@ -732,8 +731,8 @@ namespace ETapManagement.Api.Extensions {
                     dest.QrCode,
                     opt => opt.MapFrom (src => src.QrCode))
                 .ForMember (dest =>
-                    dest.Width,
-                    opt => opt.MapFrom (src => src.Width))
+                    dest.Weight,
+                    opt => opt.MapFrom (src => src.Weight))
                 .ForMember (dest =>
                     dest.MakeType,
                     opt => opt.MapFrom (src => src.MakeType))
@@ -745,22 +744,7 @@ namespace ETapManagement.Api.Extensions {
             CreateMap<AddSiteRequirement, SiteRequirement> ()
                 .ForMember (dest =>
                     dest.FromProjectId,
-                    opt => opt.MapFrom (src => src.ProjectId))
-                .ForMember (dest =>
-                    dest.PlanStartdate,
-                    opt => opt.MapFrom (src => src.PlanStartdate))
-                .ForMember (dest =>
-                    dest.ActualReleasedate,
-                    opt => opt.MapFrom (src => src.ActualReleasedate))
-                .ForMember (dest =>
-                    dest.RequireWbsId,
-                    opt => opt.MapFrom (src => src.RequireWbsId))
-                .ForMember (dest =>
-                    dest.ActualWbsId,
-                    opt => opt.MapFrom (src => src.ActualWbsId))
-                .ForMember (dest =>
-                    dest.ActualWbsId,
-                    opt => opt.MapFrom (src => src.ActualWbsId))
+                    opt => opt.MapFrom (src => src.ProjectId))               
                 .ForMember (dest =>
                     dest.Remarks,
                     opt => opt.MapFrom (src => src.Remarks))
@@ -788,22 +772,7 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.FromProjectId))
                 .ForMember (dest =>
                     dest.ProjectName,
-                    opt => opt.MapFrom (src => src.FromProject.Name))    
-                .ForMember (dest =>
-                    dest.PlanStartdate,
-                    opt => opt.MapFrom (src => src.PlanStartdate))
-                .ForMember (dest =>
-                    dest.ActualReleasedate,
-                    opt => opt.MapFrom (src => src.ActualReleasedate))
-                .ForMember (dest =>
-                    dest.RequireWbsId,
-                    opt => opt.MapFrom (src => src.RequireWbsId))
-                .ForMember (dest =>
-                    dest.ActualWbsId,
-                    opt => opt.MapFrom (src => src.ActualWbsId))
-                .ForMember (dest =>
-                    dest.ActualWbsId,
-                    opt => opt.MapFrom (src => src.ActualWbsId))
+                    opt => opt.MapFrom (src => src.FromProject.Name))                    
                 .ForMember (dest =>
                     dest.Remarks,
                     opt => opt.MapFrom (src => src.Remarks))
@@ -824,10 +793,7 @@ namespace ETapManagement.Api.Extensions {
             CreateMap< SiteReqStructure,SiteRequirementStructure> ()
                 .ForMember (dest =>
                     dest.Id,
-                    opt => opt.MapFrom (src => src.Id))
-                .ForMember (dest =>
-                    dest.DrawingNo,
-                    opt => opt.MapFrom (src => src.DrawingNo))
+                    opt => opt.MapFrom (src => src.Id))              
                 .ForMember (dest =>
                     dest.StructId,
                     opt => opt.MapFrom (src => src.StructId))

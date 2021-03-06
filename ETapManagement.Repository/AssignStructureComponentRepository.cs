@@ -48,9 +48,7 @@ namespace ETapManagement.Repository {
                             _context.ProjectStructure.Add (projStructdb);
                             _context.SaveChanges ();
                             projectStructureID = projStructdb.Id;
-                        }
-                        Structures structDB = _context.Structures.Where (x => x.Id == request.StructureId).FirstOrDefault ();
-                        structDB.StructureAttributes = request.StructureAttributes;
+                        }                      
                         _context.SaveChanges ();
                         transaction.Commit ();
                         return projectStructureID;
@@ -91,6 +89,8 @@ namespace ETapManagement.Repository {
         }
 
         private ProjectStructure ConstructProjectStructure (AssignStructureComponentDetails request, ProjectStructure projStruct) {
+            int structCount = _context.ProjectStructure.Count () + 1;
+                string structId = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
             if (projStruct == null) {
                 projStruct = new ProjectStructure ();
                 projStruct.CreatedAt = DateTime.Now;
@@ -102,7 +102,8 @@ namespace ETapManagement.Repository {
             projStruct.DrawingNo = request.DrawingNo;
             projStruct.UpdatedAt = DateTime.Now;
             projStruct.EstimatedWeight = Convert.ToDecimal( request.EstimatedWeight);
-       
+            projStruct.StructCode = structId;
+            projStruct.StructureAttributesVal = request.StructureAttributes;
             return projStruct;
         }
 
@@ -119,27 +120,25 @@ namespace ETapManagement.Repository {
 
         public AssignStructureDtlsOnly GetAssignStructureDtlsById (ComponentQueryParam filterReq) {
             try {
-                Structures structDetails = _context.Structures.Where (x => x.Id == filterReq.StructId).FirstOrDefault ();
+                Structures structDetails = _context.Structures.Include(x=>x.StructureType).Where (x => x.Id == filterReq.StructId).FirstOrDefault ();
                 Project projDB = _context.Project.Include(x=>x.Ic).Include(x=>x.Bu).Where(x=>x.Id == filterReq.ProjectId).FirstOrDefault();
                 AssignStructureDtlsOnly response = new AssignStructureDtlsOnly ();
                 ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Project).Include (x => x.Structure).Include (x => x.Structure.StructureType).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault();
-               
+                response.ICName = projDB.Ic.Name;
+                response.BuName = projDB.Bu.Name;
+                response.StrcutureTypeName = structDetails.StructureType.Name;
                 if (pStruct != null) {
                  List<Component> lstComp = _context.Component.Include(x=>x.CompType).Where(m=>m.ProjStructId == pStruct.Id).ToList();
                 var responseMap = _mapper.Map<AssignStructureDtlsOnly> (pStruct);
                 var responseMapComp = _mapper.Map<List<ComponentDetails>> (lstComp);
                 responseMap.Components = responseMapComp;
-                    response = responseMap;
-                    response.StrcutureTypeName = _context.StructureType.Where (x => x.Id == structDetails.StructureTypeId).FirstOrDefault ().Name;
-                    response.ICName = projDB.Ic.Name;
-                    response.BuName = projDB.Bu.Name;
+                response = responseMap;
                 } else {
-                    response.StructureAttributes = structDetails.StructureAttributes;
+                    int structCount = _context.ProjectStructure.Count () + 1;
+                    string structId = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
+                    response.StructureAttributes = structDetails.StructureAttributesDef;
                     response.StructureId = structDetails.Id;
-                    response.StructureCode = structDetails.StructId;
-                    response.StrcutureTypeName = _context.StructureType.Where (x => x.Id == structDetails.StructureTypeId).FirstOrDefault ().Name;
-                    response.ICName = projDB.Ic.Name;
-                    response.BuName = projDB.Bu.Name;
+                    response.StructureCode = structId;             
                 }
                 return response;
             } catch (Exception ex) {

@@ -8,24 +8,6 @@ namespace ETapManagement.ViewModel.Dto {
 
         [Required]
         public int ProjectId { get; set; }
-
-        [Required]
-        public DateTime PlanStartdate { get; set; }
-
-        [Required]
-        public DateTime PlanReleasedate { get; set; }
-
-        [Required]
-        public DateTime ActualStartdate { get; set; }
-
-        [Required]
-        public DateTime ActualReleasedate { get; set; }
-
-        [Required]
-        public int RequireWbsId { get; set; }
-
-        [Required]
-        public int ActualWbsId { get; set; }
         public string Remarks { get; set; }
         public string Status { get; set; }
         public string StatusInternal { get; set; }
@@ -40,25 +22,7 @@ namespace ETapManagement.ViewModel.Dto {
 
         [Required]
         public int ProjectId { get; set; }
-        public string ProjectName{get;set;}
-
-        [Required]
-        public DateTime PlanStartdate { get; set; }
-
-        [Required]
-        public DateTime PlanReleasedate { get; set; }
-
-        [Required]
-        public DateTime ActualStartdate { get; set; }
-
-        [Required]
-        public DateTime ActualReleasedate { get; set; }
-
-        [Required]
-        public int RequireWbsId { get; set; }
-
-        [Required]
-        public int ActualWbsId { get; set; }
+        public string ProjectName{get;set;}      
         public string Remarks { get; set; }
         public string Status { get; set; }
         public string StatusInternal { get; set; }

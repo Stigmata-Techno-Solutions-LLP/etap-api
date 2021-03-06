@@ -124,7 +124,7 @@ namespace ETapManagement.Repository {
             compdb.Breath = comp.Breath;
             compdb.Height = comp.Height;
             compdb.Thickness = comp.Thickness;
-            compdb.Width = comp.Width;
+            compdb.Weight = comp.Weight;
             compdb.MakeType = comp.MakeType;
             compdb.IsTag = comp.IsTag;
             compdb.QrCode = comp.QrCode;
