@@ -72,25 +72,16 @@ IF OBJECT_ID('ETapManagementSIT.dbo.site_requirement', 'U') IS NOT NULL
   DROP TABLE ETapManagementSIT.dbo.site_requirement;
 
 
-
-
-
-
-
 IF OBJECT_ID('ETapManagementSIT.dbo.scrap_structure', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.scrap_structure;
-
-
 
 
 IF OBJECT_ID('ETapManagementSIT.dbo.work_breakdown', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.work_breakdown;
 
 
-
 IF OBJECT_ID('ETapManagementSIT.dbo.users', 'U') IS NOT NULL 
 DROP TABLE ETapManagementSIT.dbo.users;
-
 
 
 IF OBJECT_ID('ETapManagementSIT.dbo.audit_logs', 'U') IS NOT NULL 
@@ -98,8 +89,6 @@ IF OBJECT_ID('ETapManagementSIT.dbo.audit_logs', 'U') IS NOT NULL
 
 IF OBJECT_ID('ETapManagementSIT.dbo.roles_applicationforms', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.roles_applicationforms;
-
-
 
 
 IF OBJECT_ID('ETapManagementSIT.dbo.application_forms', 'U') IS NOT NULL 
@@ -139,7 +128,6 @@ IF OBJECT_ID('ETapManagementSIT.dbo.structure_type', 'U') IS NOT NULL
 
 IF OBJECT_ID('ETapManagementSIT.dbo.component_type', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.component_type;
-
 
 
 IF OBJECT_ID('ETapManagementSIT.dbo.subContractor_serviceType', 'U') IS NOT NULL 
@@ -526,7 +514,6 @@ CREATE TABLE ETapManagementSIT.dbo.site_req_structure
   site_req_id int not null,
   struct_id int not null,
   structure_attributes_val nvarchar(max) null,
-  drawing_no varchar(20) null,
   plan_startdate datetime not null,
   plan_releasedate datetime not null,
   actual_startdate datetime not null,
@@ -535,7 +522,7 @@ CREATE TABLE ETapManagementSIT.dbo.site_req_structure
   actual_wbs_id int not null,  
   quantity int,
   CONSTRAINT siteReqStructire_siteReq_fkey FOREIGN KEY (site_req_id) REFERENCES site_requirement(id),
-  CONSTRAINT siteReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES project_structure(id),
+  CONSTRAINT siteReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),
 )
 
 
