@@ -74,7 +74,7 @@ namespace ETapManagement.Repository {
             try
             {
                 List<ScrapStructureDetail> result = new List<ScrapStructureDetail>();
-                var scrapStructures = _context.ScrapStructure.Include(c=>c.Subcon).Include(x=>x.Struct).Where(x => x.IsDelete == false).OrderByDescending(x=>x.CreatedAt).ToList();
+                var scrapStructures = _context.ScrapStructure.Include(c=>c.Subcon).Include(x=>x.ProjStruct).Where(x => x.IsDelete == false).OrderByDescending(x=>x.CreatedAt).ToList();
                 result = _mapper.Map<List<ScrapStructureDetail>>(scrapStructures);
                 return result;
             }
@@ -108,7 +108,7 @@ namespace ETapManagement.Repository {
                 if (scrapStructureDB != null)
                 {
                         scrapStructureDB.SubconId = scrapStructure.SubconId;
-                        scrapStructureDB.StructId = scrapStructure.StructId;
+                        scrapStructureDB.ProjStructId = scrapStructure.ProjStructId;
                         scrapStructureDB.ScrapRate = scrapStructure.ScrapRate;
                         scrapStructureDB.AuctionId = scrapStructure.AuctionId;
                         scrapStructureDB.Status = "SCRAPPED";

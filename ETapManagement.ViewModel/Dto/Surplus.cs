@@ -25,7 +25,7 @@ namespace ETapManagement.ViewModel.Dto {
         public string StructureTypeName { get; set; }
         public string StructureCode{get;set;}
 
-        public int StructureId { get; set; }
+        public int ProjStructId { get; set; }
         public string StructureName { get; set; }
         public string ProjectName{get;set;}
         public string ProjectCode{get;set;}

@@ -31,6 +31,10 @@ namespace ETapManagement.ViewModel.Dto {
         [Required]
         public string StructureAttributes { get; set; }
 
+        [Required]
+        [Display (Name = "CompCount")]
+        public int CompCount { get; set; }
+
         public IFormFile[] uploadDocs { get; set; }
         public string[] remove_docs_filename { get; set; }
     }

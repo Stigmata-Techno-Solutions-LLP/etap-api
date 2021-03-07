@@ -49,7 +49,6 @@ namespace ETapManagement.Repository {
                             _context.SaveChanges ();
                             projectStructureID = projStructdb.Id;
                         }                      
-                        _context.SaveChanges ();
                         transaction.Commit ();
                         return projectStructureID;
                     } catch (Exception ex) {
@@ -103,6 +102,7 @@ namespace ETapManagement.Repository {
             projStruct.UpdatedAt = DateTime.Now;
             projStruct.EstimatedWeight = Convert.ToDecimal( request.EstimatedWeight);
             projStruct.StructCode = structId;
+            projStruct.ComponentsCount = request.CompCount;
             projStruct.StructureAttributesVal = request.StructureAttributes;
             return projStruct;
         }

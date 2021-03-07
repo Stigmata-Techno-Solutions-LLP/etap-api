@@ -10,7 +10,7 @@ namespace ETapManagement.ViewModel.Dto {
         public int SubconId { get; set; }
 
         [Required]
-        public int StructId { get; set; }
+        public int ProjStructId { get; set; }
 
         [Required]
         [Display (Name = "Scarp Rate")]
@@ -36,7 +36,7 @@ namespace ETapManagement.ViewModel.Dto {
     public class ScrapStructureDetail {
         public int Id { get; set; }
         public int SubconId { get; set; }
-        public int StructId { get; set; }
+        public int ProjStructId { get; set; }
         public string StructName { get; set; }
         public string VendorName { get; set; }
         public decimal ScrapRate { get; set; }

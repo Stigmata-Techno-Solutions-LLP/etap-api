@@ -28,7 +28,7 @@ namespace ETapManagement.Api.Controllers {
         [HttpGet ("getstructure")]
         public IActionResult GetStructure () {
             try {
-                List<StructureDetails> response = null;
+                List<StructureDetails> response = new  List<StructureDetails>();
                  response = _structureService.GetStructures ();
                 return Ok (response);
             } catch (Exception e) {

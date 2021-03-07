@@ -49,6 +49,8 @@ namespace ETapManagement.Repository {
                             siteReqStructure.Quantity = item.Quantity;
                             siteReqStructure.PlanReleasedate = item.PlanReleasedate;
                             siteReqStructure.PlanStartdate = item.PlanStartdate;
+                            siteReqStructure.ActualReleasedate = item.ActualReleasedate;
+                            siteReqStructure.ActualStartdate = item.ActualStartdate;
                             siteReqStructure.RequireWbsId = item.RequireWbsId;
                             siteReqStructure.ActualWbsId = item.ActualWbsId;
                             siteReqStructure.StructureAttributesVal = item.StructureAttributesVal;

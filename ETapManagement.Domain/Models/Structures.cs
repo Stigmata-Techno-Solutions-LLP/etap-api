@@ -8,6 +8,7 @@ namespace ETapManagement.Domain.Models
         public Structures()
         {
             ProjectStructure = new HashSet<ProjectStructure>();
+            SiteReqStructure = new HashSet<SiteReqStructure>();
         }
 
         public int Id { get; set; }
@@ -23,5 +24,6 @@ namespace ETapManagement.Domain.Models
 
         public virtual StructureType StructureType { get; set; }
         public virtual ICollection<ProjectStructure> ProjectStructure { get; set; }
+        public virtual ICollection<SiteReqStructure> SiteReqStructure { get; set; }
     }
 }

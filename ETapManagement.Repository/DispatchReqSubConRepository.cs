@@ -48,7 +48,7 @@ namespace ETapManagement.Repository {
                         foreach (var item in group)
                         { 
                             DispSubcontStructure dispSubcontStructure = new DispSubcontStructure();
-                            dispSubcontStructure.StructId = item.StructureId;
+                            dispSubcontStructure.ProjStructId = item.ProjStructureId;
                             dispSubcontStructure.DispreqsubcontId = dispatchreqSubcont.Id;
                             dispSubcontStructure.MonthlyRent = item.MonthlyRent;
                             dispSubcontStructure.PlanReleasedate = item.PlanReleasedate;
@@ -98,7 +98,7 @@ namespace ETapManagement.Repository {
                         foreach (var item in group)
                         {
                             DispSubcontStructure dispSubcontStructure = new DispSubcontStructure();
-                            dispSubcontStructure.StructId = item.StructureId;
+                            dispSubcontStructure.ProjStructId = item.ProjStructureId;
                             dispSubcontStructure.DispreqsubcontId = dispatchreqSubcont.Id;
                             dispSubcontStructure.FabricationCost = item.FabricationCost;
                             _context.DispSubcontStructure.Add(dispSubcontStructure);

@@ -7,7 +7,7 @@ namespace ETapManagement.Domain.Models
     {
         public int Id { get; set; }
         public int? SubconId { get; set; }
-        public int? StructId { get; set; }
+        public int? ProjStructId { get; set; }
         public decimal? ScrapRate { get; set; }
         public string AuctionId { get; set; }
         public string Status { get; set; }
@@ -17,7 +17,7 @@ namespace ETapManagement.Domain.Models
         public DateTime? UpdatedAt { get; set; }
         public bool IsDelete { get; set; }
 
-        public virtual ProjectStructure Struct { get; set; }
+        public virtual ProjectStructure ProjStruct { get; set; }
         public virtual SubContractor Subcon { get; set; }
     }
 }

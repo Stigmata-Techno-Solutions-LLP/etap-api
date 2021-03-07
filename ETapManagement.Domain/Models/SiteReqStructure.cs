@@ -9,7 +9,6 @@ namespace ETapManagement.Domain.Models
         public int SiteReqId { get; set; }
         public int StructId { get; set; }
         public string StructureAttributesVal { get; set; }
-        public string DrawingNo { get; set; }
         public DateTime PlanStartdate { get; set; }
         public DateTime PlanReleasedate { get; set; }
         public DateTime ActualStartdate { get; set; }

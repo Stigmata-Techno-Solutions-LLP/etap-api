@@ -532,6 +532,9 @@ namespace ETapManagement.Api.Extensions {
                 .ForMember (dest =>
                     dest.EstimatedWeight,
                     opt => opt.MapFrom (src => src.EstimatedWeight))    
+                 .ForMember (dest =>
+                    dest.ComponentsCount,
+                    opt => opt.MapFrom (src => src.ComponentsCount))        
                 .ReverseMap ();
 
             CreateMap<UpdateBusinessUnit, BusinessUnit> ()
@@ -804,7 +807,7 @@ namespace ETapManagement.Api.Extensions {
 
             CreateMap<AddSurplus, SiteDeclaration> ()
                 .ForMember (dest =>
-                    dest.StructId,
+                    dest.ProjStructId,
                     opt => opt.MapFrom (src => src.DispStructId))
                 .ForMember (dest =>
                     dest.FromProjectId,
@@ -839,8 +842,8 @@ namespace ETapManagement.Api.Extensions {
 					dest.SubconId,
 					opt => opt.MapFrom(src => src.SubconId))
 				.ForMember(dest =>
-					dest.StructId,
-					opt => opt.MapFrom(src => src.StructId))
+					dest.ProjStructId,
+					opt => opt.MapFrom(src => src.ProjStructId))
 				.ForMember(dest =>
 					dest.ScrapRate,
 					opt => opt.MapFrom(src => src.ScrapRate))
@@ -855,6 +858,7 @@ namespace ETapManagement.Api.Extensions {
 					opt => opt.MapFrom(src => src.IsDelete))
 				.ReverseMap();
 
+
 			CreateMap<ScrapStructure,ScrapStructureDetail>()
 				.ForMember(dest =>
 				   dest.Id,
@@ -863,17 +867,18 @@ namespace ETapManagement.Api.Extensions {
 					dest.SubconId,
 					opt => opt.MapFrom(src => src.SubconId))
 				.ForMember(dest =>
-					dest.StructId,
-					opt => opt.MapFrom(src => src.StructId))
+					dest.ProjStructId,
+					opt => opt.MapFrom(src => src.ProjStructId))
 				.ForMember(dest =>
 					dest.ScrapRate,
 					opt => opt.MapFrom(src => src.ScrapRate))
 				.ForMember(dest =>
-					dest.AuctionId,
-					opt => opt.MapFrom(src => src.AuctionId))
-                .ForMember(dest =>
-					dest.StructName,
-					opt => opt.MapFrom(src => src.Struct.Name))
+					dest.AuctionId,                    
+				opt => opt.MapFrom(src => src.AuctionId))
+                //TODO(add stcuturename)
+                // .ForMember(dest =>
+				// 	dest.StructName,
+				// 	opt => opt.MapFrom(src => src.ProjStruct.Structure.Name))
                 .ForMember(dest =>
 					dest.VendorName,
 					opt => opt.MapFrom(src => src.Subcon.Name))                    

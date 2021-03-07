@@ -14,7 +14,6 @@ namespace ETapManagement.Domain.Models
             ProjectStructureDocuments = new HashSet<ProjectStructureDocuments>();
             ScrapStructure = new HashSet<ScrapStructure>();
             SiteDeclaration = new HashSet<SiteDeclaration>();
-            SiteReqStructure = new HashSet<SiteReqStructure>();
             SiteStructurePhysicalverf = new HashSet<SiteStructurePhysicalverf>();
         }
 
@@ -43,7 +42,6 @@ namespace ETapManagement.Domain.Models
         public virtual ICollection<ProjectStructureDocuments> ProjectStructureDocuments { get; set; }
         public virtual ICollection<ScrapStructure> ScrapStructure { get; set; }
         public virtual ICollection<SiteDeclaration> SiteDeclaration { get; set; }
-        public virtual ICollection<SiteReqStructure> SiteReqStructure { get; set; }
         public virtual ICollection<SiteStructurePhysicalverf> SiteStructurePhysicalverf { get; set; }
     }
 }
