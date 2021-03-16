@@ -802,7 +802,22 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.StructId))
                 .ForMember (dest =>
                     dest.StructName,
-                    opt => opt.MapFrom (src => src.Struct.Name))                    
+                    opt => opt.MapFrom (src => src.Struct.Name)) 
+                .ForMember (dest =>
+                    dest.PlanStartdate,
+                    opt => opt.MapFrom (src => src.PlanStartdate))  
+                .ForMember (dest =>
+                    dest.PlanReleasedate,
+                    opt => opt.MapFrom (src => src.PlanReleasedate))   
+                .ForMember (dest =>
+                    dest.RequireWbsId,
+                    opt => opt.MapFrom (src => src.RequireWbsId))  
+                 .ForMember (dest =>
+                    dest.ActualWbsId,
+                    opt => opt.MapFrom (src => src.ActualWbsId))     
+                 .ForMember (dest =>
+                    dest.StructureAttributesVal,
+                    opt => opt.MapFrom (src => src.StructureAttributesVal))   
                 .ReverseMap ();
 
             CreateMap<AddSurplus, SiteDeclaration> ()

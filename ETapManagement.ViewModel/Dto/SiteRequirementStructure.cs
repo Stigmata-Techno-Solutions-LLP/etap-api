@@ -16,10 +16,7 @@ namespace ETapManagement.ViewModel.Dto {
         public DateTime PlanStartdate { get; set; }
         [Required]
         public DateTime PlanReleasedate { get; set; }
-        [Required]
-        public DateTime ActualStartdate { get; set; }
-        [Required]
-        public DateTime ActualReleasedate { get; set; }
+        
         [Required]
         public int RequireWbsId { get; set; }
 
