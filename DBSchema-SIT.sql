@@ -1,5 +1,7 @@
 
 
+use ETapManagementSIT;
+
 
  IF OBJECT_ID('ETapManagementSIT.dbo.site_comp_physicalverf', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.site_comp_physicalverf ;
