@@ -808,13 +808,14 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.PlanStartdate))  
                 .ForMember (dest =>
                     dest.PlanReleasedate,
-                    opt => opt.MapFrom (src => src.PlanReleasedate))   
+                    opt => opt.MapFrom (src => src.PlanReleasedate))  
+
+                .ForMember (dest =>
+                    dest.RequireByDate,
+                    opt => opt.MapFrom (src => src.ActualStartdate))                        
                 .ForMember (dest =>
                     dest.RequireWbsId,
-                    opt => opt.MapFrom (src => src.RequireWbsId))  
-                 .ForMember (dest =>
-                    dest.ActualWbsId,
-                    opt => opt.MapFrom (src => src.ActualWbsId))     
+                    opt => opt.MapFrom (src => src.RequireWbsId))                  
                  .ForMember (dest =>
                     dest.StructureAttributesVal,
                     opt => opt.MapFrom (src => src.StructureAttributesVal))   

@@ -16,12 +16,13 @@ namespace ETapManagement.ViewModel.Dto {
         public DateTime PlanStartdate { get; set; }
         [Required]
         public DateTime PlanReleasedate { get; set; }
+          [Required]
+        public DateTime RequireByDate { get; set; }
+
         
         [Required]
         public int RequireWbsId { get; set; }
 
-        [Required]
-        public int ActualWbsId { get; set; }
         [Required]
         public string StructureAttributesVal { get; set; }
 

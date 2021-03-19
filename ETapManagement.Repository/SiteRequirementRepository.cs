@@ -50,9 +50,8 @@ namespace ETapManagement.Repository {
                             siteReqStructure.PlanReleasedate = item.PlanReleasedate;
                             siteReqStructure.PlanStartdate = item.PlanStartdate;
                             siteReqStructure.RequireWbsId = item.RequireWbsId;
-                            siteReqStructure.ActualWbsId = item.ActualWbsId;
                             siteReqStructure.ActualReleasedate = DateTime.Now;
-                            siteReqStructure.ActualStartdate = DateTime.Now;
+                            siteReqStructure.ActualStartdate = item.RequireByDate;
                             siteReqStructure.StructureAttributesVal = item.StructureAttributesVal;
                             _context.SiteReqStructure.Add (siteReqStructure);
                         }
@@ -190,9 +189,9 @@ namespace ETapManagement.Repository {
                                 siteReqStructure.SiteReqId = siteReq.Id;
                                 siteReqStructure.StructId = item.StructId;
                                 siteReqStructure.PlanStartdate = item.PlanStartdate;
+                                siteReqStructure.RequireByDate = item.RequireByDate;
                                 siteReqStructure.PlanReleasedate = item.PlanReleasedate;                               
                                 siteReqStructure.RequireWbsId = item.RequireWbsId;
-                                siteReqStructure.ActualWbsId = item.ActualWbsId;
                                 _context.SiteReqStructure.Add (siteReqStructure);
                             }
                         }

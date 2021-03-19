@@ -124,8 +124,7 @@ namespace ETapManagement.Repository {
                 Project projDB = _context.Project.Include(x=>x.Ic).Include(x=>x.Bu).Where(x=>x.Id == filterReq.ProjectId).FirstOrDefault();
                 AssignStructureDtlsOnly response = new AssignStructureDtlsOnly ();
                 ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Project).Include (x => x.Structure).Include (x => x.Structure.StructureType).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault();
-                response.ICName = projDB.Ic.Name;
-                response.BuName = projDB.Bu.Name;
+                
                 response.StrcutureTypeName = structDetails.StructureType.Name;
                 if (pStruct != null) {
                  List<Component> lstComp = _context.Component.Include(x=>x.CompType).Where(m=>m.ProjStructId == pStruct.Id).ToList();
@@ -140,6 +139,9 @@ namespace ETapManagement.Repository {
                     response.StructureId = structDetails.Id;
                     response.StructureCode = structId;             
                 }
+                response.ICName = projDB.Ic.Name;
+                response.BuName = projDB.Bu.Name;
+
                 return response;
             } catch (Exception ex) {
                 throw ex;
