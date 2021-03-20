@@ -189,7 +189,7 @@ namespace ETapManagement.Repository {
                                 siteReqStructure.SiteReqId = siteReq.Id;
                                 siteReqStructure.StructId = item.StructId;
                                 siteReqStructure.PlanStartdate = item.PlanStartdate;
-                                siteReqStructure.RequireByDate = item.RequireByDate;
+                                siteReqStructure.ActualStartdate = item.RequireByDate;
                                 siteReqStructure.PlanReleasedate = item.PlanReleasedate;                               
                                 siteReqStructure.RequireWbsId = item.RequireWbsId;
                                 _context.SiteReqStructure.Add (siteReqStructure);

@@ -141,6 +141,9 @@ namespace ETapManagement.Repository {
                 }
                 response.ICName = projDB.Ic.Name;
                 response.BuName = projDB.Bu.Name;
+                response.StrcutureTypeName = structDetails.StructureType.Name;
+
+                response.
 
                 return response;
             } catch (Exception ex) {

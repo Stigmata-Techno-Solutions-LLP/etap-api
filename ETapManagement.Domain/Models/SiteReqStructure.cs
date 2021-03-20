@@ -13,7 +13,6 @@ namespace ETapManagement.Domain.Models
         public DateTime PlanReleasedate { get; set; }
         public DateTime ActualStartdate { get; set; }
         public DateTime ActualReleasedate { get; set; }
-        public DateTime RequireByDate { get; set; }
 
         public int RequireWbsId { get; set; }
         public int ActualWbsId { get; set; }
