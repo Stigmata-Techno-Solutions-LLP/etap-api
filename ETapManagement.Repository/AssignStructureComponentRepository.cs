@@ -143,7 +143,6 @@ namespace ETapManagement.Repository {
                 response.BuName = projDB.Bu.Name;
                 response.StrcutureTypeName = structDetails.StructureType.Name;
 
-                response.
 
                 return response;
             } catch (Exception ex) {
