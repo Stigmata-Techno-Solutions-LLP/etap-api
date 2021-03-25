@@ -32,6 +32,9 @@ IF OBJECT_ID('ETapManagementSIT.dbo.dispatchreq_subcont', 'U') IS NOT NULL
 
 
 
+IF OBJECT_ID('ETapManagementSIT.dbo.disp_mod_stage_component', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.disp_mod_stage_component;
+
 IF OBJECT_ID('ETapManagementSIT.dbo.disp_structure_comp', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.disp_structure_comp;
 
@@ -419,6 +422,8 @@ CREATE TABLE ETapManagementSIT.dbo.component
   CONSTRAINT comp_comptype_fkey FOREIGN KEY (comp_type_id) REFERENCES component_type(id),
 )
 
+
+
 CREATE TABLE ETapManagementSIT.dbo.component_history
 (
   id int not null identity(1,1),
@@ -657,7 +662,7 @@ CREATE TABLE ETapManagementSIT.dbo.disp_req_structure
   id int not null identity(1,1) primary key,
   dispreq_id int,
   proj_struct_id int,
-  is_modification bit,
+  is_modification bit null,
   CONSTRAINT DispReqStructire_siteReq_fkey FOREIGN KEY (dispreq_id) REFERENCES dispatch_requirement(id),
   CONSTRAINT DispReqStructire_structure_fkey FOREIGN KEY (proj_struct_id) REFERENCES project_structure(id),
 )
@@ -676,6 +681,26 @@ CREATE TABLE disp_structure_comp
   CONSTRAINT disp_req_structure_comp_id_StructureID_fkey FOREIGN KEY (disp_structure_id) REFERENCES disp_req_structure(id),
   CONSTRAINT disp_req_structure_comp_id_CompID_fkey FOREIGN KEY (disp_comp_id) REFERENCES component(id),
 )
+
+
+CREATE TABLE ETapManagementSIT.dbo.disp_mod_stage_component
+(
+  id int not null identity(1,1),
+  dispstruct_comp_id int  null,
+  leng decimal(10,6) null,
+  breath decimal(10,6) null,
+  height decimal(10,6) null,
+  thickness decimal(10,6) null,
+  weight decimal(10,6) null,
+  make_type varchar(30) null,
+  addplate varchar(200) null,  
+  qr_code varchar(200) null,
+  created_by int null,
+  created_at datetime default CURRENT_TIMESTAMP,
+  CONSTRAINT compmodif_pkey PRIMARY KEY (id),
+  CONSTRAINT compmodif_dispcomp_fkey FOREIGN KEY (dispstruct_comp_id) REFERENCES disp_structure_comp(id),
+)
+
 
 CREATE TABLE disp_structure_documents	
 (

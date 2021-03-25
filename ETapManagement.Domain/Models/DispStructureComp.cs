@@ -5,6 +5,11 @@ namespace ETapManagement.Domain.Models
 {
     public partial class DispStructureComp
     {
+        public DispStructureComp()
+        {
+            DispModStageComponent = new HashSet<DispModStageComponent>();
+        }
+
         public int Id { get; set; }
         public int DispStructureId { get; set; }
         public int DispCompId { get; set; }
@@ -15,5 +20,6 @@ namespace ETapManagement.Domain.Models
 
         public virtual Component DispComp { get; set; }
         public virtual DispReqStructure DispStructure { get; set; }
+        public virtual ICollection<DispModStageComponent> DispModStageComponent { get; set; }
     }
 }

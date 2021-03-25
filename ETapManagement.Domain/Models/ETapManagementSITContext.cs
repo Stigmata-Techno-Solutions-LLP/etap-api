@@ -2,10 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
+
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
+        public ETapManagementContext()
+        {
+        }
 
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
@@ -18,6 +22,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<Component> Component { get; set; }
         public virtual DbSet<ComponentHistory> ComponentHistory { get; set; }
         public virtual DbSet<ComponentType> ComponentType { get; set; }
+        public virtual DbSet<DispModStageComponent> DispModStageComponent { get; set; }
         public virtual DbSet<DispReqStructure> DispReqStructure { get; set; }
         public virtual DbSet<DispStructureComp> DispStructureComp { get; set; }
         public virtual DbSet<DispStructureDocuments> DispStructureDocuments { get; set; }
@@ -58,13 +63,14 @@ namespace ETapManagement.Domain.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=landt.ctxkj3vcelr3.ap-southeast-1.rds.amazonaws.com;Database=ETapManagementSIT;User Id=admin;Password=PlH34cwug3tqupePJcAp;");
+                optionsBuilder.UseSqlServer("Server=database-1.cllg2g64ndar.ap-southeast-1.rds.amazonaws.com;Database=ETapManagementSIT;User Id=admin;Password=Admin169;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Query<SiteRequirementDetail> ();
+
+          modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -362,7 +368,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("component_type");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__componen__72E12F1B27EFD44C")
+                    .HasName("UQ__componen__72E12F1B396403F9")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -396,6 +402,62 @@ namespace ETapManagement.Domain.Models
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+            });
+
+            modelBuilder.Entity<DispModStageComponent>(entity =>
+            {
+                entity.ToTable("disp_mod_stage_component");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Addplate)
+                    .HasColumnName("addplate")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Breath)
+                    .HasColumnName("breath")
+                    .HasColumnType("decimal(10, 6)");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+
+                entity.Property(e => e.DispstructCompId).HasColumnName("dispstruct_comp_id");
+
+                entity.Property(e => e.Height)
+                    .HasColumnName("height")
+                    .HasColumnType("decimal(10, 6)");
+
+                entity.Property(e => e.Leng)
+                    .HasColumnName("leng")
+                    .HasColumnType("decimal(10, 6)");
+
+                entity.Property(e => e.MakeType)
+                    .HasColumnName("make_type")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.QrCode)
+                    .HasColumnName("qr_code")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Thickness)
+                    .HasColumnName("thickness")
+                    .HasColumnType("decimal(10, 6)");
+
+                entity.Property(e => e.Weight)
+                    .HasColumnName("weight")
+                    .HasColumnType("decimal(10, 6)");
+
+                entity.HasOne(d => d.DispstructComp)
+                    .WithMany(p => p.DispModStageComponent)
+                    .HasForeignKey(d => d.DispstructCompId)
+                    .HasConstraintName("compmodif_dispcomp_fkey");
             });
 
             modelBuilder.Entity<DispReqStructure>(entity =>
@@ -578,7 +640,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("dispatch_requirement");
 
                 entity.HasIndex(e => e.DispatchNo)
-                    .HasName("UQ__dispatch__F7205CCDDBA2D526")
+                    .HasName("UQ__dispatch__F7205CCDFAFBA6D9")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -716,7 +778,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("disreq_status_history");
 
                 entity.HasIndex(e => e.DispatchNo)
-                    .HasName("UQ__disreq_s__F7205CCD6CDAA09D")
+                    .HasName("UQ__disreq_s__F7205CCDA94D8CAD")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1131,7 +1193,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("segment");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__segment__72E12F1B42DC2E7E")
+                    .HasName("UQ__segment__72E12F1BB60B301A")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1153,7 +1215,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("service_type");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__service___72E12F1B478D96DD")
+                    .HasName("UQ__service___72E12F1BC5E41A68")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1349,7 +1411,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("site_requirement");
 
                 entity.HasIndex(e => e.MrNo)
-                    .HasName("UQ__site_req__AE8CB972DA2C83BE")
+                    .HasName("UQ__site_req__AE8CB972C5005D06")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
