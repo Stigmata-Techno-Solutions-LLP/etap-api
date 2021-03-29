@@ -7,9 +7,7 @@ namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-        public ETapManagementContext()
-        {
-        }
+        
 
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
@@ -76,6 +74,9 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<SurplusDetails> ();
             modelBuilder.Query<AssignStructureDtlsOnly> ();
             modelBuilder.Query<AvailableStructureForReuse> ();
+            modelBuilder.Query<TWCCDispatch>();
+            modelBuilder.Query<TWCCDispatchInnerStructure>();
+            modelBuilder.Query<SiteRequirementDetailsForDispatch>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");

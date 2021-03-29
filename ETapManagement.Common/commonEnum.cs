@@ -99,6 +99,12 @@ namespace ETapManagement.Common {
             PARTIALLYDISPATCHED=2,
             DISPATCHED=2
         }
+
+        public enum TWCCDispatchReleaseDate{
+            ONEMONTH=1,
+            THREEMONTHS=2,
+            SIXMONTHS=3
+        }
     }
 
 }
