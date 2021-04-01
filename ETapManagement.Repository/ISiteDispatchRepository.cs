@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
 
 namespace ETapManagement.Repository {
@@ -20,6 +21,7 @@ namespace ETapManagement.Repository {
          public SiteRequirementDispatch GetRequirementStructureDispatchDetails (int siteReqId);
          public ResponseMessage SiteDispatchApproval (SiteDispatchApproval dispAppr);
           public ResponseMessage SiteDispatchRejection (SiteDispatchApproval dispAppr);
+           
 
     }
 }
