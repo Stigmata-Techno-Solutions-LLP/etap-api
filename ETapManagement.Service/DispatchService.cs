@@ -80,6 +80,17 @@ namespace ETapManagement.Service {
                 throw ex;
             }
         }
+          public List<ComponentDetails> GetStructrueComponent () {
+            
+                try {
+                 List<ComponentDetails> response = new List<ComponentDetails> ();
+            var responsedb = _context.Component.Where (x => x.IsDelete == false).OrderByDescending(x=>x.CreatedAt).ToList ();
+            response = _mapper.Map<List<ComponentDetails>> (responsedb);
+            return response;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
 
         
     }

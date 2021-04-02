@@ -380,6 +380,21 @@ namespace ETapManagement.Api.Controllers
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
+
+            [HttpGet("GetStructrueComponent")]
+        public IActionResult GetStructrueComponent()
+        {
+            try
+            {
+                var response = _dispatchService.GetStructrueComponent();
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
     
     
     
