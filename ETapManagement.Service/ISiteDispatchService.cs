@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ETapManagement.Domain.Models;
 using ETapManagement.ViewModel.Dto;
 using ETapManagement.Common;
 
@@ -28,5 +29,7 @@ namespace ETapManagement.Service
         public List<TWCCDispatchInnerStructure> GetTWCCInnerStructureDetails(int structureId, int siteRequirementId, commonEnum.TWCCDispatchReleaseDate releaseFilter);
 
         public ResponseMessage CreateDispatchForReuse(TWCCDispatchPayload payload);
+     
+
     }
 }

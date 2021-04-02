@@ -77,6 +77,7 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<TWCCDispatch>();
             modelBuilder.Query<TWCCDispatchInnerStructure>();
             modelBuilder.Query<SiteRequirementDetailsForDispatch>();
+            modelBuilder.Query<DispRequestDto> ();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");

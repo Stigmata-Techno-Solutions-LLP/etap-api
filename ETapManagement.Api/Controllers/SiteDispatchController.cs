@@ -5,9 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using ETapManagement.Common;
 using ETapManagement.Service;
-using ETapManagement.ViewModel.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+ 
+using ETapManagement.ViewModel.Dto;
+using ETapManagement.Domain.Models;
 
 namespace ETapManagement.Api.Controllers
 {
@@ -349,6 +351,38 @@ namespace ETapManagement.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
+
+        [HttpGet("GetDispatchStructure")]
+        public IActionResult GetDispatchStructure(int id)
+        {
+            try
+            {
+                var response = _dispatchService.GetDispatchStructure(id);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+         [HttpPut ("UpdatestructureModify")]
+        public IActionResult UpdatestructureModify (List<DispReqStructureDto> structure) {
+            try {
+                var response = _dispatchService.UpdatestructureModify (structure);
+                  return Ok(response);
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+    
+    
+    
 
     }
 }
