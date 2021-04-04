@@ -33,18 +33,7 @@ namespace ETapManagement.ViewModel.Dto
          [Required]
         public int SubContId { get; set; }
          [Required]
-        public int ProjStructureId { get; set; }
-         [Required]
-         public decimal MonthlyRent { get; set; }   
-          [Required]     
-        public decimal ContractYears { get; set; }
-         [Required]
-        public DateTime PlanReleasedate { get; set; }
-         [Required]
-        public DateTime ExpectedReleasedate { get; set; }
-         [Required]
-        public DateTime ActualStartdate { get; set; } 
-
+        public int ProjStructureId { get; set; }       
 
     }
 
@@ -55,8 +44,6 @@ namespace ETapManagement.ViewModel.Dto
         public int SubContId { get; set; }
          [Required]
         public int ProjStructureId { get; set; }
-         [Required]
-        public decimal FabricationCost { get; set; }
 
     }
 }

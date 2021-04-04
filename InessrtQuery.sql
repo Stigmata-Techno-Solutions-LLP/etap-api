@@ -88,3 +88,12 @@ INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,ch
 ,('VENDOR','DISPATCH',5,'DISPATCHED','TOSITEAPPROVED','PROCAPPROVED,TOSITEAPPROVED,VENDORAPPROVED,FAAAPPROVED,FROMSITEAPPROVED','1,2')
 ,('SITE','DISPATCH',5,'DISPATCHED','TOSITEAPPROVED','TOSITEAPPROVED','4')
 ;
+
+
+
+
+
+ --insert into dispatch_requirement values('DC000001',9,1,1,null,null,'NEW','NEW',1,1,getdate(),null,null,0)
+ --insert into dispatch_requirement values('DC000003',9,1,2,null,null,'NEW','NEW',1,1,getdate(),null,null,0)
+
+ 

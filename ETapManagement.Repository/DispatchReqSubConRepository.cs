@@ -50,10 +50,10 @@ namespace ETapManagement.Repository {
                             DispSubcontStructure dispSubcontStructure = new DispSubcontStructure();
                             dispSubcontStructure.ProjStructId = item.ProjStructureId;
                             dispSubcontStructure.DispreqsubcontId = dispatchreqSubcont.Id;
-                            dispSubcontStructure.MonthlyRent = item.MonthlyRent;
-                            dispSubcontStructure.PlanReleasedate = item.PlanReleasedate;
-                            dispSubcontStructure.ExpectedReleasedate = item.ExpectedReleasedate;
-                            dispSubcontStructure.ActualStartdate = item.ActualStartdate;                            
+                          //  dispSubcontStructure.MonthlyRent = item.MonthlyRent;
+                         //   dispSubcontStructure.PlanReleasedate = item.PlanReleasedate;
+                          //  dispSubcontStructure.ExpectedReleasedate = item.ExpectedReleasedate;
+                          //  dispSubcontStructure.ActualStartdate = item.ActualStartdate;                            
                             _context.DispSubcontStructure.Add(dispSubcontStructure);
                             _context.SaveChanges();
                         }                         
@@ -100,7 +100,7 @@ namespace ETapManagement.Repository {
                             DispSubcontStructure dispSubcontStructure = new DispSubcontStructure();
                             dispSubcontStructure.ProjStructId = item.ProjStructureId;
                             dispSubcontStructure.DispreqsubcontId = dispatchreqSubcont.Id;
-                            dispSubcontStructure.FabricationCost = item.FabricationCost;
+                          //  dispSubcontStructure.FabricationCost = item.FabricationCost;
                             _context.DispSubcontStructure.Add(dispSubcontStructure);
                             _context.SaveChanges();
                         }

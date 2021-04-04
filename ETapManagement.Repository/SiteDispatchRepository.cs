@@ -212,12 +212,12 @@ namespace ETapManagement.Repository
                 List<StructureListCode> result = new List<StructureListCode>();
                 if (dispatchRequirement.role_hierarchy == commonEnum.Rolename.PROCUREMENT)
                 {
-                    var structureListCodes = _context.Query<StructureListCode>().FromSqlRaw("select s.Id as Id,s.struct_id as StructureId,s.name as StructureName from dispatch_requirement dr  inner join disp_req_structure drs on dr.id  = drs.dispreq_id inner join structures s on drs.struct_id =s.id where dispreq_id ={0}", dispatchRequirement.dispReqId).ToList();
+                    var structureListCodes = _context.Query<StructureListCode>().FromSqlRaw("select s.Id as Id,ps.struct_code as StructureId,s.name as StructureName from dispatch_requirement dr inner join disp_req_structure drs on dr.id  = drs.dispreq_id inner join project_structure ps on drs.proj_struct_id =ps.id  inner join structures s on ps.structure_id =s.id where dispreq_id = {0}", dispatchRequirement.dispReqId).ToList();
                     result = _mapper.Map<List<StructureListCode>>(structureListCodes);
                 }
                 else if (dispatchRequirement.role_hierarchy == commonEnum.Rolename.VENDOR)
                 {
-                    var structureListCodes = _context.Query<StructureListCode>().FromSqlRaw("select dss.struct_id as Id, (SELECT struct_id FROM structures WHERE dss.struct_id = id) as StructureId, (SELECT name FROM structures WHERE dss.struct_id = id) as StructureName from dispatchreq_subcont ds  inner join disp_subcont_structure dss on ds.id  = dss.dispreqsubcont_id where dispreq_id = {0}", dispatchRequirement.dispReqId).ToList();
+                    var structureListCodes = _context.Query<StructureListCode>().FromSqlRaw("select s.Id as Id,ps.struct_code as StructureId,s.name as StructureName from dispatchreq_subcont drs inner join disp_subcont_structure dss on drs.id  = dss.dispreqsubcont_id inner join project_structure ps on dss.proj_struct_id =ps.id inner join structures s on ps.structure_id =s.id where drs.dispreq_id ={0}", dispatchRequirement.dispReqId).ToList();
                     result = _mapper.Map<List<StructureListCode>>(structureListCodes);
                 }
                 return result;
