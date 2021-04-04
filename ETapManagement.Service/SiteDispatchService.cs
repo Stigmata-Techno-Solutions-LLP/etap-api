@@ -70,13 +70,6 @@ namespace ETapManagement.Service
             return structureList;
         }
 
-        public ResponseMessage CreateDispatch(AddDispatch siteDsipatch)
-        {
-            ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _siteDispatchRepository.CreateDispatch(siteDsipatch);
-            return responseMessage;
-        }
-
         private string UploadedFile(IFormFile file)
         {
             try
@@ -262,10 +255,10 @@ namespace ETapManagement.Service
             return result;
         }
 
-        public ResponseMessage CreateDispatchForReuse(TWCCDispatchPayload payload)
+        public ResponseMessage CreateDispatch(TWCCDispatchPayload payload)
         {
             ResponseMessage responseMesasge = new ResponseMessage();
-            responseMesasge = _siteDispatchRepository.CreateDispatchForReuse(payload);
+            responseMesasge = _siteDispatchRepository.CreateDispatch(payload);
             return responseMesasge;
         }
     }

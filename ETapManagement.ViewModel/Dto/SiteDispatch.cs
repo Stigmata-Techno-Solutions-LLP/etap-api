@@ -154,7 +154,7 @@ namespace ETapManagement.ViewModel.Dto
     public class TWCCDispatchInnerStructure
     {
         public int SiteRequirementId { get; set; }
-        public int ProjectStructureId {get;set;}
+        public int ProjectStructureId { get; set; }
         public int StructureId { get; set; }
         public string StructureCode { get; set; }
         public int ProjectId { get; set; }
@@ -186,19 +186,18 @@ namespace ETapManagement.ViewModel.Dto
 
     public class TWCCDispatchPayload
     {
-        public int siteRequirementId {get;set;}
-        public int ToProjectId {get;set;}
-        public int ProjectStructureId {get;set;}
-        public int StructureId {get;set;}
-        public int ServiceTypeId {get;set;}
-        public int Quantity {get;set;}
-        public string TransferPrice {get;set;}
-        public string Status {get;set;}
-        public string StatusInternal {get;set;}
-        public int RoleId {get;set;}
-        public int CreatedBy {get;set;}
-        public bool IsDelete {get;set;}
-        public string Notes {get;set;}
-
+        public int siteRequirementId { get; set; }
+        public int ToProjectId { get; set; }
+        public int ProjectStructureId { get; set; }
+        public int StructureId { get; set; }
+        public int ServiceTypeId { get; set; }
+        public int Quantity { get; set; }
+        public string TransferPrice { get; set; }
+        public string Status { get; set; }
+        public string StatusInternal { get; set; }
+        public int RoleId { get; set; }
+        public int CreatedBy { get; set; }
+        public bool IsDelete { get; set; }
+        public string Notes { get; set; }
     }
 }

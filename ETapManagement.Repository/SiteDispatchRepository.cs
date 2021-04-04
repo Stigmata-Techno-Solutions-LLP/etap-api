@@ -25,89 +25,6 @@ namespace ETapManagement.Repository
             _commonRepo = commonRepo;
         }
 
-        public ResponseMessage CreateDispatch(AddDispatch dispatchReq)
-        {
-            //NEWREQUIREMENT
-
-            // string dispatchNo = "";
-            // SiteRequirement siteReqr = _context.SiteRequirement.Include (c => c.SiteReqStructure).Where (x => x.Id == dispatchReq.RequirementId).FirstOrDefault ();
-            //     if (_context.SiteRequirement.Where (x => x.Id == dispatchReq.RequirementId && x.StatusInternal == commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ()).Count () > 0) throw new ValueNotFoundException ("Site RequirementId already dispatched");
-
-            // List<DispatchRequirement> lstDispReq = _context.DispatchRequirement.Include (v => v.DispReqStructure).Where (x => x.SitereqId == dispatchReq.RequirementId).ToList ();
-            // // if (siteReqr.StatusInternal == )
-            // if (dispatchReq.dispStructureDtls.Count () == 0) throw new ValueNotFoundException ("Struct Count should be greatedr than 0");
-            // if (siteReqr == null) throw new ValueNotFoundException ("Site RequirementId doesn't Exist");
-            // //    if (_context.DispatchRequirement.Where (x => x.SitereqId == dispatchReq.RequirementId).Count () > 0) throw new ValueNotFoundException ("Site RequirementId already dispatched");
-
-            // // if (siteReqr.SiteReqStructure.Sum (x => x.Quantity) != dispatchReq.dispStructureDtls.Count ()) throw new ValueNotFoundException ("Given Structure Count doesn't match with Requiremnt Structure Count");
-
-            // foreach (DispatchStructure dispStr in dispatchReq.dispStructureDtls) {
-            //     if (lstDispReq.ToList ().Select (x => x.DispReqStructure.Where (x => x.StructId == dispStr.StructureId)).Count () > 0) throw new ValueNotFoundException (string.Format ("Structure ({0}) already dispatched for this requirement", dispStr.StructureName));
-            // }
-
-            // int dispReuseCount = _context.DispatchRequirement.Include (m => m.Servicetype).Where (x => x.Servicetype.Name == commonEnum.ServiceType.Reuse.ToString ()).Count () + 1;
-            // int dispVendorCount = _context.DispatchRequirement.Include (m => m.Servicetype).Where (x => x.Servicetype.Name != commonEnum.ServiceType.Reuse.ToString ()).Count () + 1;
-            // ResponseMessage resp = new ResponseMessage ();
-            // using (var transaction = _context.Database.BeginTransaction ()) {
-            //     try {
-            //         foreach (DispatchStructure dispStr in dispatchReq.dispStructureDtls) {
-
-            //             ServiceType servType = _context.ServiceType.Where (x => x.Id == dispStr.ServiceTypeId).FirstOrDefault ();
-            //             if (servType.Name == commonEnum.ServiceType.Reuse.ToString ()) {
-            //                 dispatchNo = constantVal.DispReusePrefix + dispReuseCount.ToString ().PadLeft (6, '0');
-            //                 //   dispReuseCount += 1;
-            //             } else {
-            //                 dispatchNo = constantVal.DispVendorPrefix + dispVendorCount.ToString ().PadLeft (6, '0');
-            //                 //  dispVendorCount += 1;
-            //             }
-            //             DispatchRequirement dispReq = new DispatchRequirement ();
-            //             dispReq.CreatedAt = DateTime.Now;
-            //             dispReq.CreatedBy = 1; //TODO
-            //             dispReq.DispatchNo = dispatchNo;
-            //             dispReq.RoleId = 1; // TODO
-            //             dispReq.ServicetypeId = dispStr.ServiceTypeId;
-            //             dispReq.SitereqId = dispatchReq.RequirementId;
-            //             dispReq.Status = commonEnum.SiteDispatchSatus.NEW.ToString ();
-            //             dispReq.StatusInternal = commonEnum.SiteDispatchSatus.NEW.ToString ();
-            //             dispReq.ToProjectid = dispatchReq.ToProjectId;
-            //             _context.DispatchRequirement.Add (dispReq);
-            //             _context.SaveChanges ();
-
-            //             DispReqStructure dispStrcture = new DispReqStructure ();
-            //             dispStrcture.StructId = dispStr.StructureId;
-            //             dispStrcture.DispreqId = dispReq.Id;
-            //             _context.DispReqStructure.Add (dispStrcture);
-            //             _context.SaveChanges ();
-
-            //             ProjectStructure structDB = _context.ProjectStructure.Where (x => x.StructureId == dispStr.StructureId && x.ProjectId == dispStr.ProjectId).FirstOrDefault ();
-            //             structDB.CurrentStatus = commonEnum.StructureInternalStatus.DISPATCHINPROGRESS.ToString ();
-            //             structDB.StructureStatus = commonEnum.StructureStatus.NOTAVAILABLE.ToString ();
-            //             _context.SaveChanges ();
-
-            //         }
-            //         _context.SaveChanges ();
-            //         var dispatchedStrucCount = (from dr in _context.DispatchRequirement join drs in _context.DispReqStructure on dr.Id equals drs.DispreqId where dr.SitereqId == dispatchReq.RequirementId select new { }).Count ();
-            //         SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x=>x.Id == dispatchReq.RequirementId).FirstOrDefault();
-            //         if (siteReqr.SiteReqStructure.Sum (x => x.Quantity) > dispatchedStrucCount) {
-            //             dbSiteReq.Status = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
-            //             dbSiteReq.StatusInternal = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
-            //         } else {
-            //             dbSiteReq.Status = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
-            //             dbSiteReq.StatusInternal = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
-
-            //         }
-            //         _context.SaveChanges ();
-            //         transaction.Commit ();
-            //     } catch (Exception ex) {
-            //         transaction.Rollback ();
-            //         throw ex;
-            //     }
-            // }
-            // resp.Message = string.Format ("DispatchNo {0} Created successfully ", dispatchNo);
-            // return resp;
-            return null;
-        }
-
         public List<AvailableStructureForReuse> AvailableStructureForReuse(int siteReqId)
         {
             try
@@ -624,12 +541,32 @@ namespace ETapManagement.Repository
             }
         }
 
-        public ResponseMessage CreateDispatchForReuse(TWCCDispatchPayload payload)
+        public ResponseMessage CreateDispatch(TWCCDispatchPayload payload)
         {
             string dispatchNo = string.Empty;
+            string structCode = string.Empty;
+            int dispReuseCount = 0;
             ServiceType servType = _context.ServiceType.Where(x => x.Id == payload.ServiceTypeId).FirstOrDefault();
-            int dispReuseCount = _context.DispatchRequirement.Include(m => m.Servicetype).Where(x => x.Servicetype.Name == commonEnum.ServiceType.Reuse.ToString()).Count() + 1;
+            if (servType.Name == commonEnum.ServiceType.Fabrication.ToString())
+            {
+                dispReuseCount = _context.DispatchRequirement.Include(m => m.Servicetype).Where(x => x.DispatchNo.Contains("DC")).Count() + 1;
+            }
+            else if (servType.Name == commonEnum.ServiceType.OutSourcing.ToString())
+            {
+                dispReuseCount = _context.DispatchRequirement.Include(m => m.Servicetype).Where(x => x.DispatchNo.Contains("DC")).Count() + 1;
+            }
+            else  if (servType.Name == commonEnum.ServiceType.Reuse.ToString())
+            {
+                dispReuseCount = _context.DispatchRequirement.Include(m => m.Servicetype).Where(x => x.DispatchNo.Contains("DA")).Count() + 1;
+            }
+
             SiteRequirement siteReqr = _context.SiteRequirement.Include(c => c.SiteReqStructure).Where(x => x.Id == payload.siteRequirementId).FirstOrDefault();
+            if (servType.Name == commonEnum.ServiceType.Fabrication.ToString() || servType.Name == commonEnum.ServiceType.OutSourcing.ToString())
+            {
+                int structCount = _context.ProjectStructure.Count() + 1;
+                structCode = constantVal.StructureIdPrefix + structCount.ToString().PadLeft(6, '0');
+                dispatchNo = constantVal.DispVendorPrefix + dispReuseCount.ToString().PadLeft(6, '0');
+            }
             if (servType.Name == commonEnum.ServiceType.Reuse.ToString())
             {
                 dispatchNo = constantVal.DispReusePrefix + dispReuseCount.ToString().PadLeft(6, '0');
@@ -652,17 +589,42 @@ namespace ETapManagement.Repository
                     dispReq.Quantity = payload.Quantity;
                     _context.DispatchRequirement.Add(dispReq);
                     _context.SaveChanges();
+                    ProjectStructure projectStructure = new ProjectStructure();
+                    if (servType.Name == commonEnum.ServiceType.Fabrication.ToString() || servType.Name == commonEnum.ServiceType.OutSourcing.ToString())
+                    {
+
+                        SiteReqStructure siteRequirementStructure = _context.SiteReqStructure.Where(x => x.SiteReqId == payload.siteRequirementId && x.StructId == payload.StructureId).FirstOrDefault();
+
+                        projectStructure.StructureId = payload.StructureId;
+                        projectStructure.StructCode = structCode;
+                        projectStructure.ProjectId = payload.ToProjectId;
+                        projectStructure.DrawingNo = "";
+                        projectStructure.ComponentsCount = 0;
+                        projectStructure.StructureAttributesVal = siteRequirementStructure != null ? siteRequirementStructure.StructureAttributesVal : "";
+                        projectStructure.EstimatedWeight = 0;
+                        projectStructure.StructureStatus = commonEnum.StructureStatus.NOTAVAILABLE.ToString();
+                        projectStructure.CurrentStatus = commonEnum.StructureInternalStatus.DISPATCHINPROGRESS.ToString();
+                        projectStructure.IsDelete = false;
+                        projectStructure.CreatedBy = payload.CreatedBy;
+                        projectStructure.CreatedAt = DateTime.Now;
+                        _context.ProjectStructure.Add(projectStructure);
+                        _context.SaveChanges();
+
+                    }
+                    else
+                    {
+                        ProjectStructure structDB = _context.ProjectStructure.Where(x => x.StructureId == payload.StructureId && x.ProjectId == payload.ToProjectId).FirstOrDefault();
+                        structDB.CurrentStatus = commonEnum.StructureInternalStatus.DISPATCHINPROGRESS.ToString();
+                        structDB.StructureStatus = commonEnum.StructureStatus.NOTAVAILABLE.ToString();
+                        _context.SaveChanges();
+                    }
 
                     DispReqStructure dispStrcture = new DispReqStructure();
-                    dispStrcture.ProjStructId = payload.ProjectStructureId;
+                    dispStrcture.ProjStructId = servType.Name == commonEnum.ServiceType.Fabrication.ToString() || servType.Name == commonEnum.ServiceType.OutSourcing.ToString() ? projectStructure.Id : payload.ProjectStructureId;
                     dispStrcture.DispreqId = dispReq.Id;
                     _context.DispReqStructure.Add(dispStrcture);
                     _context.SaveChanges();
 
-                    ProjectStructure structDB = _context.ProjectStructure.Where(x => x.StructureId == payload.StructureId && x.ProjectId == payload.ToProjectId).FirstOrDefault();
-                    structDB.CurrentStatus = commonEnum.StructureInternalStatus.DISPATCHINPROGRESS.ToString();
-                    structDB.StructureStatus = commonEnum.StructureStatus.NOTAVAILABLE.ToString();
-                    _context.SaveChanges();
 
 
                     _context.SaveChanges();
@@ -677,8 +639,19 @@ namespace ETapManagement.Repository
                     {
                         dbSiteReq.Status = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString();
                         dbSiteReq.StatusInternal = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString();
-
                     }
+                    _context.SaveChanges();
+
+                    DisreqStatusHistory dispatchReqStatusHistory = new DisreqStatusHistory();
+                    dispatchReqStatusHistory.DispatchNo = dispatchNo;
+                    dispatchReqStatusHistory.DispreqId = dispReq.Id;
+                    dispatchReqStatusHistory.Status = commonEnum.SiteDispatchSatus.NEW.ToString();
+                    dispatchReqStatusHistory.StatusInternal = commonEnum.SiteDispatchSatus.NEW.ToString();
+                    dispatchReqStatusHistory.Notes = "";
+                    dispatchReqStatusHistory.RoleId = payload.RoleId;
+                    dispatchReqStatusHistory.CreatedBy = payload.CreatedBy;
+                    dispatchReqStatusHistory.CreatedAt = DateTime.Now;
+                    _context.DisreqStatusHistory.Add(dispatchReqStatusHistory);
                     _context.SaveChanges();
                     transaction.Commit();
                     responseMessage = new ResponseMessage()
