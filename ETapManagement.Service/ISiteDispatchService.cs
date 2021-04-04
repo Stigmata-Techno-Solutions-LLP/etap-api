@@ -29,7 +29,9 @@ namespace ETapManagement.Service
         public List<TWCCDispatchInnerStructure> GetTWCCInnerStructureDetails(int structureId, int siteRequirementId, commonEnum.TWCCDispatchReleaseDate releaseFilter);
 
         public ResponseMessage CreateDispatchForReuse(TWCCDispatchPayload payload);
-     
+        public List<DispStructureCMPC> GetDispatchStructureForCMPC();
+        ResponseMessage AddComponentsDisaptch (DispatchAddComponents request);
+
 
     }
 }

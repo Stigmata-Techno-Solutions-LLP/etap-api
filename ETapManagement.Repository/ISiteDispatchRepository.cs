@@ -28,5 +28,8 @@ namespace ETapManagement.Repository
         public SiteRequirementDetailsForDispatch GetSiteRequirementDetails(int siteRequirementId);
         public ResponseMessage CreateDispatchForReuse(TWCCDispatchPayload payload);
 
+            public List<DispStructureCMPC> GetDispatchStructureForCMPC ();
+
+
     }
 }

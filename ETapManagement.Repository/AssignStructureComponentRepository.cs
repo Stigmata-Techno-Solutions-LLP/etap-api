@@ -150,6 +150,40 @@ namespace ETapManagement.Repository {
             }
         }
 
+
+         public AssignStructureDtlsOnly GetAssignStructureDtlsByProjStructId (int projStructId) {
+            try {
+                AssignStructureDtlsOnly response = new AssignStructureDtlsOnly ();
+                ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Project).Include (x => x.Structure).Include (x => x.Structure.StructureType).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.Id == projStructId).FirstOrDefault();
+                if (pStruct == null) throw new ValueNotFoundException ("Project Struct Id doesn't exists");
+                Structures structDetails = _context.Structures.Include(x=>x.StructureType).Where (x => x.Id == pStruct.StructureId).FirstOrDefault ();
+                Project projDB = _context.Project.Include(x=>x.Ic).Include(x=>x.Bu).Where(x=>x.Id == pStruct.ProjectId).FirstOrDefault();
+               
+                response.StrcutureTypeName = structDetails.StructureType.Name;
+                if (pStruct != null) {
+                 List<Component> lstComp = _context.Component.Include(x=>x.CompType).Where(m=>m.ProjStructId == pStruct.Id).ToList();
+                var responseMap = _mapper.Map<AssignStructureDtlsOnly> (pStruct);
+                var responseMapComp = _mapper.Map<List<ComponentDetails>> (lstComp);
+                responseMap.Components = responseMapComp;
+                response = responseMap;
+                } else {
+                    int structCount = _context.ProjectStructure.Count () + 1;
+                    string structId = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
+                    response.StructureAttributes = structDetails.StructureAttributesDef;
+                    response.StructureId = structDetails.Id;
+                    response.StructureCode = structId;             
+                }
+                response.ICName = projDB.Ic.Name;
+                response.BuName = projDB.Bu.Name;
+                response.StrcutureTypeName = structDetails.StructureType.Name;
+
+
+                return response;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         public List<AssignStructureDtlsOnly> GetAssignStructureDtls () {
             try {
                 List<AssignStructureDtlsOnly> result = new List<AssignStructureDtlsOnly> ();

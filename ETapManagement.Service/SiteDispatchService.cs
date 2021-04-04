@@ -14,12 +14,14 @@ namespace ETapManagement.Service
     public class SiteDispatchService : ISiteDispatchService
     {
         ISiteDispatchRepository _siteDispatchRepository;
+        IComponentRepository _compRepo;
         private readonly IWebHostEnvironment _webHostEnvironment;
         string prefixPath = "Documents";
-        public SiteDispatchService(ISiteDispatchRepository siteDispatchRepository, IWebHostEnvironment hostEnvironment)
+        public SiteDispatchService(ISiteDispatchRepository siteDispatchRepository, IWebHostEnvironment hostEnvironment, IComponentRepository compRepo)
         {
             _siteDispatchRepository = siteDispatchRepository;
             _webHostEnvironment = hostEnvironment;
+            _compRepo = compRepo;
         }
 
         public List<SiteDispatchDetail> GetSiteDispatchDetails(SiteDispatchPayload siteDispatchPayload)
@@ -266,6 +268,22 @@ namespace ETapManagement.Service
         {
             ResponseMessage responseMesasge = new ResponseMessage();
             responseMesasge = _siteDispatchRepository.CreateDispatchForReuse(payload);
+            return responseMesasge;
+        }
+
+
+          public List<DispStructureCMPC> GetDispatchStructureForCMPC() {
+               try {
+                   return _siteDispatchRepository.GetDispatchStructureForCMPC();
+               } catch(Exception ex) {
+                   throw ex;
+               }
+           }
+
+    public ResponseMessage AddComponentsDisaptch(DispatchAddComponents payload)
+        {
+            ResponseMessage responseMesasge = new ResponseMessage();
+            responseMesasge = _compRepo.AddComponentsDisaptch(payload);
             return responseMesasge;
         }
     }

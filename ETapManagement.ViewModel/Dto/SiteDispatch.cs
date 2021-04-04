@@ -5,10 +5,8 @@ using System.Text;
 using ETapManagement.Common;
 using Microsoft.AspNetCore.Http;
 
-namespace ETapManagement.ViewModel.Dto
-{
-    public class SiteDispatchDetail
-    {
+namespace ETapManagement.ViewModel.Dto {
+    public class SiteDispatchDetail {
         public string? MRNo { get; set; }
 
         public string? DispatchNo { get; set; }
@@ -38,32 +36,28 @@ namespace ETapManagement.ViewModel.Dto
 
     }
 
-    public class StructureListCode
-    {
+    public class StructureListCode {
         public int Id { get; set; }
         public string StructureId { get; set; }
         public string StructureName { get; set; }
 
     }
 
-    public class DispatchStructureCodePayload
-    {
+    public class DispatchStructureCodePayload {
         [Required]
         public int dispReqId { get; set; }
 
         [Required]
         public commonEnum.Rolename role_hierarchy { get; set; }
     }
-    public class SiteDispatchPayload
-    {
+    public class SiteDispatchPayload {
         public commonEnum.Rolename role_name { get; set; }
         public int? role_hierarchy { get; set; }
         public int? VendorId { get; set; }
         public int? ProjectId { get; set; }
     }
 
-    public class DispatchVendorAddPayload
-    {
+    public class DispatchVendorAddPayload {
         public int dispatchRequestSubContractorId { get; set; }
         public string workOrderNumber { get; set; }
         public DateTime dispatchDate { get; set; }
@@ -72,8 +66,7 @@ namespace ETapManagement.ViewModel.Dto
         public IFormFile[] uploadDocs { get; set; }
     }
 
-    public class SiteDispatchUpload
-    {
+    public class SiteDispatchUpload {
         public int Id { get; set; }
         public int DispatchSubContractorId { get; set; }
         public string FileName { get; set; }
@@ -81,8 +74,7 @@ namespace ETapManagement.ViewModel.Dto
         public string Path { get; set; }
     }
 
-    public class SiteDispatchScan
-    {
+    public class SiteDispatchScan {
         public int projectId { get; set; }
         public int structureId { get; set; }
         public int dispId { get; set; }
@@ -92,25 +84,23 @@ namespace ETapManagement.ViewModel.Dto
 
     }
 
-    public class SiteDispScanComp
-    {
+    public class SiteDispScanComp {
         [Required]
         public int componentId { get; set; }
+
         [Required]
         public string qrCode { get; set; }
         public string remarks { get; set; }
     }
 
-    public class SiteDispatchStructureDocs
-    {
+    public class SiteDispatchStructureDocs {
 
         public int dispReqId { get; set; }
         public int structureId { get; set; }
         public IFormFile[] uploadDocs { get; set; }
         public string[] remove_docs_filename { get; set; }
     }
-    public class SiteDispatchScanUpload
-    {
+    public class SiteDispatchScanUpload {
         public int Id { get; set; }
         public int DispatchSubContractorId { get; set; }
         public string FileName { get; set; }
@@ -118,16 +108,14 @@ namespace ETapManagement.ViewModel.Dto
         public string Path { get; set; }
     }
 
-    public class DispatchTransferPrice
-    {
+    public class DispatchTransferPrice {
 
         public int dispReqId { get; set; }
         public string roleName { get; set; }
         public decimal? transferPrice { get; set; }
     }
 
-    public class SiteDispatchApproval
-    {
+    public class SiteDispatchApproval {
 
         public int dispReqId { get; set; }
         public string roleName { get; set; }
@@ -136,8 +124,7 @@ namespace ETapManagement.ViewModel.Dto
         public int roleHierarchy { get; set; }
     }
 
-    public class TWCCDispatch
-    {
+    public class TWCCDispatch {
         public int SiteRequirementId { get; set; }
         public string MRNumber { get; set; }
         public string StructureName { get; set; }
@@ -148,13 +135,11 @@ namespace ETapManagement.ViewModel.Dto
         public string RequestStatus { get; set; }
         public string StructureAttributes { get; set; }
         public int Quantity { get; set; }
-
     }
 
-    public class TWCCDispatchInnerStructure
-    {
+    public class TWCCDispatchInnerStructure {
         public int SiteRequirementId { get; set; }
-        public int ProjectStructureId {get;set;}
+        public int ProjectStructureId { get; set; }
         public int StructureId { get; set; }
         public string StructureCode { get; set; }
         public int ProjectId { get; set; }
@@ -168,14 +153,12 @@ namespace ETapManagement.ViewModel.Dto
         public string ProjectName { get; set; }
     }
 
-    public class TWCCJsonValue
-    {
+    public class TWCCJsonValue {
         public string name { get; set; }
         public string value { get; set; }
     }
 
-    public class SiteRequirementDetailsForDispatch
-    {
+    public class SiteRequirementDetailsForDispatch {
         public int SiteRequirementId { get; set; }
         public int StructureId { get; set; }
         public string StrutureAttributes { get; set; }
@@ -184,21 +167,37 @@ namespace ETapManagement.ViewModel.Dto
         public int Quantity { get; set; }
     }
 
-    public class TWCCDispatchPayload
-    {
-        public int siteRequirementId {get;set;}
-        public int ToProjectId {get;set;}
-        public int ProjectStructureId {get;set;}
-        public int StructureId {get;set;}
-        public int ServiceTypeId {get;set;}
-        public int Quantity {get;set;}
-        public string TransferPrice {get;set;}
-        public string Status {get;set;}
-        public string StatusInternal {get;set;}
-        public int RoleId {get;set;}
-        public int CreatedBy {get;set;}
-        public bool IsDelete {get;set;}
-        public string Notes {get;set;}
+    public class TWCCDispatchPayload {
+        public int siteRequirementId { get; set; }
+        public int ToProjectId { get; set; }
+        public int ProjectStructureId { get; set; }
+        public int StructureId { get; set; }
+        public int ServiceTypeId { get; set; }
+        public int Quantity { get; set; }
+        public string TransferPrice { get; set; }
+        public string Status { get; set; }
+        public string StatusInternal { get; set; }
+        public int RoleId { get; set; }
+        public int CreatedBy { get; set; }
+        public bool IsDelete { get; set; }
+        public string Notes { get; set; }
+
+    }
+
+    public class DispStructureCMPC {
+        public string Status { get; set; }
+        public string StatusInternal { get; set; }
+        public int RequiredComponenentCount { get; set; }
+        public int CurrentComponentsCount { get; set; }
+        public int ProjectStructureId { get; set; }
+        public int DispatchRequirementId { get; set; }
+        public string Quantity { get; set; }
+        public int projectId { get; set; }
+        public int StructureId { get; set; }
+        public string StructureCode { get; set; }
+        public string ProjectName { get; set; }
+        public string StructureAttValue { get; set; }
+        public string StructrueName { get; set; }
 
     }
 }
