@@ -50,20 +50,20 @@ namespace ETapManagement.Api.Controllers
         //     }
         // }
 
-        // [HttpGet("getAvailStructureForReuse")]
-        // public IActionResult GetAvailStructureForReuse(int siteReqId)
-        // {
-        //     try
-        //     {
-        //         var response = _siteDispatchService.AvailableStructureForReuse(siteReqId);
-        //         return Ok(response);
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         Util.LogError(e);
-        //         return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-        //     }
-        // }
+        [HttpGet("getAvailStructureForReuse")]
+        public IActionResult GetAvailStructureForReuse(int siteReqId)
+        {
+            try
+            {
+                var response = _siteDispatchService.AvailableStructureForReuse(siteReqId);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
 
         // [HttpGet("GetReqmntStructureforDispatch/{siteReqId}")]
         // public IActionResult GetRequirementStructureReadyforDisaptch(int siteReqId)
