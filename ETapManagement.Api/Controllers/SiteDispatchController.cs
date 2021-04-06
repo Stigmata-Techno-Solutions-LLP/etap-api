@@ -260,12 +260,12 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
-        [HttpPost("CreateDispatchForReuse")]
+        [HttpPost("CreateDispatch")]
         public IActionResult CreateDispatch(TWCCDispatchPayload payload)
         {
             try
             {
-                var response = _siteDispatchService.CreateDispatchForReuse(payload);
+                var response = _siteDispatchService.CreateDispatch(payload);
                 return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             }
             catch (ValueNotFoundException e)

@@ -72,13 +72,6 @@ namespace ETapManagement.Service
             return structureList;
         }
 
-        public ResponseMessage CreateDispatch(AddDispatch siteDsipatch)
-        {
-            ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _siteDispatchRepository.CreateDispatch(siteDsipatch);
-            return responseMessage;
-        }
-
         private string UploadedFile(IFormFile file)
         {
             try
@@ -264,23 +257,27 @@ namespace ETapManagement.Service
             return result;
         }
 
-        public ResponseMessage CreateDispatchForReuse(TWCCDispatchPayload payload)
+        public ResponseMessage CreateDispatch(TWCCDispatchPayload payload)
         {
             ResponseMessage responseMesasge = new ResponseMessage();
-            responseMesasge = _siteDispatchRepository.CreateDispatchForReuse(payload);
+            responseMesasge = _siteDispatchRepository.CreateDispatch(payload);
             return responseMesasge;
         }
 
 
-          public List<DispStructureCMPC> GetDispatchStructureForCMPC() {
-               try {
-                   return _siteDispatchRepository.GetDispatchStructureForCMPC();
-               } catch(Exception ex) {
-                   throw ex;
-               }
-           }
+        public List<DispStructureCMPC> GetDispatchStructureForCMPC()
+        {
+            try
+            {
+                return _siteDispatchRepository.GetDispatchStructureForCMPC();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-    public ResponseMessage AddComponentsDisaptch(DispatchAddComponents payload)
+        public ResponseMessage AddComponentsDisaptch(DispatchAddComponents payload)
         {
             ResponseMessage responseMesasge = new ResponseMessage();
             responseMesasge = _compRepo.AddComponentsDisaptch(payload);

@@ -167,7 +167,8 @@ namespace ETapManagement.ViewModel.Dto {
         public int Quantity { get; set; }
     }
 
-    public class TWCCDispatchPayload {
+    public class TWCCDispatchPayload
+    {
         public int siteRequirementId { get; set; }
         public int ToProjectId { get; set; }
         public int ProjectStructureId { get; set; }
@@ -181,9 +182,7 @@ namespace ETapManagement.ViewModel.Dto {
         public int CreatedBy { get; set; }
         public bool IsDelete { get; set; }
         public string Notes { get; set; }
-
     }
-
     public class DispStructureCMPC {
         public string Status { get; set; }
         public string StatusInternal { get; set; }
