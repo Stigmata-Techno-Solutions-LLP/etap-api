@@ -50,20 +50,20 @@ namespace ETapManagement.Api.Controllers
         //     }
         // }
 
-        // [HttpGet("getAvailStructureForReuse")]
-        // public IActionResult GetAvailStructureForReuse(int siteReqId)
-        // {
-        //     try
-        //     {
-        //         var response = _siteDispatchService.AvailableStructureForReuse(siteReqId);
-        //         return Ok(response);
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         Util.LogError(e);
-        //         return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-        //     }
-        // }
+        [HttpGet("getAvailStructureForReuse")]
+        public IActionResult GetAvailStructureForReuse(int siteReqId)
+        {
+            try
+            {
+                var response = _siteDispatchService.AvailableStructureForReuse(siteReqId);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
 
         // [HttpGet("GetReqmntStructureforDispatch/{siteReqId}")]
         // public IActionResult GetRequirementStructureReadyforDisaptch(int siteReqId)
@@ -230,9 +230,6 @@ namespace ETapManagement.Api.Controllers
         //     }
         // }
 
-
-
-
         [HttpGet("getTWCCDispatchDetails")]
         public IActionResult GetTWCCDispatchDetails()
         {
@@ -289,6 +286,21 @@ namespace ETapManagement.Api.Controllers
             try
             {
                 var response = _dispatchService.GetDispatchStructure(id);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+        [HttpGet("GetDispatchStructureForCMPC")]
+        public IActionResult GetDispatchStructureForCMPC()
+        {
+            try
+            {
+                var response = _siteDispatchService.GetDispatchStructureForCMPC();
                 return Ok(response);
             }
             catch (Exception e)
@@ -405,6 +417,26 @@ namespace ETapManagement.Api.Controllers
             {
                 var response = _siteDispatchService.GetStructureListCodesByDispId(dispatachRequirement);
                 return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+        [HttpPost("AddComponentsForDispatch")]
+        public IActionResult AddComponentsForDispatch(DispatchAddComponents payload)
+        {
+            try
+            {
+                var response = _siteDispatchService.AddComponentsDisaptch(payload);
+                return Ok(new { message = response.Message, code = 201 });
+            }
+            catch (ValueNotFoundException e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
             }
             catch (Exception e)
             {

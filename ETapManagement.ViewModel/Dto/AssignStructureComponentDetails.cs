@@ -76,6 +76,11 @@ namespace ETapManagement.ViewModel.Dto {
         public string filepath { get; set; }
     }
 
+public class DispatchAddComponents {
+        public List<ComponentDetails> Components { get; set; }
+    public int DispStructureId {get;set;}
+}
+
     public class AddComponents {
         [Required]
         [Display (Name = "StructureId")]

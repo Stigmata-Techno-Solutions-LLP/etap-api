@@ -33,7 +33,7 @@ namespace ETapManagement.Domain.Models
        public int ProjectStructureId{get; set;}
 
         public int DispatchRequirementId{get; set;}
-        public string Quantity { get; set; }
+        public int? Quantity { get; set; }
         public int projectId { get; set; }
        public int StructureId { get; set; }
         public string StructureCode { get; set; }
@@ -42,6 +42,4 @@ namespace ETapManagement.Domain.Models
           public string StructrueName { get; set; }
 
     }
-
-
 }

@@ -104,6 +104,69 @@ namespace ETapManagement.Repository {
             }
         }
 
+
+        public ResponseMessage AddComponentsDisaptch (DispatchAddComponents request) {
+            ResponseMessage response = new ResponseMessage ();
+            response.Message = "Components added succusfully";
+            // if (request?.ProjectStructureDetail == null)
+            // 	throw new ValueNotFoundException ("ProjectStructureDetail Request cannot be empty.");
+
+            try {
+                //	using (var transaction = _context.Database.BeginTransaction ()) 
+                {
+                    try {
+                        var isUpdate = false;
+                        var projectStructureID = 0;
+                        ProjectStructure projectStructure = _context.ProjectStructure.Where (x => x.Id == _context.DispReqStructure.Where(x=>x.Id == request.DispStructureId).FirstOrDefault().ProjStructId && x.IsDelete == false).FirstOrDefault ();
+                        if (projectStructure == null) throw new ValueNotFoundException ("Project Structure not yet assigned");
+                        projectStructureID = projectStructure.Id;
+                        if (request.Components?.Count > 0) {
+
+                            List<Component> componentls = new List<Component> ();
+                            List<ComponentHistory> componentHistls = new List<ComponentHistory> ();
+                            foreach (var comp in request.Components) {
+                            
+                                ComponentType compTypeDB = _context.ComponentType.Where (x => x.Name == comp.CompTypeName && x.IsDelete == false).FirstOrDefault ();
+                                if (compTypeDB == null) throw new ValueNotFoundException ("Component Type Name doesn't exist");
+                            }
+                            foreach (var comp in request.Components) {
+                                var compdb = _context.Component.Where (x => x.CompId == comp.CompId && x.IsDelete == false).FirstOrDefault ();
+                                ComponentType compTypeDB = _context.ComponentType.Where (x => x.Name == comp.CompTypeName && x.IsDelete == false).FirstOrDefault();
+
+                                if (compTypeDB == null) throw new ValueNotFoundException ("Component Type Name doesn't exist");
+                                if (compdb != null) {
+                                    compdb = ConstructComponent (projectStructureID, comp, compdb, compTypeDB);
+                                    DispStructureComp dsc = new DispStructureComp();
+                                    dsc.DispCompId  =  compdb.Id;
+                                    dsc.DispStructureId = request.DispStructureId;
+                                    _context.SaveChanges ();
+                                } else {
+                                    Component component = null;
+                                    comp.CompStatus = "O";
+                                    component = ConstructComponent (projectStructureID, comp, component, compTypeDB);
+                                    _context.Component.Add (component);
+                                    _context.SaveChanges ();
+                                     DispStructureComp dsc = new DispStructureComp();
+                                    dsc.DispCompId  = component.Id;
+                                    dsc.DispStructureId = request.DispStructureId;
+                                }
+
+                            }
+                            projectStructure.ComponentsCount = request.Components.Count ();
+                            _context.SaveChanges ();
+                        }
+
+                        return response;
+                    } catch (Exception ex) {
+                        //	transaction.Rollback ();
+                        throw ex;
+                    }
+                }
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         private Component ConstructComponent (int projectStructureID, ComponentDetails comp, Component compdb, ComponentType compTypeDB) {
             if (compdb == null) {
                 compdb = new Component ();

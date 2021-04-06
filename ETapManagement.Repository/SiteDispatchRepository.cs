@@ -129,12 +129,12 @@ namespace ETapManagement.Repository
                 List<StructureListCode> result = new List<StructureListCode>();
                 if (dispatchRequirement.role_hierarchy == commonEnum.Rolename.PROCUREMENT)
                 {
-                    var structureListCodes = _context.Query<StructureListCode>().FromSqlRaw("select s.Id as Id,ps.struct_code as StructureId,s.name as StructureName from dispatch_requirement dr inner join disp_req_structure drs on dr.id  = drs.dispreq_id inner join project_structure ps on drs.proj_struct_id =ps.id  inner join structures s on ps.structure_id =s.id where dispreq_id = {0}", dispatchRequirement.dispReqId).ToList();
+                    var structureListCodes = _context.Query<StructureListCode>().FromSqlRaw("select ps.Id as Id,ps.struct_code as StructureId,s.name as StructureName from dispatch_requirement dr inner join disp_req_structure drs on dr.id  = drs.dispreq_id inner join project_structure ps on drs.proj_struct_id =ps.id  inner join structures s on ps.structure_id =s.id where dispreq_id = {0}", dispatchRequirement.dispReqId).ToList();
                     result = _mapper.Map<List<StructureListCode>>(structureListCodes);
                 }
                 else if (dispatchRequirement.role_hierarchy == commonEnum.Rolename.VENDOR)
                 {
-                    var structureListCodes = _context.Query<StructureListCode>().FromSqlRaw("select s.Id as Id,ps.struct_code as StructureId,s.name as StructureName from dispatchreq_subcont drs inner join disp_subcont_structure dss on drs.id  = dss.dispreqsubcont_id inner join project_structure ps on dss.proj_struct_id =ps.id inner join structures s on ps.structure_id =s.id where drs.dispreq_id ={0}", dispatchRequirement.dispReqId).ToList();
+                    var structureListCodes = _context.Query<StructureListCode>().FromSqlRaw("select ps.Id as Id,ps.struct_code as StructureId,s.name as StructureName from dispatchreq_subcont drs inner join disp_subcont_structure dss on drs.id  = dss.dispreqsubcont_id inner join project_structure ps on dss.proj_struct_id =ps.id inner join structures s on ps.structure_id =s.id where drs.dispreq_id ={0}", dispatchRequirement.dispReqId).ToList();
                     result = _mapper.Map<List<StructureListCode>>(structureListCodes);
                 }
                 return result;
@@ -673,5 +673,24 @@ namespace ETapManagement.Repository
             return responseMessage;
         }
 
+
+
+   public List<DispStructureCMPC> GetDispatchStructureForCMPC () {
+            // List<DispatchRequirement> response = new List<DispatchRequirement> ();
+            // var responsedb = _context.DispatchRequirement
+            // .Where (x => x.Status == status && x.ServicetypeId== id)
+            // .OrderByDescending(c=>c.CreatedAt).ToList ();
+           
+            // response = _mapper.Map<List<DispatchRequirement>> (responsedb);
+            // return response;
+                try {
+                List<DispStructureCMPC> result = new List<DispStructureCMPC> ();
+                string strQuery = string.Format ("select dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where  dr.servicetype_id in (1,2) and ps.components_count > (select count(*) from component where proj_struct_id = ps.id) and dr.status <> 'NEW'");
+                result = _context.Query<DispStructureCMPC> ().FromSqlRaw (strQuery).ToList ();
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
     }
 }

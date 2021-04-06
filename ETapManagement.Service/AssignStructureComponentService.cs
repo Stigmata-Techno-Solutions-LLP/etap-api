@@ -102,6 +102,17 @@ namespace ETapManagement.Service {
             }
         }
 
+         public AssignStructureDtlsOnly GetAssignStructureDtlsByProjStructId (int ProjStructId) {
+            try {
+
+                AssignStructureDtlsOnly response = _repository.GetAssignStructureDtlsByProjStructId (ProjStructId);
+                
+                return response;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
         public List<AssignStructureDtlsOnly> GetAssignStructureDtls () {
             try {
 
