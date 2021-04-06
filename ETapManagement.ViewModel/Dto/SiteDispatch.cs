@@ -183,4 +183,20 @@ namespace ETapManagement.ViewModel.Dto {
         public bool IsDelete { get; set; }
         public string Notes { get; set; }
     }
+    public class DispStructureCMPC {
+        public string Status { get; set; }
+        public string StatusInternal { get; set; }
+        public int RequiredComponenentCount { get; set; }
+        public int CurrentComponentsCount { get; set; }
+        public int ProjectStructureId { get; set; }
+        public int DispatchRequirementId { get; set; }
+        public string Quantity { get; set; }
+        public int projectId { get; set; }
+        public int StructureId { get; set; }
+        public string StructureCode { get; set; }
+        public string ProjectName { get; set; }
+        public string StructureAttValue { get; set; }
+        public string StructrueName { get; set; }
+
+    }
 }

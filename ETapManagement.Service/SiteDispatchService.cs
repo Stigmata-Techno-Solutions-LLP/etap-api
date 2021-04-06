@@ -265,15 +265,19 @@ namespace ETapManagement.Service
         }
 
 
-          public List<DispStructureCMPC> GetDispatchStructureForCMPC() {
-               try {
-                   return _siteDispatchRepository.GetDispatchStructureForCMPC();
-               } catch(Exception ex) {
-                   throw ex;
-               }
-           }
+        public List<DispStructureCMPC> GetDispatchStructureForCMPC()
+        {
+            try
+            {
+                return _siteDispatchRepository.GetDispatchStructureForCMPC();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-    public ResponseMessage AddComponentsDisaptch(DispatchAddComponents payload)
+        public ResponseMessage AddComponentsDisaptch(DispatchAddComponents payload)
         {
             ResponseMessage responseMesasge = new ResponseMessage();
             responseMesasge = _compRepo.AddComponentsDisaptch(payload);
