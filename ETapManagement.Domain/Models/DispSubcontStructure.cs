@@ -16,6 +16,7 @@ namespace ETapManagement.Domain.Models
         public DateTime? ExpectedReleasedate { get; set; }
         public DateTime? ActualStartdate { get; set; }
         public DateTime? DispatchDate { get; set; }
+        public int? DispStructureId { get; set; }
 
         public virtual DispatchreqSubcont Dispreqsubcont { get; set; }
         public virtual ProjectStructure ProjStruct { get; set; }
