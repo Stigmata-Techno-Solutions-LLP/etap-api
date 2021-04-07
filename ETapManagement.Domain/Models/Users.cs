@@ -22,6 +22,7 @@ namespace ETapManagement.Domain.Models
         public DateTime? UpdatedAt { get; set; }
         public int? CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }
+        public int? VendorId { get; set; }
 
         public virtual BusinessUnit Bu { get; set; }
         public virtual IndependentCompany Ic { get; set; }

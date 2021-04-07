@@ -17,6 +17,7 @@ namespace ETapManagement.Domain.Models
         public string CompStatus { get; set; }
         public string Remarks { get; set; }
         public int? ScannedBy { get; set; }
+        public DateTime? DispatchDate { get; set; }
 
         public virtual Component DispComp { get; set; }
         public virtual DispReqStructure DispStructure { get; set; }

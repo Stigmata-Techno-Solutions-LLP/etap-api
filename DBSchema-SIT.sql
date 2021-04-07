@@ -323,6 +323,7 @@ CREATE TABLE ETapManagementSIT.dbo.users
   phoneno varchar(15),
   email varchar(100) ,
   role_id int not null,
+  vendor_id int not null,
   is_active bit NULL DEFAULT 1,
   is_delete bit NULL DEFAULT 0,
   created_at DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
@@ -366,6 +367,7 @@ CREATE TABLE ETapManagementSIT.dbo.project_structure
   estimated_weight decimal(10,2),
   structure_status varchar(20) null,
   current_status varchar(20) null,
+  exp_release_date datetime null,
   is_delete bit NULL DEFAULT 0,
   created_by int null,
   created_at datetime default CURRENT_TIMESTAMP,
@@ -677,6 +679,7 @@ CREATE TABLE disp_structure_comp
   comp_status varchar(20) null,
   remarks varchar(100) null,
   scanned_by int null,
+  dispatch_date datetime null,
   CONSTRAINT disp_structure_comp_pkey PRIMARY KEY (id),
   CONSTRAINT disp_req_structure_comp_id_StructureID_fkey FOREIGN KEY (disp_structure_id) REFERENCES disp_req_structure(id),
   CONSTRAINT disp_req_structure_comp_id_CompID_fkey FOREIGN KEY (disp_comp_id) REFERENCES component(id),
@@ -740,6 +743,7 @@ CREATE TABLE ETapManagementSIT.dbo.disp_subcont_structure
 (
   id int not null identity(1,1) primary key,
   dispreqsubcont_id int,
+  disp_structure_id int null,
   proj_struct_id int,
   is_Delivered bit null default 0,
   fabrication_cost decimal (10,2) null,
@@ -749,8 +753,8 @@ CREATE TABLE ETapManagementSIT.dbo.disp_subcont_structure
   expected_releasedate datetime null,
   actual_startdate datetime null,
   dispatch_date datetime null,
-  
   CONSTRAINT dispreqsubcont_structure_siteReq_fkey FOREIGN KEY (dispreqsubcont_id) REFERENCES dispatchreq_subcont(id),
+  CONSTRAINT dispreqsubcont_structure_dispreqstructure_fkey FOREIGN KEY (disp_structure_id) REFERENCES disp_req_structure(id),
   CONSTRAINT disp_subcont_structure_structure_fkey FOREIGN KEY (proj_struct_id) REFERENCES project_structure(id),
 )
 
