@@ -201,4 +201,77 @@ namespace ETapManagement.ViewModel.Dto
         public string Notes {get;set;}
 
     }
+
+    public class DispReqStructureDto {
+         
+        public int? DispreqId { get; set; }
+        public int? ProjStructId { get; set; }
+        public bool IsModification { get; set; }
+          public int DispatchRequirementId { get; set; }
+    }
+
+     public class DispRequestDto {
+       
+       public int ProjectStructureId{get; set;}
+
+        public int DispatchRequirementId{get; set;}
+
+          public string DCNumber { get; set; }
+         public int? Quantity { get; set; }
+        public int projectId { get; set; }
+       public int StructureId { get; set; }
+        public string StructureCode { get; set; }
+        public string ProjectName { get; set; }
+         public string StructureAttValue { get; set; }
+          public string StructrueName { get; set; }
+            public string Status { get; set; }
+         public string StatusInternal { get; set; }
+      
+
+    }
+      public class ComponentDetailsDto {
+      // public int Id { get; set; }
+       public int DispStructureId { get; set; }
+
+        public string CompId { get; set; }
+          public string ComponentName { get; set; }
+        public string ComponentType { get; set; }
+
+        public string DrawingNo { get; set; }
+
+        public string ComponentNo { get; set; }
+
+        public bool? IsGroup { get; set; }
+        public decimal? Leng { get; set; }
+        public decimal? Breath { get; set; }
+        public decimal? Height { get; set; }
+        public decimal? Thickness { get; set; }
+        public decimal? Weight { get; set; }
+
+        public string MakeType { get; set; }
+  
+      //  public string QrCode { get; set; }
+       // public bool? IsDelete { get; set; }
+       // public bool? IsActive { get; set; }
+        
+
+        public bool? IsTag { get; set; }
+    }
+     public partial class DispModStageComponentDto
+    {
+        public int Id { get; set; }
+        public int? DispstructCompId { get; set; }
+        public decimal? Leng { get; set; }
+        public decimal? Breath { get; set; }
+        public decimal? Height { get; set; }
+        public decimal? Thickness { get; set; }
+        public decimal? Weight { get; set; }
+        public string MakeType { get; set; }
+        public string Addplate { get; set; }
+        public string QrCode { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+
+         
+    }
 }
