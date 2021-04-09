@@ -26,5 +26,7 @@ namespace ETapManagement.Service
         public ResponseMessage CreateDispatch(TWCCDispatchPayload payload);
         public List<DispStructureCMPC> GetDispatchStructureForCMPC();
         ResponseMessage AddComponentsDisaptch (DispatchAddComponents request);
+        public List<SubContractorDetail> GetSubContractorDetails(int vendorId);
+        public List<SubContractorComponentDetail> GetSubContractorComponentDetails(int dispStructureId);
     }
 }

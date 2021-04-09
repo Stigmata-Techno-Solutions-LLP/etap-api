@@ -238,17 +238,17 @@ namespace ETapManagement.Service
                 case commonEnum.TWCCDispatchReleaseDate.ONEMONTH:
                     DateTime currentStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                     DateTime currentEndDate = DateTime.Now;
-                    result = lstDistinctResult.FindAll(x => x.PlanReleaseDate >= currentStartDate && x.PlanReleaseDate <= currentEndDate);
+                    result = lstDistinctResult.FindAll(x => x.ExpReleaseDate >= currentStartDate && x.ExpReleaseDate <= currentEndDate);
                     break;
                 case commonEnum.TWCCDispatchReleaseDate.THREEMONTHS:
                     currentStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 3, 1);
                     currentEndDate = DateTime.Now;
-                    result = lstDistinctResult.FindAll(x => x.PlanReleaseDate >= currentStartDate && x.PlanReleaseDate <= currentEndDate);
+                    result = lstDistinctResult.FindAll(x => x.ExpReleaseDate >= currentStartDate && x.ExpReleaseDate <= currentEndDate);
                     break;
                 case commonEnum.TWCCDispatchReleaseDate.SIXMONTHS:
                     currentStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 6, 1);
                     currentEndDate = DateTime.Now;
-                    result = lstDistinctResult.FindAll(x => x.PlanReleaseDate >= currentStartDate && x.PlanReleaseDate <= currentEndDate);
+                    result = lstDistinctResult.FindAll(x => x.ExpReleaseDate >= currentStartDate && x.ExpReleaseDate <= currentEndDate);
                     break;
                 default:
                     result = lstDistinctResult;
@@ -282,6 +282,19 @@ namespace ETapManagement.Service
             ResponseMessage responseMesasge = new ResponseMessage();
             responseMesasge = _compRepo.AddComponentsDisaptch(payload);
             return responseMesasge;
+        }
+
+        public List<SubContractorDetail> GetSubContractorDetails(int vendorId)
+        {
+             List<SubContractorDetail> lstSubContractorDetails = new List<SubContractorDetail>();
+            lstSubContractorDetails = _siteDispatchRepository.GetSubContractorDetails(vendorId);
+            return lstSubContractorDetails;
+        }
+         public List<SubContractorComponentDetail> GetSubContractorComponentDetails(int dispStructureId)
+        {
+             List<SubContractorComponentDetail> lstSubContractorComponentDetails = new List<SubContractorComponentDetail>();
+            lstSubContractorComponentDetails = _siteDispatchRepository.GetSubContractorComponentDetails(dispStructureId);
+            return lstSubContractorComponentDetails;
         }
     }
 }
