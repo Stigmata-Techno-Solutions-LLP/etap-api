@@ -37,21 +37,12 @@ namespace ETapManagement.Service {
 
         
         public List<DispRequestDto> GetDispatchStructure (int id) {
-            // List<DispatchRequirement> response = new List<DispatchRequirement> ();
-            // var responsedb = _context.DispatchRequirement
-            // .Where (x => x.Status == status && x.ServicetypeId== id)
-            // .OrderByDescending(c=>c.CreatedAt).ToList ();
-           
-            // response = _mapper.Map<List<DispatchRequirement>> (responsedb);
-            // return response;
-                try {
-                List<DispRequestDto> result = new List<DispRequestDto> ();
-                string strQuery = string.Format ("select drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where dr.status ='NEW' and dr.servicetype_id =4 and dr.role_id ={0}", id);
-                result = _context.Query<DispRequestDto> ().FromSqlRaw (strQuery).ToList ();
-                return result;
-            } catch (Exception ex) {
-                throw ex;
-            }
+
+              List<DispRequestDto> responseMessage = new List<DispRequestDto>();
+            responseMessage = _dispatchReqSubConRepository.GetDispatchStructure(id);
+            return responseMessage;
+            
+             
         }
 
         public ResponseMessage UpdatestructureModify (List<DispReqStructureDto> structure){
@@ -59,18 +50,30 @@ namespace ETapManagement.Service {
           ResponseMessage responseMessage = new ResponseMessage();
          structure.ForEach(item =>
             {
+                
                 DispReqStructure structid =
                     _context.DispReqStructure.Single(w => w.ProjStructId == item.ProjStructId 
                     && w.DispreqId==item.DispreqId);
+                    DispatchRequirement disreq =  _context.DispatchRequirement
+                    .Single(w => w.Id == item.DispatchRequirementId);
 
-                if(structid!=null)
-                  
+                if(structid!=null && disreq!=null)
                 {
-                    structid.IsModification=item.IsModification;
+                    if(disreq.Status != "NEW"){
+                        responseMessage.Message = "Invalid Status"; 
+                    }else{
+                     structid.IsModification=item.IsModification;
+                     if(item.IsModification){
+                    disreq.Status="CMPCAPPROVED";
+                     
+                     }
+                     responseMessage.Message = "Structure Modification status updated";      
+                    }
+                    
                 }              
                 _context.DispReqStructure.Update(structid);
                 _context.SaveChanges();
-                responseMessage.Message = "";       
+               
                 
             });
              return responseMessage;
@@ -80,7 +83,43 @@ namespace ETapManagement.Service {
                 throw ex;
             }
         }
-         
+          public List<ComponentDetailsDto> GetStructrueComponent (int id ) {
+
+               List<ComponentDetailsDto> responseMessage = new List<ComponentDetailsDto>();
+            responseMessage = _dispatchReqSubConRepository.GetStructrueComponent(id);
+            return responseMessage;
+             
+        }
+
+               public ResponseMessage UpdateDispatchComponent (DispModStageComponentDto Component){
+            try{
+          ResponseMessage responseMessage = new ResponseMessage();
+           DispModStageComponent AddItem=new DispModStageComponent();
+                    if(Component!=null)
+                    {
+                        AddItem.DispstructCompId=Component.DispstructCompId;
+                        AddItem.Weight=Component.Weight;
+                        AddItem.Leng=Component.Leng;
+                        AddItem.Breath=Component.Breath;
+                        AddItem.Height=Component.Height;
+                        AddItem.Thickness=Component.Thickness;
+                        AddItem.MakeType=Component.MakeType;
+                        AddItem.Addplate=Component.Addplate;
+                        AddItem.CreatedAt=DateTime.Now;
+
+            }
+                    
+                _context.DispModStageComponent.Add(AddItem);
+                _context.SaveChanges();
+                  responseMessage.Message = "Component updated"; 
+        
+             return responseMessage;
+              }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         
     }

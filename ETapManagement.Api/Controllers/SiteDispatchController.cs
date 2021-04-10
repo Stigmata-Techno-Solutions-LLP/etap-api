@@ -444,5 +444,39 @@ namespace ETapManagement.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
+       
+
+            [HttpGet("GetStructrueComponent")]
+        public IActionResult GetStructrueComponent(int id)
+        {
+            try
+            {
+                var response = _dispatchService.GetStructrueComponent(id);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+           [HttpPut ("UpdateDispatchComponent")]
+        public IActionResult UpdateDispatchComponent(DispModStageComponentDto Component) {
+            try {
+                var response = _dispatchService.UpdateDispatchComponent (Component);
+                  return Ok(response);
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+    
+    
+    
+
     }
 }

@@ -78,6 +78,8 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<SiteRequirementDetailsForDispatch>();
             modelBuilder.Query<DispRequestDto> ();
             modelBuilder.Query<DispStructureCMPC> ();
+            modelBuilder.Query<ComponentDetailsDto> ();
+            
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
