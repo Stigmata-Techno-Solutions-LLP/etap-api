@@ -280,7 +280,7 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
-        [HttpGet("GetDispatchStructure")]
+        [HttpGet("GetDispatchStructureForCMPCForReuse")]
         public IActionResult GetDispatchStructure(int id)
         {
             try
@@ -295,12 +295,12 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
-        [HttpGet("GetDispatchStructureForCMPC")]
-        public IActionResult GetDispatchStructureForCMPC()
+        [HttpGet("GetDispatchStructureForCMPCForNonReuse")]
+        public IActionResult GetDispatchStructureForCMPCForNonReuse()
         {
             try
             {
-                var response = _siteDispatchService.GetDispatchStructureForCMPC();
+                var response = _siteDispatchService.GetDispatchStructureForCMPCForNonReuse();
                 return Ok(response);
             }
             catch (Exception e)
@@ -461,7 +461,7 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
-           [HttpPut ("UpdateDispatchComponent")]
+           [HttpPut ("ModifyComponentsForDispatch")]
         public IActionResult UpdateDispatchComponent(DispModStageComponentDto Component) {
             try {
                 var response = _dispatchService.UpdateDispatchComponent (Component);

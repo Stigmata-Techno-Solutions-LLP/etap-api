@@ -675,7 +675,7 @@ namespace ETapManagement.Repository
 
 
 
-   public List<DispStructureCMPC> GetDispatchStructureForCMPC () {
+   public List<DispStructureCMPC> GetDispatchStructureForCMPCForNonReuse () {
             // List<DispatchRequirement> response = new List<DispatchRequirement> ();
             // var responsedb = _context.DispatchRequirement
             // .Where (x => x.Status == status && x.ServicetypeId== id)
@@ -685,7 +685,7 @@ namespace ETapManagement.Repository
             // return response;
                 try {
                 List<DispStructureCMPC> result = new List<DispStructureCMPC> ();
-                string strQuery = string.Format ("select dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where  dr.servicetype_id in (1,2) and ps.components_count > (select count(*) from component where proj_struct_id = ps.id) and dr.status <> 'NEW'");
+                string strQuery = string.Format ("select drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where  dr.servicetype_id in (1,2) and ps.components_count > (select count(*) from component where proj_struct_id = ps.id) and dr.status = '{0}'",commonEnum.SiteDispatchSatus.NEW.ToString());
                 result = _context.Query<DispStructureCMPC> ().FromSqlRaw (strQuery).ToList ();
                 return result;
             } catch (Exception ex) {

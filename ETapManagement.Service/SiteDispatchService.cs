@@ -265,11 +265,11 @@ namespace ETapManagement.Service
         }
 
 
-        public List<DispStructureCMPC> GetDispatchStructureForCMPC()
+        public List<DispStructureCMPC> GetDispatchStructureForCMPCForNonReuse()
         {
             try
             {
-                return _siteDispatchRepository.GetDispatchStructureForCMPC();
+                return _siteDispatchRepository.GetDispatchStructureForCMPCForNonReuse();
             }
             catch (Exception ex)
             {

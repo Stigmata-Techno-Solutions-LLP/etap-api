@@ -190,6 +190,8 @@ namespace ETapManagement.ViewModel.Dto {
         public int CurrentComponentsCount { get; set; }
         public int ProjectStructureId { get; set; }
         public int DispatchRequirementId { get; set; }
+        public int DispReqStructId { get; set; }
+
         public int Quantity { get; set; }
         public int projectId { get; set; }
         public int StructureId { get; set; }
