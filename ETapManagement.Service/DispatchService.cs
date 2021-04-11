@@ -72,9 +72,7 @@ namespace ETapManagement.Service {
                     
                 }              
                 _context.DispReqStructure.Update(structid);
-                _context.SaveChanges();
-               
-                
+                _context.SaveChanges();                            
             });
              return responseMessage;
               }
