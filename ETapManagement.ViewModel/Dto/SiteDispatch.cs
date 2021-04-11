@@ -293,8 +293,7 @@ namespace ETapManagement.ViewModel.Dto {
         [Display (Name = "Estimated Weight")]
         public string EstimatedWeight { get; set; }
 
-        [Required]
-        public string StructureAttributes { get; set; }
+      
 
         [Required]
         [Display (Name = "CompCount")]
