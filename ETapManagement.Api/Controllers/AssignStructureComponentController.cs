@@ -78,6 +78,10 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
+
+
+        
+
         [HttpPost ("AddComponents")]
         public IActionResult Addcomponents (AddComponents request) {
             try {

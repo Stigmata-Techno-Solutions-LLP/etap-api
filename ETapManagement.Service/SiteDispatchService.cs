@@ -15,13 +15,15 @@ namespace ETapManagement.Service
     {
         ISiteDispatchRepository _siteDispatchRepository;
         IComponentRepository _compRepo;
+        IAssignStructureComponentRepository _assignRepo;
         private readonly IWebHostEnvironment _webHostEnvironment;
         string prefixPath = "Documents";
-        public SiteDispatchService(ISiteDispatchRepository siteDispatchRepository, IWebHostEnvironment hostEnvironment, IComponentRepository compRepo)
+        public SiteDispatchService(ISiteDispatchRepository siteDispatchRepository, IWebHostEnvironment hostEnvironment, IComponentRepository compRepo, IAssignStructureComponentRepository assignRepo)
         {
             _siteDispatchRepository = siteDispatchRepository;
             _webHostEnvironment = hostEnvironment;
             _compRepo = compRepo;
+            _assignRepo = assignRepo;
         }
 
         public List<SiteDispatchDetail> GetSiteDispatchDetails(SiteDispatchPayload siteDispatchPayload)
@@ -282,6 +284,26 @@ namespace ETapManagement.Service
             ResponseMessage responseMesasge = new ResponseMessage();
             responseMesasge = _compRepo.AddComponentsDisaptch(payload);
             return responseMesasge;
+        }
+
+           public ResponseMessage UpsertAssignStructureComponent (CMPCUpdateStructure servicedto) {
+            ResponseMessage response = new ResponseMessage ();
+            response.Message = "structure updated succusfully";
+            int projStructId = _siteDispatchRepository.UpsertProjectStructure (servicedto);
+            if (servicedto.uploadDocs != null) {
+                foreach (IFormFile file in servicedto.uploadDocs) {
+                    Upload_Docs layerDoc = new Upload_Docs ();
+                    layerDoc.fileName = file.FileName;
+                    layerDoc.filepath = UploadedFile (file);
+                    layerDoc.uploadType = "Docs";
+                    layerDoc.fileType = Path.GetExtension (file.FileName);
+                    this._assignRepo.StructureDocsUpload (layerDoc, projStructId);
+                    //  _gridRepo.LayerDocsUpload(layerDoc, layerId);
+                }
+            }
+            RemoveStructureDocs (servicedto.remove_docs_filename);
+
+            return response;
         }
     }
 }

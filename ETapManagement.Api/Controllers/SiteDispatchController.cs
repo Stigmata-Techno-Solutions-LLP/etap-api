@@ -278,24 +278,9 @@ namespace ETapManagement.Api.Controllers
                 Util.LogError(e);
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
-        }
+        }      
 
-        [HttpGet("GetDispatchStructureForCMPCForReuse")]
-        public IActionResult GetDispatchStructure(int id)
-        {
-            try
-            {
-                var response = _dispatchService.GetDispatchStructure(id);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-            }
-        }
-
-        [HttpGet("GetDispatchStructureForCMPCForNonReuse")]
+        [HttpGet("GetDispatchStructureForCMPC")]
         public IActionResult GetDispatchStructureForCMPCForNonReuse()
         {
             try
@@ -310,20 +295,7 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
-         [HttpPut ("UpdatestructureModify")]
-        public IActionResult UpdatestructureModify (List<DispReqStructureDto> structure) {
-            try {
-                var response = _dispatchService.UpdatestructureModify (structure);
-                  return Ok(response);
-            } catch (ValueNotFoundException e) {
-                Util.LogError (e);
-                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
-            } catch (Exception e) {
-                Util.LogError (e);
-                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
-            }
-        }
-    
+        
         [HttpPost("fbAssignVendor")]
         public IActionResult FBAssignVendor(FBDispatchReqSubCont fBDispatchReqSubCont)
         {
@@ -444,28 +416,19 @@ namespace ETapManagement.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
-       
 
-            [HttpGet("GetStructrueComponent")]
-        public IActionResult GetStructrueComponent(int id)
-        {
-            try
-            {
-                var response = _dispatchService.GetStructrueComponent(id);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-            }
-        }
-
-           [HttpPut ("ModifyComponentsForDispatch")]
-        public IActionResult UpdateDispatchComponent(DispModStageComponentDto Component) {
+                [HttpPost ("CMPCStructureUpdate")]
+        public IActionResult AssignStructurecomponent ([FromForm] CMPCUpdateStructure request) {
             try {
-                var response = _dispatchService.UpdateDispatchComponent (Component);
-                  return Ok(response);
+                if (request.uploadDocs != null) {
+                    if (request.uploadDocs.Length > 5) throw new ValueNotFoundException ("Document count should not greater than 5");
+                    foreach (IFormFile file in request.uploadDocs) {
+                        if (constantVal.AllowedDocFileTypes.Where (x => x.Contains (file.ContentType)).Count () == 0) throw new ValueNotFoundException (string.Format ("File Type {0} is not allowed", file.ContentType));
+                    }
+                    if (request.uploadDocs.Select (x => x.Length).Sum () > 50000000) throw new ValueNotFoundException (" File size exceeded limit");
+                }
+                var projectStructure = _siteDispatchService.UpsertAssignStructureComponent (request);
+                return Ok (projectStructure);
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
@@ -474,9 +437,6 @@ namespace ETapManagement.Api.Controllers
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
-    
-    
-    
 
     }
 }

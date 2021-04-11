@@ -114,6 +114,7 @@ namespace ETapManagement.Repository
                 List<SiteDispatchDetail> result = new List<SiteDispatchDetail>();
                 var siteDispatchDetails = _context.Query<SiteDispatchDetail>().FromSqlRaw("exec sp_getDispatch {0}, {1},{2},{3}", siteDispatchPayload.role_name.ToString(), siteDispatchPayload.role_hierarchy, siteDispatchPayload.ProjectId, siteDispatchPayload.VendorId).ToList();
                 result = _mapper.Map<List<SiteDispatchDetail>>(siteDispatchDetails);
+
                 return result;
             }
             catch (Exception ex)
@@ -692,5 +693,46 @@ namespace ETapManagement.Repository
                 throw ex;
             }
         }
+
+            public int UpsertProjectStructure (CMPCUpdateStructure request) {
+            ResponseMessage response = new ResponseMessage ();
+            response.Message = "Structure Updated succusfully";
+            // if (request?.ProjectStructureDetail == null)
+            // 	throw new ValueNotFoundException ("ProjectStructureDetail Request cannot be empty.");
+
+            try {
+                using (var transaction = _context.Database.BeginTransaction ()) {
+                    try {
+                        var isUpdate = false;
+                        var projectStructureID = 0;
+                        var projectStructure = _context.ProjectStructure.Where (x => x.Id == request.ProjStructureId  && x.IsDelete == false).FirstOrDefault ();
+
+                   
+                           // ProjectStructure projStructdb = null;
+                                               
+                            projectStructure.DrawingNo = request.DrawingNo;
+                            projectStructure.UpdatedAt = DateTime.Now;
+                            projectStructure.EstimatedWeight = Convert.ToDecimal( request.EstimatedWeight);                         
+                            projectStructure.ComponentsCount = request.CompCount;                                                  
+                            _context.SaveChanges ();
+                            projectStructureID = projectStructure.Id;
+                        
+                        DispReqStructure dispStruct = _context.DispReqStructure.Where(x=>x.Id == request.dispStructureId).FirstOrDefault();
+                        // dispStruct.                      
+                        transaction.Commit ();
+                        return projectStructureID;
+                    } catch (Exception ex) {
+                        transaction.Rollback ();
+                        throw ex;
+                    }
+                }
+            } catch (Exception ex) {
+                throw ex;
+            }
+
+            
+        }
+
+          
     }
 }

@@ -139,6 +139,8 @@ namespace ETapManagement.Repository {
                                     DispStructureComp dsc = new DispStructureComp();
                                     dsc.DispCompId  =  compdb.Id;
                                     dsc.DispStructureId = request.DispStructureId;
+                                   // _context.Add(compdb);
+                                    _context.Add(dsc);
                                     _context.SaveChanges ();
                                 } else {
                                     Component component = null;
@@ -152,8 +154,8 @@ namespace ETapManagement.Repository {
                                 }
 
                             }
-                            projectStructure.ComponentsCount = request.Components.Count ();
-                            _context.SaveChanges ();
+                          //  projectStructure.ComponentsCount = request.Components.Count ();
+                           // _context.SaveChanges ();
                         }
 
                         return response;

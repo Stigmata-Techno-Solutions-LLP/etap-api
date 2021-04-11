@@ -213,6 +213,7 @@ namespace ETapManagement.ViewModel.Dto {
     }
 
      public class DispRequestDto {
+         public bool? isModified{get;set;}
        
        public int ProjectStructureId{get; set;}
 
@@ -275,5 +276,33 @@ namespace ETapManagement.ViewModel.Dto {
         public DateTime? CreatedAt { get; set; }
 
          
+    }
+
+      public class CMPCUpdateStructure {
+
+        [Required]
+        [Display (Name = "ProjStructureId")]
+        public int ProjStructureId { get; set; }        
+
+        [Required]
+        [StringLength (100)]
+        [Display (Name = "DrawingNo")]
+        public string DrawingNo { get; set; }
+        [Required]
+        [StringLength (100)]
+        [Display (Name = "Estimated Weight")]
+        public string EstimatedWeight { get; set; }
+
+        [Required]
+        public string StructureAttributes { get; set; }
+
+        [Required]
+        [Display (Name = "CompCount")]
+        public int CompCount { get; set; }
+
+        public IFormFile[] uploadDocs { get; set; }
+        public string[] remove_docs_filename { get; set; }
+
+        public int dispStructureId{get;set;}
     }
 }

@@ -26,5 +26,7 @@ namespace ETapManagement.Service
         public ResponseMessage CreateDispatch(TWCCDispatchPayload payload);
         public List<DispStructureCMPC> GetDispatchStructureForCMPCForNonReuse();
         ResponseMessage AddComponentsDisaptch (DispatchAddComponents request);
+                ResponseMessage UpsertAssignStructureComponent (CMPCUpdateStructure servicedto);
+
     }
 }
