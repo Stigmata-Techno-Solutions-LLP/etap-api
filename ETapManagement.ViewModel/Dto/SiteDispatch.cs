@@ -302,6 +302,7 @@ namespace ETapManagement.ViewModel.Dto {
         public IFormFile[] uploadDocs { get; set; }
         public string[] remove_docs_filename { get; set; }
 
+        [Required]
         public int dispStructureId{get;set;}
     }
 }
