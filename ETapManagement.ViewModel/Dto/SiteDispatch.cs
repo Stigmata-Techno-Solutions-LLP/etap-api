@@ -210,6 +210,8 @@ namespace ETapManagement.ViewModel.Dto {
         public int? ProjStructId { get; set; }
         public bool IsModification { get; set; }
           public int DispatchRequirementId { get; set; }
+        public int? DispReqStructureId { get; set; }
+
     }
 
      public class DispRequestDto {
@@ -229,6 +231,7 @@ namespace ETapManagement.ViewModel.Dto {
           public string StructrueName { get; set; }
             public string Status { get; set; }
          public string StatusInternal { get; set; }
+         public int DispStructureId{get;set;}
       
 
     }
