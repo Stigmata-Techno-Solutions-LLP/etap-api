@@ -306,6 +306,7 @@ namespace ETapManagement.Service
                 }
             }
             RemoveStructureDocs (servicedto.remove_docs_filename);
+            return response;
            }
 
         public List<SubContractorDetail> GetSubContractorDetails(int vendorId)
@@ -342,5 +343,5 @@ namespace ETapManagement.Service
 
             return response;
         }
-    
+    }
 }

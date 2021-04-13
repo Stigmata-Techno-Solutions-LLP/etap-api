@@ -27,7 +27,7 @@ namespace ETapManagement.Repository
         public ResponseMessage CreateDispatch(TWCCDispatchPayload payload);
         public List<DispStructureCMPC> GetDispatchStructureForCMPCForNonReuse ();
         int UpsertProjectStructure (CMPCUpdateStructure request);
-        public List<DispStructureCMPC> GetDispatchStructureForCMPC();
+       // public List<DispStructureCMPC> GetDispatchStructureForCMPC();
         public List<SubContractorDetail> GetSubContractorDetails(int vendorId);
         public List<SubContractorComponentDetail> GetSubContractorComponentDetails(int dispStructureId);
         public ResponseMessage SaveSubContractorComponents(DateTime dispatchDate, List<int> subContractorComponentIds);
