@@ -2,12 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
-
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
-    {
-      
+    {   
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -67,7 +65,8 @@ namespace ETapManagement.Domain.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-      modelBuilder.Query<SiteRequirementDetail> ();
+
+              modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -470,6 +469,11 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("disp_req_structure");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DispStructStatus)
+                    .HasColumnName("disp_struct_status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
 

@@ -665,6 +665,7 @@ CREATE TABLE ETapManagementSIT.dbo.disp_req_structure
   dispreq_id int,
   proj_struct_id int,
   is_modification bit null,
+  disp_struct_status varchar(50) null,
   CONSTRAINT DispReqStructire_siteReq_fkey FOREIGN KEY (dispreq_id) REFERENCES dispatch_requirement(id),
   CONSTRAINT DispReqStructire_structure_fkey FOREIGN KEY (proj_struct_id) REFERENCES project_structure(id),
 )

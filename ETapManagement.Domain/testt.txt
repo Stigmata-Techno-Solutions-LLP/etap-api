@@ -11,3 +11,24 @@
             modelBuilder.Query<SiteRequirementDetailsForDispatch>();
             modelBuilder.Query<DispRequestDto> ();
             modelBuilder.Query<DispStructureCMPC> ();
+
+
+
+
+
+
+
+              modelBuilder.Query<SiteRequirementDetail> ();
+            modelBuilder.Query<SiteDispatchDetail>();
+            modelBuilder.Query<StructureListCode>();
+            modelBuilder.Query<SurplusDetails> ();
+            modelBuilder.Query<AssignStructureDtlsOnly> ();
+            modelBuilder.Query<AvailableStructureForReuse> ();
+            modelBuilder.Query<TWCCDispatch>();
+            modelBuilder.Query<TWCCDispatchInnerStructure>();
+            modelBuilder.Query<SiteRequirementDetailsForDispatch>();
+            modelBuilder.Query<DispRequestDto> ();
+            modelBuilder.Query<DispStructureCMPC> ();
+            modelBuilder.Query<ComponentDetailsDto> ();            
+            modelBuilder.Query<SubContractorDetail>();
+            modelBuilder.Query<SubContractorComponentDetail>();
