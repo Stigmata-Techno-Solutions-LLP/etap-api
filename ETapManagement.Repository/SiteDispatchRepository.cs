@@ -556,7 +556,7 @@ namespace ETapManagement.Repository
             {
                 dispReuseCount = _context.DispatchRequirement.Include(m => m.Servicetype).Where(x => x.DispatchNo.Contains("DC")).Count() + 1;
             }
-            else  if (servType.Name == commonEnum.ServiceType.Reuse.ToString())
+            else if (servType.Name == commonEnum.ServiceType.Reuse.ToString())
             {
                 dispReuseCount = _context.DispatchRequirement.Include(m => m.Servicetype).Where(x => x.DispatchNo.Contains("DA")).Count() + 1;
             }
@@ -681,7 +681,7 @@ namespace ETapManagement.Repository
             // var responsedb = _context.DispatchRequirement
             // .Where (x => x.Status == status && x.ServicetypeId== id)
             // .OrderByDescending(c=>c.CreatedAt).ToList ();
-           
+
             // response = _mapper.Map<List<DispatchRequirement>> (responsedb);
             // return response;
                 try {
@@ -689,7 +689,84 @@ namespace ETapManagement.Repository
                 string strQuery = string.Format ("select drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where  dr.servicetype_id in (1,2) and ps.components_count > (select count(*) from component where proj_struct_id = ps.id) and dr.status = '{0}'",commonEnum.SiteDispatchSatus.NEW.ToString());
                 result = _context.Query<DispStructureCMPC> ().FromSqlRaw (strQuery).ToList ();
                 return result;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SubContractorDetail> GetSubContractorDetails(int vendorId)
+        {
+            try
+            {
+                List<SubContractorDetail> lstSubContractorDetail = new List<SubContractorDetail>();
+                var subContractorDetails = _context.Query<SubContractorDetail>().FromSqlRaw("exec SP_GetSubContractorDetails {0}", vendorId).ToList();
+                lstSubContractorDetail = _mapper.Map<List<SubContractorDetail>>(subContractorDetails);
+                return lstSubContractorDetail;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SubContractorComponentDetail> GetSubContractorComponentDetails(int dispStructureId)
+        {
+            try
+            {
+                List<SubContractorComponentDetail> lstSubContractorComponentDetail = new List<SubContractorComponentDetail>();
+                var subContractorComponentDetails = _context.Query<SubContractorComponentDetail>().FromSqlRaw("exec SP_GetSubContractorComponentDetails {0}", dispStructureId).ToList();
+                lstSubContractorComponentDetail = _mapper.Map<List<SubContractorComponentDetail>>(subContractorComponentDetails);
+                return lstSubContractorComponentDetail;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ResponseMessage SaveSubContractorComponents(DateTime dispatchDate, List<int> subContractorComponentIds)
+        {
+            try
+            {
+                ResponseMessage responseMessage = new ResponseMessage();
+                foreach (var item in subContractorComponentIds)
+                {
+                    var dispatchSubContractorStructure = _context.DispSubcontStructure.Where(x => x.Id == item).FirstOrDefault();
+                    if (dispatchSubContractorStructure != null)
+                    {
+                        dispatchSubContractorStructure.DispatchDate = dispatchDate;
+                        _context.SaveChanges();
+                    }
+                }
+                responseMessage.Message = "";
+                return responseMessage;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ResponseMessage SaveSubContractorComponentDocuments(int dispSubContractorId, string fileName, string fileType, string filePath)
+        {
+            try
+            {
+                ResponseMessage responseMessage = new ResponseMessage();
+                DispSubcontDocuments dispSubContDocuments = new DispSubcontDocuments()
+                {
+                    DispSubcontId = dispSubContractorId,
+                    FileName = fileName,
+                    FileType = fileType,
+                    Path = filePath
+                };
+                _context.DispSubcontDocuments.Add(dispSubContDocuments);
+                _context.SaveChanges();
+                responseMessage.Message = "Sub Contractor Component Documents uploaded successfully";
+                return responseMessage;
+            }
+            catch(Exception ex)
+            {
                 throw ex;
             }
         }
