@@ -127,7 +127,7 @@ namespace ETapManagement.Service {
              Component compDetails =
                     _context.Component.Single(w => w.Id == Component.ComponentId);
                      DispModStageComponent compModStageDetails =
-                    _context.DispModStageComponent.Single(w => w.Id == Component.ComponentId);
+                    _context.DispModStageComponent.Single(w => w.DispstructCompId == Component.DispstructCompId);
            ComponentHistory AddItem=new ComponentHistory();
                     if(compDetails!=null)
                     {
