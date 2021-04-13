@@ -28,5 +28,8 @@ namespace ETapManagement.Repository
         public List<DispStructureCMPC> GetDispatchStructureForCMPC();
         public List<SubContractorDetail> GetSubContractorDetails(int vendorId);
         public List<SubContractorComponentDetail> GetSubContractorComponentDetails(int dispStructureId);
+        public ResponseMessage SaveSubContractorComponents(DateTime dispatchDate, List<int> subContractorComponentIds);
+        public ResponseMessage SaveSubContractorComponentDocuments(int dispSubContractorId, string fileName, string fileType, string path);
     }
+
 }

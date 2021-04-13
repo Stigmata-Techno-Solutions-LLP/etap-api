@@ -22,11 +22,12 @@ namespace ETapManagement.Service
         public ResponseMessage SiteDispatchApproval(SiteDispatchApproval dispAppr);
         public ResponseMessage SiteDispatchRejection(SiteDispatchApproval dispAppr);
         public List<TWCCDispatch> GetTWCCDispatchDetails();
-        public List<TWCCDispatchInnerStructure> GetTWCCInnerStructureDetails(int structureId, int siteRequirementId, commonEnum.TWCCDispatchReleaseDate releaseFilter);
+        public List<TWCCDispatchInnerStructure> GetTWCCInnerStructureDetails(int structureId, int siteRequirementId, commonEnum.TWCCDispatchReleaseDate releaseFilter, bool isAttributeBasedFilter);
         public ResponseMessage CreateDispatch(TWCCDispatchPayload payload);
         public List<DispStructureCMPC> GetDispatchStructureForCMPC();
         ResponseMessage AddComponentsDisaptch (DispatchAddComponents request);
         public List<SubContractorDetail> GetSubContractorDetails(int vendorId);
         public List<SubContractorComponentDetail> GetSubContractorComponentDetails(int dispStructureId);
+        public ResponseMessage UploadDispatchSubContractorComponents(SubContractorComponentPayload subContractorComponentPayload);
     }
 }

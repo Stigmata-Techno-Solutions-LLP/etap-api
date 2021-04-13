@@ -726,5 +726,50 @@ namespace ETapManagement.Repository
                 throw ex;
             }
         }
+        public ResponseMessage SaveSubContractorComponents(DateTime dispatchDate, List<int> subContractorComponentIds)
+        {
+            try
+            {
+                ResponseMessage responseMessage = new ResponseMessage();
+                foreach (var item in subContractorComponentIds)
+                {
+                    var dispatchSubContractorStructure = _context.DispSubcontStructure.Where(x => x.Id == item).FirstOrDefault();
+                    if (dispatchSubContractorStructure != null)
+                    {
+                        dispatchSubContractorStructure.DispatchDate = dispatchDate;
+                        _context.SaveChanges();
+                    }
+                }
+                responseMessage.Message = "";
+                return responseMessage;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ResponseMessage SaveSubContractorComponentDocuments(int dispSubContractorId, string fileName, string fileType, string filePath)
+        {
+            try
+            {
+                ResponseMessage responseMessage = new ResponseMessage();
+                DispSubcontDocuments dispSubContDocuments = new DispSubcontDocuments()
+                {
+                    DispSubcontId = dispSubContractorId,
+                    FileName = fileName,
+                    FileType = fileType,
+                    Path = filePath
+                };
+                _context.DispSubcontDocuments.Add(dispSubContDocuments);
+                _context.SaveChanges();
+                responseMessage.Message = "Sub Contractor Component Documents uploaded successfully";
+                return responseMessage;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
