@@ -261,6 +261,7 @@ namespace ETapManagement.ViewModel.Dto
     {
         public int Id { get; set; }
         public int? DispstructCompId { get; set; }
+          public int? ComponentId { get; set; }
         public decimal? Leng { get; set; }
         public decimal? Breath { get; set; }
         public decimal? Height { get; set; }
