@@ -227,7 +227,8 @@ namespace ETapManagement.ViewModel.Dto
         public int? ProjStructId { get; set; }
         public bool IsModification { get; set; }
           public int DispatchRequirementId { get; set; }
-        public int? DispReqStructureId { get; set; }
+      
+     
 
     }
 
