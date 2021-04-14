@@ -43,6 +43,19 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
+           [HttpGet ("GetAssignedStructureDetailsByProjStructId")]
+        public IActionResult GetAssignedStructureDetailsByProjStructId (int projStructId) {
+            try {
+                var response = _assignService.GetAssignStructureDtlsByProjStructId (projStructId);
+                if (response == null) { return Ok (); } else {
+                    return Ok (response);
+                }
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
         [HttpPost ("assignStructureComponent")]
         public IActionResult AssignStructurecomponent ([FromForm] AssignStructureComponentDetails request) {
             try {
@@ -64,6 +77,10 @@ namespace ETapManagement.Api.Controllers {
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
+
+
+
+        
 
         [HttpPost ("AddComponents")]
         public IActionResult Addcomponents (AddComponents request) {

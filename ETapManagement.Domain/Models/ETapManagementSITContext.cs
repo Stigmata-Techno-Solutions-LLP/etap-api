@@ -2,13 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
-
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
-    {
-        
-
+    {   
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -68,7 +65,8 @@ namespace ETapManagement.Domain.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-          modelBuilder.Query<SiteRequirementDetail> ();
+
+              modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -78,8 +76,10 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<TWCCDispatchInnerStructure>();
             modelBuilder.Query<SiteRequirementDetailsForDispatch>();
             modelBuilder.Query<DispRequestDto> ();
-            modelBuilder.Query<ComponentDetailsDto> ();
-            
+            modelBuilder.Query<DispStructureCMPC> ();
+            modelBuilder.Query<ComponentDetailsDto> ();            
+            modelBuilder.Query<SubContractorDetail>();
+            modelBuilder.Query<SubContractorComponentDetail>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -470,6 +470,13 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.DispStructStatus)
+                    .HasColumnName("disp_struct_status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
+
                 entity.Property(e => e.DispreqId).HasColumnName("dispreq_id");
 
                 entity.Property(e => e.IsModification).HasColumnName("is_modification");
@@ -501,6 +508,10 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.DispCompId).HasColumnName("disp_comp_id");
 
                 entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
+
+                entity.Property(e => e.DispatchDate)
+                    .HasColumnName("dispatch_date")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.LastScandate)
                     .HasColumnName("last_scandate")
@@ -599,6 +610,8 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.ContractYears)
                     .HasColumnName("contract_years")
                     .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
 
                 entity.Property(e => e.DispatchDate)
                     .HasColumnName("dispatch_date")
@@ -977,6 +990,10 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.EstimatedWeight)
                     .HasColumnName("estimated_weight")
                     .HasColumnType("decimal(10, 2)");
+
+                entity.Property(e => e.ExpReleaseDate)
+                    .HasColumnName("exp_release_date")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.IsDelete)
                     .HasColumnName("is_delete")
@@ -1856,6 +1873,8 @@ namespace ETapManagement.Domain.Models
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+                entity.Property(e => e.VendorId).HasColumnName("vendor_id");
 
                 entity.HasOne(d => d.Bu)
                     .WithMany(p => p.Users)

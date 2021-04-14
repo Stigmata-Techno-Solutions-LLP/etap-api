@@ -10,6 +10,8 @@ namespace ETapManagement.Repository {
 
         ComponentDetails GetComponentById (int id);
         ResponseMessage AddComponents (AddComponents projectStructure);
+         ResponseMessage AddComponentsDisaptch (DispatchAddComponents request);
+
         ResponseMessage UpdateComponent (ComponentDetails projectStructure, int id);
         ResponseMessage DeleteComponent (int id);
     }

@@ -32,6 +32,7 @@ namespace ETapManagement.Domain.Models
         public DateTime? CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public DateTime? ExpReleaseDate { get; set; }
 
         public virtual Project Project { get; set; }
         public virtual Structures Structure { get; set; }

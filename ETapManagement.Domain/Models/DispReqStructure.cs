@@ -15,13 +15,12 @@ namespace ETapManagement.Domain.Models
         public int? DispreqId { get; set; }
         public int? ProjStructId { get; set; }
         public bool? IsModification { get; set; }
+        public int? DispStructureId { get; set; }
+        public string DispStructStatus { get; set; }
 
         public virtual DispatchRequirement Dispreq { get; set; }
         public virtual ProjectStructure ProjStruct { get; set; }
         public virtual ICollection<DispStructureComp> DispStructureComp { get; set; }
         public virtual ICollection<DispStructureDocuments> DispStructureDocuments { get; set; }
     }
-     
-
-
 }

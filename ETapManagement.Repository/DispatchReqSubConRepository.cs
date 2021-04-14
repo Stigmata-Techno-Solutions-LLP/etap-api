@@ -50,10 +50,10 @@ namespace ETapManagement.Repository {
                             DispSubcontStructure dispSubcontStructure = new DispSubcontStructure();
                             dispSubcontStructure.ProjStructId = item.ProjStructureId;
                             dispSubcontStructure.DispreqsubcontId = dispatchreqSubcont.Id;
-                            dispSubcontStructure.MonthlyRent = item.MonthlyRent;
-                            dispSubcontStructure.PlanReleasedate = item.PlanReleasedate;
-                            dispSubcontStructure.ExpectedReleasedate = item.ExpectedReleasedate;
-                            dispSubcontStructure.ActualStartdate = item.ActualStartdate;                            
+                          //  dispSubcontStructure.MonthlyRent = item.MonthlyRent;
+                         //   dispSubcontStructure.PlanReleasedate = item.PlanReleasedate;
+                          //  dispSubcontStructure.ExpectedReleasedate = item.ExpectedReleasedate;
+                          //  dispSubcontStructure.ActualStartdate = item.ActualStartdate;                            
                             _context.DispSubcontStructure.Add(dispSubcontStructure);
                             _context.SaveChanges();
                         }                         
@@ -100,7 +100,7 @@ namespace ETapManagement.Repository {
                             DispSubcontStructure dispSubcontStructure = new DispSubcontStructure();
                             dispSubcontStructure.ProjStructId = item.ProjStructureId;
                             dispSubcontStructure.DispreqsubcontId = dispatchreqSubcont.Id;
-                            dispSubcontStructure.FabricationCost = item.FabricationCost;
+                          //  dispSubcontStructure.FabricationCost = item.FabricationCost;
                             _context.DispSubcontStructure.Add(dispSubcontStructure);
                             _context.SaveChanges();
                         }
@@ -122,7 +122,7 @@ namespace ETapManagement.Repository {
             
                 try {
                 List<DispRequestDto> result = new List<DispRequestDto> ();
-                string strQuery = string.Format ("select drs.proj_struct_id ProjectStructureId,dr.dispatch_no DCNumber,dr.id DispatchRequirementId,dr.quantity Quantity,dr.status status, dr.status_internal StatusInternal,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where dr.status <>'DISPATCHED' and dr.status <>'REJECTED' and dr.servicetype_id =4 and dr.role_id ={0}", id);
+                string strQuery = string.Format ("select  drs.id DispStructureId, drs.is_modification isModified, drs.proj_struct_id ProjectStructureId,dr.dispatch_no DCNumber,dr.id DispatchRequirementId,dr.quantity Quantity,dr.status status, dr.status_internal StatusInternal,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where dr.status <>'DISPATCHED' and dr.status <>'REJECTED' and dr.servicetype_id =4", id);
                 result = _context.Query<DispRequestDto> ().FromSqlRaw (strQuery).ToList ();
                 return result;
             } catch (Exception ex) {
@@ -133,7 +133,7 @@ namespace ETapManagement.Repository {
             
                 try {
                 List<ComponentDetailsDto> result = new List<ComponentDetailsDto> ();
-                string strQuery = string.Format ("select dsc.disp_structure_id DispStructureId,c.comp_name ComponentName,c.comp_id CompId,ct.name ComponentType,c.comp_id ComponentNo,c.is_group IsGroup,c.drawing_no DrawingNo,c.leng Leng,c.breath Breath,c.height Height,c.thickness Thickness,c.weight Weight,c.make_type MakeType,c.is_tag IsTag from disp_structure_comp dsc inner join component c on dsc.disp_comp_id =c.id inner join component_type ct on c.comp_type_id =ct.id where dsc.id ={0}",id);
+                string strQuery = string.Format ("select dsc.disp_structure_id DispStructureId,c.comp_name ComponentName,c.comp_id CompId,ct.name ComponentType,c.comp_id ComponentNo,c.is_group IsGroup,c.drawing_no DrawingNo,c.leng Leng,c.breath Breath,c.height Height,c.thickness Thickness,c.weight Weight,c.make_type MakeType,c.is_tag IsTag from disp_structure_comp dsc inner join component c on dsc.disp_comp_id =c.id inner join component_type ct on c.comp_type_id =ct.id where dsc.disp_structure_id ={0}",id);
                 result = _context.Query<ComponentDetailsDto> ().FromSqlRaw (strQuery).ToList ();
                 return result;
             } catch (Exception ex) {

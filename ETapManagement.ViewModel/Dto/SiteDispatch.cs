@@ -96,6 +96,7 @@ namespace ETapManagement.ViewModel.Dto
     {
         [Required]
         public int componentId { get; set; }
+
         [Required]
         public string qrCode { get; set; }
         public string remarks { get; set; }
@@ -148,13 +149,12 @@ namespace ETapManagement.ViewModel.Dto
         public string RequestStatus { get; set; }
         public string StructureAttributes { get; set; }
         public int Quantity { get; set; }
-
     }
 
     public class TWCCDispatchInnerStructure
     {
         public int SiteRequirementId { get; set; }
-        public int ProjectStructureId {get;set;}
+        public int ProjectStructureId { get; set; }
         public int StructureId { get; set; }
         public string StructureCode { get; set; }
         public int ProjectId { get; set; }
@@ -166,6 +166,7 @@ namespace ETapManagement.ViewModel.Dto
         public string ProjectStructureStatus { get; set; }
         public DateTime? SurPlusFromDate { get; set; }
         public string ProjectName { get; set; }
+        public DateTime? ExpReleaseDate { get; set; }
     }
 
     public class TWCCJsonValue
@@ -186,31 +187,52 @@ namespace ETapManagement.ViewModel.Dto
 
     public class TWCCDispatchPayload
     {
-        public int siteRequirementId {get;set;}
-        public int ToProjectId {get;set;}
-        public int ProjectStructureId {get;set;}
-        public int StructureId {get;set;}
-        public int ServiceTypeId {get;set;}
-        public int Quantity {get;set;}
-        public string TransferPrice {get;set;}
-        public string Status {get;set;}
-        public string StatusInternal {get;set;}
-        public int RoleId {get;set;}
-        public int CreatedBy {get;set;}
-        public bool IsDelete {get;set;}
-        public string Notes {get;set;}
+        public int siteRequirementId { get; set; }
+        public int ToProjectId { get; set; }
+        public int ProjectStructureId { get; set; }
+        public int StructureId { get; set; }
+        public int ServiceTypeId { get; set; }
+        public int Quantity { get; set; }
+        public string TransferPrice { get; set; }
+        public string Status { get; set; }
+        public string StatusInternal { get; set; }
+        public int RoleId { get; set; }
+        public int CreatedBy { get; set; }
+        public bool IsDelete { get; set; }
+        public string Notes { get; set; }
+    }
+    public class DispStructureCMPC
+    {
+        public string Status { get; set; }
+        public string StatusInternal { get; set; }
+        public int RequiredComponenentCount { get; set; }
+        public int CurrentComponentsCount { get; set; }
+        public int ProjectStructureId { get; set; }
+        public int DispatchRequirementId { get; set; }
+        public int DispReqStructId { get; set; }
+
+        public int Quantity { get; set; }
+        public int projectId { get; set; }
+        public int StructureId { get; set; }
+        public string StructureCode { get; set; }
+        public string ProjectName { get; set; }
+        public string StructureAttValue { get; set; }
+        public string StructrueName { get; set; }
 
     }
+    public class DispReqStructureDto
+    {
 
-    public class DispReqStructureDto {
-         
         public int? DispreqId { get; set; }
         public int? ProjStructId { get; set; }
         public bool IsModification { get; set; }
           public int DispatchRequirementId { get; set; }
+        public int? DispReqStructureId { get; set; }
+
     }
 
      public class DispRequestDto {
+         public bool? isModified{get;set;}
        
        public int ProjectStructureId{get; set;}
 
@@ -218,14 +240,16 @@ namespace ETapManagement.ViewModel.Dto
 
           public string DCNumber { get; set; }
          public int? Quantity { get; set; }
+  
         public int projectId { get; set; }
-       public int StructureId { get; set; }
+        public int StructureId { get; set; }
         public string StructureCode { get; set; }
         public string ProjectName { get; set; }
          public string StructureAttValue { get; set; }
           public string StructrueName { get; set; }
             public string Status { get; set; }
          public string StatusInternal { get; set; }
+         public int DispStructureId{get;set;}
       
 
     }
@@ -274,5 +298,65 @@ namespace ETapManagement.ViewModel.Dto
         public DateTime? CreatedAt { get; set; }
 
          
+    }
+
+      public class CMPCUpdateStructure {
+
+        [Required]
+        [Display (Name = "ProjStructureId")]
+        public int ProjStructureId { get; set; }        
+
+        [Required]
+        [StringLength (100)]
+        [Display (Name = "DrawingNo")]
+        public string DrawingNo { get; set; }
+        [Required]
+        [StringLength (100)]
+        [Display (Name = "Estimated Weight")]
+        public string EstimatedWeight { get; set; }
+
+      
+
+        [Required]
+        [Display (Name = "CompCount")]
+        public int CompCount { get; set; }
+
+        public IFormFile[] uploadDocs { get; set; }
+        public string[] remove_docs_filename { get; set; }
+
+        [Required]
+        public int dispStructureId{get;set;}
+        public string StructureAttValue { get; set; }
+        public string StructrueName { get; set; }
+
+    }
+
+    public class SubContractorDetail
+    {
+        public int DispSubContractorId {get;set;}
+        public string DCNumber { get; set; }
+        public string StructureCode { get; set; }
+        public string StructureName { get; set; }
+        public int Quantity { get; set; }
+        public string StructureAttributesValue { get; set; }
+        public int DispStructureId { get; set; }
+        public int ComponentCount {get;set;}
+    }
+
+    public class SubContractorComponentDetail
+    {
+        public int DispStructureComponentId {get;set;}
+        public string ComponentName {get;set;}
+        public string ComponentType {get;set;}
+        public string ComponentId {get;set;}
+        public string DrawingNumber {get;set;}
+    }
+
+    public class SubContractorComponentPayload
+    {
+        public int DispSubContractorId {get;set;}
+        public string DispatchReqSubContractorIds { get; set; }
+        public DateTime DispatchDate { get; set; }
+        public IFormFile[] uploadDocs { get; set; }
     }
 }

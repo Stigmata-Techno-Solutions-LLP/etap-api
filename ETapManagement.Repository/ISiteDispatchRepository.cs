@@ -13,9 +13,7 @@ namespace ETapManagement.Repository
         public ResponseMessage UpdateSiteDispatchVendor(DispatchVendorAddPayload DispatchVendorAddPayload);
         public ResponseMessage UpdateSiteDispatchVendorDocuments(SiteDispatchUpload uploadDocs, int dispatchRequestSubContractorId);
         public ResponseMessage RevertSiteDispatchVendor(DispatchVendorAddPayload DispatchVendorAddPayload);
-
         public List<AvailableStructureForReuse> AvailableStructureForReuse(int siteReqId);
-        public ResponseMessage CreateDispatch(AddDispatch dispatchReq);
         public ResponseMessage DispatchComponentScan(SiteDispatchScan siteDispScan);
         public ResponseMessage DispatchScanStructureDocuments(SiteDispatchScanUpload uploadDocs, int StructureId, int dispReqId);
         public string DispatchScanStructureRemoveDocs(int docId);
@@ -26,7 +24,14 @@ namespace ETapManagement.Repository
         public List<TWCCDispatch> GetTWCCDispatchDetails();
         public List<TWCCDispatchInnerStructure> GetTWCCInnerStructureDetails(int structureId);
         public SiteRequirementDetailsForDispatch GetSiteRequirementDetails(int siteRequirementId);
-        public ResponseMessage CreateDispatchForReuse(TWCCDispatchPayload payload);
-
+        public ResponseMessage CreateDispatch(TWCCDispatchPayload payload);
+        public List<DispStructureCMPC> GetDispatchStructureForCMPCForNonReuse ();
+        int UpsertProjectStructure (CMPCUpdateStructure request);
+       // public List<DispStructureCMPC> GetDispatchStructureForCMPC();
+        public List<SubContractorDetail> GetSubContractorDetails(int vendorId);
+        public List<SubContractorComponentDetail> GetSubContractorComponentDetails(int dispStructureId);
+        public ResponseMessage SaveSubContractorComponents(DateTime dispatchDate, List<int> subContractorComponentIds);
+        public ResponseMessage SaveSubContractorComponentDocuments(int dispSubContractorId, string fileName, string fileType, string path);
     }
+
 }

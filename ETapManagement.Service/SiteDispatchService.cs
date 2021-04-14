@@ -8,18 +8,23 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Linq;
+using ETapManagement.ViewModel.Dto;
 
 namespace ETapManagement.Service
 {
     public class SiteDispatchService : ISiteDispatchService
     {
         ISiteDispatchRepository _siteDispatchRepository;
+        IComponentRepository _compRepo;
+        IAssignStructureComponentRepository _assignRepo;
         private readonly IWebHostEnvironment _webHostEnvironment;
         string prefixPath = "Documents";
-        public SiteDispatchService(ISiteDispatchRepository siteDispatchRepository, IWebHostEnvironment hostEnvironment)
+        public SiteDispatchService(ISiteDispatchRepository siteDispatchRepository, IWebHostEnvironment hostEnvironment, IComponentRepository compRepo, IAssignStructureComponentRepository assignRepo)
         {
             _siteDispatchRepository = siteDispatchRepository;
             _webHostEnvironment = hostEnvironment;
+            _compRepo = compRepo;
+            _assignRepo = assignRepo;
         }
 
         public List<SiteDispatchDetail> GetSiteDispatchDetails(SiteDispatchPayload siteDispatchPayload)
@@ -68,13 +73,6 @@ namespace ETapManagement.Service
         {
             List<AvailableStructureForReuse> structureList = _siteDispatchRepository.AvailableStructureForReuse(dispatchRequirementId);
             return structureList;
-        }
-
-        public ResponseMessage CreateDispatch(AddDispatch siteDsipatch)
-        {
-            ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _siteDispatchRepository.CreateDispatch(siteDsipatch);
-            return responseMessage;
         }
 
         private string UploadedFile(IFormFile file)
@@ -200,7 +198,7 @@ namespace ETapManagement.Service
             return lstTWCCDispatch;
         }
 
-        public List<TWCCDispatchInnerStructure> GetTWCCInnerStructureDetails(int structureId, int siteRequirementId, commonEnum.TWCCDispatchReleaseDate releaseFilter)
+        public List<TWCCDispatchInnerStructure> GetTWCCInnerStructureDetails(int structureId, int siteRequirementId, commonEnum.TWCCDispatchReleaseDate releaseFilter, bool isAttributeBasedFilter)
         {
             List<TWCCDispatchInnerStructure> result = new List<TWCCDispatchInnerStructure>();
             List<TWCCDispatchInnerStructure> lstTWCCDispatchInnerStructure = new List<TWCCDispatchInnerStructure>();
@@ -215,26 +213,29 @@ namespace ETapManagement.Service
                 item.SiteRequirementId = siteRequirementDetailsForDispatch.SiteRequirementId;
                 item.PlanStartDate = siteRequirementDetailsForDispatch.PlanStartDate;
                 item.PlanReleaseDate = siteRequirementDetailsForDispatch.PlanEndDate;
-                List<TWCCJsonValue> projectStrutureAttibutesToJson = JsonConvert.DeserializeObject<List<TWCCJsonValue>>(item.ProjectStructureAttributes);
-                List<TWCCJsonValue> siteRequirementStructureAttributes = JsonConvert.DeserializeObject<List<TWCCJsonValue>>(siteRequirementDetailsForDispatch.StrutureAttributes);
-                bool isCorrectAttributes = false;
-                foreach (var projectValue in projectStrutureAttibutesToJson)
+                if (!isAttributeBasedFilter)
                 {
-
-                    var siteValue = siteRequirementStructureAttributes.Find(x => x.name == projectValue.name);
-                    if (siteValue != null)
+                    List<TWCCJsonValue> projectStrutureAttibutesToJson = JsonConvert.DeserializeObject<List<TWCCJsonValue>>(item.ProjectStructureAttributes);
+                    List<TWCCJsonValue> siteRequirementStructureAttributes = JsonConvert.DeserializeObject<List<TWCCJsonValue>>(siteRequirementDetailsForDispatch.StrutureAttributes);
+                    bool isCorrectAttributes = false;
+                    foreach (var projectValue in projectStrutureAttibutesToJson)
                     {
-                        if (projectValue.value == siteValue.value)
-                            isCorrectAttributes = true;
-                        else
+                        var siteValue = siteRequirementStructureAttributes.Find(x => x.name == projectValue.name);
+                        if (siteValue != null)
                         {
-                            isCorrectAttributes = false;
-                            break;
+                            if (projectValue.value == siteValue.value)
+                                isCorrectAttributes = true;
+                            else
+                            {
+                                isCorrectAttributes = false;
+                                break;
+                            }
                         }
                     }
-
+                    if (isCorrectAttributes)
+                        lstFilteredResult.Add(item);
                 }
-                if (isCorrectAttributes)
+                else
                     lstFilteredResult.Add(item);
             }
             lstDistinctResult = lstFilteredResult.Distinct().ToList();
@@ -243,17 +244,17 @@ namespace ETapManagement.Service
                 case commonEnum.TWCCDispatchReleaseDate.ONEMONTH:
                     DateTime currentStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                     DateTime currentEndDate = DateTime.Now;
-                    result = lstDistinctResult.FindAll(x => x.PlanReleaseDate >= currentStartDate && x.PlanReleaseDate <= currentEndDate);
+                    result = lstDistinctResult.FindAll(x => x.ExpReleaseDate >= currentStartDate && x.ExpReleaseDate <= currentEndDate);
                     break;
                 case commonEnum.TWCCDispatchReleaseDate.THREEMONTHS:
                     currentStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 3, 1);
                     currentEndDate = DateTime.Now;
-                    result = lstDistinctResult.FindAll(x => x.PlanReleaseDate >= currentStartDate && x.PlanReleaseDate <= currentEndDate);
+                    result = lstDistinctResult.FindAll(x => x.ExpReleaseDate >= currentStartDate && x.ExpReleaseDate <= currentEndDate);
                     break;
                 case commonEnum.TWCCDispatchReleaseDate.SIXMONTHS:
                     currentStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 6, 1);
                     currentEndDate = DateTime.Now;
-                    result = lstDistinctResult.FindAll(x => x.PlanReleaseDate >= currentStartDate && x.PlanReleaseDate <= currentEndDate);
+                    result = lstDistinctResult.FindAll(x => x.ExpReleaseDate >= currentStartDate && x.ExpReleaseDate <= currentEndDate);
                     break;
                 default:
                     result = lstDistinctResult;
@@ -262,11 +263,85 @@ namespace ETapManagement.Service
             return result;
         }
 
-        public ResponseMessage CreateDispatchForReuse(TWCCDispatchPayload payload)
+        public ResponseMessage CreateDispatch(TWCCDispatchPayload payload)
         {
             ResponseMessage responseMesasge = new ResponseMessage();
-            responseMesasge = _siteDispatchRepository.CreateDispatchForReuse(payload);
+            responseMesasge = _siteDispatchRepository.CreateDispatch(payload);
             return responseMesasge;
+        }
+
+
+        public List<DispStructureCMPC> GetDispatchStructureForCMPCForNonReuse()
+        {
+            try
+            {
+                return _siteDispatchRepository.GetDispatchStructureForCMPCForNonReuse();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ResponseMessage AddComponentsDisaptch(DispatchAddComponents payload)
+        {
+            ResponseMessage responseMesasge = new ResponseMessage();
+            responseMesasge = _compRepo.AddComponentsDisaptch(payload);
+            return responseMesasge;
+        }
+
+           public ResponseMessage UpsertAssignStructureComponent (CMPCUpdateStructure servicedto) {
+            ResponseMessage response = new ResponseMessage ();
+            response.Message = "structure updated succusfully";
+            int projStructId = _siteDispatchRepository.UpsertProjectStructure (servicedto);
+            if (servicedto.uploadDocs != null) {
+                foreach (IFormFile file in servicedto.uploadDocs) {
+                    Upload_Docs layerDoc = new Upload_Docs ();
+                    layerDoc.fileName = file.FileName;
+                    layerDoc.filepath = UploadedFile (file);
+                    layerDoc.uploadType = "Docs";
+                    layerDoc.fileType = Path.GetExtension (file.FileName);
+                    this._assignRepo.StructureDocsUpload (layerDoc, projStructId);
+                    //  _gridRepo.LayerDocsUpload(layerDoc, layerId);
+                }
+            }
+            RemoveStructureDocs (servicedto.remove_docs_filename);
+            return response;
+           }
+
+        public List<SubContractorDetail> GetSubContractorDetails(int vendorId)
+        {
+            List<SubContractorDetail> lstSubContractorDetails = new List<SubContractorDetail>();
+            lstSubContractorDetails = _siteDispatchRepository.GetSubContractorDetails(vendorId);
+            return lstSubContractorDetails;
+        }
+
+        public List<SubContractorComponentDetail> GetSubContractorComponentDetails(int dispStructureId)
+        {
+            List<SubContractorComponentDetail> lstSubContractorComponentDetails = new List<SubContractorComponentDetail>();
+            lstSubContractorComponentDetails = _siteDispatchRepository.GetSubContractorComponentDetails(dispStructureId);
+            return lstSubContractorComponentDetails;
+        }
+
+
+        public ResponseMessage UploadDispatchSubContractorComponents(SubContractorComponentPayload subContractorComponentPayload)
+        {
+            ResponseMessage response = new ResponseMessage();
+            List<int> lstSubContractorComponentIds = subContractorComponentPayload.DispatchReqSubContractorIds.Split(',').Select(int.Parse).ToList();
+            response = _siteDispatchRepository.SaveSubContractorComponents(subContractorComponentPayload.DispatchDate, lstSubContractorComponentIds);
+            if (response.Message != "" && subContractorComponentPayload.uploadDocs != null)
+            {
+                foreach (IFormFile file in subContractorComponentPayload.uploadDocs)
+                {
+                    string fileName = file.FileName;
+                    string filePath = UploadedFile(file);
+                    string fileType = Path.GetExtension(file.FileName);
+                    response = new ResponseMessage();
+                    response = _siteDispatchRepository.SaveSubContractorComponentDocuments(subContractorComponentPayload.DispSubContractorId, fileName, fileType, filePath);
+                }
+            }
+
+            return response;
         }
     }
 }
