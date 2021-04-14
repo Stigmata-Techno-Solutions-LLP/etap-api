@@ -185,8 +185,9 @@ namespace ETapManagement.Service
 
                 Component compDetails =
                        _context.Component.Single(w => w.Id == Component.ComponentId);
-                DispModStageComponent compModStageDetails =
-               _context.DispModStageComponent.Single(w => w.DispstructCompId == Component.DispstructCompId);
+                DispModStageComponent compModStageDetails = _context.DispModStageComponent
+                .Single(w => w.DispstructCompId == Component.DispstructCompId);
+
                 ComponentHistory AddItem = new ComponentHistory();
                 if (compDetails != null)
                 {
@@ -200,7 +201,9 @@ namespace ETapManagement.Service
                     AddItem.CreatedAt = DateTime.Now;
                     AddItem.CreatedBy = 1; //To do
                     AddItem.ProjStructId = compDetails.ProjStructId;
-                     AddItem.CompId=compDetails.CompId;      
+                    AddItem.CompId = compDetails.CompId;
+                    AddItem.ProjStructId = compDetails.ProjStructId;
+                    AddItem.CompTypeId = compDetails.CompTypeId;
 
                 }
                 _context.ComponentHistory.Add(AddItem);
