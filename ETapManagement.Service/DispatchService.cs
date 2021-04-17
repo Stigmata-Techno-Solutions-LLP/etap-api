@@ -71,12 +71,17 @@ namespace ETapManagement.Service
                            }
                            else
                            {
-                               structid.IsModification = item.IsModification;
                                if (item.IsModification)
                                {
-                                   disreq.Status = "CMPCAPPROVED";
-
+                                   structid.IsModification = item.IsModification;
+                                   structid.DispStructStatus = "CMPCAPPROVED";
                                }
+                               else
+                               {
+                                   structid.IsModification = item.IsModification;
+                                   structid.DispStructStatus = "READYTODELIVER";
+                               }
+
                                responseMessage.Message = "Structure Modification status updated";
                            }
 
@@ -97,15 +102,16 @@ namespace ETapManagement.Service
               .Single(w => w.Id == item.DispatchRequirementId);
                         var totalCount = _context.DispReqStructure.Where(x => x.DispreqId == item.DispatchRequirementId).Count();
                         var appCount = _context.DispReqStructure.Where(x => x.DispreqId == item.DispatchRequirementId && x.DispStructStatus == "CMPCAPPROVED").Count();
+                        var delivCount = _context.DispReqStructure.Where(x => x.DispreqId == item.DispatchRequirementId && x.DispStructStatus == "READYTODELIVER").Count();
                         if (totalCount != appCount)
                         {
                             disreq.Status = "CMPCPARTIALLYAPPROVED";
                             disreq.StatusInternal = "CMPCPARTIALLYAPPROVED";
                             disreq.UpdatedBy = 1;  //To DO
-                            disreq.UpdatedAt = DateTime.Now;
-                            disReqHis.DispatchNo = disreq.DispatchNo;
                             disReqHis.Status = "CMPCPARTIALLYAPPROVED";
                             disReqHis.StatusInternal = "CMPCPARTIALLYAPPROVED";
+                            disreq.UpdatedAt = DateTime.Now;
+                            disReqHis.DispatchNo = disreq.DispatchNo;
                             disReqHis.RoleId = disreq.RoleId;
                             disReqHis.CreatedBy = 1;  //To DO
                             disReqHis.CreatedAt = DateTime.Now;
@@ -123,6 +129,20 @@ namespace ETapManagement.Service
                             disReqHis.RoleId = disreq.RoleId;
                             disReqHis.CreatedBy = 1;  //To DO
                             disReqHis.CreatedAt = DateTime.Now;
+                        }
+                        if (totalCount == delivCount)
+                        {
+                            disreq.Status = "READYTODELIVER";
+                            disreq.StatusInternal = "READYTODELIVER";
+                            disreq.UpdatedBy = 1;  //To DO
+                            disReqHis.Status = "READYTODELIVER";
+                            disReqHis.StatusInternal = "READYTODELIVER";
+                            disreq.UpdatedAt = DateTime.Now;
+                            disReqHis.DispatchNo = disreq.DispatchNo;
+                            disReqHis.RoleId = disreq.RoleId;
+                            disReqHis.CreatedBy = 1;  //To DO
+                            disReqHis.CreatedAt = DateTime.Now;
+
                         }
                         _context.DispatchRequirement.Update(disreq);
                         _context.DisreqStatusHistory.Add(disReqHis);
@@ -150,7 +170,9 @@ namespace ETapManagement.Service
         {
             try
             {
+
                 ResponseMessage responseMessage = new ResponseMessage();
+                DisreqStatusHistory disReqHis = new DisreqStatusHistory();
                 DispModStageComponent AddItem = new DispModStageComponent();
                 if (Component != null)
                 {
@@ -165,10 +187,65 @@ namespace ETapManagement.Service
                     AddItem.CreatedAt = DateTime.Now;
 
                 }
+                DispReqStructure structid =
+                          _context.DispReqStructure.Single(w => w.ProjStructId == Component.ProjectStructureId
+                          && w.DispreqId == Component.DispStructureId);
 
+                if (structid != null)
+                {
+                    structid.DispStructStatus = "CMPCMODIFIED";
+                    disReqHis.Status = "CMPCMODIFIED ";
+                    disReqHis.StatusInternal = "CMPCMODIFIED ";
+
+                    disReqHis.CreatedBy = 1;  //To DO
+                    disReqHis.CreatedAt = DateTime.Now;
+                }
+
+
+                _context.DispReqStructure.Update(structid);
                 _context.DispModStageComponent.Add(AddItem);
+                _context.DisreqStatusHistory.Add(disReqHis);
+
+                _context.SaveChanges();
+
+                DispatchRequirement disreq = _context.DispatchRequirement
+      .Single(w => w.Id == Component.DispatchRequirementId);
+                var totalCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId).Count();
+                var appCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId && x.DispStructStatus == "CMPCMODIFIED").Count();
+
+                if (totalCount != appCount)
+                {
+                    disreq.Status = "CMPCPARTIALLYMODIFIED ";
+                    disreq.StatusInternal = "CMPCPARTIALLYMODIFIED ";
+                    disreq.UpdatedBy = 1;  //To DO
+                    disreq.UpdatedAt = DateTime.Now;
+                    disReqHis.Status = "CMPCPARTIALLYMODIFIED ";
+                    disReqHis.StatusInternal = "CMPCPARTIALLYMODIFIED ";
+                    disReqHis.DispatchNo = disreq.DispatchNo;
+                    disReqHis.RoleId = disreq.RoleId;
+                    disReqHis.CreatedBy = 1;  //To DO
+                    disReqHis.CreatedAt = DateTime.Now;
+
+                }
+                else
+                {
+                    disreq.Status = "CMPCMODIFIED";
+                    disreq.StatusInternal = "CMPCMODIFIED";
+                    disreq.UpdatedBy = 1;  //To DO
+                    disreq.UpdatedAt = DateTime.Now;
+                    disReqHis.DispatchNo = disreq.DispatchNo;
+                    disReqHis.Status = "CMPCMODIFIED";
+                    disReqHis.StatusInternal = "CMPCMODIFIED";
+                    disReqHis.RoleId = disreq.RoleId;
+                    disReqHis.CreatedBy = 1;  //To DO
+                    disReqHis.CreatedAt = DateTime.Now;
+                }
+
+                _context.DispatchRequirement.Update(disreq);
+                _context.DisreqStatusHistory.Add(disReqHis);
                 _context.SaveChanges();
                 responseMessage.Message = "Component updated";
+
 
                 return responseMessage;
             }
@@ -224,8 +301,65 @@ namespace ETapManagement.Service
 
                 _context.Component.Update(compDetails);
                 _context.SaveChanges();
+                DispReqStructure structid =
+                        _context.DispReqStructure.Single(w => w.ProjStructId == Component.ProjectStructureId
+                        && w.DispreqId == Component.DispStructureId);
 
+                if (structid != null)
+                {
+                    structid.DispStructStatus = "TWCCMODIFYAPRD";
+                }
+
+
+                _context.DispReqStructure.Update(structid);
+
+                _context.SaveChanges();
+
+                DisreqStatusHistory disReqHis = new DisreqStatusHistory();
+                DispatchRequirement disreq = _context.DispatchRequirement
+      .Single(w => w.Id == Component.DispatchRequirementId);
+                var totalCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId).Count();
+                var appCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId && x.DispStructStatus == "TWCCMODIFYAPRD").Count();
+
+                if (totalCount != appCount)
+                {
+                    disreq.Status = "TWCCPARIALLYMODIFYAPRD ";
+                    disreq.StatusInternal = "TWCCPARIALLYMODIFYAPRD ";
+                    disreq.UpdatedBy = 1;  //To DO
+                    disReqHis.Status = "TWCCPARIALLYMODIFYAPRD ";
+                    disReqHis.StatusInternal = "TWCCPARIALLYMODIFYAPRD ";
+                    disreq.UpdatedAt = DateTime.Now;
+                    disReqHis.DispatchNo = disreq.DispatchNo;
+                    disReqHis.RoleId = disreq.RoleId;
+                    disReqHis.CreatedBy = 1;  //To DO
+                    disReqHis.CreatedAt = DateTime.Now;
+
+                }
+                else
+                {
+                    disreq.Status = "TWCCMODIFYAPRD";
+                    disreq.StatusInternal = "TWCCMODIFYAPRD";
+                    disreq.UpdatedBy = 1;  //To DO
+                    disreq.UpdatedAt = DateTime.Now;
+                    disReqHis.DispatchNo = disreq.DispatchNo;
+                    disReqHis.Status = "TWCCMODIFYAPRD";
+                    disReqHis.StatusInternal = "TWCCMODIFYAPRD";
+                    disReqHis.RoleId = disreq.RoleId;
+                    disReqHis.CreatedBy = 1;  //To DO
+                    disReqHis.CreatedAt = DateTime.Now;
+                }
+
+                _context.DispatchRequirement.Update(disreq);
+                _context.DisreqStatusHistory.Add(disReqHis);
+                _context.SaveChanges();
                 responseMessage.Message = "Component updated";
+
+                if (Component.IsVendor)
+                {
+
+                    responseMessage = _dispatchReqSubConRepository.OSAssignVendor(Component.OSDispatchReqSubCont);
+
+                }
 
                 return responseMessage;
             }

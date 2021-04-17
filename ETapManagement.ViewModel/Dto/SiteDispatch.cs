@@ -286,6 +286,10 @@ namespace ETapManagement.ViewModel.Dto
     {
         public int Id { get; set; }
         public int? DispstructCompId { get; set; }
+        
+        public int DispatchRequirementId{get;set;}
+        public int ProjectStructureId { get; set; }
+         public int DispStructureId { get; set; }
           public int? ComponentId { get; set; }
         public decimal? Leng { get; set; }
         public decimal? Breath { get; set; }
@@ -297,6 +301,11 @@ namespace ETapManagement.ViewModel.Dto
         public string QrCode { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
+
+          public bool IsSite { get; set; }
+           public bool IsVendor { get; set; }
+
+           public OSDispatchReqSubCont OSDispatchReqSubCont { get; set; }
 
          
     }
