@@ -80,6 +80,8 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<DispStructureCMPC> ();
             modelBuilder.Query<SubContractorDetail>();
             modelBuilder.Query<SubContractorComponentDetail>();
+            modelBuilder.Query<ReceiveDetail>();
+            modelBuilder.Query<ReceiveComponentDetail>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");

@@ -244,29 +244,32 @@ namespace ETapManagement.ViewModel.Dto
 
     public class SubContractorDetail
     {
-        public int DispSubContractorId {get;set;}
+        public int DispSubContractorId { get; set; }
+        public int DispSubContractorStructureId { get; set; }
         public string DCNumber { get; set; }
         public string StructureCode { get; set; }
         public string StructureName { get; set; }
         public int Quantity { get; set; }
         public string StructureAttributesValue { get; set; }
         public int DispStructureId { get; set; }
-        public int ComponentCount {get;set;}
+        public int ComponentCount { get; set; }
     }
 
     public class SubContractorComponentDetail
     {
-        public int DispStructureComponentId {get;set;}
-        public string ComponentName {get;set;}
-        public string ComponentType {get;set;}
-        public string ComponentId {get;set;}
-        public string DrawingNumber {get;set;}
+        public int DispStructureComponentId { get; set; }
+        public string ComponentName { get; set; }
+        public string ComponentType { get; set; }
+        public string ComponentId { get; set; }
+        public string DrawingNumber { get; set; }
     }
 
     public class SubContractorComponentPayload
     {
-        public int DispSubContractorId {get;set;}
-        public string DispatchReqSubContractorIds { get; set; }
+        public int DispSubContractorId { get; set; }
+        public string DispatchReqSubContractorStructureIds { get; set; }
+        public int ComponentCount { get; set; }
+        public int dispatchStructureId { get; set; }
         public DateTime DispatchDate { get; set; }
         public IFormFile[] uploadDocs { get; set; }
     }

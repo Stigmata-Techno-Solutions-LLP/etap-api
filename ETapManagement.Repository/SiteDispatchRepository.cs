@@ -726,7 +726,7 @@ namespace ETapManagement.Repository
                 throw ex;
             }
         }
-        public ResponseMessage SaveSubContractorComponents(DateTime dispatchDate, List<int> subContractorComponentIds)
+        public ResponseMessage SaveSubContractorComponents(DateTime dispatchDate, List<int> subContractorComponentIds, int dispatchRqSubContratorId, int dispatchStructureId, int componentCount)
         {
             try
             {
@@ -739,6 +739,23 @@ namespace ETapManagement.Repository
                         dispatchSubContractorStructure.DispatchDate = dispatchDate;
                         _context.SaveChanges();
                     }
+                }
+                var dispatchRequirementSubContractor = _context.DispatchreqSubcont.Where(x => x.Id == dispatchRqSubContratorId).FirstOrDefault();
+                if (dispatchRequirementSubContractor != null)
+                {
+                    var dispatchStructureComponents = _context.DispStructureComp.Where(x => x.DispStructureId == dispatchStructureId).ToList();
+                    if (componentCount <= dispatchStructureComponents.Count)
+                    {
+                        dispatchRequirementSubContractor.Status = commonEnum.SiteDispatchSatus.PARTIALDELIVERED.ToString();
+                        dispatchRequirementSubContractor.StatusInternal = commonEnum.SiteDispatchSatus.PARTIALDELIVERED.ToString();
+                    }
+                    else
+                    {
+                        dispatchRequirementSubContractor.Status = commonEnum.SiteDispatchSatus.DELIVERED.ToString();
+                        dispatchRequirementSubContractor.StatusInternal = commonEnum.SiteDispatchSatus.DELIVERED.ToString();
+                    }
+
+                    _context.SaveChanges();
                 }
                 responseMessage.Message = "";
                 return responseMessage;
@@ -766,7 +783,7 @@ namespace ETapManagement.Repository
                 responseMessage.Message = "Sub Contractor Component Documents uploaded successfully";
                 return responseMessage;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
