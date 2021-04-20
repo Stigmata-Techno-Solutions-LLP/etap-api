@@ -686,7 +686,7 @@ namespace ETapManagement.Repository
             // return response;
                 try {
                 List<DispStructureCMPC> result = new List<DispStructureCMPC> ();
-                string strQuery = string.Format ("select drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where  dr.servicetype_id in (1,2) and ps.components_count > (select count(*) from component where proj_struct_id = ps.id) and dr.status = '{0}'",commonEnum.SiteDispatchSatus.NEW.ToString());
+                string strQuery = string.Format ("select drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where  dr.servicetype_id in (1,2) and (ps.components_count > (select count(*) from component where proj_struct_id = ps.id) or ps.components_count =0)  and dr.status = '{0}'",commonEnum.SiteDispatchSatus.NEW.ToString());
                 result = _context.Query<DispStructureCMPC> ().FromSqlRaw (strQuery).ToList ();
                 return result;
             }
@@ -783,10 +783,7 @@ namespace ETapManagement.Repository
                         var isUpdate = false;
                         var projectStructureID = 0;
                         var projectStructure = _context.ProjectStructure.Where (x => x.Id == request.ProjStructureId  && x.IsDelete == false).FirstOrDefault ();
-
-                   
-                           // ProjectStructure projStructdb = null;
-                                               
+        
                             projectStructure.DrawingNo = request.DrawingNo;
                             projectStructure.UpdatedAt = DateTime.Now;
                             projectStructure.EstimatedWeight = Convert.ToDecimal( request.EstimatedWeight);                         
@@ -795,7 +792,23 @@ namespace ETapManagement.Repository
                             projectStructureID = projectStructure.Id;
                         
                         DispReqStructure dispStruct = _context.DispReqStructure.Where(x=>x.Id == request.dispStructureId).FirstOrDefault();
-                        // dispStruct.                      
+                        dispStruct.DispStructStatus = commonEnum.SiteDispStructureStatus.CMPCAPPROVED.ToString();                    
+                        _context.SaveChanges ();     
+
+                        int? dispReqId = dispStruct.DispreqId;
+
+                        DispatchRequirement dispReq = _context.DispatchRequirement.Where(x=>x.Id == dispReqId).FirstOrDefault();
+                        var lstDispStruct = _context.DispReqStructure.Where(x=>x.DispreqId == dispReqId).ToList();
+                        if (lstDispStruct.Count() == lstDispStruct.Where(x=>x.DispStructStatus == commonEnum.SiteDispStructureStatus.CMPCAPPROVED.ToString()).Count()) {
+                                dispReq.Status = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString();
+                                dispReq.StatusInternal = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString();
+
+                        } else {
+                                dispReq.Status = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString();
+                                dispReq.StatusInternal = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString();
+                        }
+                        _context.SaveChanges();
+
                         transaction.Commit ();
                         return projectStructureID;
                     } catch (Exception ex) {
@@ -805,9 +818,7 @@ namespace ETapManagement.Repository
                 }
             } catch (Exception ex) {
                 throw ex;
-            }
-
-            
+            }            
         }
 
           

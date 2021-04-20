@@ -57,6 +57,26 @@ namespace ETapManagement.Common {
            REJECT=9,
            PROCAPPROVED=10,
            PARTIALLYDISPATCHED=11,
+           DISPATCHED =12,
+        CMPCPARTIALLYAPRD =15,
+
+          
+        }
+
+          public enum SiteDispStructureStatus {
+            NEW = 1,
+            PARTIALDELIVERED=2,
+            DELIVERED=3,
+            PARTIALLYSCANNED=4,
+            CMPCAPPROVED=5,
+            CMPCPARTIALLYAPRD =15,
+            FAAAPPROVED=6,
+           FROMSITEAPPROVED=7,
+           TOSITEAPPROVED=8,
+           REJECT=9,
+           PROCAPPROVED=10,
+           PARTIALLYDISPATCHED=11,
+           READYTODELIVER=13,
            DISPATCHED =12
           
         }
