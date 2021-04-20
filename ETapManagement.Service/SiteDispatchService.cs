@@ -327,8 +327,8 @@ namespace ETapManagement.Service
         public ResponseMessage UploadDispatchSubContractorComponents(SubContractorComponentPayload subContractorComponentPayload)
         {
             ResponseMessage response = new ResponseMessage();
-            List<int> lstSubContractorComponentIds = subContractorComponentPayload.DispatchReqSubContractorIds.Split(',').Select(int.Parse).ToList();
-            response = _siteDispatchRepository.SaveSubContractorComponents(subContractorComponentPayload.DispatchDate, lstSubContractorComponentIds);
+            List<int> lstSubContractorComponentIds = subContractorComponentPayload.DispatchReqSubContractorStructureIds.Split(',').Select(int.Parse).ToList();
+            response = _siteDispatchRepository.SaveSubContractorComponents(subContractorComponentPayload.DispatchDate, lstSubContractorComponentIds, subContractorComponentPayload.DispSubContractorId, subContractorComponentPayload.dispatchStructureId, subContractorComponentPayload.ComponentCount);
             if (response.Message != "" && subContractorComponentPayload.uploadDocs != null)
             {
                 foreach (IFormFile file in subContractorComponentPayload.uploadDocs)
