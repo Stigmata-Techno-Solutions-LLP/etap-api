@@ -497,5 +497,83 @@ namespace ETapManagement.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
+ 
+
+        [HttpGet("GetDispatchStructure")]
+        public IActionResult GetDispatchStructure(int id)
+        {
+            try
+            {
+                var response = _dispatchService.GetDispatchStructure(id);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+         [HttpPut ("UpdatestructureModify")]
+        public IActionResult UpdatestructureModify (List<DispReqStructureDto> structure) {
+            try {
+                var response = _dispatchService.UpdatestructureModify (structure);
+                  return Ok(response);
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+            [HttpGet("GetStructrueComponent")]
+        public IActionResult GetStructrueComponent(int id)
+        {
+            try
+            {
+                var response = _dispatchService.GetStructrueComponent(id);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+           [HttpPut ("UpdateDispatchComponent")]
+        public IActionResult UpdateDispatchComponent(DispModStageComponentDto Component) {
+            try {
+                var response = _dispatchService.UpdateDispatchComponent (Component);
+                  return Ok(response);
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+          [HttpPut ("UpdateComponentHistory")]
+        public IActionResult UpdateComponentHistory (DispModStageComponentDto Component) {
+            try {
+                var response = _dispatchService.UpdateComponentHistory (Component);
+                  return Ok(response);
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+    
+    
+    
+
+ 
     }
 }

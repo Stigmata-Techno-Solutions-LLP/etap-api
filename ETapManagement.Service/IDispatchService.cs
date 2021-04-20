@@ -15,7 +15,8 @@ namespace ETapManagement.Service {
           public ResponseMessage UpdatestructureModify (List<DispReqStructureDto> structure); 
          public List<ComponentDetailsDto> GetStructrueComponent (int id);
 
-        public ResponseMessage UpdateDispatchComponent(DispModStageComponentDto Component); 
+        public ResponseMessage UpdateDispatchComponent(DispModStageComponentDto Component);
+        public ResponseMessage UpdateComponentHistory (DispModStageComponentDto Component); 
 
        
     }
