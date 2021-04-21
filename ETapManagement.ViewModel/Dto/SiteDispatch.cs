@@ -210,6 +210,7 @@ namespace ETapManagement.ViewModel.Dto
         public int ProjectStructureId { get; set; }
         public int DispatchRequirementId { get; set; }
         public int DispReqStructId { get; set; }
+        public string DispatchNo {get;set;}
 
         public int Quantity { get; set; }
         public int projectId { get; set; }
