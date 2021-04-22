@@ -27,7 +27,7 @@ namespace ETapManagement.ViewModel.Dto
         public DateTime? LastScanDate { get; set; }
         public string ComponentStatus { get; set; }
         public string Remarks { get; set; }
-        public string ScannedBy { get; set; }
+        public int ScannedBy { get; set; }
 
     }
 
