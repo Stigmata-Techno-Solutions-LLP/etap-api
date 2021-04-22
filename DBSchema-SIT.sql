@@ -647,7 +647,7 @@ CREATE TABLE ETapManagementSIT.dbo.dispatch_requirement
 CREATE TABLE ETapManagementSIT.dbo.disreq_status_history
 (
   id int not null identity(1,1) primary key,
-  dispatch_no varchar(20) not null unique,
+  dispatch_no varchar(20) null,
   dispreq_id int null,
   status varchar(50) null,
   status_internal varchar(100) null,
