@@ -5,7 +5,7 @@ using ETapManagement.ViewModel.Dto;
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
-    {   
+    {
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -65,8 +65,7 @@ namespace ETapManagement.Domain.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-
-              modelBuilder.Query<SiteRequirementDetail> ();
+    modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -795,10 +794,6 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Entity<DisreqStatusHistory>(entity =>
             {
                 entity.ToTable("disreq_status_history");
-
-                entity.HasIndex(e => e.DispatchNo)
-                    .HasName("UQ__disreq_s__F7205CCDA94D8CAD")
-                    .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
