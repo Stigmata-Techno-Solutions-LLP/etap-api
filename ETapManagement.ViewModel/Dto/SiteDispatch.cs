@@ -309,6 +309,24 @@ namespace ETapManagement.ViewModel.Dto
 
          
     }
+      public partial class DispComponentDto
+    {
+        public int Id { get; set; }
+        public int? DispstructCompId { get; set; }
+        
+        public int DispatchRequirementId{get;set;}
+        public int ProjectStructureId { get; set; }
+         public int DispStructureId { get; set; }
+          public int? ComponentId { get; set; }
+      
+          public bool IsSite { get; set; }
+           public bool IsVendor { get; set; }
+
+           public OSDispatchReqSubCont OSDispatchReqSubCont { get; set; }
+
+         
+    }
+
 
       public class CMPCUpdateStructure {
 

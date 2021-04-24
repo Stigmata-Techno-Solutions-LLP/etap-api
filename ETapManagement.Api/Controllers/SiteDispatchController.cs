@@ -558,7 +558,7 @@ namespace ETapManagement.Api.Controllers
         }
 
           [HttpPut ("UpdateComponentHistory")]
-        public IActionResult UpdateComponentHistory (DispModStageComponentDto Component) {
+        public IActionResult UpdateComponentHistory (DispComponentDto Component) {
             try {
                 var response = _dispatchService.UpdateComponentHistory (Component);
                   return Ok(response);

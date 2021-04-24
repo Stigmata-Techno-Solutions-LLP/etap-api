@@ -254,7 +254,7 @@ namespace ETapManagement.Service
                 throw ex;
             }
         }
-        public ResponseMessage UpdateComponentHistory(DispModStageComponentDto Component)
+        public ResponseMessage UpdateComponentHistory(DispComponentDto Component)
         {
             try
             {
