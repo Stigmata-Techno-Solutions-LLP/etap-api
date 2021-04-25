@@ -120,5 +120,19 @@ namespace ETapManagement.Api.Controllers {
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
+
+
+
+        [HttpGet ("GetStructureCodeList")]
+        public IActionResult GetStructureCodeList (int ProjectId, int StrcutureId) {
+            List<Code> response = null;
+            try {
+                response = _assignService.GetStructureCodeList(ProjectId,StrcutureId);
+                return Ok (response);
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
     }
 }

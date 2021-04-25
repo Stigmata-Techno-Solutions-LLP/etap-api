@@ -349,7 +349,7 @@ namespace ETapManagement.ViewModel.Dto
         public string StructureName { get; set; }
         public int Quantity { get; set; }
         public string StructureAttributesValue { get; set; }
-        public int DispStructureId { get; set; }
+        public int? DispStructureId { get; set; }
         public int ComponentCount { get; set; }
     }
 

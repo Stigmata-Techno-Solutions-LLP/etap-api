@@ -10,6 +10,8 @@ namespace ETapManagement.Service {
              AssignStructureDtlsOnly GetAssignStructureDtlsByProjStructId (int projStructId);
 
         List<AssignStructureDtlsOnly> GetAssignStructureDtls ();
+             List<Code> GetStructureCodeList (int ProjectId, int StrcutureId);
+
 
     }
 }

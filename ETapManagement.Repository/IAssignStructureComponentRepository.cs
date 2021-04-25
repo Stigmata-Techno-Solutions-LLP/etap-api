@@ -11,6 +11,8 @@ namespace ETapManagement.Repository {
         AssignStructureDtlsOnly GetAssignStructureDtlsById (ComponentQueryParam filterReq);
      AssignStructureDtlsOnly GetAssignStructureDtlsByProjStructId (int projStructId);
 
-        List<AssignStructureDtlsOnly> GetAssignStructureDtls ();
+    List<AssignStructureDtlsOnly> GetAssignStructureDtls ();
+     List<Code> GetStructureCodeList (int ProjectId, int StrcutureId);
+
     }
 }
