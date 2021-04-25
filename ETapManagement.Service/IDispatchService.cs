@@ -16,7 +16,7 @@ namespace ETapManagement.Service {
          public List<ComponentDetailsDto> GetStructrueComponent (int id);
 
         public ResponseMessage UpdateDispatchComponent(DispModStageComponentDto Component);
-        public ResponseMessage UpdateComponentHistory (DispModStageComponentDto Component); 
+        public ResponseMessage UpdateComponentHistory (DispComponentDto Component); 
 
        
     }

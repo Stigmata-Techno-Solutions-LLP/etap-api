@@ -225,45 +225,47 @@ namespace ETapManagement.ViewModel.Dto
         public int? DispreqId { get; set; }
         public int? ProjStructId { get; set; }
         public bool IsModification { get; set; }
-          public int DispatchRequirementId { get; set; }
-      
-     
+        public int DispatchRequirementId { get; set; }
+
+
 
     }
 
-     public class DispRequestDto {
-         public bool? isModified{get;set;}
-       
-       public int ProjectStructureId{get; set;}
+    public class DispRequestDto
+    {
+        public bool? isModified { get; set; }
 
-        public int DispatchRequirementId{get; set;}
+        public int ProjectStructureId { get; set; }
 
-          public string DCNumber { get; set; }
-         public int? Quantity { get; set; }
-  
+        public int DispatchRequirementId { get; set; }
+
+        public string DCNumber { get; set; }
+        public int? Quantity { get; set; }
+
         public int projectId { get; set; }
         public int StructureId { get; set; }
         public string StructureCode { get; set; }
         public string ProjectName { get; set; }
-         public string StructureAttValue { get; set; }
-          public string StructrueName { get; set; }
-            public string Status { get; set; }
-         public string StatusInternal { get; set; }
-         public int DispStructureId{get;set;}
-      
+        public string StructureAttValue { get; set; }
+        public string StructrueName { get; set; }
+        public string Status { get; set; }
+        public string StatusInternal { get; set; }
+        public int DispStructureId { get; set; }
+
 
     }
-      public class ComponentDetailsDto {
-      // public int Id { get; set; }
-       public int DispStructureId { get; set; }
+    public class ComponentDetailsDto
+    {
+       // public int Id { get; set; }
+        public int DispStructureId { get; set; }
 
         public string CompId { get; set; }
-          public string ComponentName { get; set; }
+        public string ComponentName { get; set; }
         public string ComponentType { get; set; }
 
         public string DrawingNo { get; set; }
 
-        public string ComponentNo { get; set; }
+       // public int? ComponentNo { get; set; }
 
         public bool? IsGroup { get; set; }
         public decimal? Leng { get; set; }
@@ -273,23 +275,25 @@ namespace ETapManagement.ViewModel.Dto
         public decimal? Weight { get; set; }
 
         public string MakeType { get; set; }
-  
-      //  public string QrCode { get; set; }
-       // public bool? IsDelete { get; set; }
-       // public bool? IsActive { get; set; }
-        
+        public decimal? ModStageLength { get; set; }
+        public decimal? ModStageWeight { get; set; }
+        public decimal? ModStageThikness { get; set; }
+          public decimal? ModStageHeight { get; set; }
+        public decimal? ModStagebreath { get; set; }
+       public int? ModStageCompId { get; set; }
+
 
         public bool? IsTag { get; set; }
     }
-     public partial class DispModStageComponentDto
+    public partial class DispModStageComponentDto
     {
         public int Id { get; set; }
         public int? DispstructCompId { get; set; }
-        
-        public int DispatchRequirementId{get;set;}
+
+        public int DispatchRequirementId { get; set; }
         public int ProjectStructureId { get; set; }
-         public int DispStructureId { get; set; }
-          public int? ComponentId { get; set; }
+        public int DispStructureId { get; set; }
+        public int? ComponentId { get; set; }
         public decimal? Leng { get; set; }
         public decimal? Breath { get; set; }
         public decimal? Height { get; set; }
@@ -301,40 +305,59 @@ namespace ETapManagement.ViewModel.Dto
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
 
-          public bool IsSite { get; set; }
-           public bool IsVendor { get; set; }
+        public bool IsSite { get; set; }
+        public bool IsVendor { get; set; }
 
-           public OSDispatchReqSubCont OSDispatchReqSubCont { get; set; }
+        public OSDispatchReqSubCont OSDispatchReqSubCont { get; set; }
 
-         
+
+    }
+    public partial class DispComponentDto
+    {
+        public int Id { get; set; }
+        public int? DispstructCompId { get; set; }
+
+        public int DispatchRequirementId { get; set; }
+        public int ProjectStructureId { get; set; }
+        public int DispStructureId { get; set; }
+        public int? ComponentId { get; set; }
+
+        public bool IsSite { get; set; }
+        public bool IsVendor { get; set; }
+
+        public OSDispatchReqSubCont OSDispatchReqSubCont { get; set; }
+
+
     }
 
-      public class CMPCUpdateStructure {
+
+    public class CMPCUpdateStructure
+    {
 
         [Required]
-        [Display (Name = "ProjStructureId")]
-        public int ProjStructureId { get; set; }        
+        [Display(Name = "ProjStructureId")]
+        public int ProjStructureId { get; set; }
 
         [Required]
-        [StringLength (100)]
-        [Display (Name = "DrawingNo")]
+        [StringLength(100)]
+        [Display(Name = "DrawingNo")]
         public string DrawingNo { get; set; }
         [Required]
-        [StringLength (100)]
-        [Display (Name = "Estimated Weight")]
+        [StringLength(100)]
+        [Display(Name = "Estimated Weight")]
         public string EstimatedWeight { get; set; }
 
-      
+
 
         [Required]
-        [Display (Name = "CompCount")]
+        [Display(Name = "CompCount")]
         public int CompCount { get; set; }
 
         public IFormFile[] uploadDocs { get; set; }
         public string[] remove_docs_filename { get; set; }
 
         [Required]
-        public int dispStructureId{get;set;}
+        public int dispStructureId { get; set; }
         public string StructureAttValue { get; set; }
         public string StructrueName { get; set; }
 
@@ -343,7 +366,6 @@ namespace ETapManagement.ViewModel.Dto
     public class SubContractorDetail
     {
         public int DispSubContractorId { get; set; }
-        public int DispSubContractorStructureId { get; set; }
         public string DCNumber { get; set; }
         public string StructureCode { get; set; }
         public string StructureName { get; set; }
