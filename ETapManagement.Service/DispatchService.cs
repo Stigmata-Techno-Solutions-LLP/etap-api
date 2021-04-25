@@ -162,6 +162,7 @@ namespace ETapManagement.Service
 
             List<ComponentDetailsDto> responseMessage = new List<ComponentDetailsDto>();
             responseMessage = _dispatchReqSubConRepository.GetStructrueComponent(id);
+           
             return responseMessage;
 
         }
@@ -259,13 +260,15 @@ namespace ETapManagement.Service
             try
             {
                 ResponseMessage responseMessage = new ResponseMessage();
+              
+               List<DispStructureComp> dispStructureComp=  _context.DispStructureComp.Where(w => w.DispStructureId == Component.DispStructureId).ToList();
 
-                Component compDetails =
-                       _context.Component.Single(w => w.Id == Component.ComponentId);
-                DispModStageComponent compModStageDetails = _context.DispModStageComponent
-                .Single(w => w.DispstructCompId == Component.DispstructCompId);
 
-                ComponentHistory AddItem = new ComponentHistory();
+              dispStructureComp.ForEach(item =>
+                   {
+  Component compDetails =
+                       _context.Component.Single(w => w.Id == item.DispCompId);
+ ComponentHistory AddItem = new ComponentHistory();
                 if (compDetails != null)
                 {
 
@@ -285,6 +288,10 @@ namespace ETapManagement.Service
                 }
                 _context.ComponentHistory.Add(AddItem);
                 _context.SaveChanges();
+                  DispModStageComponent compModStageDetails = _context.DispModStageComponent
+                .Single(w => w.DispstructCompId == Component.DispstructCompId);
+
+               
                 if (compModStageDetails != null)
                 {
 
@@ -301,6 +308,10 @@ namespace ETapManagement.Service
 
                 _context.Component.Update(compDetails);
                 _context.SaveChanges();
+                     
+
+                   });
+              
                 DispReqStructure structid =
                         _context.DispReqStructure.Single(w => w.ProjStructId == Component.ProjectStructureId
                         && w.DispreqId == Component.DispStructureId);
@@ -317,7 +328,7 @@ namespace ETapManagement.Service
 
                 DisreqStatusHistory disReqHis = new DisreqStatusHistory();
                 DispatchRequirement disreq = _context.DispatchRequirement
-      .Single(w => w.Id == Component.DispatchRequirementId);
+               .Single(w => w.Id == Component.DispatchRequirementId);
                 var totalCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId).Count();
                 var appCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId && x.DispStructStatus == "TWCCMODIFYAPRD").Count();
 
