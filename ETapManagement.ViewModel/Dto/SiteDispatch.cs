@@ -279,6 +279,7 @@ namespace ETapManagement.ViewModel.Dto
         public decimal? ModStageLength { get; set; }
         public decimal? ModStageWeight { get; set; }
         public decimal? ModStageThikness { get; set; }
+          public decimal? ModStageHeight { get; set; }
         public decimal? ModStagebreath { get; set; }
        public int? ModStageCompId { get; set; }
 
