@@ -57,12 +57,11 @@ namespace ETapManagement.Repository {
             // 	throw new ValueNotFoundException ("ProjectStructureDetail Request cannot be empty.");
 
             try {
-                //	using (var transaction = _context.Database.BeginTransaction ()) 
-                {
+                //	using (var transaction = _context.Database.BeginTransaction ())                 
                     try {
                         var isUpdate = false;
                         var projectStructureID = 0;
-                        ProjectStructure projectStructure = _context.ProjectStructure.Where (x => x.StructureId == request.StructureId && x.ProjectId == request.ProjectId && x.IsDelete == false).FirstOrDefault ();
+                        ProjectStructure projectStructure = _context.ProjectStructure.Where (x => x.Id == request.ProjStructId && x.IsDelete == false).FirstOrDefault ();
                         if (projectStructure == null) throw new ValueNotFoundException ("Project Structure not yet assigned");
                         projectStructureID = projectStructure.Id;
                         if (request.Components?.Count > 0) {
@@ -92,13 +91,12 @@ namespace ETapManagement.Repository {
                             projectStructure.ComponentsCount = request.Components.Count ();
                             _context.SaveChanges ();
                         }
-
                         return response;
                     } catch (Exception ex) {
                         //	transaction.Rollback ();
                         throw ex;
                     }
-                }
+                
             } catch (Exception ex) {
                 throw ex;
             }

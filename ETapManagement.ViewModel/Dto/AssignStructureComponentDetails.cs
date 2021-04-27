@@ -84,12 +84,8 @@ public class DispatchAddComponents {
 
     public class AddComponents {
         [Required]
-        [Display (Name = "StructureId")]
-        public int StructureId { get; set; }
-
-        [Required]
-        [Display (Name = "ProjectId")]
-        public int ProjectId { get; set; }
+        [Display (Name = "ProjStructId")]
+        public int ProjStructId { get; set; }
         public List<ComponentDetails> Components { get; set; }
     }
 }
