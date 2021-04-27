@@ -197,7 +197,7 @@ namespace ETapManagement.Service
                     structid.DispStructStatus = "CMPCMODIFIED";
                     disReqHis.Status = "CMPCMODIFIED ";
                     disReqHis.StatusInternal = "CMPCMODIFIED ";
-
+                     disReqHis.DispatchNo = Component.DCNumber;
                     disReqHis.CreatedBy = 1;  //To DO
                     disReqHis.CreatedAt = DateTime.Now;
                 }
@@ -234,12 +234,13 @@ namespace ETapManagement.Service
                     disreq.StatusInternal = "CMPCMODIFIED";
                     disreq.UpdatedBy = 1;  //To DO
                     disreq.UpdatedAt = DateTime.Now;
-                    disReqHis.DispatchNo = disreq.DispatchNo;
+                    disReqHis.DispatchNo = Component.DCNumber;
                     disReqHis.Status = "CMPCMODIFIED";
                     disReqHis.StatusInternal = "CMPCMODIFIED";
                     disReqHis.RoleId = disreq.RoleId;
                     disReqHis.CreatedBy = 1;  //To DO
                     disReqHis.CreatedAt = DateTime.Now;
+                     disReqHis.DispreqId =Component.DispatchRequirementId;
                 }
 
                 _context.DispatchRequirement.Update(disreq);

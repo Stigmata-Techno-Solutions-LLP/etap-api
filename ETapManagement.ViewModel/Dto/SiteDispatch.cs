@@ -291,6 +291,8 @@ namespace ETapManagement.ViewModel.Dto
         public int Id { get; set; }
         public int? DispstructCompId { get; set; }
 
+         public string DCNumber { get; set; }
+
         public int DispatchRequirementId { get; set; }
         public int ProjectStructureId { get; set; }
         public int DispStructureId { get; set; }
