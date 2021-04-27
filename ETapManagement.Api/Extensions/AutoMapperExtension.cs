@@ -42,6 +42,9 @@ namespace ETapManagement.Api.Extensions {
                     dest.RoleId,
                     opt => opt.MapFrom (src => src.roleId))
                 .ForMember (dest =>
+                    dest.VendorId,
+                    opt => opt.MapFrom (src => src.VendorId))                    
+                .ForMember (dest =>
                     dest.ProjectId,
                     opt => opt.MapFrom (src => src.ProjectId))
                 .ForMember (dest =>
@@ -804,7 +807,7 @@ namespace ETapManagement.Api.Extensions {
                     dest.StructName,
                     opt => opt.MapFrom (src => src.Struct.Name)) 
                 .ForMember (dest =>
-                    dest.PlanStartdate,
+                    dest.PlanStartdate, 
                     opt => opt.MapFrom (src => src.PlanStartdate))  
                 .ForMember (dest =>
                     dest.PlanReleasedate,

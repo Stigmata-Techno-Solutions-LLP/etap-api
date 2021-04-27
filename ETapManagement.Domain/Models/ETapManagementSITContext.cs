@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
+
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
@@ -64,8 +65,7 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-    modelBuilder.Query<SiteRequirementDetail> ();
+              modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -81,6 +81,7 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<SubContractorComponentDetail>();
             modelBuilder.Query<ReceiveDetail>();
             modelBuilder.Query<ReceiveComponentDetail>();
+
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -212,7 +213,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DrawingNo)
                     .HasColumnName("drawing_no")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Height)
@@ -310,7 +311,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DrawingNo)
                     .HasColumnName("drawing_no")
-                    .HasMaxLength(10)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Height)
@@ -981,7 +982,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DrawingNo)
                     .HasColumnName("drawing_no")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.EstimatedWeight)
@@ -1929,12 +1930,12 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Segment)
                     .HasColumnName("segment")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.SubSegment)
                     .HasColumnName("sub_segment")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.UpdatedAt)

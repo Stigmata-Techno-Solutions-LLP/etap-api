@@ -12,6 +12,8 @@ namespace ETapManagement.ViewModel.Dto {
         public string Email { get; set; }
         public bool IsActive { get; set; }
         public int RoleId { get; set; }
+                public int? VendorId { get; set; }
+
         public string RoleName { get; set; }
 
         public string Token { get; set; }
