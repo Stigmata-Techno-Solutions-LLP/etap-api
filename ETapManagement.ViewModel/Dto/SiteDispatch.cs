@@ -266,7 +266,7 @@ namespace ETapManagement.ViewModel.Dto
 
         public string DrawingNo { get; set; }
 
-       // public int? ComponentNo { get; set; }
+        public int DispstructCompId { get; set; }
 
         public bool? IsGroup { get; set; }
         public decimal? Leng { get; set; }
