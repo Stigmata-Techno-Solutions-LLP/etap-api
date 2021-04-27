@@ -305,11 +305,6 @@ namespace ETapManagement.ViewModel.Dto
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
 
-        public bool IsSite { get; set; }
-        public bool IsVendor { get; set; }
-
-        public OSDispatchReqSubCont OSDispatchReqSubCont { get; set; }
-
 
     }
     public partial class DispComponentDto
