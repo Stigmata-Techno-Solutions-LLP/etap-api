@@ -190,7 +190,7 @@ namespace ETapManagement.Service
                 }
                 DispReqStructure structid =
                           _context.DispReqStructure.Single(w => w.ProjStructId == Component.ProjectStructureId
-                          && w.DispreqId == Component.DispStructureId);
+                          && w.Id == Component.DispStructureId);
 
                 if (structid != null)
                 {
@@ -314,7 +314,7 @@ namespace ETapManagement.Service
               
                 DispReqStructure structid =
                         _context.DispReqStructure.Single(w => w.ProjStructId == Component.ProjectStructureId
-                        && w.DispreqId == Component.DispStructureId);
+                        && w.Id == Component.DispStructureId);
 
                 if (structid != null)
                 {
@@ -366,8 +366,8 @@ namespace ETapManagement.Service
                 responseMessage.Message = "Component updated";
 
                 if (Component.IsVendor)
-                {
-
+                { 
+                            
                     responseMessage = _dispatchReqSubConRepository.OSAssignVendor(Component.OSDispatchReqSubCont);
 
                 }
