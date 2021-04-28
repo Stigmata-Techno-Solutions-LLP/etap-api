@@ -133,13 +133,23 @@ namespace ETapManagement.Repository {
 
                                 if (compTypeDB == null) throw new ValueNotFoundException ("Component Type Name doesn't exist");
                                 if (compdb != null) {
+                                  var dispCompDB = _context.DispStructureComp.Where(x=>x.DispCompId == compdb.Id && x.DispStructureId == request.DispStructureId).FirstOrDefault();
+                                 if ( dispCompDB != null) {
+
+                                 
+                                  
                                     compdb = ConstructComponent (projectStructureID, comp, compdb, compTypeDB);
                                     DispStructureComp dsc = new DispStructureComp();
                                     dsc.DispCompId  =  compdb.Id;
                                     dsc.DispStructureId = request.DispStructureId;
+
                                    // _context.Add(compdb);
                                     _context.Add(dsc);
                                     _context.SaveChanges ();
+                                 } else {
+                                     throw new ValueNotFoundException ("Dispatch Component ID doesnt exists");
+
+                                 }
                                 } else {
                                     Component component = null;
                                     comp.CompStatus = "O";
@@ -149,6 +159,8 @@ namespace ETapManagement.Repository {
                                      DispStructureComp dsc = new DispStructureComp();
                                     dsc.DispCompId  = component.Id;
                                     dsc.DispStructureId = request.DispStructureId;
+                                    _context.DispStructureComp.Add(dsc);
+                                    _context.SaveChanges ();
                                 }
 
                             }
