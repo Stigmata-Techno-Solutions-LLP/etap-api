@@ -190,14 +190,14 @@ namespace ETapManagement.Service
                 }
                 DispReqStructure structid =
                           _context.DispReqStructure.Single(w => w.ProjStructId == Component.ProjectStructureId
-                          && w.DispreqId == Component.DispStructureId);
+                          && w.Id == Component.DispStructureId);
 
                 if (structid != null)
                 {
                     structid.DispStructStatus = "CMPCMODIFIED";
                     disReqHis.Status = "CMPCMODIFIED ";
                     disReqHis.StatusInternal = "CMPCMODIFIED ";
-
+                     disReqHis.DispatchNo = Component.DCNumber;
                     disReqHis.CreatedBy = 1;  //To DO
                     disReqHis.CreatedAt = DateTime.Now;
                 }
@@ -234,12 +234,13 @@ namespace ETapManagement.Service
                     disreq.StatusInternal = "CMPCMODIFIED";
                     disreq.UpdatedBy = 1;  //To DO
                     disreq.UpdatedAt = DateTime.Now;
-                    disReqHis.DispatchNo = disreq.DispatchNo;
+                    disReqHis.DispatchNo = Component.DCNumber;
                     disReqHis.Status = "CMPCMODIFIED";
                     disReqHis.StatusInternal = "CMPCMODIFIED";
                     disReqHis.RoleId = disreq.RoleId;
                     disReqHis.CreatedBy = 1;  //To DO
                     disReqHis.CreatedAt = DateTime.Now;
+                     disReqHis.DispreqId =Component.DispatchRequirementId;
                 }
 
                 _context.DispatchRequirement.Update(disreq);
@@ -314,7 +315,7 @@ namespace ETapManagement.Service
               
                 DispReqStructure structid =
                         _context.DispReqStructure.Single(w => w.ProjStructId == Component.ProjectStructureId
-                        && w.DispreqId == Component.DispStructureId);
+                        && w.Id == Component.DispStructureId);
 
                 if (structid != null)
                 {
@@ -366,8 +367,8 @@ namespace ETapManagement.Service
                 responseMessage.Message = "Component updated";
 
                 if (Component.IsVendor)
-                {
-
+                { 
+                            
                     responseMessage = _dispatchReqSubConRepository.OSAssignVendor(Component.OSDispatchReqSubCont);
 
                 }
