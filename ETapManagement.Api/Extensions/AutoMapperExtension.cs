@@ -827,7 +827,8 @@ namespace ETapManagement.Api.Extensions {
             CreateMap<AddSurplus, SiteDeclaration> ()
                 .ForMember (dest =>
                     dest.ProjStructId,
-                    opt => opt.MapFrom (src => src.DispStructId))
+                    opt => opt.MapFrom (src => src.ProjStructId))
+                 
                 .ForMember (dest =>
                     dest.FromProjectId,
                     opt => opt.MapFrom (src => src.FromProjectId))    

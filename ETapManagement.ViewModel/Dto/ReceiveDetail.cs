@@ -4,6 +4,7 @@ namespace ETapManagement.ViewModel.Dto
 {
     public class ReceiveDetail
     {
+        public int ProjectStructId {get;set;}
         public int DispatchRequirementId { get; set; }
         public string DispatchNumber { get; set; }
         public string ProjectName { get; set; }
