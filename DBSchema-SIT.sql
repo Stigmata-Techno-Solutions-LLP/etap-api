@@ -676,11 +676,16 @@ CREATE TABLE disp_structure_comp
   id int not null identity(1,1),
   disp_structure_id int not null,
   disp_comp_id int not null,
-  last_scandate datetime null,
+ 
   comp_status varchar(20) null,
   remarks varchar(100) null,
-  scanned_by int null,
+  
   dispatch_date datetime null,
+  from_scan_by int null,
+  from_scandate datetime null,
+  last_scandate datetime null,
+  scanned_by int null,
+
   CONSTRAINT disp_structure_comp_pkey PRIMARY KEY (id),
   CONSTRAINT disp_req_structure_comp_id_StructureID_fkey FOREIGN KEY (disp_structure_id) REFERENCES disp_req_structure(id),
   CONSTRAINT disp_req_structure_comp_id_CompID_fkey FOREIGN KEY (disp_comp_id) REFERENCES component(id),
