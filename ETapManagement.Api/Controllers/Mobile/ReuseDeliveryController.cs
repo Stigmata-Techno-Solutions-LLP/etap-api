@@ -32,11 +32,11 @@ namespace ETapManagement.Api.Controllers
       
 
         [HttpGet("getDeliveryComponentDetails")]
-        public IActionResult GetReceiveComponentDetails(int dispatchStructureId)
+        public IActionResult GetDeliveryComponentDetails(int dispatchStructureId)
         {
             try
             {
-                var response = _receiveService.GetReceiveComponentDetails(dispatchStructureId);
+                var response = _receiveService.GetDispDetailsForDeliver(dispatchStructureId);
                 return Ok(response);
             }
             catch (Exception e)
@@ -66,7 +66,7 @@ namespace ETapManagement.Api.Controllers
         {
             try
             {
-                var response = _receiveService.UpdateComponentDetails(receiveComponentPayload);
+                var response = _receiveService.UpdateDeliveryScanComponentDetails(receiveComponentPayload);
                 return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             }
             catch (ValueNotFoundException e)
