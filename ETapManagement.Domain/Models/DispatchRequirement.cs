@@ -27,8 +27,10 @@ namespace ETapManagement.Domain.Models
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public bool IsDelete { get; set; }
+        public int? SiteReqStructid { get; set; }
 
         public virtual ServiceType Servicetype { get; set; }
+        public virtual SiteReqStructure SiteReqStruct { get; set; }
         public virtual SiteRequirement Sitereq { get; set; }
         public virtual Project ToProject { get; set; }
         public virtual ICollection<DispReqStructure> DispReqStructure { get; set; }

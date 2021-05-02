@@ -501,7 +501,7 @@ namespace ETapManagement.Repository
             try
             {
                 List<TWCCDispatch> result = new List<TWCCDispatch>();
-                var siteDispatchDetails = _context.Query<TWCCDispatch>().FromSqlRaw("exec SP_GETTWCCDispatch {0}", "READYTODISPATCH").ToList();
+                var siteDispatchDetails = _context.Query<TWCCDispatch>().FromSqlRaw("exec SP_GETTWCCDispatch {0}", "READYTODISPATCH,PARTIALLYDISPATCHED").ToList();
                 result = _mapper.Map<List<TWCCDispatch>>(siteDispatchDetails);
                 return result;
             }
@@ -544,6 +544,8 @@ namespace ETapManagement.Repository
 
         public ResponseMessage CreateDispatch(TWCCDispatchPayload payload)
         {
+            try {
+
             string dispatchNo = string.Empty;
             string structCode = string.Empty;
             int dispReuseCount = 0;
@@ -584,6 +586,7 @@ namespace ETapManagement.Repository
                     dispReq.RoleId = 1; // TODO
                     dispReq.ServicetypeId = payload.ServiceTypeId;
                     dispReq.SitereqId = payload.siteRequirementId;
+                    dispReq.SiteReqStructid = _context.SiteReqStructure.Where(x=>x.SiteReqId == payload.siteRequirementId && x.StructId == payload.StructureId).FirstOrDefault().Id;
                     dispReq.Status = commonEnum.SiteDispatchSatus.NEW.ToString();
                     dispReq.StatusInternal = commonEnum.SiteDispatchSatus.NEW.ToString();
                     dispReq.ToProjectid = payload.ToProjectId;
@@ -593,7 +596,6 @@ namespace ETapManagement.Repository
                     ProjectStructure projectStructure = new ProjectStructure();
                     if (servType.Name == commonEnum.ServiceType.Fabrication.ToString() || servType.Name == commonEnum.ServiceType.OutSourcing.ToString())
                     {
-
                         SiteReqStructure siteRequirementStructure = _context.SiteReqStructure.Where(x => x.SiteReqId == payload.siteRequirementId && x.StructId == payload.StructureId).FirstOrDefault();
 
                         projectStructure.StructureId = payload.StructureId;
@@ -628,7 +630,20 @@ namespace ETapManagement.Repository
 
 
 
-                    _context.SaveChanges();
+                   
+
+                     if (servType.Name == commonEnum.ServiceType.Reuse.ToString())
+            {
+                var componentList = _context.Component.Where(x=>x.ProjStructId == payload.ProjectStructureId).ToList();
+                foreach(Component comp in  componentList) {
+                    DispStructureComp dsc = new DispStructureComp();
+                    dsc.DispStructureId = dispStrcture.Id;
+                    dsc.DispCompId = comp.Id;
+                    _context.DispStructureComp.Add(dsc);
+                }
+                 _context.SaveChanges();
+            }
+
                     var dispatchedStrucCount = (from dr in _context.DispatchRequirement join drs in _context.DispReqStructure on dr.Id equals drs.DispreqId where dr.SitereqId == payload.siteRequirementId select new { }).Count();
                     SiteRequirement dbSiteReq = _context.SiteRequirement.Where(x => x.Id == payload.siteRequirementId).FirstOrDefault();
                     if (siteReqr.SiteReqStructure.Sum(x => x.Quantity) > dispatchedStrucCount)
@@ -672,6 +687,10 @@ namespace ETapManagement.Repository
             }
 
             return responseMessage;
+
+            } catch(Exception ex) {
+                throw ex;
+            }
         }
 
 

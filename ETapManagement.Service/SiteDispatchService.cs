@@ -263,11 +263,19 @@ namespace ETapManagement.Service
             return result;
         }
 
-        public ResponseMessage CreateDispatch(TWCCDispatchPayload payload)
+        public ResponseMessage CreateDispatch(List<TWCCDispatchPayload> payloadlst)
         {
+            try {
             ResponseMessage responseMesasge = new ResponseMessage();
+            foreach(TWCCDispatchPayload payload in payloadlst)
+            {
             responseMesasge = _siteDispatchRepository.CreateDispatch(payload);
+            }
             return responseMesasge;
+            } catch(Exception ex) {
+                throw ex;
+            }
+          
         }
 
 

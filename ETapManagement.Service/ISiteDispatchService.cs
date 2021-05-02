@@ -23,7 +23,7 @@ namespace ETapManagement.Service
         public ResponseMessage SiteDispatchRejection(SiteDispatchApproval dispAppr);
         public List<TWCCDispatch> GetTWCCDispatchDetails();
         public List<TWCCDispatchInnerStructure> GetTWCCInnerStructureDetails(int structureId, int siteRequirementId, commonEnum.TWCCDispatchReleaseDate releaseFilter, bool isAttributeBasedFilter);
-        public ResponseMessage CreateDispatch(TWCCDispatchPayload payload);
+        public ResponseMessage CreateDispatch(List<TWCCDispatchPayload> payload);
         public List<DispStructureCMPC> GetDispatchStructureForCMPCForNonReuse();
         ResponseMessage AddComponentsDisaptch (DispatchAddComponents request);
         ResponseMessage UpsertAssignStructureComponent (CMPCUpdateStructure servicedto);

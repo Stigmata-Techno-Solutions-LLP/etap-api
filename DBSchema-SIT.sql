@@ -624,6 +624,7 @@ CREATE TABLE ETapManagementSIT.dbo.dispatch_requirement
   id int not null identity(1,1) primary key,
   dispatch_no varchar(20) not null unique,
   sitereq_id int null,
+  site_req_structid int null,
   to_projectid int,
   servicetype_id int,
   quantity int,
@@ -638,6 +639,7 @@ CREATE TABLE ETapManagementSIT.dbo.dispatch_requirement
   is_delete bit not null DEFAULT 0,
   CONSTRAINT dispatch_requirement_proj_fkey FOREIGN KEY (to_projectid) REFERENCES project(id),
   CONSTRAINT dispatch_requirement_siteReq_fkey FOREIGN KEY (sitereq_id) REFERENCES site_requirement(id),
+    CONSTRAINT dispatch_requirement_siteReqstructre_fkey FOREIGN KEY (site_req_structid) REFERENCES site_req_structure(id),
   CONSTRAINT dispatch_requirement_servicetype_fkey FOREIGN KEY (servicetype_id) REFERENCES service_type(id),
 
 )

@@ -261,7 +261,7 @@ namespace ETapManagement.Api.Controllers
         }
 
         [HttpPost("CreateDispatch")]
-        public IActionResult CreateDispatch(TWCCDispatchPayload payload)
+        public IActionResult CreateDispatch(List<TWCCDispatchPayload> payload)
         {
             try
             {

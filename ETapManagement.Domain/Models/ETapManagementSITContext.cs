@@ -2,11 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
-
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
+   
+
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -65,7 +66,8 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-              modelBuilder.Query<SiteRequirementDetail> ();
+
+ modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -81,7 +83,6 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<SubContractorComponentDetail>();
             modelBuilder.Query<ReceiveDetail>();
             modelBuilder.Query<ReceiveComponentDetail>();
-
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -515,6 +516,12 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("dispatch_date")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.FromScanBy).HasColumnName("from_scan_by");
+
+                entity.Property(e => e.FromScandate)
+                    .HasColumnName("from_scandate")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.LastScandate)
                     .HasColumnName("last_scandate")
                     .HasColumnType("datetime");
@@ -685,6 +692,8 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.ServicetypeId).HasColumnName("servicetype_id");
 
+                entity.Property(e => e.SiteReqStructid).HasColumnName("site_req_structid");
+
                 entity.Property(e => e.SitereqId).HasColumnName("sitereq_id");
 
                 entity.Property(e => e.Status)
@@ -713,6 +722,11 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.DispatchRequirement)
                     .HasForeignKey(d => d.ServicetypeId)
                     .HasConstraintName("dispatch_requirement_servicetype_fkey");
+
+                entity.HasOne(d => d.SiteReqStruct)
+                    .WithMany(p => p.DispatchRequirement)
+                    .HasForeignKey(d => d.SiteReqStructid)
+                    .HasConstraintName("dispatch_requirement_siteReqstructure_fkey");
 
                 entity.HasOne(d => d.Sitereq)
                     .WithMany(p => p.DispatchRequirement)
