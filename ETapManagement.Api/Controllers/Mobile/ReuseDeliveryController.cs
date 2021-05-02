@@ -19,32 +19,19 @@ namespace ETapManagement.Api.Controllers
     //[ValidateAntiForgeryToken]
 
     [Route("api/mobile/[controller]")]
-    public class ReceiveController : ControllerBase
+    public class ReuseDeliveryController : ControllerBase
     {
         private readonly IReceiveService _receiveService;
         private readonly ILogger _loggerService;
 
-        public ReceiveController(IReceiveService receiveService)
+        public ReuseDeliveryController(IReceiveService receiveService)
         {
             _receiveService = receiveService;
         }
 
-        [HttpGet("getReceiveDetails")]
-        public IActionResult GetReceiveDetails(int projectId)
-        {
-            try
-            {
-                var response = _receiveService.GetReceiveDetails(projectId);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-            }
-        }
+      
 
-        [HttpGet("getReceiveComponentDetails")]
+        [HttpGet("getDeliveryComponentDetails")]
         public IActionResult GetReceiveComponentDetails(int dispatchStructureId)
         {
             try
@@ -58,8 +45,24 @@ namespace ETapManagement.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
-        [HttpPost("updateComponentDetails")]
-        public IActionResult UpdateComponentDetails(ReceiveComponentPayload receiveComponentPayload)
+       
+            [HttpGet("getDispDetailsForDeliver")]
+        public IActionResult GetDispDetailsForDeliver(int projectId)
+        {
+            try
+            {
+                var response = _receiveService.GetReceiveDetails(projectId);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+         [HttpPost("UpdateDeliveryScanComponentDetails")]
+        public IActionResult UpdateDeliveryScanComponentDetails(ReceiveComponentPayload receiveComponentPayload)
         {
             try
             {
@@ -77,8 +80,6 @@ namespace ETapManagement.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
-
-        
 
     }
 }
