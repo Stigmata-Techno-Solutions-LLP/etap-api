@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
+
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-   
 
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
@@ -66,8 +66,7 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
- modelBuilder.Query<SiteRequirementDetail> ();
+             modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -482,9 +481,15 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DispreqId).HasColumnName("dispreq_id");
 
+                entity.Property(e => e.FromProjectId).HasColumnName("from_project_id");
+
                 entity.Property(e => e.IsModification).HasColumnName("is_modification");
 
                 entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
+
+                entity.Property(e => e.SurplusDate)
+                    .HasColumnName("surplus_date")
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.Dispreq)
                     .WithMany(p => p.DispReqStructure)

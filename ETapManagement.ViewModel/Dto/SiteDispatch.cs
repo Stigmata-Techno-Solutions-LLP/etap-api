@@ -199,6 +199,8 @@ namespace ETapManagement.ViewModel.Dto
         public string Status { get; set; }
         public string StatusInternal { get; set; }
         public int RoleId { get; set; }
+          public int? FromProjectId { get; set; }
+            public DateTime? SurplusFromDate { get; set; }
         public int CreatedBy { get; set; }
         public bool IsDelete { get; set; }
         public string Notes { get; set; }

@@ -17,6 +17,8 @@ namespace ETapManagement.Domain.Models
         public bool? IsModification { get; set; }
         public int? DispStructureId { get; set; }
         public string DispStructStatus { get; set; }
+        public int? FromProjectId { get; set; }
+        public DateTime? SurplusDate { get; set; }
 
         public virtual DispatchRequirement Dispreq { get; set; }
         public virtual ProjectStructure ProjStruct { get; set; }

@@ -89,5 +89,49 @@ namespace ETapManagement.Repository
             }
         }
 
+
+          public List<ReceiveDetail> GetDispDetailsForDeliver(int projectId)
+        {
+            try
+            {
+                List<ReceiveDetail> lstReceiveDetails = new List<ReceiveDetail>();
+                var receiveDetails = _context.Query<ReceiveDetail>().FromSqlRaw("exec SP_GetDispatchDetailsForDelivery {0}", projectId).ToList();
+                lstReceiveDetails = _mapper.Map<List<ReceiveDetail>>(receiveDetails);
+                return lstReceiveDetails;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    
+        public ResponseMessage UpdateDeliveryScanComponentDetails(ReceiveComponentPayload receiveComponentPayload)
+        {
+            ResponseMessage responseMessage = new ResponseMessage();
+            try
+            {
+                var dispatchStructureComponent = _context.DispStructureComp.Where(x => x.Id == receiveComponentPayload.DispatchStructureComponentId).FirstOrDefault();
+                if (dispatchStructureComponent != null)
+                {
+                    dispatchStructureComponent.FromScandate = receiveComponentPayload.ScanDate;
+                    dispatchStructureComponent.Remarks = receiveComponentPayload.Remarks;
+                    dispatchStructureComponent.FromScanBy = receiveComponentPayload.ScannedBy;                    
+                    _context.SaveChanges();
+                    return responseMessage = new ResponseMessage()
+                    {
+                        Message = "Component updated successfully.",
+                    };
+                }
+                else
+                {
+                    throw new ValueNotFoundException("Component not available.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

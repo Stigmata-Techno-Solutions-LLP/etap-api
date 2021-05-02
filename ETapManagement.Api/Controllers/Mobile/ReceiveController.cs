@@ -78,5 +78,40 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
+            [HttpGet("getDispDetailsForDeliver")]
+        public IActionResult GetDispDetailsForDeliver(int projectId)
+        {
+            try
+            {
+                var response = _receiveService.GetReceiveDetails(projectId);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+         [HttpPost("UpdateDeliveryScanComponentDetails")]
+        public IActionResult UpdateDeliveryScanComponentDetails(ReceiveComponentPayload receiveComponentPayload)
+        {
+            try
+            {
+                var response = _receiveService.UpdateComponentDetails(receiveComponentPayload);
+                return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
+            }
+            catch (ValueNotFoundException e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
     }
 }

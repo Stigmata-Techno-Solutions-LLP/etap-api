@@ -11,5 +11,7 @@ namespace ETapManagement.Service
         public List<ReceiveComponentDetail> GetReceiveComponentDetails(int dispatchStrutureId);
         public ResponseMessage UpdateComponentDetails(ReceiveComponentPayload receiveComponentPayload);
 
+        public List<ReceiveDetail> GetDispDetailsForDeliver(int projectId);
+        public ResponseMessage UpdateDeliveryScanComponentDetails(ReceiveComponentPayload receiveComponentPayload);
     }
 }

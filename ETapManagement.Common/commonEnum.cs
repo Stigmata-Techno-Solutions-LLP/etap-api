@@ -78,7 +78,6 @@ namespace ETapManagement.Common {
            PARTIALLYDISPATCHED=11,
            READYTODELIVER=13,
            DISPATCHED =12
-          
         }
         public enum ComponentStatus {
             NEW =1,

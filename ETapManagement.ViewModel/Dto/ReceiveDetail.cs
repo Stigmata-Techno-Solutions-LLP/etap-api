@@ -15,8 +15,13 @@ namespace ETapManagement.ViewModel.Dto
         public int? ComponentsCount { get; set; }
         public int DispatchStructureId { get; set; }
         public int CountEarned { get; set; }
+        public string DispStructStatus {get;set;}
+       public string DispReqInternalStatus {get;set;}
+        public string DispReqStatus {get;set;}
+         
 
     }
+    
 
     public class ReceiveComponentDetail
     {
