@@ -36,7 +36,7 @@ namespace ETapManagement.Api.Controllers
         {
             try
             {
-                var response = _receiveService.GetDispDetailsForDeliver(dispatchStructureId);
+                var response = _receiveService.GetReceiveComponentDetails(dispatchStructureId);
                 return Ok(response);
             }
             catch (Exception e)
@@ -51,7 +51,7 @@ namespace ETapManagement.Api.Controllers
         {
             try
             {
-                var response = _receiveService.GetReceiveDetails(projectId);
+                var response = _receiveService.GetDispDetailsForDeliver(projectId);
                 return Ok(response);
             }
             catch (Exception e)
