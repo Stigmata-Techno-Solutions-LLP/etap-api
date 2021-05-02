@@ -35,12 +35,12 @@ namespace ETapManagement.Service
         public ResponseMessage UpdateDeliveryScanComponentDetails(ReceiveComponentPayload receiveComponentPayload)
         {
             ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _receiveRepository.UpdateComponentDetails(receiveComponentPayload);
+            responseMessage = _receiveRepository.UpdateDeliveryScanComponentDetails(receiveComponentPayload);
             return responseMessage;
         }
           public List<ReceiveDetail> GetDispDetailsForDeliver(int projectId)
         {
-            List<ReceiveDetail> lstReceiveDetails = _receiveRepository.GetReceiveDetails(projectId);
+            List<ReceiveDetail> lstReceiveDetails = _receiveRepository.GetDispDetailsForDeliver(projectId);
             return lstReceiveDetails;
         }
     }
