@@ -167,6 +167,7 @@ namespace ETapManagement.ViewModel.Dto
         public string ProjectStructureStatus { get; set; }
         public DateTime? SurPlusFromDate { get; set; }
         public string ProjectName { get; set; }
+        public int? SurplusFromProjectId{get;set;}
         public DateTime? ExpReleaseDate { get; set; }
     }
 
