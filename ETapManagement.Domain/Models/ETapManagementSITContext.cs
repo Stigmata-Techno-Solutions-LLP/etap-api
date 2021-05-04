@@ -80,6 +80,9 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<ComponentDetailsDto> ();            
             modelBuilder.Query<SubContractorDetail>();
             modelBuilder.Query<SubContractorComponentDetail>();
+             modelBuilder.Query<PhysicalVerificationDetail> ();
+               modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
+             
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");

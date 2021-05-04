@@ -33,7 +33,12 @@ namespace ETapManagement.Repository {
                 dispatchreqSubcont.CreatedBy = 1; //TODO
                 dispatchreqSubcont.Status = "New";
                 dispatchreqSubcont.StatusInternal = "New";
-                dispatchreqSubcont.ServicetypeId = 2;
+                if(oSDispatchReqSubCont.ServiceType>0){
+                     dispatchreqSubcont.ServicetypeId =oSDispatchReqSubCont.ServiceType ;
+                }else{
+                    dispatchreqSubcont.ServicetypeId = 2;
+                }
+               
                 
                 //Add the dispatch subcont structure
                 if (oSDispatchReqSubCont.VendorStructures.Any())
