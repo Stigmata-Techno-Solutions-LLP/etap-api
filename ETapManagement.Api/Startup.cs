@@ -78,6 +78,7 @@ namespace ETapManagement.Api {
 
             services.AddScoped<ISiteDispatchRepository, SiteDispatchRepository> ();
             services.AddScoped<ISiteDispatchService, SiteDispatchService> ();
+            services.AddScoped<IDispatchService, DispatchService> ();
 
 			services.AddScoped<IScrapStructureRepository, ScrapStructureRepository>();
 			services.AddScoped<IScrapStructureService, ScrapStructureService>();
