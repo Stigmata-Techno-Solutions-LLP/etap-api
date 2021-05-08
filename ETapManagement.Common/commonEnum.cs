@@ -57,7 +57,15 @@ namespace ETapManagement.Common {
            REJECT=9,
            PROCAPPROVED=10,
            PARTIALLYDISPATCHED=11,
-           DISPATCHED =12
+           DISPATCHED =12,
+           READYTODELIVER=13,
+           CMPCPARTIALLYAPPROVED=14,
+           CMPCMODIFIED=15,
+           CMPCPARTIALLYMODIFIED=16,
+           TWCCPARIALLYMODIFYAPRD=17,
+           TWCCMODIFYAPRD=18
+
+           
           
         }
         public enum ComponentStatus {
