@@ -361,7 +361,7 @@ CREATE TABLE ETapManagementSIT.dbo.project_structure
   structure_id int not null ,
   struct_code varchar(10) not null,
   project_id int not null,
-  drawing_no varchar(20) null,
+  drawing_no varchar(100) null,
   components_count int,
   structure_attributes_val nvarchar(max) null,
   estimated_weight decimal(10,2),
@@ -400,7 +400,7 @@ CREATE TABLE ETapManagementSIT.dbo.component
 
   comp_id varchar(20) not null,
   comp_type_id int not null,
-  drawing_no varchar(20) null,
+  drawing_no varchar(100) null,
   component_no int null,
   comp_name varchar(20) NULL,
   is_group bit null default 0,
@@ -432,7 +432,7 @@ CREATE TABLE ETapManagementSIT.dbo.component_history
   proj_struct_id int not null,
   comp_id varchar(20) not null ,
   comp_type_id int not null,
-  drawing_no varchar(10) null,
+  drawing_no varchar(100) null,
   component_no int null,
   is_group bit null default 0,
   leng decimal(10,6) null,
@@ -460,8 +460,8 @@ CREATE TABLE ETapManagementSIT.dbo.work_breakdown
   wbs_id varchar(20) not null ,
   project_id int not null,
   name varchar(50) null,
-  segment varchar(20) null,
-  sub_segment varchar(20) null,
+  segment varchar(100) null,
+  sub_segment varchar(100) null,
   elements varchar(20) null,
   is_delete bit NULL DEFAULT 0,
   created_by int null,
@@ -624,6 +624,7 @@ CREATE TABLE ETapManagementSIT.dbo.dispatch_requirement
   id int not null identity(1,1) primary key,
   dispatch_no varchar(20) not null unique,
   sitereq_id int null,
+  site_req_structid int null,
   to_projectid int,
   servicetype_id int,
   quantity int,
@@ -638,6 +639,7 @@ CREATE TABLE ETapManagementSIT.dbo.dispatch_requirement
   is_delete bit not null DEFAULT 0,
   CONSTRAINT dispatch_requirement_proj_fkey FOREIGN KEY (to_projectid) REFERENCES project(id),
   CONSTRAINT dispatch_requirement_siteReq_fkey FOREIGN KEY (sitereq_id) REFERENCES site_requirement(id),
+    CONSTRAINT dispatch_requirement_siteReqstructre_fkey FOREIGN KEY (site_req_structid) REFERENCES site_req_structure(id),
   CONSTRAINT dispatch_requirement_servicetype_fkey FOREIGN KEY (servicetype_id) REFERENCES service_type(id),
 
 )
@@ -647,7 +649,7 @@ CREATE TABLE ETapManagementSIT.dbo.dispatch_requirement
 CREATE TABLE ETapManagementSIT.dbo.disreq_status_history
 (
   id int not null identity(1,1) primary key,
-  dispatch_no varchar(20) not null unique,
+  dispatch_no varchar(20) null,
   dispreq_id int null,
   status varchar(50) null,
   status_internal varchar(100) null,
@@ -676,11 +678,16 @@ CREATE TABLE disp_structure_comp
   id int not null identity(1,1),
   disp_structure_id int not null,
   disp_comp_id int not null,
-  last_scandate datetime null,
+ 
   comp_status varchar(20) null,
   remarks varchar(100) null,
-  scanned_by int null,
+  
   dispatch_date datetime null,
+  from_scan_by int null,
+  from_scandate datetime null,
+  last_scandate datetime null,
+  scanned_by int null,
+
   CONSTRAINT disp_structure_comp_pkey PRIMARY KEY (id),
   CONSTRAINT disp_req_structure_comp_id_StructureID_fkey FOREIGN KEY (disp_structure_id) REFERENCES disp_req_structure(id),
   CONSTRAINT disp_req_structure_comp_id_CompID_fkey FOREIGN KEY (disp_comp_id) REFERENCES component(id),

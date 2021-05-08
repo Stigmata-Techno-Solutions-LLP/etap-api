@@ -52,13 +52,13 @@ namespace ETapManagement.Repository {
                         _context.SaveChanges();
                         foreach (var item in group)
                         { 
+                            DispReqStructure drsDB = _context.DispReqStructure.Where(x=>x.ProjStructId == item.ProjStructureId && x.DispreqId == oSDispatchReqSubCont.DispreqId).FirstOrDefault();
+                            if (drsDB == null) throw new ValueNotFoundException ("Dispatch Requirement ID & Project Struct  ID doesn't exists");
+
                             DispSubcontStructure dispSubcontStructure = new DispSubcontStructure();
                             dispSubcontStructure.ProjStructId = item.ProjStructureId;
                             dispSubcontStructure.DispreqsubcontId = dispatchreqSubcont.Id;
-                          //  dispSubcontStructure.MonthlyRent = item.MonthlyRent;
-                         //   dispSubcontStructure.PlanReleasedate = item.PlanReleasedate;
-                          //  dispSubcontStructure.ExpectedReleasedate = item.ExpectedReleasedate;
-                          //  dispSubcontStructure.ActualStartdate = item.ActualStartdate;                            
+                            dispSubcontStructure.DispStructureId = drsDB.Id;                                                  
                             _context.DispSubcontStructure.Add(dispSubcontStructure);
                             _context.SaveChanges();
                         }                         
@@ -102,9 +102,13 @@ namespace ETapManagement.Repository {
                         _context.SaveChanges();
                         foreach (var item in group)
                         {
+                            DispReqStructure drsDB = _context.DispReqStructure.Where(x=>x.ProjStructId == item.ProjStructureId && x.DispreqId == fBDispatchReqSubCont.DispreqId).FirstOrDefault();
+                            if (drsDB == null) throw new ValueNotFoundException ("Dispatch Requirement ID doesn't exists");
+
                             DispSubcontStructure dispSubcontStructure = new DispSubcontStructure();
                             dispSubcontStructure.ProjStructId = item.ProjStructureId;
                             dispSubcontStructure.DispreqsubcontId = dispatchreqSubcont.Id;
+                            dispSubcontStructure.DispStructureId = drsDB.Id;
                           //  dispSubcontStructure.FabricationCost = item.FabricationCost;
                             _context.DispSubcontStructure.Add(dispSubcontStructure);
                             _context.SaveChanges();

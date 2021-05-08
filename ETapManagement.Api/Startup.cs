@@ -78,6 +78,7 @@ namespace ETapManagement.Api {
 
             services.AddScoped<ISiteDispatchRepository, SiteDispatchRepository> ();
             services.AddScoped<ISiteDispatchService, SiteDispatchService> ();
+            services.AddScoped<IDispatchService, DispatchService> ();
 
 			services.AddScoped<IScrapStructureRepository, ScrapStructureRepository>();
 			services.AddScoped<IScrapStructureService, ScrapStructureService>();
@@ -87,6 +88,9 @@ namespace ETapManagement.Api {
             services.AddScoped<IPhysicalVerificationService, PhysicalVerificationService>();
              services.AddScoped<IPhysicalVerificationRepository, PhysicalVerificationRepository>();
             
+            services.AddScoped<IReceiveRepository, ReceiveRepository>();
+            services.AddScoped<IReceiveService, ReceiveService>();
+
             services.AddAntiforgery (options => options.HeaderName = "X-XSRF-TOKEN");
 
             var key = Encoding.ASCII.GetBytes (appSettings.Secret);

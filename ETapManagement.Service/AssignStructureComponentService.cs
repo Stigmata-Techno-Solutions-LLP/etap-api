@@ -102,6 +102,19 @@ namespace ETapManagement.Service {
             }
         }
 
+
+             public List<Code> GetStructureCodeList (int ProjId, int StructureId) {
+            try {
+
+                var response = _repository.GetStructureCodeList (ProjId, StructureId);
+                
+                return response;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+
          public AssignStructureDtlsOnly GetAssignStructureDtlsByProjStructId (int ProjStructId) {
             try {
 

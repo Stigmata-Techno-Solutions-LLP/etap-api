@@ -33,6 +33,9 @@ namespace ETapManagement.Repository {
                         var isUpdate = false;
                         var projectStructureID = 0;
                         var projectStructure = _context.ProjectStructure.Where (x => x.StructureId == request.StructureId && x.ProjectId == request.ProjectId && x.IsDelete == false).FirstOrDefault ();
+                        if (request.ProjectStructureId != null) {
+                            projectStructure = _context.ProjectStructure.Where (x => x.Id== request.ProjectStructureId && x.IsDelete == false).FirstOrDefault ();
+                        }
 
                         if (projectStructure != null) {
                             projectStructure = ConstructProjectStructure (request, projectStructure);
@@ -192,6 +195,17 @@ namespace ETapManagement.Repository {
 
                 //  var result = _context.ProjectStructure.Include (x => x.Structure).Include (x => x.Project).Where (m => m.IsDelete == false).ToList ();
                 //  List<AssignStructureDtlsOnly> response = _mapper.Map<List<AssignStructureDtlsOnly>> (result);
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+
+        public List<Code> GetStructureCodeList (int ProjectId, int StrcutureId) {
+            try {
+                List<Code> result = new List<Code> ();
+                result = _context.ProjectStructure.Where(x=>x.ProjectId == ProjectId && x.StructureId == StrcutureId).Select(x=>  new Code{ Name = x.StructCode, Id=x.Id}).ToList();              
                 return result;
             } catch (Exception ex) {
                 throw ex;

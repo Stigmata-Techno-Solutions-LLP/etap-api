@@ -179,7 +179,9 @@ END
 
 
 
-CREATE   OR ALTER PROCEDURE sp_ApprovalDeclaration(@decl_id int,
+
+
+CREATE OR ALTER PROCEDURE sp_ApprovalDeclaration(@decl_id int,
 	@role_name varchar(50),
 	@role_hierarchy int  null,
 	@updated_by int null
@@ -228,7 +230,7 @@ BEGIN
 	where   Id = @decl_id and status_internal in (select value
 		from STRING_SPLIT(@cond_status,','))) 
 	BEGIN
-		IF @role_name in ('EHS','QA')
+		IF @role_name in ('EHS','QA','TWCC')
 		BEGIN
 			update site_declaration  set status_internal = @new_status, status =@new_status, role_id =@role_id,updated_by =@updated_by where  id =@decl_id
 			insert into sitedecl_status_history
@@ -236,7 +238,7 @@ BEGIN
 			select id, notes, status , status_internal , @role_id , getdate(), @updated_by
 			from site_declaration sr
 			where id = @decl_id
-			IF @role_name in ('QA')
+			IF @role_name in ('TWCC')
 		BEGIN
 				update project_structure set current_status ='READYTOREUSE' where id = (select proj_struct_id
 				from site_declaration
@@ -256,6 +258,7 @@ BEGIN
 	END
 
 END
+
 
 
 

@@ -8,13 +8,18 @@ using Microsoft.AspNetCore.Http;
 namespace ETapManagement.ViewModel.Dto {
 
     public class AddSurplus {
-        [Required]
+       
         public int DispStructId { get; set; }
 
         [Required]
         public int FromProjectId { get; set; }
+
+        [Required]
+        public int ProjStructId { get; set; }
+        
         [Required]
         public DateTime SurplusDate { get; set; }
+        
         public IFormFile[] uploadDocs { get; set; }
 
     }

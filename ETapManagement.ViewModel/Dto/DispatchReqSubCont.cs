@@ -7,6 +7,8 @@ namespace ETapManagement.ViewModel.Dto
 {
     public class OSDispatchReqSubCont
     {
+
+public int? ServiceType{get;set;} =0;
         public int Id { get; set; }
          [Required]
         public int? DispreqId { get; set; }

@@ -29,6 +29,7 @@ namespace ETapManagement.ViewModel.Dto
         public int? SubContractorId { get; set; }
         public string SubContractorName { get; set; }
         public int? DispatchRequestSubContractorId { get; set; }
+        public string ToProjectName {get;set;}
 
         public string StructureName { get; set; }
         // public decimal? FabricationCost { get; set; }
@@ -166,6 +167,7 @@ namespace ETapManagement.ViewModel.Dto
         public string ProjectStructureStatus { get; set; }
         public DateTime? SurPlusFromDate { get; set; }
         public string ProjectName { get; set; }
+        public int? SurplusFromProjectId{get;set;}
         public DateTime? ExpReleaseDate { get; set; }
     }
 
@@ -188,6 +190,7 @@ namespace ETapManagement.ViewModel.Dto
     public class TWCCDispatchPayload
     {
         public int siteRequirementId { get; set; }
+
         public int ToProjectId { get; set; }
         public int ProjectStructureId { get; set; }
         public int StructureId { get; set; }
@@ -197,6 +200,8 @@ namespace ETapManagement.ViewModel.Dto
         public string Status { get; set; }
         public string StatusInternal { get; set; }
         public int RoleId { get; set; }
+          public int? FromProjectId { get; set; }
+            public DateTime? SurplusFromDate { get; set; }
         public int CreatedBy { get; set; }
         public bool IsDelete { get; set; }
         public string Notes { get; set; }
@@ -210,14 +215,13 @@ namespace ETapManagement.ViewModel.Dto
         public int ProjectStructureId { get; set; }
         public int DispatchRequirementId { get; set; }
         public int DispReqStructId { get; set; }
+        public string DispatchNo {get;set;}
 
         public int Quantity { get; set; }
         public int projectId { get; set; }
         public int StructureId { get; set; }
         public string StructureCode { get; set; }
         public string ProjectName { get; set; }
-        public string StructureAttValue { get; set; }
-        public string StructrueName { get; set; }
 
     }
     public class DispReqStructureDto
@@ -385,7 +389,7 @@ namespace ETapManagement.ViewModel.Dto
         public string StructureName { get; set; }
         public int Quantity { get; set; }
         public string StructureAttributesValue { get; set; }
-        public int DispStructureId { get; set; }
+        public int? DispStructureId { get; set; }
         public int ComponentCount { get; set; }
     }
 
@@ -401,7 +405,9 @@ namespace ETapManagement.ViewModel.Dto
     public class SubContractorComponentPayload
     {
         public int DispSubContractorId { get; set; }
-        public string DispatchReqSubContractorIds { get; set; }
+        public string DispatchReqSubContractorStructureIds { get; set; }
+        public int ComponentCount { get; set; }
+        public int dispatchStructureId { get; set; }
         public DateTime DispatchDate { get; set; }
         public IFormFile[] uploadDocs { get; set; }
     }

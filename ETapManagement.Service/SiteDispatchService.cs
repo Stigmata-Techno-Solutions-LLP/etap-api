@@ -133,7 +133,7 @@ namespace ETapManagement.Service
         {
             try
             {
-                if (fileslist == null) return true;
+                if (fileslist[0] == null) return true;
                 string uniqueFileName = null;
                 foreach (string file in fileslist[0].Split(','))
                 {
@@ -263,11 +263,19 @@ namespace ETapManagement.Service
             return result;
         }
 
-        public ResponseMessage CreateDispatch(TWCCDispatchPayload payload)
+        public ResponseMessage CreateDispatch(List<TWCCDispatchPayload> payloadlst)
         {
+            try {
             ResponseMessage responseMesasge = new ResponseMessage();
+            foreach(TWCCDispatchPayload payload in payloadlst)
+            {
             responseMesasge = _siteDispatchRepository.CreateDispatch(payload);
+            }
             return responseMesasge;
+            } catch(Exception ex) {
+                throw ex;
+            }
+          
         }
 
 
@@ -327,8 +335,8 @@ namespace ETapManagement.Service
         public ResponseMessage UploadDispatchSubContractorComponents(SubContractorComponentPayload subContractorComponentPayload)
         {
             ResponseMessage response = new ResponseMessage();
-            List<int> lstSubContractorComponentIds = subContractorComponentPayload.DispatchReqSubContractorIds.Split(',').Select(int.Parse).ToList();
-            response = _siteDispatchRepository.SaveSubContractorComponents(subContractorComponentPayload.DispatchDate, lstSubContractorComponentIds);
+            List<int> lstSubContractorComponentIds = subContractorComponentPayload.DispatchReqSubContractorStructureIds.Split(',').Select(int.Parse).ToList();
+            response = _siteDispatchRepository.SaveSubContractorComponents(subContractorComponentPayload.DispatchDate, lstSubContractorComponentIds, subContractorComponentPayload.DispSubContractorId, subContractorComponentPayload.dispatchStructureId, subContractorComponentPayload.ComponentCount);
             if (response.Message != "" && subContractorComponentPayload.uploadDocs != null)
             {
                 foreach (IFormFile file in subContractorComponentPayload.uploadDocs)

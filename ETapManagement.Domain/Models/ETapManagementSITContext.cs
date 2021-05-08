@@ -2,10 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
+
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
-    {   
+    {
+
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -64,9 +66,7 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
-              modelBuilder.Query<SiteRequirementDetail> ();
+             modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -80,6 +80,8 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<ComponentDetailsDto> ();            
             modelBuilder.Query<SubContractorDetail>();
             modelBuilder.Query<SubContractorComponentDetail>();
+            modelBuilder.Query<ReceiveDetail>();
+            modelBuilder.Query<ReceiveComponentDetail>();
              modelBuilder.Query<PhysicalVerificationDetail> ();
                modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
                modelBuilder.Query<ComponentDetailsInput> ();
@@ -215,7 +217,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DrawingNo)
                     .HasColumnName("drawing_no")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Height)
@@ -313,7 +315,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DrawingNo)
                     .HasColumnName("drawing_no")
-                    .HasMaxLength(10)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Height)
@@ -483,9 +485,15 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DispreqId).HasColumnName("dispreq_id");
 
+                entity.Property(e => e.FromProjectId).HasColumnName("from_project_id");
+
                 entity.Property(e => e.IsModification).HasColumnName("is_modification");
 
                 entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
+
+                entity.Property(e => e.SurplusDate)
+                    .HasColumnName("surplus_date")
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.Dispreq)
                     .WithMany(p => p.DispReqStructure)
@@ -515,6 +523,12 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DispatchDate)
                     .HasColumnName("dispatch_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FromScanBy).HasColumnName("from_scan_by");
+
+                entity.Property(e => e.FromScandate)
+                    .HasColumnName("from_scandate")
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.LastScandate)
@@ -687,6 +701,8 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.ServicetypeId).HasColumnName("servicetype_id");
 
+                entity.Property(e => e.SiteReqStructid).HasColumnName("site_req_structid");
+
                 entity.Property(e => e.SitereqId).HasColumnName("sitereq_id");
 
                 entity.Property(e => e.Status)
@@ -715,6 +731,11 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.DispatchRequirement)
                     .HasForeignKey(d => d.ServicetypeId)
                     .HasConstraintName("dispatch_requirement_servicetype_fkey");
+
+                entity.HasOne(d => d.SiteReqStruct)
+                    .WithMany(p => p.DispatchRequirement)
+                    .HasForeignKey(d => d.SiteReqStructid)
+                    .HasConstraintName("dispatch_requirement_siteReqstructure_fkey");
 
                 entity.HasOne(d => d.Sitereq)
                     .WithMany(p => p.DispatchRequirement)
@@ -797,10 +818,6 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Entity<DisreqStatusHistory>(entity =>
             {
                 entity.ToTable("disreq_status_history");
-
-                entity.HasIndex(e => e.DispatchNo)
-                    .HasName("UQ__disreq_s__F7205CCDA94D8CAD")
-                    .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -988,7 +1005,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DrawingNo)
                     .HasColumnName("drawing_no")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.EstimatedWeight)
@@ -1936,12 +1953,12 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Segment)
                     .HasColumnName("segment")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.SubSegment)
                     .HasColumnName("sub_segment")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.UpdatedAt)

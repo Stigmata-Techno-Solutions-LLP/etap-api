@@ -97,3 +97,20 @@ INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,ch
  --insert into dispatch_requirement values('DC000003',9,1,2,null,null,'NEW','NEW',1,1,getdate(),null,null,0)
 
  
+
+
+delete from disp_mod_stage_component 
+
+delete from disp_structure_comp
+
+delete from disp_req_structure 
+delete from disreq_status_history 
+
+
+delete from disp_subcont_documents 
+delete from disp_subcont_structure 
+delete from dispatchreq_subcont 
+
+delete from dispatch_requirement
+
+delete from dispatchreq_subcont 

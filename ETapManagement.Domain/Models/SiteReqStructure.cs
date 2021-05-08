@@ -5,6 +5,11 @@ namespace ETapManagement.Domain.Models
 {
     public partial class SiteReqStructure
     {
+        public SiteReqStructure()
+        {
+            DispatchRequirement = new HashSet<DispatchRequirement>();
+        }
+
         public int Id { get; set; }
         public int SiteReqId { get; set; }
         public int StructId { get; set; }
@@ -19,5 +24,6 @@ namespace ETapManagement.Domain.Models
 
         public virtual SiteRequirement SiteReq { get; set; }
         public virtual Structures Struct { get; set; }
+        public virtual ICollection<DispatchRequirement> DispatchRequirement { get; set; }
     }
 }

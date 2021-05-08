@@ -21,7 +21,6 @@ namespace ETapManagement.Domain.Models
         public int StructureId { get; set; }
         public string StructCode { get; set; }
         public int ProjectId { get; set; }
-        public string DrawingNo { get; set; }
         public int? ComponentsCount { get; set; }
         public string StructureAttributesVal { get; set; }
         public decimal? EstimatedWeight { get; set; }
@@ -33,6 +32,7 @@ namespace ETapManagement.Domain.Models
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? ExpReleaseDate { get; set; }
+        public string DrawingNo { get; set; }
 
         public virtual Project Project { get; set; }
         public virtual Structures Structure { get; set; }

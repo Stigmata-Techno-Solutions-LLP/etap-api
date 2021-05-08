@@ -63,10 +63,29 @@ namespace ETapManagement.Common {
            CMPCMODIFIED=15,
            CMPCPARTIALLYMODIFIED=16,
            TWCCPARIALLYMODIFYAPRD=17,
-           TWCCMODIFYAPRD=18
+           TWCCMODIFYAPRD=18,
 
            
+        
+
           
+        }
+
+          public enum SiteDispStructureStatus {
+            NEW = 1,
+            PARTIALDELIVERED=2,
+            DELIVERED=3,
+            PARTIALLYSCANNED=4,
+            CMPCAPPROVED=5,
+            CMPCPARTIALLYAPRD =15,
+            FAAAPPROVED=6,
+           FROMSITEAPPROVED=7,
+           TOSITEAPPROVED=8,
+           REJECT=9,
+           PROCAPPROVED=10,
+           PARTIALLYDISPATCHED=11,
+           READYTODELIVER=13,
+           DISPATCHED =12
         }
         public enum ComponentStatus {
             NEW =1,
