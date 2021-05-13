@@ -84,6 +84,15 @@ namespace ETapManagement.Common {
            USABLE =2,
             SCRAP =3
         }
+        public enum ScrapStatus {
+            NEW =1,
+            EHSAPPROVED =2,
+            QAAPPROVED =3,
+            TWCCAPPROVED=4,
+            SCRAPPED=5,
+            REJECTED=6,
+            
+        }        
 
            public enum ComponentInternalStatus {
             NEW = 1,

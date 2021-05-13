@@ -92,6 +92,14 @@ INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,ch
 
 
 
+INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
+('SITE','SCRAP',1,'NEW','REJECTED','REJECTED,NEW,EHSAPPROVED,QAAPPROVED,SCRAPPED',NULL)
+,('EHS','SCRAP',2,'EHSAPPROVED','NEW','NEW,EHSAPPROVED,QAAPPROVED,SCRAPPED',NULL)
+,('QA','SCRAP',3,'QAAPPROVED','EHSAPPROVED','EHSAPPROVED,QAAPPROVED,SCRAPPED',NULL)
+,('TWCC','SCRAP',4,'SCRAPPED','QAAPPROVED','QAAPPROVED,SCRAPPED',NULL)
+
+
+
 
  --insert into dispatch_requirement values('DC000001',9,1,1,null,null,'NEW','NEW',1,1,getdate(),null,null,0)
  --insert into dispatch_requirement values('DC000003',9,1,2,null,null,'NEW','NEW',1,1,getdate(),null,null,0)
