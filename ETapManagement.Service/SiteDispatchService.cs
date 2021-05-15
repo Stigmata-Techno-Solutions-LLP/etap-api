@@ -242,17 +242,18 @@ namespace ETapManagement.Service
             switch (releaseFilter)
             {
                 case commonEnum.TWCCDispatchReleaseDate.ONEMONTH:
-                    DateTime currentStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+                    DateTime currentStartDate = DateTime.Now.AddDays(-30);
                     DateTime currentEndDate = DateTime.Now;
                     result = lstDistinctResult.FindAll(x => x.ExpReleaseDate >= currentStartDate && x.ExpReleaseDate <= currentEndDate);
                     break;
                 case commonEnum.TWCCDispatchReleaseDate.THREEMONTHS:
-                    currentStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 3, 1);
+                    currentStartDate = DateTime.Now.AddDays(-90);
                     currentEndDate = DateTime.Now;
                     result = lstDistinctResult.FindAll(x => x.ExpReleaseDate >= currentStartDate && x.ExpReleaseDate <= currentEndDate);
                     break;
                 case commonEnum.TWCCDispatchReleaseDate.SIXMONTHS:
-                    currentStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 6, 1);
+                    currentStartDate = DateTime.Now.AddDays(-180);
                     currentEndDate = DateTime.Now;
                     result = lstDistinctResult.FindAll(x => x.ExpReleaseDate >= currentStartDate && x.ExpReleaseDate <= currentEndDate);
                     break;
