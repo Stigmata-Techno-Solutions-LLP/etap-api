@@ -212,6 +212,18 @@ namespace ETapManagement.Repository {
             }
         }
 
+         public List<ViewStructureChart> GetViewStructureChart (int projectStructureId) {
+            try {
+                List<ViewStructureChart> result = new List<ViewStructureChart> ();
+                var viewStructureChartDetails = _context.Query<ViewStructureChart> ().FromSqlRaw ("exec SP_GetViewStructureChartDetails {0}", projectStructureId).ToList ();
+                result = _mapper.Map<List<ViewStructureChart>> (viewStructureChartDetails);
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+
+        }
+
         public void Dispose () {
             Dispose (true);
             GC.SuppressFinalize (this);
