@@ -128,7 +128,7 @@ namespace ETapManagement.Api.Controllers {
                     }
                     if (scrapStructure.uploadDocs.Select (x => x.Length).Sum () > 50000000) throw new ValueNotFoundException (" File size exceeded limit");
                 }
-                var response = _scrapService.InitiateScrapStructure (scrapStructure);
+                var response = _scrapStructureService.InitiateScrapStructure (scrapStructure);
                 return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
