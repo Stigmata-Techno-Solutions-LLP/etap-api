@@ -88,6 +88,7 @@ namespace ETapManagement.Domain.Models
              modelBuilder.Query<PhysicalVerificationDetail> ();
                modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
             modelBuilder.Query<ScrapStructureWorkFlowDetail> ();
+            modelBuilder.Query<ViewStructureChart>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
