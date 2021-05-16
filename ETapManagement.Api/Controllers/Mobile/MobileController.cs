@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ETapManagement.Api.Controllers.Mobile {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [Route ("api/[controller]")]
     public class MobileController : ControllerBase {
         ISiteRequirementService _sitereqService;
@@ -19,8 +19,9 @@ namespace ETapManagement.Api.Controllers.Mobile {
          IScrapStructureService _scrapService;
         IAuthService _authService;
 
-        public MobileController (ISiteRequirementService sitereqService, IAuthService authService) {
+        public MobileController (ISiteRequirementService sitereqService, IAuthService authService, ScrapStructureService scrapService) {
             _sitereqService = sitereqService;
+            _scrapService = scrapService;
         }
 
 
@@ -70,7 +71,7 @@ namespace ETapManagement.Api.Controllers.Mobile {
             }
         }
 
-         [HttpPost ("InitiateScrapStruct")]
+        [HttpPost ("InitiateScrapStruct")]
         public IActionResult InitiateScrap ([FromForm] InitiateScrapStructure scrapStructure) {
             try {
              if (scrapStructure.uploadDocs != null) {
