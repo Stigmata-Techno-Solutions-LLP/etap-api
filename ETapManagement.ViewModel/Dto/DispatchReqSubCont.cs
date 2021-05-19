@@ -17,7 +17,7 @@ public int? ServiceType{get;set;} =0;
          [Required]
         public List<VendorStructure_OS> VendorStructures { get; set; }
 
-           public int? ServiceType { get; set; }
+            
     }
 
     public class FBDispatchReqSubCont

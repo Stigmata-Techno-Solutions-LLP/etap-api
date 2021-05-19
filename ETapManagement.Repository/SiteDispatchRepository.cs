@@ -715,8 +715,8 @@ namespace ETapManagement.Repository {
                             dispReq.StatusInternal = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
 
                         } else {
-                            dispReq.Status = commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPRD.ToString ();
-                            dispReq.StatusInternal = commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPRD.ToString ();
+                            dispReq.Status = commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPPROVED.ToString ();
+                            dispReq.StatusInternal = commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPPROVED.ToString ();
                         }
                         _context.SaveChanges ();
 
