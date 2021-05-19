@@ -368,6 +368,12 @@ CREATE TABLE ETapManagementSIT.dbo.project_structure
   structure_status varchar(20) null,
   current_status varchar(20) null,
   exp_release_date datetime null,
+  actual_wbs int null,
+  fabrication_year datetime null,
+  exp_release_date datetime null,
+   remarks varchar(500) null,
+   actual_weight decimal(18,2) null,
+  reusuability bit null,
   is_delete bit NULL DEFAULT 0,
   created_by int null,
   created_at datetime default CURRENT_TIMESTAMP,
@@ -605,6 +611,9 @@ CREATE TABLE ETapManagementSIT.dbo.scrap_structure
   id int not null identity(1,1) primary key,
   subcon_id int,
   proj_struct_id int,
+  disp_structure_id int null,
+  from_project_id int null,
+  role_id int null,
   scrap_rate decimal(10,2),
   auction_id varchar(20),
   "status" varchar(50) null,
@@ -617,6 +626,21 @@ CREATE TABLE ETapManagementSIT.dbo.scrap_structure
   CONSTRAINT scrap_structure_subcon_fkey FOREIGN KEY (subcon_id) REFERENCES sub_contractor(id),
 
 )
+
+
+CREATE TABLE ETapManagementSIT.dbo.scrap_status_history
+(
+  id int not null identity(1,1) primary key,
+  scrap_stuctre_id int,
+  notes varchar(500) null,
+  status varchar(50) null,
+  status_internal varchar(100) null,
+  role_id int,
+  updated_by int null,
+  updated_at datetime null,
+  CONSTRAINT scrap_status_history_scrapstructure_fkey FOREIGN KEY (scrap_stuctre_id) REFERENCES scrap_structure(id),
+)
+
 
 
 CREATE TABLE ETapManagementSIT.dbo.dispatch_requirement

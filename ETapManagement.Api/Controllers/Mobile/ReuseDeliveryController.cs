@@ -46,7 +46,7 @@ namespace ETapManagement.Api.Controllers
             }
         }
        
-            [HttpGet("getDispDetailsForDeliver")]
+        [HttpGet("getDispDetailsForDeliver")]
         public IActionResult GetDispDetailsForDeliver(int projectId)
         {
             try

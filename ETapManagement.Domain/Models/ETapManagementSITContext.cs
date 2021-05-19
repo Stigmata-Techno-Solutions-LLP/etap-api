@@ -2,12 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
+using ETapManagement.ViewModel.Dto;
 
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-
+     
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -36,6 +37,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<RoleHierarchy> RoleHierarchy { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<RolesApplicationforms> RolesApplicationforms { get; set; }
+        public virtual DbSet<ScrapStatusHistory> ScrapStatusHistory { get; set; }
         public virtual DbSet<ScrapStructure> ScrapStructure { get; set; }
         public virtual DbSet<Segment> Segment { get; set; }
         public virtual DbSet<ServiceType> ServiceType { get; set; }
@@ -66,7 +68,8 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-             modelBuilder.Query<SiteRequirementDetail> ();
+
+                   modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -86,6 +89,8 @@ namespace ETapManagement.Domain.Models
                modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
                modelBuilder.Query<ComponentDetailsInput> ();
              
+            modelBuilder.Query<ScrapStructureWorkFlowDetail> ();
+            modelBuilder.Query<ViewStructureChart>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -989,6 +994,12 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.ActualWbs).HasColumnName("actual_wbs");
+
+                entity.Property(e => e.ActualWeight)
+                    .HasColumnName("actual_weight")
+                    .HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.ComponentsCount).HasColumnName("components_count");
 
                 entity.Property(e => e.CreatedAt)
@@ -1016,11 +1027,22 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("exp_release_date")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.FabricationYear)
+                    .HasColumnName("fabrication_year")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.IsDelete)
                     .HasColumnName("is_delete")
                     .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.ProjectId).HasColumnName("project_id");
+
+                entity.Property(e => e.Remarks)
+                    .HasColumnName("remarks")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Reusuability).HasColumnName("reusuability");
 
                 entity.Property(e => e.StructCode)
                     .IsRequired()
@@ -1180,6 +1202,43 @@ namespace ETapManagement.Domain.Models
                     .HasConstraintName("rolesforms_roles_id_fkey");
             });
 
+            modelBuilder.Entity<ScrapStatusHistory>(entity =>
+            {
+                entity.ToTable("scrap_status_history");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Notes)
+                    .HasColumnName("notes")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.Property(e => e.ScrapStuctreId).HasColumnName("scrap_stuctre_id");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StatusInternal)
+                    .HasColumnName("status_internal")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+                entity.HasOne(d => d.ScrapStuctre)
+                    .WithMany(p => p.ScrapStatusHistory)
+                    .HasForeignKey(d => d.ScrapStuctreId)
+                    .HasConstraintName("scrap_status_history_scrapstructure_fkey");
+            });
+
             modelBuilder.Entity<ScrapStructure>(entity =>
             {
                 entity.ToTable("scrap_structure");
@@ -1198,9 +1257,15 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
+                entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
+
+                entity.Property(e => e.FromProjectId).HasColumnName("from_project_id");
+
                 entity.Property(e => e.IsDelete).HasColumnName("is_delete");
 
                 entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
 
                 entity.Property(e => e.ScrapRate)
                     .HasColumnName("scrap_rate")

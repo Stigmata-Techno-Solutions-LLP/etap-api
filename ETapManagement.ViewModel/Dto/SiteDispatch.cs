@@ -29,7 +29,7 @@ namespace ETapManagement.ViewModel.Dto
         public int? SubContractorId { get; set; }
         public string SubContractorName { get; set; }
         public int? DispatchRequestSubContractorId { get; set; }
-        public string ToProjectName {get;set;}
+        public string ToProjectName { get; set; }
 
         public string StructureName { get; set; }
         // public decimal? FabricationCost { get; set; }
@@ -150,6 +150,8 @@ namespace ETapManagement.ViewModel.Dto
         public string RequestStatus { get; set; }
         public string StructureAttributes { get; set; }
         public int Quantity { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 
     public class TWCCDispatchInnerStructure
@@ -167,7 +169,7 @@ namespace ETapManagement.ViewModel.Dto
         public string ProjectStructureStatus { get; set; }
         public DateTime? SurPlusFromDate { get; set; }
         public string ProjectName { get; set; }
-        public int? SurplusFromProjectId{get;set;}
+        public int? SurplusFromProjectId { get; set; }
         public DateTime? ExpReleaseDate { get; set; }
     }
 
@@ -200,8 +202,8 @@ namespace ETapManagement.ViewModel.Dto
         public string Status { get; set; }
         public string StatusInternal { get; set; }
         public int RoleId { get; set; }
-          public int? FromProjectId { get; set; }
-            public DateTime? SurplusFromDate { get; set; }
+        public int? FromProjectId { get; set; }
+        public DateTime? SurplusFromDate { get; set; }
         public int CreatedBy { get; set; }
         public bool IsDelete { get; set; }
         public string Notes { get; set; }
@@ -215,7 +217,7 @@ namespace ETapManagement.ViewModel.Dto
         public int ProjectStructureId { get; set; }
         public int DispatchRequirementId { get; set; }
         public int DispReqStructId { get; set; }
-        public string DispatchNo {get;set;}
+        public string DispatchNo { get; set; }
 
         public int Quantity { get; set; }
         public int projectId { get; set; }
@@ -261,7 +263,7 @@ namespace ETapManagement.ViewModel.Dto
     }
     public class ComponentDetailsDto
     {
-       // public int Id { get; set; }
+        // public int Id { get; set; }
         public int DispStructureId { get; set; }
 
         public string CompId { get; set; }
@@ -283,9 +285,9 @@ namespace ETapManagement.ViewModel.Dto
         public decimal? ModStageLength { get; set; }
         public decimal? ModStageWeight { get; set; }
         public decimal? ModStageThikness { get; set; }
-          public decimal? ModStageHeight { get; set; }
+        public decimal? ModStageHeight { get; set; }
         public decimal? ModStagebreath { get; set; }
-       public int? ModStageCompId { get; set; }
+        public int? ModStageCompId { get; set; }
 
 
         public bool? IsTag { get; set; }
@@ -311,7 +313,7 @@ namespace ETapManagement.ViewModel.Dto
         public int Id { get; set; }
         public int? DispstructCompId { get; set; }
 
-         public string DCNumber { get; set; }
+        public string DCNumber { get; set; }
 
         public int DispatchRequirementId { get; set; }
         public int ProjectStructureId { get; set; }

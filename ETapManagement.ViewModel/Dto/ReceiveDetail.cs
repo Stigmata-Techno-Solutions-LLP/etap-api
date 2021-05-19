@@ -14,7 +14,7 @@ namespace ETapManagement.ViewModel.Dto
         public string StructureAttributesValue { get; set; }
         public int? ComponentsCount { get; set; }
         public int DispatchStructureId { get; set; }
-        public int CountEarned { get; set; }
+        public int? CountEarned { get; set; }
         public string DispStructStatus {get;set;}
        public string DispReqInternalStatus {get;set;}
         public string DispReqStatus {get;set;}
@@ -33,7 +33,7 @@ namespace ETapManagement.ViewModel.Dto
         public DateTime? LastScanDate { get; set; }
         public string ComponentStatus { get; set; }
         public string Remarks { get; set; }
-        public int ScannedBy { get; set; }
+        public int? ScannedBy { get; set; }
 
     }
 

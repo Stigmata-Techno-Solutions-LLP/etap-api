@@ -33,6 +33,11 @@ namespace ETapManagement.Domain.Models
         public DateTime? UpdatedAt { get; set; }
         public DateTime? ExpReleaseDate { get; set; }
         public string DrawingNo { get; set; }
+        public int? ActualWbs { get; set; }
+        public DateTime? FabricationYear { get; set; }
+        public string Remarks { get; set; }
+        public decimal? ActualWeight { get; set; }
+        public bool? Reusuability { get; set; }
 
         public virtual Project Project { get; set; }
         public virtual Structures Structure { get; set; }

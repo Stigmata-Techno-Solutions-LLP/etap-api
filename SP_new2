@@ -394,3 +394,238 @@ SELECT '0' as 'isAction', sr.mr_no as MRNo, dr.dispatch_no as DispatchNo, dr.sta
 	 select * from #resultset1 
 	 	
 END
+
+
+
+
+
+
+CREATE      PROCEDURE sp_ApprovalScrap(@scrap_structure_id int,
+	@role_name varchar(50),
+	@role_hierarchy int  null
+)
+AS
+BEGIN
+
+	declare @role_id int
+	SET @role_id = (select top 1
+		id
+	from roles
+	where name =@role_name)
+	declare @cond_status varchar (500)
+	declare @new_status varchar (500)
+
+
+	if (@role_hierarchy is null)
+	BEGIN
+
+		SET @cond_status= (select top 1
+			chk_status
+		from role_hierarchy
+		where role_name =@role_name and scenario_type ='SCRAP')
+		SET @new_status= (select top 1
+			new_status
+		from role_hierarchy
+		where role_name =@role_name and scenario_type ='SCRAP')
+
+	END 
+ELSE 
+BEGIN
+
+		SET @cond_status= (select top 1
+			chk_status
+		from role_hierarchy
+		where role_name =@role_name and role_hierarchy  = @role_hierarchy and scenario_type ='SCRAP')
+		SET @new_status= (select top 1
+			new_status
+		from role_hierarchy
+		where role_name =@role_name and role_hierarchy  = @role_hierarchy and scenario_type ='SCRAP')
+
+	END
+
+	--select @cond_status,@new_status
+	if  EXISTS (select *
+	from scrap_structure 
+	where   Id = @scrap_structure_id and status in (select value
+		from STRING_SPLIT(@cond_status,','))) 
+	BEGIN
+
+		update scrap_structure  set status =@new_status, role_id =@role_id where  id =@scrap_structure_id
+
+		insert into scrap_status_history 
+			(scrap_stuctre_id ,status  ,role_id ,updated_at )
+		select id, status  , @role_id , getdate()
+		from scrap_structure sr
+		where id = @scrap_structure_id
+		if (@role_name = 'TWCC' )
+		BEGIN
+		update project_structure set current_status =@new_status where id = (select proj_struct_id
+			from scrap_structure 
+			where id =@scrap_structure_id)
+		END	
+	END
+	ELSE 
+	BEGIN
+		select 'NOT ALLOWED'
+	END
+END
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE or ALTER   PROCEDURE sp_RejectScrap(@scrap_structure_id int,
+	@role_name varchar(50),
+	@role_hierarchy int  null,
+	@disp_structure_id int null
+)
+AS
+BEGIN
+
+	declare @role_id int
+	SET @role_id = (select top 1
+		id
+	from roles
+	where name =@role_name)
+	declare @cond_status varchar (500)
+	declare @new_status varchar (500)
+
+
+	if (@role_hierarchy is null)
+	BEGIN
+
+		SET @cond_status= (select top 1
+			chk_status
+		from role_hierarchy
+		where role_name =@role_name and scenario_type ='SCRAP')
+		SET @new_status= (select top 1
+			chk_status
+		from role_hierarchy
+		where  role_hierarchy  = (select top 1
+			role_hierarchy
+		from role_hierarchy
+		where  scenario_type ='SCRAP' and role_name =@role_name and scenario_type ='SCRAP') -1)
+
+	END 
+ELSE 
+BEGIN
+
+		SET @cond_status= (select top 1
+			chk_status
+		from role_hierarchy
+		where role_name =@role_name and role_hierarchy  = @role_hierarchy and scenario_type ='SCRAP')
+		SET @new_status= (select top 1
+			chk_status
+		from role_hierarchy
+		where role_hierarchy  = @role_hierarchy and scenario_type ='SCRAP')
+
+	END
+	--select @cond_status 
+	--select @new_status
+
+	if  EXISTS (select *
+	from scrap_structure 
+	where   Id = @scrap_structure_id and status in (select value
+		from STRING_SPLIT(@cond_status,','))) 
+	BEGIN
+		update scrap_structure  set status =@new_status , role_id = @role_id where  id =@scrap_structure_id
+		insert into scrap_status_history 
+			(scrap_stuctre_id ,status  ,role_id ,updated_at )
+		select id, status  , @role_id , getdate()
+		from scrap_structure sr
+		where id = @scrap_structure_id
+		
+	if (@role_name = 'EHS')
+	BEGIN
+		update disp_req_structure  set disp_struct_status ='SCRAPREJECTED'   where  id =@disp_structure_id
+	END
+	END
+	ELSE 
+	BEGIN
+		select 'NOT ALLOWED'
+	END
+
+END
+
+
+
+
+
+
+CREATE   PROCEDURE sp_GetScrapDetails(
+	@role_name varchar(50),
+	@role_hierarchy int  null)
+AS
+BEGIN
+
+	declare @role_id int
+	DECLARE @structureName varchar(2000)
+	SET @role_id = (select top 1
+		id
+	from roles
+	where name =@role_name)
+	declare @cond_status varchar (500)
+	--select @cond_status
+	if (@role_hierarchy is null)
+	BEGIN
+		print 's'
+		SET @cond_status= (select top 1
+			chk_status
+		from role_hierarchy
+		where role_name =@role_name)
+	END 
+ELSE 
+BEGIN
+		print 'ss'
+		SET @cond_status= (select top 1
+			chk_status
+		from role_hierarchy
+		where role_name =@role_name and role_hierarchy  = @role_hierarchy)
+
+	END
+
+	
+	--get list, rolename based assigned status
+	--isAction (1) means allow to do actions
+	select 1 as 'isAction', ss.Id, from_project_id as ProjectId,disp_structure_id, status as Status, role_id as RoleId , (select name from structures s2 where id  in (select structure_id from project_structure ps  where id =ss.id )) as StructureName, p.name as FromProjectName, p.proj_code  as ProjectCode, ss.created_at as CreatedDate
+	into #resultset1
+	from scrap_structure ss  inner join project p on p.id  = ss.from_project_id
+	where status  in (select value
+	from STRING_SPLIT(@cond_status,',') )
+	order by ss.created_at,ss.updated_at  desc
+
+
+	--get requirement id list for existing update in status history for this role id based on latest updated date
+	SELECT scrap_id
+	INTO #distSiteReqId
+	FROM (
+  SELECT scrap_stuctre_id, updated_at, ROW_NUMBER() OVER (PARTITION BY scrap_stuctre_id ORDER BY updated_at desc) RN
+		FROM scrap_status_history ssh 
+		where role_id = @role_id and scrap_stuctre_id  not in (select id
+			from #resultset1)) S
+	where RN =1
+
+	--isAction (0) means should not to do actions
+	select 0 as 'isAction', ss.Id, from_project_id as ProjectId,disp_structure_id, status as Status, role_id as RoleId , (select name from structures s2 where id  in (select structure_id from project_structure ps  where id =ss.id )) as StructureName, p.name as FromProjectName, p.proj_code  as ProjectCode, ss.created_at as CreatedDate
+	into #resultset2
+	from scrap_structure ss inner join project p on p.id  = ss.from_project_id
+	where ss.id  in (select scrap_id
+	from #distSiteReqId)
+	order by ss.created_at,ss.updated_at  desc
+
+			(
+		select *
+		from #resultset1
+	union all
+		select *
+		from #resultset2)
+	order by MrNo desc
+
+END

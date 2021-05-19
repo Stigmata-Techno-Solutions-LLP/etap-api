@@ -13,10 +13,10 @@ namespace ETapManagement.Service {
             _scrapStructureRepository = scrapStructureRepository;
         } 
 
-        public ResponseMessage CreateScrapStructure(AddScrapStructure scrapStructure)
+         public ResponseMessage InitiateScrapStructure(InitiateScrapStructure scrapStructure)
         {
             ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _scrapStructureRepository.CreateScrapStructure (scrapStructure);
+            responseMessage = _scrapStructureRepository.InitiateScrapStructure (scrapStructure);
             return responseMessage;
         }
 
@@ -27,16 +27,20 @@ namespace ETapManagement.Service {
             return responseMessage;
         }
 
-        public ResponseMessage DeleteScrapStructure(int id)
-        {
-            ResponseMessage responseMessage = new ResponseMessage();
-            responseMessage = _scrapStructureRepository.DeleteScrapStructure(id);
+        public ResponseMessage WorkflowScrapStructure (WorkFlowScrapPayload reqPayload) {
+            ResponseMessage responseMessage = new ResponseMessage ();
+            responseMessage = _scrapStructureRepository.WorkflowScrapStructure (reqPayload);
             return responseMessage;
         }
 
         public List<ScrapStructureDetail> GetScrapStructureDetails()
         {
             List<ScrapStructureDetail> scrapStructureDetails = _scrapStructureRepository.GetScrapStructureDetails();
+            return scrapStructureDetails;
+        }
+          public List<ScrapStructureWorkFlowDetail> GetScrapWorkflowDetails(ScrapWorkflowDetailsPayload payload)
+        {
+            List<ScrapStructureWorkFlowDetail> scrapStructureDetails = _scrapStructureRepository.GetScrapWorkflowDetails(payload);
             return scrapStructureDetails;
         }
 
