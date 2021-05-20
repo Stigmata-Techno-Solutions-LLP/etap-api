@@ -225,6 +225,8 @@ namespace ETapManagement.ViewModel.Dto
         public string StructureCode { get; set; }
         public string ProjectName { get; set; }
 
+        public string StructrueName{get;set;}
+
     }
     public class DispReqStructureDto
     {
