@@ -19,7 +19,7 @@ namespace ETapManagement.Api.Controllers.Mobile {
          IScrapStructureService _scrapService;
         IAuthService _authService;
 
-        public MobileController (ISiteRequirementService sitereqService, IAuthService authService, ScrapStructureService scrapService) {
+        public MobileController (ISiteRequirementService sitereqService, IAuthService authService, IScrapStructureService scrapService) {
             _sitereqService = sitereqService;
             _scrapService = scrapService;
         }
