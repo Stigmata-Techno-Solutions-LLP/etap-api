@@ -217,13 +217,19 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.Description))
                 .ReverseMap ();
 
-            CreateMap<ComponentTypeDetails, ComponentType> ()
+            CreateMap<ComponentType,ComponentTypeDetails > ()
                 .ForMember (dest =>
                     dest.Id,
                     opt => opt.MapFrom (src => src.Id))
                 .ForMember (dest =>
                     dest.Name,
                     opt => opt.MapFrom (src => src.Name))
+                .ForMember (dest =>
+                    dest.CreatedDate,
+                    opt => opt.MapFrom (src => src.CreatedAt))
+                .ForMember (dest =>
+                    dest.UpdatedDate,
+                    opt => opt.MapFrom (src => src.UpdatedAt))
                 .ForMember (dest =>
                     dest.Description,
                     opt => opt.MapFrom (src => src.Description))
@@ -412,7 +418,7 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.IsDelete))
                 .ReverseMap ();
 
-            CreateMap<IndependentCompanyDetail, IndependentCompany> ()
+            CreateMap<IndependentCompany , IndependentCompanyDetail> ()
                 .ForMember (dest =>
                     dest.Id,
                     opt => opt.MapFrom (src => src.Id))
@@ -425,6 +431,12 @@ namespace ETapManagement.Api.Extensions {
                 .ForMember (dest =>
                     dest.IsDelete,
                     opt => opt.MapFrom (src => src.IsDelete))
+                .ForMember (dest =>
+                    dest.CreatedDate,
+                    opt => opt.MapFrom (src => src.CreatedAt))
+                .ForMember (dest =>
+                    dest.UpdatedDate,
+                    opt => opt.MapFrom (src => src.UpdatedAt))
                 .ReverseMap ();
 
             CreateMap<AddIndependentCompany, IndependentCompany> ()
