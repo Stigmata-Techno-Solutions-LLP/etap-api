@@ -8,6 +8,7 @@ namespace ETapManagement.Domain.Models
         public SiteStructurePhysicalverf()
         {
             SiteCompPhysicalverf = new HashSet<SiteCompPhysicalverf>();
+            SiteStrctPhysicalverfDoc = new HashSet<SiteStrctPhysicalverfDoc>();
         }
 
         public int Id { get; set; }
@@ -28,5 +29,6 @@ namespace ETapManagement.Domain.Models
         public virtual Project Project { get; set; }
         public virtual SitePhysicalVerf SiteVerf { get; set; }
         public virtual ICollection<SiteCompPhysicalverf> SiteCompPhysicalverf { get; set; }
+        public virtual ICollection<SiteStrctPhysicalverfDoc> SiteStrctPhysicalverfDoc { get; set; }
     }
 }

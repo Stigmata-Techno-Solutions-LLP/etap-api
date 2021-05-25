@@ -9,5 +9,7 @@ namespace ETapManagement.Repository {
     {
         public List<PhysicalVerificationDetail> GetPhysicalVerificationStructure (int projectId);
          public List<InspectionPhysicalVerificationDetail> GetSitePhysicalVerificationStructure(int projectId);
+            string StructureRemoveDocs(int docId);
+              public bool StructureDocsUpload (Upload_Docs StrucDocReq, int Id);
     }
 }

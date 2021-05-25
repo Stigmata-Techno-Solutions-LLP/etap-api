@@ -73,6 +73,18 @@ namespace ETapManagement.ViewModel.Dto
 
 
     }
+    public class PhysicalVerificationDocument
+    {
+
+        [Required]
+        [Display(Name = "SiteCompPhysicalverfid")]
+        public int sitestructurephysicalverfid { get; set; }
+  
+        public IFormFile[] uploadDocs { get; set; }
+        public string[] remove_docs_filename { get; set; }
+ 
+
+    }
 
 
 
