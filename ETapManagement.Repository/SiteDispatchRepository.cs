@@ -638,7 +638,7 @@ namespace ETapManagement.Repository {
             try {
                 ResponseMessage responseMessage = new ResponseMessage ();
                 foreach (var item in subContractorComponentIds) {
-                    var dispatchSubContractorStructure = _context.DispSubcontStructure.Where (x => x.Id == item).FirstOrDefault ();
+                    var dispatchSubContractorStructure = _context.DispStructureComp.Where (x => x.Id == item).FirstOrDefault ();
                     if (dispatchSubContractorStructure != null) {
                         dispatchSubContractorStructure.DispatchDate = dispatchDate;
                         _context.SaveChanges ();
