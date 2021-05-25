@@ -53,5 +53,30 @@ namespace ETapManagement.Repository {
            
 
           }
+             public string StructureRemoveDocs (int docId) {
+            try {
+                SiteStrctPhysicalverfDoc structDocs = _context.SiteStrctPhysicalverfDoc.Where (x => x.Id == docId).FirstOrDefault ();
+                _context.SiteStrctPhysicalverfDoc.Remove (structDocs);
+                _context.SaveChanges ();
+                return structDocs.Path;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+          public bool StructureDocsUpload (Upload_Docs StrucDocReq, int Id) {
+            try {
+                SiteStrctPhysicalverfDoc strDocdb = new SiteStrctPhysicalverfDoc ();
+                strDocdb.FileName = StrucDocReq.fileName;
+                strDocdb.FileType = StrucDocReq.fileType;
+                strDocdb.Path = StrucDocReq.filepath;
+                strDocdb.SiteStructurePhysicalverfId = Id;
+                _context.SiteStrctPhysicalverfDoc.Add (strDocdb);
+                _context.SaveChanges ();
+                return true;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
     }
 }

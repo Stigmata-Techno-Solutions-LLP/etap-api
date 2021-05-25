@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
-using ETapManagement.ViewModel.Dto;
 
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-     
+       
+
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -46,6 +46,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<SitePhysicalVerf> SitePhysicalVerf { get; set; }
         public virtual DbSet<SiteReqStructure> SiteReqStructure { get; set; }
         public virtual DbSet<SiteRequirement> SiteRequirement { get; set; }
+        public virtual DbSet<SiteStrctPhysicalverfDoc> SiteStrctPhysicalverfDoc { get; set; }
         public virtual DbSet<SiteStructurePhysicalverf> SiteStructurePhysicalverf { get; set; }
         public virtual DbSet<SitedeclDocuments> SitedeclDocuments { get; set; }
         public virtual DbSet<SitedeclStatusHistory> SitedeclStatusHistory { get; set; }
@@ -68,8 +69,7 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-                   modelBuilder.Query<SiteRequirementDetail> ();
+            modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -87,6 +87,8 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<ReceiveComponentDetail>();
              modelBuilder.Query<PhysicalVerificationDetail> ();
                modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
+               modelBuilder.Query<ComponentDetailsInput> ();
+             
             modelBuilder.Query<ScrapStructureWorkFlowDetail> ();
             modelBuilder.Query<ViewStructureChart>();
             modelBuilder.Entity<ApplicationForms>(entity =>
@@ -1566,6 +1568,36 @@ namespace ETapManagement.Domain.Models
                     .HasForeignKey(d => d.FromProjectId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("siteReq_proj_fkey");
+            });
+
+            modelBuilder.Entity<SiteStrctPhysicalverfDoc>(entity =>
+            {
+                entity.ToTable("site_strct_physicalverf_doc");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.FileName)
+                    .HasColumnName("file_name")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FileType)
+                    .HasColumnName("file_type")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Path)
+                    .HasColumnName("path")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SiteStructurePhysicalverfId).HasColumnName("site_structure_physicalverf_id");
+
+                entity.HasOne(d => d.SiteStructurePhysicalverf)
+                    .WithMany(p => p.SiteStrctPhysicalverfDoc)
+                    .HasForeignKey(d => d.SiteStructurePhysicalverfId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("site_structure_physicalverf_id_sspID_fkey");
             });
 
             modelBuilder.Entity<SiteStructurePhysicalverf>(entity =>

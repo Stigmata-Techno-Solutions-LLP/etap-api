@@ -225,6 +225,8 @@ namespace ETapManagement.ViewModel.Dto
         public string StructureCode { get; set; }
         public string ProjectName { get; set; }
 
+        public string StructrueName{get;set;}
+
     }
     public class DispReqStructureDto
     {
@@ -292,6 +294,22 @@ namespace ETapManagement.ViewModel.Dto
 
         public bool? IsTag { get; set; }
     }
+
+     public class ComponentDetailsInput
+    {
+       // public int Id { get; set; }
+        public int DispStructureId { get; set; }
+
+        public string CompId { get; set; }
+        public string ComponentName { get; set; }
+        public string ComponentType { get; set; }
+
+        public string DrawingNo { get; set; }
+
+        public int DispstructCompId { get; set; }
+          public int DispCompId {get;set;}
+ 
+    }
     public partial class DispModStageComponentDto
     {
         public int Id { get; set; }
@@ -318,7 +336,7 @@ namespace ETapManagement.ViewModel.Dto
     }
     public partial class DispComponentDto
     {
-        public int Id { get; set; }
+       // public int Id { get; set; }
         public int? DispstructCompId { get; set; }
 
         public int DispatchRequirementId { get; set; }
@@ -328,7 +346,7 @@ namespace ETapManagement.ViewModel.Dto
 
         public bool IsSite { get; set; }
         public bool IsVendor { get; set; }
-
+      
         public OSDispatchReqSubCont OSDispatchReqSubCont { get; set; }
 
 

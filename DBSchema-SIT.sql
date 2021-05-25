@@ -862,6 +862,17 @@ CONSTRAINT site_comp_physicalverf_site_structure_physicalverf_fkey FOREIGN KEY (
 select *
 from INFORMATION_SCHEMA.TABLES t 
 
+CREATE TABLE site_strct_physicalverf_doc
+(
+  id int not null identity(1,1),
+  site_comp_physicalverf_id int not null,
+  file_name varchar(500) null,
+  file_type varchar(10) null,
+  "path" varchar(1000) null,
+  CONSTRAINT site_strct_physicalverf_doc_pkey PRIMARY KEY (id),
+  CONSTRAINT site_comp_physicalverf_id_scpID_fkey FOREIGN KEY (site_comp_physicalverf_id) REFERENCES site_comp_physicalverf(id),
+)
+
 
 
 

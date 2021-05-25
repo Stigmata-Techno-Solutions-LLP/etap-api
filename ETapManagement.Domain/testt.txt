@@ -1,6 +1,8 @@
  using ETapManagement.ViewModel.Dto;
 
-              modelBuilder.Query<SiteRequirementDetail> ();
+ 
+             modelBuilder.Query<SiteRequirementDetail> ();
+ 
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();

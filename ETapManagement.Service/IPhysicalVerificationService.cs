@@ -12,6 +12,8 @@ namespace ETapManagement.Service {
          public ResponseMessage SiteStructurePhysicalverify(SitePhysicalInpection Structure);
             public ResponseMessage AddSitePhysicalverifyComponent(List<InspecStrComponent> component);
           public List<InspecStrComponent> GetInspectionComponent(int ProjStructId);
+
+        ResponseMessage UpdatePhysicalverifyDocment (PhysicalVerificationDocument servicedto);
        
     }
 }
