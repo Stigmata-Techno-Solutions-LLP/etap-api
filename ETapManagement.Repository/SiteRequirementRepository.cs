@@ -67,7 +67,7 @@ namespace ETapManagement.Repository {
                     siteStatusHist.UpdatedBy = 1; //TODO
                     _context.SitereqStatusHistory.Add (siteStatusHist);
                     _context.SaveChanges ();
-                    responseMessage.Message = "Site Requirement created sucessfully";
+                    responseMessage.Message = $"Site Requirement {sitereq.MrNo} created sucessfully";
                     transaction.Commit ();
                     return responseMessage;
                 } catch (Exception ex) {

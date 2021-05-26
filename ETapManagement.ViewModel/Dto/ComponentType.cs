@@ -20,6 +20,8 @@ namespace ETapManagement.ViewModel.Dto {
         [Required]
         [Display (Name = "Status")]
         public bool isActive { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
     }
 
     public class ComponentTypeRequest {

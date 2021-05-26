@@ -11,6 +11,7 @@ namespace ETapManagement.Service {
         public List<VendorDetail> GetVendorDetails ();
         public VendorDetail GetVendorDetailsById (int id);
         public List<Code> GetVendorCodeList ();
+        public List<Code> GetVendorCodeListWithServiceType ();
                 public List<Code> GetServiceTypeNameList ();
 
     }

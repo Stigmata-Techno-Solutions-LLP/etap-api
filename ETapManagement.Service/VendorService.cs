@@ -29,6 +29,11 @@ namespace ETapManagement.Service {
             return codes;
         }
 
+        public List<Code> GetVendorCodeListWithServiceType () {
+            List<Code> codes = _vendorRepository.GetVendorCodeListWithServiceType ();
+            return codes;
+        }
+
          public List<Code> GetServiceTypeNameList () {
             List<Code> codes = _vendorRepository.GetServiceTypeNameList ();
             return codes;
