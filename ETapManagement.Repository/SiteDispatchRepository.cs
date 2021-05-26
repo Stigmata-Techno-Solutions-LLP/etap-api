@@ -638,7 +638,7 @@ namespace ETapManagement.Repository {
             try {
                 ResponseMessage responseMessage = new ResponseMessage ();
                 foreach (var item in subContractorComponentIds) {
-                    var dispatchSubContractorStructure = _context.DispSubcontStructure.Where (x => x.Id == item).FirstOrDefault ();
+                    var dispatchSubContractorStructure = _context.DispStructureComp.Where (x => x.Id == item).FirstOrDefault ();
                     if (dispatchSubContractorStructure != null) {
                         dispatchSubContractorStructure.DispatchDate = dispatchDate;
                         _context.SaveChanges ();
@@ -715,8 +715,8 @@ namespace ETapManagement.Repository {
                             dispReq.StatusInternal = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
 
                         } else {
-                            dispReq.Status = commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPRD.ToString ();
-                            dispReq.StatusInternal = commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPRD.ToString ();
+                            dispReq.Status = commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPPROVED.ToString ();
+                            dispReq.StatusInternal = commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPPROVED.ToString ();
                         }
                         _context.SaveChanges ();
 

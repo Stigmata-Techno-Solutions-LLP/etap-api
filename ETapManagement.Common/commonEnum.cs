@@ -58,7 +58,15 @@ namespace ETapManagement.Common {
            PROCAPPROVED=10,
            PARTIALLYDISPATCHED=11,
            DISPATCHED =12,
-        CMPCPARTIALLYAPRD =15,
+           READYTODELIVER=13,
+           CMPCPARTIALLYAPPROVED=14,
+           CMPCMODIFIED=15,
+           CMPCPARTIALLYMODIFIED=16,
+           TWCCPARIALLYMODIFYAPRD=17,
+           TWCCMODIFYAPRD=18,
+
+           
+        
 
           
         }

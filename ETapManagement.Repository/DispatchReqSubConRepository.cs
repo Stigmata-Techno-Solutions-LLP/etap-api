@@ -25,17 +25,21 @@ namespace ETapManagement.Repository {
             try
             {                
                 ResponseMessage responseMessage = new ResponseMessage();
-                string[] strAllowedService = {commonEnum.ServiceType.Fabrication.ToString(),commonEnum.ServiceType.OutSourcing.ToString()};
+                string[] strAllowedService = {commonEnum.ServiceType.Fabrication.ToString(),commonEnum.ServiceType.OutSourcing.ToString(),commonEnum.ServiceType.Reuse.ToString()};
                 DispatchRequirement dispReq = _context.DispatchRequirement.Include(c=>c.Servicetype).Where(x=>x.DispatchNo == oSDispatchReqSubCont.DispatchNo).FirstOrDefault();
                 if (dispReq.StatusInternal != commonEnum.SiteDispatchSatus.NEW.ToString() && !strAllowedService.Contains( dispReq.Servicetype.Name))    throw new ValueNotFoundException ("Assign Vendor not allowed"); 
-                DispatchreqSubcont dispatchreqSubcont = _mapper.Map<DispatchreqSubcont>(oSDispatchReqSubCont);
+                DispatchreqSubcont dispatchreqSubcont = new DispatchreqSubcont();
+                dispatchreqSubcont.ServicetypeId = oSDispatchReqSubCont.ServiceType;
+                dispatchreqSubcont.DispatchNo = oSDispatchReqSubCont.DispatchNo;
+                dispatchreqSubcont.DispreqId=oSDispatchReqSubCont.DispreqId;
+              //  dispatchreqSubcont.
                 dispatchreqSubcont.CreatedAt = DateTime.Now;
                 dispatchreqSubcont.CreatedBy = 1; //TODO
                 dispatchreqSubcont.Status = "New";
                 dispatchreqSubcont.StatusInternal = "New";
                 if(oSDispatchReqSubCont.ServiceType>0){
                      dispatchreqSubcont.ServicetypeId =oSDispatchReqSubCont.ServiceType ;
-                }else{
+                } else {
                     dispatchreqSubcont.ServicetypeId = 2;
                 }
                
