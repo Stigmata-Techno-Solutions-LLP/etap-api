@@ -91,6 +91,7 @@ namespace ETapManagement.Domain.Models
              
             modelBuilder.Query<ScrapStructureWorkFlowDetail> ();
             modelBuilder.Query<ViewStructureChart>();
+             modelBuilder.Query<AsBuildStructure>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
