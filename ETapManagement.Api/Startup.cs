@@ -86,7 +86,10 @@ namespace ETapManagement.Api {
             services.AddScoped<IDispatchReqSubConRepository, DispatchReqSubConRepository>();
          
             services.AddScoped<IPhysicalVerificationService, PhysicalVerificationService>();
-             services.AddScoped<IPhysicalVerificationRepository, PhysicalVerificationRepository>();
+            services.AddScoped<IPhysicalVerificationRepository, PhysicalVerificationRepository>();
+
+               services.AddScoped<IFabricationManagementService, FabricationManagementService>();
+            services.AddScoped<IFabricationManagementRepository, FabricationManagementRepository>();
             
             services.AddScoped<IReceiveRepository, ReceiveRepository>();
             services.AddScoped<IReceiveService, ReceiveService>();
