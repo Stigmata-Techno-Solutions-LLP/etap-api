@@ -316,6 +316,27 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
+        [HttpPost("osAssignVendor")]
+        public IActionResult OSAssignVendor(OSDispatchReqSubCont oSDispatchReqSubCont)
+        {
+            try
+            {
+                var response = _dispatchService.OSAssignVendor(oSDispatchReqSubCont);
+                return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
+            }
+            catch (ValueNotFoundException e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
+
         [HttpPut("dispatchVendor")]
         public IActionResult UpdateSiteDispatch([FromForm] DispatchVendorAddPayload request)
         {
@@ -333,26 +354,6 @@ namespace ETapManagement.Api.Controllers
 
                 var projectStructure = _siteDispatchService.UpdateSiteDispatchVendor(request);
                 return Ok(projectStructure);
-            }
-            catch (ValueNotFoundException e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-            }
-        }
-
-        [HttpPost("osAssignVendor")]
-        public IActionResult OSAssignVendor(OSDispatchReqSubCont oSDispatchReqSubCont)
-        {
-            try
-            {
-                var response = _dispatchService.OSAssignVendor(oSDispatchReqSubCont);
-                return StatusCode(StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             }
             catch (ValueNotFoundException e)
             {
