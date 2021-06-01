@@ -1,8 +1,7 @@
  using ETapManagement.ViewModel.Dto;
 
  
-             modelBuilder.Query<SiteRequirementDetail> ();
- 
+        modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -20,3 +19,9 @@
             modelBuilder.Query<ReceiveComponentDetail>();
              modelBuilder.Query<PhysicalVerificationDetail> ();
                modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
+               modelBuilder.Query<ComponentDetailsInput> ();
+             
+            modelBuilder.Query<ScrapStructureWorkFlowDetail> ();
+            modelBuilder.Query<ViewStructureChart>();
+            modelBuilder.Query<Code>();
+             modelBuilder.Query<AsBuildStructure>();

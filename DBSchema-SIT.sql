@@ -119,6 +119,9 @@ IF OBJECT_ID('ETapManagementSIT.dbo.project', 'U') IS NOT NULL
 IF OBJECT_ID('ETapManagementSIT.dbo.structures', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.structures;
 
+IF OBJECT_ID('ETapManagementSIT.dbo.strategic_business', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.strategic_business ;
+
 IF OBJECT_ID('ETapManagementSIT.dbo.businessUnit_IC', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.businessUnit_IC ;
 IF OBJECT_ID('ETapManagementSIT.dbo.business_unit', 'U') IS NOT NULL 
@@ -279,6 +282,22 @@ CREATE TABLE ETapManagementSIT.dbo.business_unit
   CONSTRAINT business_unit_icId_IC__fkey FOREIGN KEY (ic_id) REFERENCES independent_company(id),
 )
 
+
+CREATE TABLE ETapManagementSIT.dbo.strategic_business
+(
+  id int not null identity(1,1),
+  bu_id int not null,
+  name varchar(100) not null ,
+  is_delete bit not NULL DEFAULT 0,
+  is_active bit,
+  created_by int null,
+  created_at datetime default CURRENT_TIMESTAMP,
+  updated_by int null,
+  updated_at datetime ,
+  CONSTRAINT strategic_business_pkey PRIMARY KEY (id),
+  CONSTRAINT strategic_business_bu_fkey FOREIGN KEY (bu_id) REFERENCES business_unit(id),
+)
+    
 
 CREATE TABLE ETapManagementSIT.dbo.project
 (

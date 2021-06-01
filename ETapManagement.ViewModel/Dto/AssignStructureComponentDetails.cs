@@ -44,6 +44,8 @@ namespace ETapManagement.ViewModel.Dto
 
     public class AssignStructureDtlsOnly
     {
+
+        public int ProjectStructureId{get;set;}
         public int StructureId { get; set; }
 
         public int ProjectId { get; set; }

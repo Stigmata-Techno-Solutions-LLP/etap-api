@@ -47,7 +47,7 @@ namespace ETapManagement.Repository {
                     throw new ValueNotFoundException ("UserName already exist.");
                 } else {
                     Users userDtls = _mapper.Map<Users> (userDetails);
-                    userDetails.isActive= true;
+                    userDtls.IsActive= true;
                     _context.Users.Add (userDtls);
                     _context.SaveChanges();
                     AuditLogs audit = new AuditLogs () {

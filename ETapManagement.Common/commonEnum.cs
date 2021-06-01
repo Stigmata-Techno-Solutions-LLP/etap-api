@@ -85,7 +85,8 @@ namespace ETapManagement.Common {
            PROCAPPROVED=10,
            PARTIALLYDISPATCHED=11,
            READYTODELIVER=13,
-           DISPATCHED =12
+           DISPATCHED =12,
+           FABRICATIONCOMPLETED=13
         }
         public enum ComponentStatus {
             NEW =1,
@@ -128,7 +129,8 @@ namespace ETapManagement.Common {
         public enum StructureStatus {
             NEW=1,
             AVAILABLE=2,
-            NOTAVAILABLE=3,       
+            NOTAVAILABLE=3, 
+            PARTIALLYSCANNED=4,      
         }
         public enum SiteRequiremntStatus{
             NEW=1,

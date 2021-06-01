@@ -2,12 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
-
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-       
+      
 
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
@@ -51,6 +50,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<SitedeclDocuments> SitedeclDocuments { get; set; }
         public virtual DbSet<SitedeclStatusHistory> SitedeclStatusHistory { get; set; }
         public virtual DbSet<SitereqStatusHistory> SitereqStatusHistory { get; set; }
+        public virtual DbSet<StrategicBusiness> StrategicBusiness { get; set; }
         public virtual DbSet<StructureType> StructureType { get; set; }
         public virtual DbSet<Structures> Structures { get; set; }
         public virtual DbSet<SubContractor> SubContractor { get; set; }
@@ -69,6 +69,7 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
@@ -92,6 +93,7 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<ScrapStructureWorkFlowDetail> ();
             modelBuilder.Query<ViewStructureChart>();
             modelBuilder.Query<Code>();
+             modelBuilder.Query<AsBuildStructure>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -1771,6 +1773,44 @@ namespace ETapManagement.Domain.Models
                     .HasForeignKey(d => d.SitereqId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("sitereq_status_history_sitereq_fkey");
+            });
+
+            modelBuilder.Entity<StrategicBusiness>(entity =>
+            {
+                entity.ToTable("strategic_business");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.BuId).HasColumnName("bu_id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+
+                entity.Property(e => e.IsActive).HasColumnName("is_active");
+
+                entity.Property(e => e.IsDelete).HasColumnName("is_delete");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+                entity.HasOne(d => d.Bu)
+                    .WithMany(p => p.StrategicBusiness)
+                    .HasForeignKey(d => d.BuId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("strategic_business_bu_fkey");
             });
 
             modelBuilder.Entity<StructureType>(entity =>

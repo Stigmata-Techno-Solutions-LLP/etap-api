@@ -8,6 +8,7 @@ namespace ETapManagement.Domain.Models
         public BusinessUnit()
         {
             Project = new HashSet<Project>();
+            StrategicBusiness = new HashSet<StrategicBusiness>();
             Users = new HashSet<Users>();
         }
 
@@ -23,6 +24,7 @@ namespace ETapManagement.Domain.Models
 
         public virtual IndependentCompany Ic { get; set; }
         public virtual ICollection<Project> Project { get; set; }
+        public virtual ICollection<StrategicBusiness> StrategicBusiness { get; set; }
         public virtual ICollection<Users> Users { get; set; }
     }
 }
