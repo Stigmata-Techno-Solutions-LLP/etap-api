@@ -7,6 +7,8 @@ namespace ETapManagement.ViewModel.Dto
 {
     public class OSDispatchReqSubCont
     {
+
+public int? ServiceType{get;set;} =0;
         public int Id { get; set; }
          [Required]
         public int? DispreqId { get; set; }
@@ -14,6 +16,8 @@ namespace ETapManagement.ViewModel.Dto
         public string DispatchNo { get; set; }
          [Required]
         public List<VendorStructure_OS> VendorStructures { get; set; }
+
+            
     }
 
     public class FBDispatchReqSubCont
@@ -33,18 +37,7 @@ namespace ETapManagement.ViewModel.Dto
          [Required]
         public int SubContId { get; set; }
          [Required]
-        public int StructureId { get; set; }
-         [Required]
-         public decimal MonthlyRent { get; set; }   
-          [Required]     
-        public decimal ContractYears { get; set; }
-         [Required]
-        public DateTime PlanReleasedate { get; set; }
-         [Required]
-        public DateTime ExpectedReleasedate { get; set; }
-         [Required]
-        public DateTime ActualStartdate { get; set; } 
-
+        public int ProjStructureId { get; set; }       
 
     }
 
@@ -54,9 +47,7 @@ namespace ETapManagement.ViewModel.Dto
          [Required]
         public int SubContId { get; set; }
          [Required]
-        public int StructureId { get; set; }
-         [Required]
-        public decimal FabricationCost { get; set; }
+        public int ProjStructureId { get; set; }
 
     }
 }

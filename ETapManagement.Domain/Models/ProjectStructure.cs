@@ -9,14 +9,20 @@ namespace ETapManagement.Domain.Models
         {
             Component = new HashSet<Component>();
             ComponentHistory = new HashSet<ComponentHistory>();
+            DispReqStructure = new HashSet<DispReqStructure>();
+            DispSubcontStructure = new HashSet<DispSubcontStructure>();
             ProjectStructureDocuments = new HashSet<ProjectStructureDocuments>();
+            ScrapStructure = new HashSet<ScrapStructure>();
+            SiteDeclaration = new HashSet<SiteDeclaration>();
+            SiteStructurePhysicalverf = new HashSet<SiteStructurePhysicalverf>();
         }
 
         public int Id { get; set; }
         public int StructureId { get; set; }
+        public string StructCode { get; set; }
         public int ProjectId { get; set; }
-        public string DrawingNo { get; set; }
         public int? ComponentsCount { get; set; }
+        public string StructureAttributesVal { get; set; }
         public decimal? EstimatedWeight { get; set; }
         public string StructureStatus { get; set; }
         public string CurrentStatus { get; set; }
@@ -25,11 +31,23 @@ namespace ETapManagement.Domain.Models
         public DateTime? CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public DateTime? ExpReleaseDate { get; set; }
+        public string DrawingNo { get; set; }
+        public int? ActualWbs { get; set; }
+        public DateTime? FabricationYear { get; set; }
+        public string Remarks { get; set; }
+        public decimal? ActualWeight { get; set; }
+        public bool? Reusuability { get; set; }
 
         public virtual Project Project { get; set; }
         public virtual Structures Structure { get; set; }
         public virtual ICollection<Component> Component { get; set; }
         public virtual ICollection<ComponentHistory> ComponentHistory { get; set; }
+        public virtual ICollection<DispReqStructure> DispReqStructure { get; set; }
+        public virtual ICollection<DispSubcontStructure> DispSubcontStructure { get; set; }
         public virtual ICollection<ProjectStructureDocuments> ProjectStructureDocuments { get; set; }
+        public virtual ICollection<ScrapStructure> ScrapStructure { get; set; }
+        public virtual ICollection<SiteDeclaration> SiteDeclaration { get; set; }
+        public virtual ICollection<SiteStructurePhysicalverf> SiteStructurePhysicalverf { get; set; }
     }
 }

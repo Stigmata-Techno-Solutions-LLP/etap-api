@@ -26,10 +26,12 @@ insert into segment values ('SEG001','')
 
 
 
+select * from users u 
+
 insert into project   values ('BMRC RT 02','PROJ001',200,1,1,'JOB001','ERDC0001',0,1,1,getdate(),null,null)
 insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('admin','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,1,getdate(),null,null,null,1,1,1)
 
-insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id,first_name ) values('stig_bu','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,4,getdate(),null,null,null,1,1,1)
+insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_bu','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,4,getdate(),null,null,null,1,1,1)
 
 insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_twcc','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,6,getdate(),null,null,null,1,1,1)
 
@@ -60,10 +62,9 @@ insert into structure_type values('LG & Bridge Builders',1,0,'',1,getdate(),null
 
 
 
+select * from users u 
 
-
-
-INSERT INTO ETapManagement.dbo.role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
+INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
 ('SITE','REQUIREMENT',1,'NEW','REJECT','REJECT,NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH',NULL)
 ,('BU','REQUIREMENT',2,'BUAPPROVED','NEW','NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH',NULL)
 ,('CMPC','REQUIREMENT',3,'CMPCAPPROVED','BUAPPROVED,TWCCAPPROVED','BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH',NULL)
@@ -75,7 +76,7 @@ INSERT INTO ETapManagement.dbo.role_hierarchy (role_name,scenario_type,role_hier
 ,('PROCUREMENT','DECLARATION',3,NULL,'EHSREJECTED,QAREJECTED','',NULL)
 ,('TWCC','DECLARATION',4,'READYTOREUSE','','READYTOREUSE',NULL)
 ;
-INSERT INTO ETapManagement.dbo.role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
+INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
 ('CMPC','DECLARATION',5,'READYTOREUSE','','READYTOREUSE',NULL)
 ,('BU','DECLARATION',6,'READYTOREUSE','','READYTOREUSE',NULL)
 ,('PROCUREMENT','DECLARATION',7,'SCRAPPED','QAREJECTED,EHSREJECTED','',NULL)
@@ -87,3 +88,38 @@ INSERT INTO ETapManagement.dbo.role_hierarchy (role_name,scenario_type,role_hier
 ,('VENDOR','DISPATCH',5,'DISPATCHED','TOSITEAPPROVED','PROCAPPROVED,TOSITEAPPROVED,VENDORAPPROVED,FAAAPPROVED,FROMSITEAPPROVED','1,2')
 ,('SITE','DISPATCH',5,'DISPATCHED','TOSITEAPPROVED','TOSITEAPPROVED','4')
 ;
+
+
+
+
+INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
+('SITE','SCRAP',1,'NEW','REJECTED','REJECTED,NEW,EHSAPPROVED,QAAPPROVED,SCRAPPED',NULL)
+,('EHS','SCRAP',2,'EHSAPPROVED','NEW','NEW,EHSAPPROVED,QAAPPROVED,SCRAPPED',NULL)
+,('QA','SCRAP',3,'QAAPPROVED','EHSAPPROVED','EHSAPPROVED,QAAPPROVED,SCRAPPED',NULL)
+,('TWCC','SCRAP',4,'SCRAPPED','QAAPPROVED','QAAPPROVED,SCRAPPED',NULL),
+('PROCUREMENT','SCRAP',5,'SCRAPPED',null,'SCRAPPED',NULL)
+
+
+
+
+ --insert into dispatch_requirement values('DC000001',9,1,1,null,null,'NEW','NEW',1,1,getdate(),null,null,0)
+ --insert into dispatch_requirement values('DC000003',9,1,2,null,null,'NEW','NEW',1,1,getdate(),null,null,0)
+
+ 
+
+
+delete from disp_mod_stage_component 
+
+delete from disp_structure_comp
+
+delete from disp_req_structure 
+delete from disreq_status_history 
+
+
+delete from disp_subcont_documents 
+delete from disp_subcont_structure 
+delete from dispatchreq_subcont 
+
+delete from dispatch_requirement
+
+delete from dispatchreq_subcont 

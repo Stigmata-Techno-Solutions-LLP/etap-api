@@ -19,7 +19,7 @@ namespace ETapManagement.ViewModel.Dto {
         public string ComponentName { get; set; }
 
         [DataType (DataType.Text)]
-        [StringLength (10)]
+        [StringLength (100)]
         [Display (Name = "Drawing No")]
         public string DrawingNo { get; set; }
 
@@ -32,7 +32,7 @@ namespace ETapManagement.ViewModel.Dto {
         public decimal? Breath { get; set; }
         public decimal? Height { get; set; }
         public decimal? Thickness { get; set; }
-        public decimal? Width { get; set; }
+        public decimal? Weight { get; set; }
 
         [DataType (DataType.Text)]
         [StringLength (10)]

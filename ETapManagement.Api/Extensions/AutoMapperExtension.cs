@@ -12,7 +12,6 @@ namespace ETapManagement.Api.Extensions {
             services.AddAutoMapper (typeof (MappingProfile));
         }
     }
-
     public class MappingProfile : Profile {
 
         public MappingProfile () {
@@ -42,6 +41,9 @@ namespace ETapManagement.Api.Extensions {
                 .ForMember (dest =>
                     dest.RoleId,
                     opt => opt.MapFrom (src => src.roleId))
+                .ForMember (dest =>
+                    dest.VendorId,
+                    opt => opt.MapFrom (src => src.VendorId))                    
                 .ForMember (dest =>
                     dest.ProjectId,
                     opt => opt.MapFrom (src => src.ProjectId))
@@ -215,13 +217,19 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.Description))
                 .ReverseMap ();
 
-            CreateMap<ComponentTypeDetails, ComponentType> ()
+            CreateMap<ComponentType,ComponentTypeDetails > ()
                 .ForMember (dest =>
                     dest.Id,
                     opt => opt.MapFrom (src => src.Id))
                 .ForMember (dest =>
                     dest.Name,
                     opt => opt.MapFrom (src => src.Name))
+                .ForMember (dest =>
+                    dest.CreatedDate,
+                    opt => opt.MapFrom (src => src.CreatedAt))
+                .ForMember (dest =>
+                    dest.UpdatedDate,
+                    opt => opt.MapFrom (src => src.UpdatedAt))
                 .ForMember (dest =>
                     dest.Description,
                     opt => opt.MapFrom (src => src.Description))
@@ -410,7 +418,7 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.IsDelete))
                 .ReverseMap ();
 
-            CreateMap<IndependentCompanyDetail, IndependentCompany> ()
+            CreateMap<IndependentCompany , IndependentCompanyDetail> ()
                 .ForMember (dest =>
                     dest.Id,
                     opt => opt.MapFrom (src => src.Id))
@@ -423,6 +431,12 @@ namespace ETapManagement.Api.Extensions {
                 .ForMember (dest =>
                     dest.IsDelete,
                     opt => opt.MapFrom (src => src.IsDelete))
+                .ForMember (dest =>
+                    dest.CreatedDate,
+                    opt => opt.MapFrom (src => src.CreatedAt))
+                .ForMember (dest =>
+                    dest.UpdatedDate,
+                    opt => opt.MapFrom (src => src.UpdatedAt))
                 .ReverseMap ();
 
             CreateMap<AddIndependentCompany, IndependentCompany> ()
@@ -481,7 +495,7 @@ namespace ETapManagement.Api.Extensions {
                     dest.StructureTypeId,
                     opt => opt.MapFrom (src => src.StructureTypeId))
                 .ForMember (dest =>
-                    dest.StructureAttributes,
+                    dest.StructureAttributesDef,
                     opt => opt.MapFrom (src => src.StructureAttributes))
                 .ForMember (dest =>
                     dest.IsActive,
@@ -517,13 +531,13 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.Project.Name))
                 .ForMember (dest =>
                     dest.StructureCode,
-                    opt => opt.MapFrom (src => src.Structure.StructId))
+                    opt => opt.MapFrom (src => src.StructCode))
                 .ForMember (dest =>
                     dest.ProjectId,
                     opt => opt.MapFrom (src => src.ProjectId))
                 .ForMember (dest =>
                     dest.StructureAttributes,
-                    opt => opt.MapFrom (src => src.Structure.StructureAttributes))
+                    opt => opt.MapFrom (src => src.StructureAttributesVal))
                 .ForMember (dest =>
                     dest.structureDocs,
                     opt => opt.MapFrom (src => src.ProjectStructureDocuments))
@@ -533,6 +547,9 @@ namespace ETapManagement.Api.Extensions {
                 .ForMember (dest =>
                     dest.EstimatedWeight,
                     opt => opt.MapFrom (src => src.EstimatedWeight))    
+                 .ForMember (dest =>
+                    dest.ComponentsCount,
+                    opt => opt.MapFrom (src => src.ComponentsCount))        
                 .ReverseMap ();
 
             CreateMap<UpdateBusinessUnit, BusinessUnit> ()
@@ -616,8 +633,8 @@ namespace ETapManagement.Api.Extensions {
                     dest.QrCode,
                     opt => opt.MapFrom (src => src.QrCode))
                 .ForMember (dest =>
-                    dest.Width,
-                    opt => opt.MapFrom (src => src.Width))
+                    dest.Weight,
+                    opt => opt.MapFrom (src => src.Weight))
                 .ForMember (dest =>
                     dest.MakeType,
                     opt => opt.MapFrom (src => src.MakeType))
@@ -674,8 +691,8 @@ namespace ETapManagement.Api.Extensions {
                     dest.QrCode,
                     opt => opt.MapFrom (src => src.QrCode))
                 .ForMember (dest =>
-                    dest.Width,
-                    opt => opt.MapFrom (src => src.Width))
+                    dest.Weight,
+                    opt => opt.MapFrom (src => src.Weight))
                 .ForMember (dest =>
                     dest.MakeType,
                     opt => opt.MapFrom (src => src.MakeType))
@@ -732,8 +749,8 @@ namespace ETapManagement.Api.Extensions {
                     dest.QrCode,
                     opt => opt.MapFrom (src => src.QrCode))
                 .ForMember (dest =>
-                    dest.Width,
-                    opt => opt.MapFrom (src => src.Width))
+                    dest.Weight,
+                    opt => opt.MapFrom (src => src.Weight))
                 .ForMember (dest =>
                     dest.MakeType,
                     opt => opt.MapFrom (src => src.MakeType))
@@ -745,22 +762,7 @@ namespace ETapManagement.Api.Extensions {
             CreateMap<AddSiteRequirement, SiteRequirement> ()
                 .ForMember (dest =>
                     dest.FromProjectId,
-                    opt => opt.MapFrom (src => src.ProjectId))
-                .ForMember (dest =>
-                    dest.PlanStartdate,
-                    opt => opt.MapFrom (src => src.PlanStartdate))
-                .ForMember (dest =>
-                    dest.ActualReleasedate,
-                    opt => opt.MapFrom (src => src.ActualReleasedate))
-                .ForMember (dest =>
-                    dest.RequireWbsId,
-                    opt => opt.MapFrom (src => src.RequireWbsId))
-                .ForMember (dest =>
-                    dest.ActualWbsId,
-                    opt => opt.MapFrom (src => src.ActualWbsId))
-                .ForMember (dest =>
-                    dest.ActualWbsId,
-                    opt => opt.MapFrom (src => src.ActualWbsId))
+                    opt => opt.MapFrom (src => src.ProjectId))               
                 .ForMember (dest =>
                     dest.Remarks,
                     opt => opt.MapFrom (src => src.Remarks))
@@ -788,22 +790,7 @@ namespace ETapManagement.Api.Extensions {
                     opt => opt.MapFrom (src => src.FromProjectId))
                 .ForMember (dest =>
                     dest.ProjectName,
-                    opt => opt.MapFrom (src => src.FromProject.Name))    
-                .ForMember (dest =>
-                    dest.PlanStartdate,
-                    opt => opt.MapFrom (src => src.PlanStartdate))
-                .ForMember (dest =>
-                    dest.ActualReleasedate,
-                    opt => opt.MapFrom (src => src.ActualReleasedate))
-                .ForMember (dest =>
-                    dest.RequireWbsId,
-                    opt => opt.MapFrom (src => src.RequireWbsId))
-                .ForMember (dest =>
-                    dest.ActualWbsId,
-                    opt => opt.MapFrom (src => src.ActualWbsId))
-                .ForMember (dest =>
-                    dest.ActualWbsId,
-                    opt => opt.MapFrom (src => src.ActualWbsId))
+                    opt => opt.MapFrom (src => src.FromProject.Name))                    
                 .ForMember (dest =>
                     dest.Remarks,
                     opt => opt.MapFrom (src => src.Remarks))
@@ -824,22 +811,36 @@ namespace ETapManagement.Api.Extensions {
             CreateMap< SiteReqStructure,SiteRequirementStructure> ()
                 .ForMember (dest =>
                     dest.Id,
-                    opt => opt.MapFrom (src => src.Id))
-                .ForMember (dest =>
-                    dest.DrawingNo,
-                    opt => opt.MapFrom (src => src.DrawingNo))
+                    opt => opt.MapFrom (src => src.Id))              
                 .ForMember (dest =>
                     dest.StructId,
                     opt => opt.MapFrom (src => src.StructId))
                 .ForMember (dest =>
                     dest.StructName,
-                    opt => opt.MapFrom (src => src.Struct.Name))                    
+                    opt => opt.MapFrom (src => src.Struct.Name)) 
+                .ForMember (dest =>
+                    dest.PlanStartdate, 
+                    opt => opt.MapFrom (src => src.PlanStartdate))  
+                .ForMember (dest =>
+                    dest.PlanReleasedate,
+                    opt => opt.MapFrom (src => src.PlanReleasedate))  
+
+                .ForMember (dest =>
+                    dest.RequireByDate,
+                    opt => opt.MapFrom (src => src.ActualStartdate))                        
+                .ForMember (dest =>
+                    dest.RequireWbsId,
+                    opt => opt.MapFrom (src => src.RequireWbsId))                  
+                 .ForMember (dest =>
+                    dest.StructureAttributesVal,
+                    opt => opt.MapFrom (src => src.StructureAttributesVal))   
                 .ReverseMap ();
 
             CreateMap<AddSurplus, SiteDeclaration> ()
                 .ForMember (dest =>
-                    dest.StructId,
-                    opt => opt.MapFrom (src => src.DispStructId))
+                    dest.ProjStructId,
+                    opt => opt.MapFrom (src => src.ProjStructId))
+                 
                 .ForMember (dest =>
                     dest.FromProjectId,
                     opt => opt.MapFrom (src => src.FromProjectId))    
@@ -873,8 +874,8 @@ namespace ETapManagement.Api.Extensions {
 					dest.SubconId,
 					opt => opt.MapFrom(src => src.SubconId))
 				.ForMember(dest =>
-					dest.StructId,
-					opt => opt.MapFrom(src => src.StructId))
+					dest.ProjStructId,
+					opt => opt.MapFrom(src => src.ProjStructId))
 				.ForMember(dest =>
 					dest.ScrapRate,
 					opt => opt.MapFrom(src => src.ScrapRate))
@@ -889,6 +890,7 @@ namespace ETapManagement.Api.Extensions {
 					opt => opt.MapFrom(src => src.IsDelete))
 				.ReverseMap();
 
+
 			CreateMap<ScrapStructure,ScrapStructureDetail>()
 				.ForMember(dest =>
 				   dest.Id,
@@ -897,17 +899,18 @@ namespace ETapManagement.Api.Extensions {
 					dest.SubconId,
 					opt => opt.MapFrom(src => src.SubconId))
 				.ForMember(dest =>
-					dest.StructId,
-					opt => opt.MapFrom(src => src.StructId))
+					dest.ProjStructId,
+					opt => opt.MapFrom(src => src.ProjStructId))
 				.ForMember(dest =>
 					dest.ScrapRate,
 					opt => opt.MapFrom(src => src.ScrapRate))
 				.ForMember(dest =>
-					dest.AuctionId,
-					opt => opt.MapFrom(src => src.AuctionId))
-                .ForMember(dest =>
-					dest.StructName,
-					opt => opt.MapFrom(src => src.Struct.Name))
+					dest.AuctionId,                    
+				opt => opt.MapFrom(src => src.AuctionId))
+                //TODO(add stcuturename)
+                // .ForMember(dest =>
+				// 	dest.StructName,
+				// 	opt => opt.MapFrom(src => src.ProjStruct.Structure.Name))
                 .ForMember(dest =>
 					dest.VendorName,
 					opt => opt.MapFrom(src => src.Subcon.Name))                    

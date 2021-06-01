@@ -48,6 +48,8 @@ namespace ETapManagement.ViewModel.Dto {
         [Required]
         [Display (Name = "Role Id")]
         public int roleId { get; set; }
+         [Display (Name = "Vendor Id")]
+        public int? VendorId { get; set; }
 
         [IgnoreDataMember]
         public string password { get; set; }

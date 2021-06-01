@@ -2,10 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
+
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
+       
+
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -17,6 +20,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<Component> Component { get; set; }
         public virtual DbSet<ComponentHistory> ComponentHistory { get; set; }
         public virtual DbSet<ComponentType> ComponentType { get; set; }
+        public virtual DbSet<DispModStageComponent> DispModStageComponent { get; set; }
         public virtual DbSet<DispReqStructure> DispReqStructure { get; set; }
         public virtual DbSet<DispStructureComp> DispStructureComp { get; set; }
         public virtual DbSet<DispStructureDocuments> DispStructureDocuments { get; set; }
@@ -33,6 +37,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<RoleHierarchy> RoleHierarchy { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<RolesApplicationforms> RolesApplicationforms { get; set; }
+        public virtual DbSet<ScrapStatusHistory> ScrapStatusHistory { get; set; }
         public virtual DbSet<ScrapStructure> ScrapStructure { get; set; }
         public virtual DbSet<Segment> Segment { get; set; }
         public virtual DbSet<ServiceType> ServiceType { get; set; }
@@ -41,6 +46,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<SitePhysicalVerf> SitePhysicalVerf { get; set; }
         public virtual DbSet<SiteReqStructure> SiteReqStructure { get; set; }
         public virtual DbSet<SiteRequirement> SiteRequirement { get; set; }
+        public virtual DbSet<SiteStrctPhysicalverfDoc> SiteStrctPhysicalverfDoc { get; set; }
         public virtual DbSet<SiteStructurePhysicalverf> SiteStructurePhysicalverf { get; set; }
         public virtual DbSet<SitedeclDocuments> SitedeclDocuments { get; set; }
         public virtual DbSet<SitedeclStatusHistory> SitedeclStatusHistory { get; set; }
@@ -57,20 +63,35 @@ namespace ETapManagement.Domain.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=landt.ctxkj3vcelr3.ap-southeast-1.rds.amazonaws.com;Database=ETapManagement;User Id=admin;Password=PlH34cwug3tqupePJcAp;");
+                optionsBuilder.UseSqlServer("Server=database-1.cllg2g64ndar.ap-southeast-1.rds.amazonaws.com;Database=ETapManagementSIT;User Id=admin;Password=Admin169;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
             modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
             modelBuilder.Query<AssignStructureDtlsOnly> ();
             modelBuilder.Query<AvailableStructureForReuse> ();
+            modelBuilder.Query<TWCCDispatch>();
+            modelBuilder.Query<TWCCDispatchInnerStructure>();
+            modelBuilder.Query<SiteRequirementDetailsForDispatch>();
+            modelBuilder.Query<DispRequestDto> ();
+            modelBuilder.Query<DispStructureCMPC> ();
+            modelBuilder.Query<ComponentDetailsDto> ();            
+            modelBuilder.Query<SubContractorDetail>();
+            modelBuilder.Query<SubContractorComponentDetail>();
+            modelBuilder.Query<ReceiveDetail>();
+            modelBuilder.Query<ReceiveComponentDetail>();
+             modelBuilder.Query<PhysicalVerificationDetail> ();
+               modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
+               modelBuilder.Query<ComponentDetailsInput> ();
+             
+            modelBuilder.Query<ScrapStructureWorkFlowDetail> ();
+            modelBuilder.Query<ViewStructureChart>();
+            modelBuilder.Query<Code>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -202,7 +223,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DrawingNo)
                     .HasColumnName("drawing_no")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Height)
@@ -249,8 +270,8 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
 
-                entity.Property(e => e.Width)
-                    .HasColumnName("width")
+                entity.Property(e => e.Weight)
+                    .HasColumnName("weight")
                     .HasColumnType("decimal(10, 6)");
 
                 entity.HasOne(d => d.CompType)
@@ -300,7 +321,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DrawingNo)
                     .HasColumnName("drawing_no")
-                    .HasMaxLength(10)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Height)
@@ -341,8 +362,8 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("thickness")
                     .HasColumnType("decimal(10, 6)");
 
-                entity.Property(e => e.Width)
-                    .HasColumnName("width")
+                entity.Property(e => e.Weight)
+                    .HasColumnName("weight")
                     .HasColumnType("decimal(10, 6)");
 
                 entity.HasOne(d => d.CompType)
@@ -363,7 +384,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("component_type");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__componen__72E12F1BD92E48E4")
+                    .HasName("UQ__componen__72E12F1B396403F9")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -399,24 +420,95 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
             });
 
+            modelBuilder.Entity<DispModStageComponent>(entity =>
+            {
+                entity.ToTable("disp_mod_stage_component");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Addplate)
+                    .HasColumnName("addplate")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Breath)
+                    .HasColumnName("breath")
+                    .HasColumnType("decimal(10, 6)");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+
+                entity.Property(e => e.DispstructCompId).HasColumnName("dispstruct_comp_id");
+
+                entity.Property(e => e.Height)
+                    .HasColumnName("height")
+                    .HasColumnType("decimal(10, 6)");
+
+                entity.Property(e => e.Leng)
+                    .HasColumnName("leng")
+                    .HasColumnType("decimal(10, 6)");
+
+                entity.Property(e => e.MakeType)
+                    .HasColumnName("make_type")
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.QrCode)
+                    .HasColumnName("qr_code")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Thickness)
+                    .HasColumnName("thickness")
+                    .HasColumnType("decimal(10, 6)");
+
+                entity.Property(e => e.Weight)
+                    .HasColumnName("weight")
+                    .HasColumnType("decimal(10, 6)");
+
+                entity.HasOne(d => d.DispstructComp)
+                    .WithMany(p => p.DispModStageComponent)
+                    .HasForeignKey(d => d.DispstructCompId)
+                    .HasConstraintName("compmodif_dispcomp_fkey");
+            });
+
             modelBuilder.Entity<DispReqStructure>(entity =>
             {
                 entity.ToTable("disp_req_structure");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.DispStructStatus)
+                    .HasColumnName("disp_struct_status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
+
                 entity.Property(e => e.DispreqId).HasColumnName("dispreq_id");
 
-                entity.Property(e => e.StructId).HasColumnName("struct_id");
+                entity.Property(e => e.FromProjectId).HasColumnName("from_project_id");
+
+                entity.Property(e => e.IsModification).HasColumnName("is_modification");
+
+                entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
+
+                entity.Property(e => e.SurplusDate)
+                    .HasColumnName("surplus_date")
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.Dispreq)
                     .WithMany(p => p.DispReqStructure)
                     .HasForeignKey(d => d.DispreqId)
                     .HasConstraintName("DispReqStructire_siteReq_fkey");
 
-                entity.HasOne(d => d.Struct)
+                entity.HasOne(d => d.ProjStruct)
                     .WithMany(p => p.DispReqStructure)
-                    .HasForeignKey(d => d.StructId)
+                    .HasForeignKey(d => d.ProjStructId)
                     .HasConstraintName("DispReqStructire_structure_fkey");
             });
 
@@ -434,6 +526,16 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.DispCompId).HasColumnName("disp_comp_id");
 
                 entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
+
+                entity.Property(e => e.DispatchDate)
+                    .HasColumnName("dispatch_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FromScanBy).HasColumnName("from_scan_by");
+
+                entity.Property(e => e.FromScandate)
+                    .HasColumnName("from_scandate")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.LastScandate)
                     .HasColumnName("last_scandate")
@@ -533,6 +635,8 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("contract_years")
                     .HasColumnType("decimal(10, 2)");
 
+                entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
+
                 entity.Property(e => e.DispatchDate)
                     .HasColumnName("dispatch_date")
                     .HasColumnType("datetime");
@@ -559,16 +663,16 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("plan_releasedate")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.StructId).HasColumnName("struct_id");
+                entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
 
                 entity.HasOne(d => d.Dispreqsubcont)
                     .WithMany(p => p.DispSubcontStructure)
                     .HasForeignKey(d => d.DispreqsubcontId)
                     .HasConstraintName("dispreqsubcont_structure_siteReq_fkey");
 
-                entity.HasOne(d => d.Struct)
+                entity.HasOne(d => d.ProjStruct)
                     .WithMany(p => p.DispSubcontStructure)
-                    .HasForeignKey(d => d.StructId)
+                    .HasForeignKey(d => d.ProjStructId)
                     .HasConstraintName("disp_subcont_structure_structure_fkey");
             });
 
@@ -577,7 +681,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("dispatch_requirement");
 
                 entity.HasIndex(e => e.DispatchNo)
-                    .HasName("UQ__dispatch__F7205CCD7382AD40")
+                    .HasName("UQ__dispatch__F7205CCDFAFBA6D9")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -602,6 +706,8 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
 
                 entity.Property(e => e.ServicetypeId).HasColumnName("servicetype_id");
+
+                entity.Property(e => e.SiteReqStructid).HasColumnName("site_req_structid");
 
                 entity.Property(e => e.SitereqId).HasColumnName("sitereq_id");
 
@@ -631,6 +737,11 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.DispatchRequirement)
                     .HasForeignKey(d => d.ServicetypeId)
                     .HasConstraintName("dispatch_requirement_servicetype_fkey");
+
+                entity.HasOne(d => d.SiteReqStruct)
+                    .WithMany(p => p.DispatchRequirement)
+                    .HasForeignKey(d => d.SiteReqStructid)
+                    .HasConstraintName("dispatch_requirement_siteReqstructure_fkey");
 
                 entity.HasOne(d => d.Sitereq)
                     .WithMany(p => p.DispatchRequirement)
@@ -713,10 +824,6 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Entity<DisreqStatusHistory>(entity =>
             {
                 entity.ToTable("disreq_status_history");
-
-                entity.HasIndex(e => e.DispatchNo)
-                    .HasName("UQ__disreq_s__F7205CCD317E9D4D")
-                    .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -888,6 +995,12 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.ActualWbs).HasColumnName("actual_wbs");
+
+                entity.Property(e => e.ActualWeight)
+                    .HasColumnName("actual_weight")
+                    .HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.ComponentsCount).HasColumnName("components_count");
 
                 entity.Property(e => e.CreatedAt)
@@ -904,18 +1017,41 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DrawingNo)
                     .HasColumnName("drawing_no")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.EstimatedWeight)
                     .HasColumnName("estimated_weight")
                     .HasColumnType("decimal(10, 2)");
 
+                entity.Property(e => e.ExpReleaseDate)
+                    .HasColumnName("exp_release_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FabricationYear)
+                    .HasColumnName("fabrication_year")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.IsDelete)
                     .HasColumnName("is_delete")
                     .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.ProjectId).HasColumnName("project_id");
+
+                entity.Property(e => e.Remarks)
+                    .HasColumnName("remarks")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Reusuability).HasColumnName("reusuability");
+
+                entity.Property(e => e.StructCode)
+                    .IsRequired()
+                    .HasColumnName("struct_code")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StructureAttributesVal).HasColumnName("structure_attributes_val");
 
                 entity.Property(e => e.StructureId).HasColumnName("structure_id");
 
@@ -1067,6 +1203,43 @@ namespace ETapManagement.Domain.Models
                     .HasConstraintName("rolesforms_roles_id_fkey");
             });
 
+            modelBuilder.Entity<ScrapStatusHistory>(entity =>
+            {
+                entity.ToTable("scrap_status_history");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Notes)
+                    .HasColumnName("notes")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.Property(e => e.ScrapStuctreId).HasColumnName("scrap_stuctre_id");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StatusInternal)
+                    .HasColumnName("status_internal")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+                entity.HasOne(d => d.ScrapStuctre)
+                    .WithMany(p => p.ScrapStatusHistory)
+                    .HasForeignKey(d => d.ScrapStuctreId)
+                    .HasConstraintName("scrap_status_history_scrapstructure_fkey");
+            });
+
             modelBuilder.Entity<ScrapStructure>(entity =>
             {
                 entity.ToTable("scrap_structure");
@@ -1085,7 +1258,15 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
+                entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
+
+                entity.Property(e => e.FromProjectId).HasColumnName("from_project_id");
+
                 entity.Property(e => e.IsDelete).HasColumnName("is_delete");
+
+                entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
 
                 entity.Property(e => e.ScrapRate)
                     .HasColumnName("scrap_rate")
@@ -1096,8 +1277,6 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructId).HasColumnName("struct_id");
-
                 entity.Property(e => e.SubconId).HasColumnName("subcon_id");
 
                 entity.Property(e => e.UpdatedAt)
@@ -1106,10 +1285,10 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
 
-                entity.HasOne(d => d.Struct)
+                entity.HasOne(d => d.ProjStruct)
                     .WithMany(p => p.ScrapStructure)
-                    .HasForeignKey(d => d.StructId)
-                    .HasConstraintName("scrap_strucure_structure_fkey");
+                    .HasForeignKey(d => d.ProjStructId)
+                    .HasConstraintName("scrap_strucure_projstructure_fkey");
 
                 entity.HasOne(d => d.Subcon)
                     .WithMany(p => p.ScrapStructure)
@@ -1122,7 +1301,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("segment");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__segment__72E12F1BBE93F90A")
+                    .HasName("UQ__segment__72E12F1BB60B301A")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1144,7 +1323,7 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("service_type");
 
                 entity.HasIndex(e => e.Name)
-                    .HasName("UQ__service___72E12F1B2B9D961A")
+                    .HasName("UQ__service___72E12F1BC5E41A68")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -1224,6 +1403,8 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
+
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
 
                 entity.Property(e => e.SitereqId).HasColumnName("sitereq_id");
@@ -1238,8 +1419,6 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructId).HasColumnName("struct_id");
-
                 entity.Property(e => e.SurplusFromdate)
                     .HasColumnName("surplus_fromdate")
                     .HasColumnType("datetime");
@@ -1250,15 +1429,15 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
 
+                entity.HasOne(d => d.ProjStruct)
+                    .WithMany(p => p.SiteDeclaration)
+                    .HasForeignKey(d => d.ProjStructId)
+                    .HasConstraintName("siteDec_projstructure_fkey");
+
                 entity.HasOne(d => d.Sitereq)
                     .WithMany(p => p.SiteDeclaration)
                     .HasForeignKey(d => d.SitereqId)
                     .HasConstraintName("siteDec_siteReq_fkey");
-
-                entity.HasOne(d => d.Struct)
-                    .WithMany(p => p.SiteDeclaration)
-                    .HasForeignKey(d => d.StructId)
-                    .HasConstraintName("siteDec_structure_fkey");
             });
 
             modelBuilder.Entity<SitePhysicalVerf>(entity =>
@@ -1294,16 +1473,33 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.DrawingNo)
-                    .HasColumnName("drawing_no")
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
+                entity.Property(e => e.ActualReleasedate)
+                    .HasColumnName("actual_releasedate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ActualStartdate)
+                    .HasColumnName("actual_startdate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ActualWbsId).HasColumnName("actual_wbs_id");
+
+                entity.Property(e => e.PlanReleasedate)
+                    .HasColumnName("plan_releasedate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PlanStartdate)
+                    .HasColumnName("plan_startdate")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.RequireWbsId).HasColumnName("require_wbs_id");
 
                 entity.Property(e => e.SiteReqId).HasColumnName("site_req_id");
 
                 entity.Property(e => e.StructId).HasColumnName("struct_id");
+
+                entity.Property(e => e.StructureAttributesVal).HasColumnName("structure_attributes_val");
 
                 entity.HasOne(d => d.SiteReq)
                     .WithMany(p => p.SiteReqStructure)
@@ -1323,20 +1519,10 @@ namespace ETapManagement.Domain.Models
                 entity.ToTable("site_requirement");
 
                 entity.HasIndex(e => e.MrNo)
-                    .HasName("UQ__site_req__AE8CB9728B4DCC1B")
+                    .HasName("UQ__site_req__AE8CB972C5005D06")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.ActualReleasedate)
-                    .HasColumnName("actual_releasedate")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.ActualStartdate)
-                    .HasColumnName("actual_startdate")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.ActualWbsId).HasColumnName("actual_wbs_id");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
@@ -1355,20 +1541,10 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.PlanReleasedate)
-                    .HasColumnName("plan_releasedate")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.PlanStartdate)
-                    .HasColumnName("plan_startdate")
-                    .HasColumnType("datetime");
-
                 entity.Property(e => e.Remarks)
                     .HasColumnName("remarks")
                     .HasMaxLength(500)
                     .IsUnicode(false);
-
-                entity.Property(e => e.RequireWbsId).HasColumnName("require_wbs_id");
 
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
 
@@ -1395,6 +1571,36 @@ namespace ETapManagement.Domain.Models
                     .HasConstraintName("siteReq_proj_fkey");
             });
 
+            modelBuilder.Entity<SiteStrctPhysicalverfDoc>(entity =>
+            {
+                entity.ToTable("site_strct_physicalverf_doc");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.FileName)
+                    .HasColumnName("file_name")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FileType)
+                    .HasColumnName("file_type")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Path)
+                    .HasColumnName("path")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SiteStructurePhysicalverfId).HasColumnName("site_structure_physicalverf_id");
+
+                entity.HasOne(d => d.SiteStructurePhysicalverf)
+                    .WithMany(p => p.SiteStrctPhysicalverfDoc)
+                    .HasForeignKey(d => d.SiteStructurePhysicalverfId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("site_structure_physicalverf_id_sspID_fkey");
+            });
+
             modelBuilder.Entity<SiteStructurePhysicalverf>(entity =>
             {
                 entity.ToTable("site_structure_physicalverf");
@@ -1416,6 +1622,8 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("duedate_to")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
+
                 entity.Property(e => e.ProjectId).HasColumnName("project_id");
 
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
@@ -1432,13 +1640,16 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructId).HasColumnName("struct_id");
-
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updated_at")
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+                entity.HasOne(d => d.ProjStruct)
+                    .WithMany(p => p.SiteStructurePhysicalverf)
+                    .HasForeignKey(d => d.ProjStructId)
+                    .HasConstraintName("site_structure_physicalverf_strucutre_fkey");
 
                 entity.HasOne(d => d.Project)
                     .WithMany(p => p.SiteStructurePhysicalverf)
@@ -1449,11 +1660,6 @@ namespace ETapManagement.Domain.Models
                     .WithMany(p => p.SiteStructurePhysicalverf)
                     .HasForeignKey(d => d.SiteVerfId)
                     .HasConstraintName("site_structure_physicalverf_site_physical_verf_fkey");
-
-                entity.HasOne(d => d.Struct)
-                    .WithMany(p => p.SiteStructurePhysicalverf)
-                    .HasForeignKey(d => d.StructId)
-                    .HasConstraintName("site_structure_physicalverf_strucutre_fkey");
             });
 
             modelBuilder.Entity<SitedeclDocuments>(entity =>
@@ -1628,13 +1834,7 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructId)
-                    .IsRequired()
-                    .HasColumnName("struct_id")
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.StructureAttributes).HasColumnName("structure_attributes");
+                entity.Property(e => e.StructureAttributesDef).HasColumnName("structure_attributes_def");
 
                 entity.Property(e => e.StructureTypeId).HasColumnName("structure_type_id");
 
@@ -1791,6 +1991,8 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
 
+                entity.Property(e => e.VendorId).HasColumnName("vendor_id");
+
                 entity.HasOne(d => d.Bu)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.BuId)
@@ -1847,12 +2049,12 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Segment)
                     .HasColumnName("segment")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.SubSegment)
                     .HasColumnName("sub_segment")
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.UpdatedAt)

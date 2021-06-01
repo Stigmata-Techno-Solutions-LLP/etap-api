@@ -19,8 +19,8 @@ namespace ETapManagement.Api.Controllers {
             _scrapStructureService = scrapStructureService;
         }
 
-        [HttpPost ("createScrapStruct")]
-        public IActionResult Create ([FromForm] AddScrapStructure scrapStructure) {
+        [HttpPost ("ProcScrapStruct/{id}")]
+        public IActionResult Create ([FromForm] AddScrapStructure scrapStructure, int Id) {
             try {
              if (scrapStructure.uploadDocs != null) {
                     if (scrapStructure.uploadDocs.Length > 5) throw new ValueNotFoundException ("Document count should not greater than 5");
@@ -29,7 +29,7 @@ namespace ETapManagement.Api.Controllers {
                     }
                     if (scrapStructure.uploadDocs.Select (x => x.Length).Sum () > 50000000) throw new ValueNotFoundException (" File size exceeded limit");
                 }
-                var response = _scrapStructureService.CreateScrapStructure (scrapStructure);
+                var response = _scrapStructureService.UpdateScrapStructure (scrapStructure,Id);
                 return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
@@ -40,11 +40,42 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-        [HttpPut ("updateScrapStruct/{id}")]
-        public IActionResult Update ([FromForm] AddScrapStructure scrapStructure, int id) {
+       
+        // [HttpPut ("updateScrapStruct/{id}")]
+        // public IActionResult Update ([FromForm] AddScrapStructure scrapStructure, int id) {
+        //     try {
+        //         var response = _scrapStructureService.UpdateScrapStructure (scrapStructure, id);
+        //         return Ok (new { message = response.Message, code = 204 });
+        //     } catch (ValueNotFoundException e) {
+        //         Util.LogError (e);
+        //         return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+        //     } catch (Exception e) {
+        //         Util.LogError (e);
+        //         return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+        //     }
+
+        // }
+
+        // [HttpDelete ("deleteScrapStruct/{id}")]
+        // public IActionResult Delete (int id) {
+        //     try {
+        //         var response = _scrapStructureService.DeleteScrapStructure (id);
+        //         return Ok (new { message = response.Message, code = 204 });
+        //     } catch (ValueNotFoundException e) {
+        //         Util.LogError (e);
+        //         return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+        //     } catch (Exception e) {
+        //         Util.LogError (e);
+        //         return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+        //     }
+        // }
+
+
+        [HttpPost ("WorkflowManagement")]
+        public IActionResult WorkflowManagement (WorkFlowScrapPayload payload) {
             try {
-                var response = _scrapStructureService.UpdateScrapStructure (scrapStructure, id);
-                return Ok (new { message = response.Message, code = 204 });
+                var response = _scrapStructureService.WorkflowScrapStructure(payload);
+                return StatusCode (StatusCodes.Status204NoContent, (new { message = response.Message, code = 204 }));
             } catch (ValueNotFoundException e) {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
@@ -52,23 +83,7 @@ namespace ETapManagement.Api.Controllers {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
-
         }
-
-        [HttpDelete ("deleteScrapStruct/{id}")]
-        public IActionResult Delete (int id) {
-            try {
-                var response = _scrapStructureService.DeleteScrapStructure (id);
-                return Ok (new { message = response.Message, code = 204 });
-            } catch (ValueNotFoundException e) {
-                Util.LogError (e);
-                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
-            } catch (Exception e) {
-                Util.LogError (e);
-                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
-            }
-        }
-
         [HttpGet ("getScrapStructDetails")]
         public IActionResult GetProjectDetails () {
             try {
@@ -80,11 +95,44 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
+        [HttpGet ("getWorkFlowScrapDetails")]
+        public IActionResult GetWorkFlowScrapDetails ([FromQuery] ScrapWorkflowDetailsPayload payload) {
+            try {
+                var response = _scrapStructureService.GetScrapWorkflowDetails (payload);
+                return Ok (response);
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+
         [HttpGet ("getScrapStructDetailsById/{id}")]
         public IActionResult GetProjectDetailById (int id) {
             try {
                 var response = _scrapStructureService.GetScrapStructureDetailsById(id);
                 return Ok (response);
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+         [HttpPost ("InitiateScrapStruct")]
+        public IActionResult InitiateScrap ([FromForm] InitiateScrapStructure scrapStructure) {
+            try {
+             if (scrapStructure.uploadDocs != null) {
+                    if (scrapStructure.uploadDocs.Length > 5) throw new ValueNotFoundException ("Document count should not greater than 5");
+                    foreach (IFormFile file in scrapStructure.uploadDocs) {
+                        if (constantVal.AllowedDocFileTypes.Where (x => x.Contains (file.ContentType)).Count () == 0) throw new ValueNotFoundException (string.Format ("File Type {0} is not allowed", file.ContentType));
+                    }
+                    if (scrapStructure.uploadDocs.Select (x => x.Length).Sum () > 50000000) throw new ValueNotFoundException (" File size exceeded limit");
+                }
+                var response = _scrapStructureService.InitiateScrapStructure (scrapStructure);
+                return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
             } catch (Exception e) {
                 Util.LogError (e);
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });

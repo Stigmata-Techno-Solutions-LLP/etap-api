@@ -80,7 +80,24 @@ namespace ETapManagement.Repository {
                 foreach (var item in vendors) {
                     result.Add (new Code () {
                         Id = item.Id,
-                            Name = item.VendorCode
+                        Name = item.Name
+                    });
+                }
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public List<Code> GetVendorCodeListWithServiceType () {
+            try {
+                List<Code> result = new List<Code> ();
+                var vendors = _context.Query<Code> ().FromSqlRaw ("select sc.id , sc.name, scst.servicetype_id as ServiceTypeId from sub_contractor sc inner join subContractor_serviceType scst ON sc.id = scst .subcont_id").ToList ();
+                foreach (var item in vendors) {
+                    result.Add (new Code () {
+                        Id = item.Id,
+                        Name = item.Name,
+                        ServiceTypeId = item.ServiceTypeId
                     });
                 }
                 return result;

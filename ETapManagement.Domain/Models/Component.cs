@@ -14,7 +14,6 @@ namespace ETapManagement.Domain.Models
         public int ProjStructId { get; set; }
         public string CompId { get; set; }
         public int CompTypeId { get; set; }
-        public string DrawingNo { get; set; }
         public int? ComponentNo { get; set; }
         public string CompName { get; set; }
         public bool? IsGroup { get; set; }
@@ -22,7 +21,7 @@ namespace ETapManagement.Domain.Models
         public decimal? Breath { get; set; }
         public decimal? Height { get; set; }
         public decimal? Thickness { get; set; }
-        public decimal? Width { get; set; }
+        public decimal? Weight { get; set; }
         public string MakeType { get; set; }
         public bool? IsTag { get; set; }
         public string QrCode { get; set; }
@@ -33,6 +32,7 @@ namespace ETapManagement.Domain.Models
         public bool? IsDelete { get; set; }
         public bool? IsActive { get; set; }
         public string CompStatus { get; set; }
+        public string DrawingNo { get; set; }
 
         public virtual ComponentType CompType { get; set; }
         public virtual ProjectStructure ProjStruct { get; set; }

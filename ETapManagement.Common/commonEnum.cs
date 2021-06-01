@@ -57,14 +57,50 @@ namespace ETapManagement.Common {
            REJECT=9,
            PROCAPPROVED=10,
            PARTIALLYDISPATCHED=11,
-           DISPATCHED =12
+           DISPATCHED =12,
+           READYTODELIVER=13,
+           CMPCPARTIALLYAPPROVED=14,
+           CMPCMODIFIED=15,
+           CMPCPARTIALLYMODIFIED=16,
+           TWCCPARIALLYMODIFYAPRD=17,
+           TWCCMODIFYAPRD=18,
+
+           
+        
+
           
+        }
+
+          public enum SiteDispStructureStatus {
+            NEW = 1,
+            PARTIALDELIVERED=2,
+            DELIVERED=3,
+            PARTIALLYSCANNED=4,
+            CMPCAPPROVED=5,
+            CMPCPARTIALLYAPRD =15,
+            FAAAPPROVED=6,
+           FROMSITEAPPROVED=7,
+           TOSITEAPPROVED=8,
+           REJECT=9,
+           PROCAPPROVED=10,
+           PARTIALLYDISPATCHED=11,
+           READYTODELIVER=13,
+           DISPATCHED =12
         }
         public enum ComponentStatus {
             NEW =1,
            USABLE =2,
             SCRAP =3
         }
+        public enum ScrapStatus {
+            NEW =1,
+            EHSAPPROVED =2,
+            QAAPPROVED =3,
+            TWCCAPPROVED=4,
+            SCRAPPED=5,
+            REJECTED=6,
+            
+        }        
 
            public enum ComponentInternalStatus {
             NEW = 1,
@@ -98,6 +134,12 @@ namespace ETapManagement.Common {
             NEW=1,
             PARTIALLYDISPATCHED=2,
             DISPATCHED=2
+        }
+
+        public enum TWCCDispatchReleaseDate{
+            ONEMONTH=1,
+            THREEMONTHS=2,
+            SIXMONTHS=3
         }
     }
 

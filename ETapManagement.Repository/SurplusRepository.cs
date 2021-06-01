@@ -76,7 +76,7 @@ namespace ETapManagement.Repository {
                         _context.SitedeclStatusHistory.Add (siteStatusHist);
                         _context.SaveChanges ();
 
-                        ProjectStructure projStructDB = _context.ProjectStructure.Where(x=>x.StructureId ==surplusDetails.DispStructId).FirstOrDefault();
+                        ProjectStructure projStructDB = _context.ProjectStructure.Where(x=>x.Id ==surplusDetails.ProjStructId).FirstOrDefault();
                         projStructDB.CurrentStatus = commonEnum.StructureInternalStatus.SURPLUSINITIATED.ToString();
                         _context.SaveChanges ();
                         transaction.Commit ();

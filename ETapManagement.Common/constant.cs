@@ -10,6 +10,7 @@ namespace ETapManagement.Common {
 
         public static string DispReusePrefix = "DA";
         public static string DispVendorPrefix = "DC";
+         public static string InspectionPrefix   = "INS";
 
 
     }

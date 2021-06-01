@@ -1,0 +1,176 @@
+ CREATE OR ALTER FUNCTION fn_GetReqStructureName(@site_req_id int)
+
+ RETURNS VARCHAR(2000)
+AS BEGIN 
+	 	 	DECLARE @structureName varchar(2000)
+
+  SELECT @structureName = COALESCE(@structureName + ',','') + Name FROM structures
+ where id in (select  srs.struct_id from site_req_structure srs  where srs.site_req_id in ( @site_req_id))
+	 RETURN @structureName
+	 END
+	 
+
+CREATE OR ALTER  PROCEDURE sp_GetRequirement( @role_name varchar(50),@role_hierarchy int  null)
+AS
+BEGIN
+	
+	declare @role_id int 
+	DECLARE @structureName varchar(2000)
+	SET @role_id = (select top 1 id from roles where name =@role_name)
+	declare @cond_status varchar (500)
+	--select @cond_status
+	if (@role_hierarchy is null)
+	BEGIN 
+		print 's'
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name)
+END 
+ELSE 
+BEGIN 
+	print 'ss'
+		SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name and role_hierarchy  = @role_hierarchy)
+	
+	END
+
+	--get list, rolename based assigned status
+	 --isAction (1) means allow to do actions
+ select 1 as 'isAction', mr_no as MrNo, sr.Id, from_project_id as ProjectId, remarks as Remarks, status as Status, status_internal as StatusInternal, role_id as RoleId ,	(select  ETapManagementSIT.dbo.fn_GetReqStructureName(sr.id)) as StructureName,p.name as ProjectName,p.proj_code  as ProjectCode, sr.created_at as CreatedDate into #resultset1 from site_requirement sr inner join project p on p.id  = sr.from_project_id  where status_internal  in (select value from STRING_SPLIT(@cond_status,',') ) order by sr.created_at,sr.updated_at  desc
+
+	
+ --get requirement id list for existing update in status history for this role id based on latest updated date
+  SELECT sitereq_id INTO #distSiteReqId
+    FROM (
+  SELECT sitereq_id, updated_at, ROW_NUMBER() OVER (PARTITION BY sitereq_id ORDER BY updated_at desc) RN
+        FROM sitereq_status_history where role_id = @role_id and sitereq_id  not in (select id from #resultset1)) S where RN =1
+        
+       --isAction (0) means should not to do actions
+	  select 0 as 'isAction', mr_no as MrNo, sr.Id, from_project_id as ProjectId, remarks as Remarks, status as Status, status_internal as StatusInternal, role_id as RoleId,  (select  ETapManagementSIT.dbo.fn_GetReqStructureName(sr.id)) as StructureName, p.name as ProjectName,p.proj_code as ProjectCode, sr.created_at as CreatedDate  into #resultset2 from site_requirement sr  inner join project p on p.id  = sr.from_project_id  where sr.id  in (select sitereq_id from #distSiteReqId) order by sr.created_at,sr.updated_at  desc
+	 
+	 (select * from #resultset1 union all 
+	 select * from #resultset2) order by MrNo desc
+	 	
+END
+
+
+	
+
+
+
+
+
+
+
+CREATE OR ALTER PROCEDURE sp_ApprovalRequirement(@req_id int, @role_name varchar(50),@role_hierarchy int  null )
+AS
+BEGIN
+
+	declare @role_id int 
+	SET @role_id = (select top 1 id from roles where name =@role_name)
+	declare @cond_status varchar (500)
+	declare @new_status varchar (500)
+
+	
+	if (@role_hierarchy is null)
+	BEGIN 
+		
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name)
+	SET @new_status= (select top 1 new_status from role_hierarchy where role_name =@role_name)
+
+	END 
+ELSE 
+BEGIN 
+	
+		SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name and role_hierarchy  = @role_hierarchy)
+		SET @new_status= (select top 1 new_status from role_hierarchy where role_name =@role_name  and role_hierarchy  = @role_hierarchy)
+
+	END
+	
+	if  EXISTS (select * from  site_requirement where   Id = @req_id and status_internal in (select value from STRING_SPLIT(@cond_status,','))) 
+	BEGIN 	
+	update site_requirement  set status_internal = @new_status, status =@new_status, role_id =@role_id where  id =@req_id
+	insert into sitereq_status_history (mr_no,sitereq_id ,status ,status_internal ,role_id ,updated_at ) select mr_no, id,status ,status_internal ,@role_id ,getdate() from site_requirement sr where id = @req_id 
+	END
+	ELSE 
+	BEGIN 
+	select 'NOT ALLOWED'
+	END
+END
+
+
+
+CREATE OR ALTER PROCEDURE sp_RejectRequirement(@req_id int, @role_name varchar(50),@role_hierarchy int  null )
+AS
+BEGIN
+
+	declare @role_id int 
+	SET @role_id = (select top 1 id from roles where name =@role_name)
+	declare @cond_status varchar (500)
+	declare @new_status varchar (500)
+
+	
+	if (@role_hierarchy is null)
+	BEGIN 
+		
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name)
+	SET @new_status= (select top 1 chk_status from role_hierarchy where  role_hierarchy  = (select top 1 role_hierarchy from role_hierarchy where role_name =@role_name) -1)
+
+	END 
+ELSE 
+BEGIN 
+	
+		SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name and role_hierarchy  = @role_hierarchy)
+		SET @new_status= (select top 1 chk_status from role_hierarchy where role_hierarchy  = @role_hierarchy)
+
+	END
+	--select @cond_status 
+	--select @new_status
+	
+	if  EXISTS (select * from  site_requirement where   Id = @req_id and status_internal in (select value from STRING_SPLIT(@cond_status,','))) 
+	BEGIN 	
+	update site_requirement  set status ='REJECTED',status_internal = @new_status , role_id = @role_id where  id =@req_id
+	insert into sitereq_status_history (mr_no,sitereq_id ,status ,status_internal ,role_id ,updated_at ) select mr_no, id,status,status_internal ,@role_id ,getdate() from site_requirement sr where id = @req_id 
+	END
+	ELSE 
+	BEGIN 
+	select 'NOT ALLOWED'
+	END
+
+END
+
+
+
+
+
+
+
+CREATE OR ALTER PROCEDURE sp_getDeclaration( @role_name varchar(50),@role_hierarchy int  null)
+AS
+BEGIN
+	
+	declare @role_id int 
+	SET @role_id = (select top 1 id from roles where name =@role_name)
+	declare @cond_status varchar (500)
+	declare @view_status varchar (500)
+
+	--select @cond_status
+	if (@role_hierarchy is null)
+	BEGIN 
+		
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name  and scenario_type ='DECLARATION')
+		SET @view_status= (select top 1 view_details_status from role_hierarchy where role_name =@role_name  and scenario_type ='DECLARATION')
+END 
+ELSE 
+BEGIN 
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name  and scenario_type ='DECLARATION'  and role_hierarchy  = @role_hierarchy)
+	SET @view_status= (select top 1 view_details_status from role_hierarchy where role_name =@role_name  and scenario_type ='DECLARATION'  and role_hierarchy  = @role_hierarchy)
+	
+	END
+	
+	 select '0' as 'isAction', sitereq_id as SiteReqId, sd.Id as Id, sd.proj_struct_id as ProjStructId, s2.name as StructureName, st.name as StructureTypeName,  surplus_fromdate as SurplusDate, status as Status, status_internal as StatusInternal into #resultset1 from site_declaration as sd inner join  project_structure ps on sd.proj_struct_id =ps.structure_id inner join  structures s2 on  ps.structure_id  = s2.id inner join structure_type st  on s2.structure_type_id  = st.id  where status_internal  in (select value from STRING_SPLIT(@cond_status,',') )
+
+	 select '1' as 'isAction', sitereq_id as SiteReqId, sd.Id as Id, sd.proj_struct_id as ProjStructId, s2.name as StructureName, st.name  as StructureTypeName, surplus_fromdate as SurplusDate, status as Status, status_internal as StatusInternal into #resultset2 from site_declaration sd inner join  project_structure ps on sd.proj_struct_id =ps.structure_id inner join  structures s2 on  ps.structure_id  = s2.id  inner join structure_type st on s2.structure_type_id  = st.id   where status_internal  in (select value from STRING_SPLIT(@view_status,',') )
+
+	 select * from #resultset1 union all 
+	 select * from #resultset2
+	 	
+END
+
