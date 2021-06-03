@@ -69,6 +69,8 @@ namespace ETapManagement.ViewModel.Dto
         public int  ProjectStructureId { get; set; }
         public IFormFile[] uploadDocs { get; set; }
         public string[] remove_docs_filename { get; set; }
+
+        public decimal Cost {get; set;}
        
  
 
