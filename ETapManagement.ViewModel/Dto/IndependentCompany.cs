@@ -20,6 +20,8 @@ namespace ETapManagement.ViewModel.Dto
 		[Display(Name = "Description")]
 		public string Description { get; set; }
 		public bool? IsDelete { get; set; }
+
+		public bool? IsActive { get; set; }
 	}
 	public class IndependentCompanyDetail
 	{
@@ -29,5 +31,7 @@ namespace ETapManagement.ViewModel.Dto
 		public bool? IsDelete { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public DateTime UpdatedDate { get; set; }
+
+		public bool? IsActive { get; set; }
 	}
 }
