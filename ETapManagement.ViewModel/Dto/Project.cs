@@ -49,6 +49,8 @@ namespace ETapManagement.ViewModel.Dto {
 
         public bool IsDelete { get; set; }
 
+         public bool IsActive { get; set; }
+
         public ICollection<ProjectSiteLocationDetail> ProjectSiteLocationDetails { get; set; }
 
     }
@@ -70,6 +72,7 @@ namespace ETapManagement.ViewModel.Dto {
         public string CreatedAt { get; set; }
         public string UpdatedBy { get; set; }
         public string UpdatedtAt { get; set; }
+         public bool IsActive { get; set; }
         public ICollection<ProjectSiteLocationDetail> ProjectSiteLocationDetails { get; set; }
 
     }

@@ -141,6 +141,8 @@ namespace ETapManagement.Repository {
                         projectDB.CreatedAt = DateTime.Now;
                         projectDB.UpdatedBy = 1; //TODO
                         projectDB.UpdatedAt = DateTime.Now;
+                        projectDB.IsActive = project.IsActive;
+
 
                         var projectLocations = _context.ProjectSitelocation.Where (x => x.ProjectId == project.Id).ToList ();
                         var addedSiteLocations = project.ProjectSiteLocationDetails.Where (x => !projectLocations.Any (p => p.Id == x.Id)).ToList ();
