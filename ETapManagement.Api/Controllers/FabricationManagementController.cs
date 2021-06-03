@@ -63,5 +63,20 @@ namespace ETapManagement.Api.Controllers {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
+
+         [HttpGet("GetAsBuildStructureCost")]      
+      public IActionResult GetAsBuildStructureCost(int id)
+        {
+            try
+            {
+                var response = _fabricationManagementService.GetAsBuildStructureCost(id);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
     }
 }

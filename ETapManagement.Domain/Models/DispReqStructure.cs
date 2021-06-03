@@ -19,6 +19,7 @@ namespace ETapManagement.Domain.Models
         public string DispStructStatus { get; set; }
         public int? FromProjectId { get; set; }
         public DateTime? SurplusDate { get; set; }
+        public decimal? FabriacationCost { get; set; }
 
         public virtual DispatchRequirement Dispreq { get; set; }
         public virtual ProjectStructure ProjStruct { get; set; }

@@ -2,12 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
+
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-      
-
+    
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -69,7 +69,6 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
@@ -86,9 +85,9 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<SubContractorComponentDetail>();
             modelBuilder.Query<ReceiveDetail>();
             modelBuilder.Query<ReceiveComponentDetail>();
-             modelBuilder.Query<PhysicalVerificationDetail> ();
-               modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
-               modelBuilder.Query<ComponentDetailsInput> ();
+            modelBuilder.Query<PhysicalVerificationDetail> ();
+            modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
+            modelBuilder.Query<ComponentDetailsInput> ();
              
             modelBuilder.Query<ScrapStructureWorkFlowDetail> ();
             modelBuilder.Query<ViewStructureChart>();
@@ -227,6 +226,10 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("drawing_no")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.Property(e => e.FabriacationCost)
+                    .HasColumnName("fabriacation_cost")
+                    .HasColumnType("decimal(10, 0)");
 
                 entity.Property(e => e.Height)
                     .HasColumnName("height")
@@ -493,6 +496,10 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DispreqId).HasColumnName("dispreq_id");
 
+                entity.Property(e => e.FabriacationCost)
+                    .HasColumnName("fabriacation_cost")
+                    .HasColumnType("decimal(10, 0)");
+
                 entity.Property(e => e.FromProjectId).HasColumnName("from_project_id");
 
                 entity.Property(e => e.IsModification).HasColumnName("is_modification");
@@ -532,6 +539,10 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.DispatchDate)
                     .HasColumnName("dispatch_date")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.FabriacationCost)
+                    .HasColumnName("fabriacation_cost")
+                    .HasColumnType("decimal(10, 0)");
 
                 entity.Property(e => e.FromScanBy).HasColumnName("from_scan_by");
 
@@ -1029,6 +1040,10 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.ExpReleaseDate)
                     .HasColumnName("exp_release_date")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.FabriacationCost)
+                    .HasColumnName("fabriacation_cost")
+                    .HasColumnType("decimal(10, 0)");
 
                 entity.Property(e => e.FabricationYear)
                     .HasColumnName("fabrication_year")

@@ -20,6 +20,7 @@ namespace ETapManagement.Domain.Models
         public DateTime? DispatchDate { get; set; }
         public DateTime? FromScandate { get; set; }
         public int? FromScanBy { get; set; }
+        public decimal? FabriacationCost { get; set; }
 
         public virtual Component DispComp { get; set; }
         public virtual DispReqStructure DispStructure { get; set; }

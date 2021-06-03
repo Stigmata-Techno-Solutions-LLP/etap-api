@@ -38,6 +38,7 @@ namespace ETapManagement.Domain.Models
         public string Remarks { get; set; }
         public decimal? ActualWeight { get; set; }
         public bool? Reusuability { get; set; }
+        public decimal? FabriacationCost { get; set; }
 
         public virtual Project Project { get; set; }
         public virtual Structures Structure { get; set; }

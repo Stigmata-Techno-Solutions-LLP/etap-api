@@ -59,6 +59,22 @@ namespace ETapManagement.ViewModel.Dto
 
     }
 
+     public class ADDStructureCost
+    {
+
+        public int StructureId { get; set; }
+        public int DispatchRequirementId { get; set; }
+        public string StructureCode { get; set; }
+        public int ProjectId { get; set; }
+        public int  ProjectStructureId { get; set; }
+        public IFormFile[] uploadDocs { get; set; }
+        public string[] remove_docs_filename { get; set; }
+       
+ 
+
+
+    }
+
 
 
 

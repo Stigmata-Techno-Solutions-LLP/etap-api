@@ -9,6 +9,8 @@ namespace ETapManagement.Service {
     {
            public List<AsBuildStructure> GetAsBuildStructure (int projectId);
            public ResponseMessage AddStructurecomponent(ADDStructureComponentDetails input);
+
+           public List<AsBuildStructure> GetAsBuildStructureCost (int projectId);
        
     }
 }
