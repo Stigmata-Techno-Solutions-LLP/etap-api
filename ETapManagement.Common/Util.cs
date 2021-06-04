@@ -10,6 +10,10 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using Serilog;
 using Serilog;
+using Standard.Licensing;
+using Standard.Licensing.Validation;
+using System.IO;
+using System.Text;
 
 namespace ETapManagement.Common {
 
@@ -69,6 +73,52 @@ namespace ETapManagement.Common {
                 return false;
             }
         }
+
+
+        public static string[] GenerateLicense (){
+try{
+
+  var keyGenerator = Standard.Licensing.Security.Cryptography.KeyGenerator.Create(); 
+var keyPair = keyGenerator.GenerateKeyPair(); 
+var privateKey = keyPair.ToEncryptedPrivateKeyString("test");  
+var publicKey = keyPair.ToPublicKeyString();
+
+var license = License.New()  
+    .WithUniqueIdentifier(Guid.NewGuid())  
+    .As(LicenseType.Trial)
+      
+    .ExpiresAt(DateTime.Now.AddDays(30))  
+    .WithMaximumUtilization(5)  
+    .WithProductFeatures(new Dictionary<string, string>  
+        {  
+            {"Sales Module", "yes"},  
+            {"Purchase Module", "yes"},  
+            {"Maximum Transactions", "10000"}  
+        })  
+    .LicensedTo("John Doe", "john.doe@example.com")  
+    .CreateAndSignWithPrivateKey(privateKey, "test");
+File.WriteAllText("/Users/admin/Documents/personal/etap-api/License.lic", license.ToString(), Encoding.UTF8);
+string[] resultArr = {license.ToString(),publicKey};
+    return resultArr;
+} catch(Exception ex){
+throw ex;
+}
+}
+
+
+public static void checkLicenseKeyValidation(string publicKey,string licenseXml) {
+try {
+    var license = License.Load(licenseXml);
+    var validationFailures = license.Validate()  
+                                .ExpirationDate()  
+                                .When(lic => lic.Type == LicenseType.Trial)
+                                .AssertValidLicense();
+
+} catch(Exception ex) {
+throw ex;
+}
+}
+      
         public static string Base64Decode (string base64EncodedData) {
             try {
 
@@ -78,6 +128,8 @@ namespace ETapManagement.Common {
                 throw new ValueNotFoundException ("password is incorrect");
             }
         }
+    
+        
 
         public static string CreateRandomPassword (int length = 10) {
             try {
