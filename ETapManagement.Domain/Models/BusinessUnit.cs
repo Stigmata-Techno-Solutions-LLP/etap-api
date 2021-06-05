@@ -8,7 +8,6 @@ namespace ETapManagement.Domain.Models
         public BusinessUnit()
         {
             Project = new HashSet<Project>();
-            StrategicBusiness = new HashSet<StrategicBusiness>();
             Users = new HashSet<Users>();
         }
 
@@ -21,10 +20,11 @@ namespace ETapManagement.Domain.Models
         public DateTime? CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public int? SbgId { get; set; }
 
         public virtual IndependentCompany Ic { get; set; }
+        public virtual StrategicBusiness Sbg { get; set; }
         public virtual ICollection<Project> Project { get; set; }
-        public virtual ICollection<StrategicBusiness> StrategicBusiness { get; set; }
         public virtual ICollection<Users> Users { get; set; }
     }
 }

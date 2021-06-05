@@ -7,7 +7,7 @@ namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-    
+     
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -69,6 +69,7 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
@@ -172,6 +173,8 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
+                entity.Property(e => e.SbgId).HasColumnName("sbg_id");
+
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updated_at")
                     .HasColumnType("datetime");
@@ -183,6 +186,11 @@ namespace ETapManagement.Domain.Models
                     .HasForeignKey(d => d.IcId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("business_unit_icId_IC__fkey");
+
+                entity.HasOne(d => d.Sbg)
+                    .WithMany(p => p.BusinessUnit)
+                    .HasForeignKey(d => d.SbgId)
+                    .HasConstraintName("business_unit_sbgId_SBG__fkey");
             });
 
             modelBuilder.Entity<Component>(entity =>
@@ -1796,8 +1804,6 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.BuId).HasColumnName("bu_id");
-
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
                     .HasColumnType("datetime")
@@ -1820,12 +1826,6 @@ namespace ETapManagement.Domain.Models
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
-
-                entity.HasOne(d => d.Bu)
-                    .WithMany(p => p.StrategicBusiness)
-                    .HasForeignKey(d => d.BuId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("strategic_business_bu_fkey");
             });
 
             modelBuilder.Entity<StructureType>(entity =>

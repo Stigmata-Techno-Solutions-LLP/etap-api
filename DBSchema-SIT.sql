@@ -271,6 +271,7 @@ CREATE TABLE ETapManagementSIT.dbo.business_unit
 (
   id int not null identity(1,1),
   ic_id int not null,
+  sbg_id int not null,
   name varchar(100) not null ,
   is_delete bit not NULL DEFAULT 0,
   is_active bit,
@@ -280,13 +281,14 @@ CREATE TABLE ETapManagementSIT.dbo.business_unit
   updated_at datetime ,
   CONSTRAINT business_unit_pkey PRIMARY KEY (id),
   CONSTRAINT business_unit_icId_IC__fkey FOREIGN KEY (ic_id) REFERENCES independent_company(id),
+    CONSTRAINT business_unit_sbgId_SBG__fkey FOREIGN KEY (sbg_id) REFERENCES strategic_business(id),
+
 )
 
 
 CREATE TABLE ETapManagementSIT.dbo.strategic_business
 (
   id int not null identity(1,1),
-  bu_id int not null,
   name varchar(100) not null ,
   is_delete bit not NULL DEFAULT 0,
   is_active bit,
@@ -295,8 +297,7 @@ CREATE TABLE ETapManagementSIT.dbo.strategic_business
   updated_by int null,
   updated_at datetime ,
   CONSTRAINT strategic_business_pkey PRIMARY KEY (id),
-  CONSTRAINT strategic_business_bu_fkey FOREIGN KEY (bu_id) REFERENCES business_unit(id),
-)
+)\
     
 
 CREATE TABLE ETapManagementSIT.dbo.project

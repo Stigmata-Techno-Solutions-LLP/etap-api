@@ -5,8 +5,12 @@ namespace ETapManagement.Domain.Models
 {
     public partial class StrategicBusiness
     {
+        public StrategicBusiness()
+        {
+            BusinessUnit = new HashSet<BusinessUnit>();
+        }
+
         public int Id { get; set; }
-        public int BuId { get; set; }
         public string Name { get; set; }
         public bool IsDelete { get; set; }
         public bool? IsActive { get; set; }
@@ -15,6 +19,6 @@ namespace ETapManagement.Domain.Models
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public virtual BusinessUnit Bu { get; set; }
+        public virtual ICollection<BusinessUnit> BusinessUnit { get; set; }
     }
 }
