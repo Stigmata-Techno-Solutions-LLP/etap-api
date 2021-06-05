@@ -3,6 +3,10 @@
 use ETapManagementSIT;
 
 
+
+ IF OBJECT_ID('ETapManagementSIT.dbo.disp_fabrication_cost', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.disp_fabrication_cost ;
+
  IF OBJECT_ID('ETapManagementSIT.dbo.site_comp_physicalverf', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.site_comp_physicalverf ;
 
@@ -49,8 +53,12 @@ IF OBJECT_ID('ETapManagementSIT.dbo.disp_req_structure', 'U') IS NOT NULL
 
 IF OBJECT_ID('ETapManagementSIT.dbo.disreq_status_history', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.disreq_status_history;
+
 IF OBJECT_ID('ETapManagementSIT.dbo.disp_req_structure', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.disp_req_structure;
+
+
+
 IF OBJECT_ID('ETapManagementSIT.dbo.dispatch_requirement', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.dispatch_requirement;
 
@@ -891,6 +899,25 @@ CREATE TABLE site_strct_physicalverf_doc
   "path" varchar(1000) null,
   CONSTRAINT site_strct_physicalverf_doc_pkey PRIMARY KEY (id),
   CONSTRAINT site_comp_physicalverf_id_scpID_fkey FOREIGN KEY (site_comp_physicalverf_id) REFERENCES site_comp_physicalverf(id),
+)
+
+
+CREATE TABLE ETapManagementSIT.dbo.disp_fabrication_cost
+(
+  id int not null identity(1,1) primary key,
+  dispatch_no varchar(20) not null unique,
+  disp_req_id int not null,
+  disp_structure_id int null,
+  assinged_project_id int,
+  status varchar(50) null,
+  status_internal varchar(100) null,
+  role_id int,
+  created_by int null,
+  created_at datetime default CURRENT_TIMESTAMP,
+  updated_by int null,
+  updated_at datetime null,
+  CONSTRAINT fabrication_cost_proj_fkey FOREIGN KEY (assinged_project_id) REFERENCES project(id),
+  CONSTRAINT fabrication_cost_disp_structure_id_fkey FOREIGN KEY (disp_structure_id) REFERENCES disp_req_structure(id)
 )
 
 

@@ -7,6 +7,7 @@ namespace ETapManagement.Domain.Models
     {
         public Project()
         {
+            DispFabricationCost = new HashSet<DispFabricationCost>();
             DispatchRequirement = new HashSet<DispatchRequirement>();
             ProjectSitelocation = new HashSet<ProjectSitelocation>();
             ProjectStructure = new HashSet<ProjectStructure>();
@@ -33,6 +34,7 @@ namespace ETapManagement.Domain.Models
 
         public virtual BusinessUnit Bu { get; set; }
         public virtual IndependentCompany Ic { get; set; }
+        public virtual ICollection<DispFabricationCost> DispFabricationCost { get; set; }
         public virtual ICollection<DispatchRequirement> DispatchRequirement { get; set; }
         public virtual ICollection<ProjectSitelocation> ProjectSitelocation { get; set; }
         public virtual ICollection<ProjectStructure> ProjectStructure { get; set; }
