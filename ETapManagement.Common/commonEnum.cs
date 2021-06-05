@@ -59,6 +59,7 @@ namespace ETapManagement.Common {
            PARTIALLYDISPATCHED=11,
            DISPATCHED =12,
            READYTODELIVER=13,
+           READYTODELIVERPARTIALLY=19,
            CMPCPARTIALLYAPPROVED=14,
            CMPCMODIFIED=15,
            CMPCPARTIALLYMODIFIED=16,
