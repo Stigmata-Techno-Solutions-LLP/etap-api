@@ -17,6 +17,8 @@ namespace ETapManagement.ViewModel.Dto {
         [Display (Name = "Name")]
         public string Name { get; set; }
         public int IcId { get; set; }
+
+        public bool IsActive {get;set;}
     }
 
     public class BussUnit {
@@ -37,5 +39,8 @@ namespace ETapManagement.ViewModel.Dto {
         public string CreatedAt { get; set; }
         public string UpdatedBy { get; set; }
         public string UpdatedAt { get; set; }
+
+         public bool? IsActive { get; set; }
+
     }
 }

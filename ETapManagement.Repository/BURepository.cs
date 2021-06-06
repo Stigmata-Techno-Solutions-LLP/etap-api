@@ -132,6 +132,7 @@ namespace ETapManagement.Repository {
                         bu.IcId = businessunit.IcId;
                         bu.UpdatedAt = DateTime.Now;
                         bu.UpdatedBy = 1; //TODO
+                        bu.IsActive=businessunit.IsActive;
 
                         _context.SaveChanges ();
 

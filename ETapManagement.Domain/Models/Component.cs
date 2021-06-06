@@ -33,6 +33,7 @@ namespace ETapManagement.Domain.Models
         public bool? IsActive { get; set; }
         public string CompStatus { get; set; }
         public string DrawingNo { get; set; }
+        public decimal? FabriacationCost { get; set; }
 
         public virtual ComponentType CompType { get; set; }
         public virtual ProjectStructure ProjStruct { get; set; }

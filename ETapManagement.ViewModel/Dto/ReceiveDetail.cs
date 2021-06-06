@@ -4,6 +4,8 @@ namespace ETapManagement.ViewModel.Dto
 {
     public class ReceiveDetail
     {
+
+        public bool? isModification{get;set;}
         public int ProjectStructId {get;set;}
         public int DispatchRequirementId { get; set; }
         public string DispatchNumber { get; set; }
@@ -34,6 +36,10 @@ namespace ETapManagement.ViewModel.Dto
         public string ComponentStatus { get; set; }
         public string Remarks { get; set; }
         public int? ScannedBy { get; set; }
+        public DateTime? FromScanDate { get; set; }
+
+        public DateTime? DispatchDate { get; set; }
+
 
     }
 

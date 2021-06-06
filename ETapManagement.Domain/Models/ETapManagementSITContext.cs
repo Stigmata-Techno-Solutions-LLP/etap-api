@@ -7,7 +7,6 @@ namespace ETapManagement.Domain.Models
     public partial class ETapManagementContext : DbContext
     {
       
-
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -19,6 +18,7 @@ namespace ETapManagement.Domain.Models
         public virtual DbSet<Component> Component { get; set; }
         public virtual DbSet<ComponentHistory> ComponentHistory { get; set; }
         public virtual DbSet<ComponentType> ComponentType { get; set; }
+        public virtual DbSet<DispFabricationCost> DispFabricationCost { get; set; }
         public virtual DbSet<DispModStageComponent> DispModStageComponent { get; set; }
         public virtual DbSet<DispReqStructure> DispReqStructure { get; set; }
         public virtual DbSet<DispStructureComp> DispStructureComp { get; set; }
@@ -69,8 +69,9 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
 
-            modelBuilder.Query<SiteRequirementDetail> ();
+modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -86,14 +87,15 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<SubContractorComponentDetail>();
             modelBuilder.Query<ReceiveDetail>();
             modelBuilder.Query<ReceiveComponentDetail>();
-             modelBuilder.Query<PhysicalVerificationDetail> ();
-               modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
-               modelBuilder.Query<ComponentDetailsInput> ();
+            modelBuilder.Query<PhysicalVerificationDetail> ();
+            modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
+            modelBuilder.Query<ComponentDetailsInput> ();
              
             modelBuilder.Query<ScrapStructureWorkFlowDetail> ();
             modelBuilder.Query<ViewStructureChart>();
             modelBuilder.Query<Code>();
              modelBuilder.Query<AsBuildStructure>();
+
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -173,6 +175,8 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
+                entity.Property(e => e.SbgId).HasColumnName("sbg_id");
+
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updated_at")
                     .HasColumnType("datetime");
@@ -184,6 +188,11 @@ namespace ETapManagement.Domain.Models
                     .HasForeignKey(d => d.IcId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("business_unit_icId_IC__fkey");
+
+                entity.HasOne(d => d.Sbg)
+                    .WithMany(p => p.BusinessUnit)
+                    .HasForeignKey(d => d.SbgId)
+                    .HasConstraintName("business_unit_sbgId_SBG__fkey");
             });
 
             modelBuilder.Entity<Component>(entity =>
@@ -227,6 +236,10 @@ namespace ETapManagement.Domain.Models
                     .HasColumnName("drawing_no")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.Property(e => e.FabriacationCost)
+                    .HasColumnName("fabriacation_cost")
+                    .HasColumnType("decimal(10, 0)");
 
                 entity.Property(e => e.Height)
                     .HasColumnName("height")
@@ -422,6 +435,64 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
             });
 
+            modelBuilder.Entity<DispFabricationCost>(entity =>
+            {
+                entity.ToTable("disp_fabrication_cost");
+
+                entity.HasIndex(e => e.DispatchNo)
+                    .HasName("UQ__disp_fab__F7205CCDFC4F1D62")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AssingedProjectId).HasColumnName("assinged_project_id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+
+                entity.Property(e => e.DispReqId).HasColumnName("disp_req_id");
+
+                entity.Property(e => e.DispStructureId).HasColumnName("disp_structure_id");
+
+                entity.Property(e => e.DispatchNo)
+                    .IsRequired()
+                    .HasColumnName("dispatch_no")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StatusInternal)
+                    .HasColumnName("status_internal")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
+
+                entity.HasOne(d => d.AssingedProject)
+                    .WithMany(p => p.DispFabricationCost)
+                    .HasForeignKey(d => d.AssingedProjectId)
+                    .HasConstraintName("fabrication_cost_proj_fkey");
+
+                entity.HasOne(d => d.DispStructure)
+                    .WithMany(p => p.DispFabricationCost)
+                    .HasForeignKey(d => d.DispStructureId)
+                    .HasConstraintName("fabrication_cost_disp_structure_id_fkey");
+            });
+
             modelBuilder.Entity<DispModStageComponent>(entity =>
             {
                 entity.ToTable("disp_mod_stage_component");
@@ -493,6 +564,10 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.DispreqId).HasColumnName("dispreq_id");
 
+                entity.Property(e => e.FabriacationCost)
+                    .HasColumnName("fabriacation_cost")
+                    .HasColumnType("decimal(10, 0)");
+
                 entity.Property(e => e.FromProjectId).HasColumnName("from_project_id");
 
                 entity.Property(e => e.IsModification).HasColumnName("is_modification");
@@ -532,6 +607,10 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.DispatchDate)
                     .HasColumnName("dispatch_date")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.FabriacationCost)
+                    .HasColumnName("fabriacation_cost")
+                    .HasColumnType("decimal(10, 0)");
 
                 entity.Property(e => e.FromScanBy).HasColumnName("from_scan_by");
 
@@ -1029,6 +1108,10 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.ExpReleaseDate)
                     .HasColumnName("exp_release_date")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.FabriacationCost)
+                    .HasColumnName("fabriacation_cost")
+                    .HasColumnType("decimal(10, 0)");
 
                 entity.Property(e => e.FabricationYear)
                     .HasColumnName("fabrication_year")
@@ -1781,8 +1864,6 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.BuId).HasColumnName("bu_id");
-
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
                     .HasColumnType("datetime")
@@ -1805,12 +1886,6 @@ namespace ETapManagement.Domain.Models
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
-
-                entity.HasOne(d => d.Bu)
-                    .WithMany(p => p.StrategicBusiness)
-                    .HasForeignKey(d => d.BuId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("strategic_business_bu_fkey");
             });
 
             modelBuilder.Entity<StructureType>(entity =>

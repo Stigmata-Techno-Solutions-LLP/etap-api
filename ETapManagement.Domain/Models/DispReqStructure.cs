@@ -7,6 +7,7 @@ namespace ETapManagement.Domain.Models
     {
         public DispReqStructure()
         {
+            DispFabricationCost = new HashSet<DispFabricationCost>();
             DispStructureComp = new HashSet<DispStructureComp>();
             DispStructureDocuments = new HashSet<DispStructureDocuments>();
         }
@@ -19,9 +20,11 @@ namespace ETapManagement.Domain.Models
         public string DispStructStatus { get; set; }
         public int? FromProjectId { get; set; }
         public DateTime? SurplusDate { get; set; }
+        public decimal? FabriacationCost { get; set; }
 
         public virtual DispatchRequirement Dispreq { get; set; }
         public virtual ProjectStructure ProjStruct { get; set; }
+        public virtual ICollection<DispFabricationCost> DispFabricationCost { get; set; }
         public virtual ICollection<DispStructureComp> DispStructureComp { get; set; }
         public virtual ICollection<DispStructureDocuments> DispStructureDocuments { get; set; }
     }

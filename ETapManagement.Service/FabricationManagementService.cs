@@ -74,8 +74,8 @@ namespace ETapManagement.Service
                           _context.DispatchRequirement.Single(w => w.Id == input.DispatchRequirementId);
                 if (DispatchRequirement != null)
                 {
-                    DispatchRequirement.Status = commonEnum.SiteDispatchSatus.READYTODELIVER.ToString();
-                    DispatchRequirement.StatusInternal = commonEnum.SiteDispatchSatus.READYTODELIVER.ToString();
+                    DispatchRequirement.Status = commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED.ToString();
+                    DispatchRequirement.StatusInternal = commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED.ToString();
                 }
                 _context.ProjectStructure.Update(structid);
                 _context.DispatchRequirement.Update(DispatchRequirement);
@@ -145,6 +145,60 @@ namespace ETapManagement.Service
                     }
                 }
                 return Path.Combine(prefixPath, uniqueFileName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        public List<AsBuildStructure> GetAsBuildStructureCost(int projectId)
+        {
+            List<AsBuildStructure> responseMessage = new List<AsBuildStructure>();
+            responseMessage = _fabricationManagementRepository.GetAsBuildStructureCost(projectId);
+            return responseMessage;
+        }
+
+         public ResponseMessage AddStructureCost(ADDStructureCost input)
+        {
+            try
+            {
+                ResponseMessage responseMessage = new ResponseMessage();
+                ProjectStructure structid =
+                           _context.ProjectStructure.Single(w => w.Id == input.ProjectStructureId);
+
+                structid.FabriacationCost = input.Cost;
+                
+                if (input.uploadDocs != null)
+                {
+                    foreach (IFormFile file in input.uploadDocs)
+                    {
+                        Upload_Docs layerDoc = new Upload_Docs();
+                        layerDoc.fileName = file.FileName;
+                        layerDoc.filepath = UploadedFile(file);
+                        layerDoc.uploadType = "Docs";
+                        layerDoc.fileType = Path.GetExtension(file.FileName);
+                        this._repository.StructureDocsUpload(layerDoc, input.ProjectStructureId);
+                        //  _gridRepo.LayerDocsUpload(layerDoc, layerId);
+                    }
+                }
+                RemoveStructureDocs(input.remove_docs_filename);
+
+
+                // DispatchRequirement DispatchRequirement =
+                //           _context.DispatchRequirement.Single(w => w.Id == input.DispatchRequirementId);
+                // if (DispatchRequirement != null)
+                // {
+                //     DispatchRequirement.Status = commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED.ToString();
+                //     DispatchRequirement.StatusInternal = commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED.ToString();
+                // }
+                // _context.ProjectStructure.Update(structid);
+                // _context.DispatchRequirement.Update(DispatchRequirement);
+
+                _context.SaveChanges();
+
+                responseMessage.Message = "Structure Cost Updated sucessfully";
+                return responseMessage;
             }
             catch (Exception ex)
             {
