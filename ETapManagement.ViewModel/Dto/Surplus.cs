@@ -41,8 +41,10 @@ namespace ETapManagement.ViewModel.Dto {
 
         public string StatusInternal { get; set; }
 
-        public DateTime CreatedAt {get;set;}
-         public DateTime UpdatedAt {get;set;}
+        public DateTime? CreatedAt {get;set;}
+         public DateTime? UpdatedAt {get;set;}
+
+         public string StructureAttributeValue{get;set;}
 
     }
 
