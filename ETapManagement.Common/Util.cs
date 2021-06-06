@@ -111,7 +111,8 @@ try {
     var license = License.Load(licenseXml);
     var validationFailures = license.Validate()  
                                 .ExpirationDate()  
-                                .When(lic => lic.Type == LicenseType.Trial)
+                                .When(lic => lic.Type == LicenseType.Trial )
+                            
                                 .AssertValidLicense();
 
 } catch(Exception ex) {
