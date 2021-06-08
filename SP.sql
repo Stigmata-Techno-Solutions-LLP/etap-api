@@ -264,8 +264,7 @@ END
 
 
 
-
-CREATE  OR ALTER   PROCEDURE sp_RejectionDeclaration(@decl_id int,
+CREATE  OR ALTER    PROCEDURE sp_RejectionDeclaration(@decl_id int,
 	@role_name varchar(50),
 	@role_hierarchy int  NULL,
 	@updated_by int null
@@ -317,7 +316,7 @@ BEGIN
 	where   Id = @decl_id and status_internal in (select value
 		from STRING_SPLIT(@cond_status,','))) 
 	BEGIN
-		IF @role_name in ('EHS','QA')
+		IF @role_name in ('EHS','QA','TWCC')
 		BEGIN
 			update site_declaration  set status_internal = @role_name + 'REJECTED', status =@role_name + 'REJECTED', role_id =@role_id,updated_by =@updated_by where  id = @decl_id
 			insert into sitedecl_status_history
@@ -325,9 +324,11 @@ BEGIN
 			select id, notes, status , status_internal , @role_id , getdate(), @updated_by
 			from site_declaration sr
 			where id = @decl_id
-			update project_structure set current_status ='SCRAPPED' where id = (select proj_struct_id
+			update project_structure set current_status ='SCRAPPED', structure_status = 'NOTAVAIL' where id = (select proj_struct_id
 			from site_declaration
 			where id =@decl_id)
+			
+			insert into scrap_structure  (proj_struct_id,STATUS,created_at ,created_by ) values ((select proj_struct_id  from site_declaration  where id = @decl_id),'NEW',getdate(),@updated_by) 
 
 		END
 		ELSE 
