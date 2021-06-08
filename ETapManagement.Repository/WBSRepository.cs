@@ -26,19 +26,25 @@ namespace ETapManagement.Repository {
         public ResponseMessage BulkInsertWBS (List<AddWorkBreakDown> lstWorkBreakDown) {
             try {
                 foreach (AddWorkBreakDown wbs in lstWorkBreakDown) {
-                    WorkBreakdown wbData = _context.WorkBreakdown.Where (x => x.WbsId == wbs.WorkBreakDownCode && x.ProjectId==wbs.ProjectId && x.IsDelete == false).FirstOrDefault ();
-                    if (wbData == null) {
-                        WorkBreakdown data = _mapper.Map<WorkBreakdown> (wbs);
-                        _context.WorkBreakdown.Add (data);
-                        _context.SaveChanges ();
-                    } else {
-                        wbData.WbsId = wbs.WorkBreakDownCode;
+                    WorkBreakdown wbData= new WorkBreakdown();
+                    WorkBreakdown wbData1 = _context.WorkBreakdown.Where (x => x.WbsId == wbs.WorkBreakDownCode && x.ProjectId==wbs.ProjectId 
+                    && x.Segment==wbs.Segment && x.SubSegment==wbs.SubSegment && x.Elements==wbs.Element
+                    && x.IsDelete == false).FirstOrDefault ();
+                   
+                    if(wbData1==null){
+                    wbData.WbsId = wbs.WorkBreakDownCode;
                         wbData.Segment = wbs.Segment;
                         wbData.SubSegment = wbs.SubSegment;
                         wbData.Elements = wbs.Element;
-                        wbData.UpdatedAt = DateTime.Now;
-                        _context.SaveChanges();
+                        wbData.ProjectId=wbs.ProjectId;
+                        wbData.CreatedAt=DateTime.Now;
+                        wbData.CreatedBy= 1;  //to do 
+                     _context.WorkBreakdown.Add (wbData);
+                      _context.SaveChanges();
                     }
+                       
+                       
+                    
                 }
                 AuditLogs audit = new AuditLogs () {
                     Action = "WBS Insert",
