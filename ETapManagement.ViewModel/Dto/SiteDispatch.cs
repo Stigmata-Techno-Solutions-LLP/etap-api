@@ -227,7 +227,7 @@ namespace ETapManagement.ViewModel.Dto
 
         public string StructrueName{get;set;}
 
-        public int Servicetypeid {get;set;}
+        public int? Servicetypeid {get;set;}
 
     }
     public class DispReqStructureDto
