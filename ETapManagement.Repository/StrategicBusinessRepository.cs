@@ -30,7 +30,7 @@ namespace ETapManagement.Repository
 				ResponseMessage response = new ResponseMessage();
 				StrategicBusiness sbg = _mapper.Map<StrategicBusiness>(strategicBusiness);
 				sbg.IsDelete = false;
-				sbg.IsActive = true;
+				sbg.IsActive = strategicBusiness.IsActive;
 				_context.StrategicBusiness.Add(sbg);
 				_context.SaveChanges();
 

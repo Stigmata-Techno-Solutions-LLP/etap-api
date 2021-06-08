@@ -21,53 +21,54 @@ namespace ETapManagement.Api.Extensions
 		public MappingProfile()
 		{
 
-			CreateMap<UserDetails, Users>()
-				.ForMember(dest =>
-				   dest.FirstName,
-					opt => opt.MapFrom(src => src.firstName))
-				.ForMember(dest =>
-				   dest.LastName,
-					opt => opt.MapFrom(src => src.lastName))
-				.ForMember(dest =>
-				   dest.Id,
-					opt => opt.MapFrom(src => src.userId))
-				.ForMember(dest =>
-				   dest.Email,
-					opt => opt.MapFrom(src => src.email))
-				.ForMember(dest =>
-				   dest.Phoneno,
-					opt => opt.MapFrom(src => src.mobileNo))
-				.ForMember(dest =>
-				   dest.PsNo,
-					opt => opt.MapFrom(src => src.userName))
-				.ForMember(dest =>
-				   dest.Password,
-					opt => opt.MapFrom(src => src.password))
-				.ForMember(dest =>
-				   dest.RoleId,
-					opt => opt.MapFrom(src => src.roleId))
-				.ForMember(dest =>
-				   dest.VendorId,
-					opt => opt.MapFrom(src => src.VendorId))
-				.ForMember(dest =>
-				   dest.ProjectId,
-					opt => opt.MapFrom(src => src.ProjectId))
-				.ForMember(dest =>
-				   dest.BuId,
-					opt => opt.MapFrom(src => src.BUId))
-				.ForMember(dest =>
-				   dest.IcId,
-					opt => opt.MapFrom(src => src.ICId))
-				.ForMember(dest =>
-				   dest.IsActive,
-					opt => opt.MapFrom(src => src.isActive))
-				.ForMember(dest =>
-				   dest.CreatedBy,
-					opt => opt.MapFrom(src => src.createdBy))
-				.ForMember(dest =>
-				   dest.UpdatedBy,
-					opt => opt.MapFrom(src => src.updatedBy))
-				.ReverseMap();
+			CreateMap<UserDetails, Users> ()
+                .ForMember (dest =>
+                    dest.FirstName,
+                    opt => opt.MapFrom (src => src.firstName))
+                .ForMember (dest =>
+                    dest.LastName,
+                    opt => opt.MapFrom (src => src.lastName))
+                .ForMember (dest =>
+                    dest.Id,
+                    opt => opt.MapFrom (src => src.userId))
+                .ForMember (dest =>
+                    dest.Email,
+                    opt => opt.MapFrom (src => src.email))
+                .ForMember (dest =>
+                    dest.Phoneno,
+                    opt => opt.MapFrom (src => src.mobileNo))
+                .ForMember (dest =>
+                    dest.PsNo,
+                    opt => opt.MapFrom (src => src.userName))
+                .ForMember (dest =>
+                    dest.Password,
+                    opt => opt.MapFrom (src => src.password))
+                .ForMember (dest =>
+                    dest.RoleId,
+                    opt => opt.MapFrom (src => src.roleId))
+                .ForMember (dest =>
+                    dest.VendorId,
+                    opt => opt.MapFrom (src => src.VendorId))                    
+                .ForMember (dest =>
+                    dest.ProjectId,
+                    opt => opt.MapFrom (src => src.ProjectId))
+                .ForMember (dest =>
+                    dest.BuId,
+                    opt => opt.MapFrom (src => src.BUId))
+                .ForMember (dest =>
+                    dest.IcId,
+                    opt => opt.MapFrom (src => src.ICId))
+                .ForMember (dest =>
+                    dest.IsActive,
+                    opt => opt.MapFrom (src => src.isActive))
+                .ForMember (dest =>
+                    dest.CreatedBy,
+                    opt => opt.MapFrom (src => src.createdBy))
+                .ForMember (dest =>
+                    dest.UpdatedBy,
+                    opt => opt.MapFrom (src => src.updatedBy))
+                .ReverseMap ();
+
 
 			CreateMap<PageAccess, RolesApplicationforms>()
 				.ForMember(dest =>
@@ -487,6 +488,12 @@ namespace ETapManagement.Api.Extensions
 				.ForMember(dest =>
 				   dest.IcId,
 					opt => opt.MapFrom(src => src.IcId))
+				.ForMember(dest =>
+				   dest.SbgId,
+					opt => opt.MapFrom(src => src.SbgId))
+				.ForMember(dest =>
+				   dest.SbgName,
+					opt => opt.MapFrom(src => src.Sbg.Name))
 				.ReverseMap();
 
 			CreateMap<StructureDetails, Structures>()
@@ -564,6 +571,10 @@ namespace ETapManagement.Api.Extensions
 				.ForMember(dest =>
 				   dest.IcId,
 					opt => opt.MapFrom(src => src.IcId))
+				.ForMember(dest =>
+					dest.SbgId,
+					opt => opt.MapFrom(src => src.SbgId)
+				)
 				.ReverseMap();
 
 			CreateMap<ProjectStructureDetails, ProjectStructure>()

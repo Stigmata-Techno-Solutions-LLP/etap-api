@@ -113,10 +113,14 @@ namespace ETapManagement.Repository {
                 ProjectDetail result = new ProjectDetail ();
                 var project = _context.Project.Where (x => x.Id == id && x.IsDelete == false)
                     .Include (s => s.ProjectSitelocation)
-                  
                     .Include (s => s.Ic)
                     .Include (s => s.Bu).FirstOrDefault ();
                 result = _mapper.Map<ProjectDetail> (project);
+                if(project.Bu.SbgId != null){
+                    StrategicBusiness sbg = _context.StrategicBusiness.Where(x => x.Id == project.Bu.SbgId && x.IsDelete == false).FirstOrDefault();
+                    result.SbgId = sbg.Id;
+                    result.SbgName = sbg.Name;
+                }
                 return result;
             } catch (Exception ex) {
                 throw ex;

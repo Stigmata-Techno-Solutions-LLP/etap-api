@@ -64,6 +64,8 @@ namespace ETapManagement.ViewModel.Dto {
         public string ICName { get; set; }
         public int BUId { get; set; }
         public string BUName { get; set; }
+        public int SbgId { get; set; }
+        public string SbgName { get; set; }
        
         public string EDRCCode { get; set; }
         public string JobCode { get; set; }
