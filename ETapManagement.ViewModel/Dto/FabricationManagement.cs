@@ -77,6 +77,36 @@ namespace ETapManagement.ViewModel.Dto
 
     }
 
+         public class SiteReqStructureVm
+    {
+
+        public int SiteReqStructureId { get; set; } 
+           public string StructureAttributesVal { get; set; }
+      
+       
+ 
+
+
+    }
+
+     public class ADDComponentCost
+    {
+
+        public int StructureId { get; set; }
+        public int DispatchRequirementId { get; set; }
+        public string StructureCode { get; set; }
+        public int ProjectId { get; set; }
+        public int  ProjectStructureId { get; set; }
+       public int Dispcompid{get;set;}
+       public int DispStructureId{get;set;}
+        public int DispStructureCompId{get;set;}
+        public decimal Cost {get; set;}
+       
+ 
+
+
+    }
+
 
 
 

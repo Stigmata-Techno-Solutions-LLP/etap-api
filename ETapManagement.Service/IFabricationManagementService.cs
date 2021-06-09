@@ -13,6 +13,8 @@ namespace ETapManagement.Service {
            public List<AsBuildStructure> GetAsBuildStructureCost (int projectId);
 
             public ResponseMessage AddStructureCost(ADDStructureCost input);
+
+              public ResponseMessage UpdatetructureAttributes(SiteReqStructureVm input);
        
     }
 }

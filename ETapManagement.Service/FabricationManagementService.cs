@@ -151,7 +151,7 @@ namespace ETapManagement.Service
                 throw ex;
             }
         }
-        
+
         public List<AsBuildStructure> GetAsBuildStructureCost(int projectId)
         {
             List<AsBuildStructure> responseMessage = new List<AsBuildStructure>();
@@ -159,7 +159,7 @@ namespace ETapManagement.Service
             return responseMessage;
         }
 
-         public ResponseMessage AddStructureCost(ADDStructureCost input)
+        public ResponseMessage AddStructureCost(ADDStructureCost input)
         {
             try
             {
@@ -168,7 +168,7 @@ namespace ETapManagement.Service
                            _context.ProjectStructure.Single(w => w.Id == input.ProjectStructureId);
 
                 structid.FabriacationCost = input.Cost;
-                
+
                 if (input.uploadDocs != null)
                 {
                     foreach (IFormFile file in input.uploadDocs)
@@ -205,7 +205,51 @@ namespace ETapManagement.Service
                 throw ex;
             }
         }
+        //    public ResponseMessage AddComponentCost(ADDComponentCost input)
+        //         {
+        //             try
+        //             {
+        //                 ResponseMessage responseMessage = new ResponseMessage();
+        // //List<DispStructureComp> struct = _context.DispStructureComp.w
 
+
+        //                    List<DispStructureComp> structureComps=_context.DispStructureComp.Where(w=>w.DispStructureId==input.DispStructureId).ToList();
+
+
+
+
+        //                 _context.SaveChanges();
+
+        //                 responseMessage.Message = "Structure Cost Updated sucessfully";
+        //                 return responseMessage;
+        //             }
+        //             catch (Exception ex)
+        //             {
+        //                 throw ex;
+        //             }
+        //         }
+
+        public ResponseMessage UpdatetructureAttributes(SiteReqStructureVm input)
+        {
+            try
+            {
+                ResponseMessage responseMessage = new ResponseMessage();
+                SiteReqStructure structid =
+                           _context.SiteReqStructure.Single(w => w.Id == input.SiteReqStructureId);
+                if (structid != null)
+                {
+                    structid.StructureAttributesVal = input.StructureAttributesVal;
+                }
+                _context.SaveChanges();
+
+                responseMessage.Message = "Structure Cost Updated sucessfully";
+                return responseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

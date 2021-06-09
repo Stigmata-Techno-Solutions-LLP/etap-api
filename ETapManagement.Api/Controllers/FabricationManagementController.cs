@@ -92,5 +92,19 @@ namespace ETapManagement.Api.Controllers {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
+           [HttpGet("UpdatetructureAttributes")]      
+      public IActionResult UpdatetructureAttributes(SiteReqStructureVm input)
+        {
+            try
+            {
+                var response = _fabricationManagementService.UpdatetructureAttributes(input);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
     }
 }
