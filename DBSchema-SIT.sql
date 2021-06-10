@@ -563,6 +563,7 @@ CREATE TABLE ETapManagementSIT.dbo.site_req_structure
   actual_releasedate datetime not null,
   require_wbs_id int not null,
   actual_wbs_id int not null,  
+  "status"  varchar  null,
   quantity int,
   CONSTRAINT siteReqStructire_siteReq_fkey FOREIGN KEY (site_req_id) REFERENCES site_requirement(id),
   CONSTRAINT siteReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES structures(id),

@@ -21,6 +21,7 @@ namespace ETapManagement.Domain.Models
         public int RequireWbsId { get; set; }
         public int ActualWbsId { get; set; }
         public int? Quantity { get; set; }
+        public string Status { get; set; }
 
         public virtual SiteRequirement SiteReq { get; set; }
         public virtual Structures Struct { get; set; }

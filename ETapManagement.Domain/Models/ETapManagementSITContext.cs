@@ -6,7 +6,8 @@ namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-      
+ 
+
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -69,7 +70,6 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
 
 modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
@@ -95,7 +95,6 @@ modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<ViewStructureChart>();
             modelBuilder.Query<Code>();
              modelBuilder.Query<AsBuildStructure>();
-
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -1581,6 +1580,11 @@ modelBuilder.Query<SiteRequirementDetail> ();
                 entity.Property(e => e.RequireWbsId).HasColumnName("require_wbs_id");
 
                 entity.Property(e => e.SiteReqId).HasColumnName("site_req_id");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.StructId).HasColumnName("struct_id");
 

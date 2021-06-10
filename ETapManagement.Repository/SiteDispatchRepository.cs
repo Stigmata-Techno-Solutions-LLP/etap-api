@@ -553,16 +553,31 @@ namespace ETapManagement.Repository {
                             _context.SaveChanges ();
                         }
 
-                        var dispatchedStrucCount = (from dr in _context.DispatchRequirement join drs in _context.DispReqStructure on dr.Id equals drs.DispreqId where dr.SitereqId == payload.siteRequirementId select new { }).Count ();
+                        /***update site requirement Structure status ***/
+                        var dispatchedStrucCount =Convert.ToInt32( _context.Query<string>().FromSqlRaw( string.Format("select count(*) from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join project_structure ps  on  drs.proj_struct_id = ps.id where ps.structure_id ={0} and dr.sitereq_id ={1} and drs.disp_struct_status <> 'REJECTED'",payload.StructureId,payload.siteRequirementId)).ToString());                        
                         SiteRequirement dbSiteReq = _context.SiteRequirement.Where (x => x.Id == payload.siteRequirementId).FirstOrDefault ();
-                        if (siteReqr.SiteReqStructure.Sum (x => x.Quantity) > dispatchedStrucCount) {
-                            dbSiteReq.Status = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
-                            dbSiteReq.StatusInternal = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
+                        SiteReqStructure dbSiteReqStructure = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId && x.StructId == payload.StructureId).FirstOrDefault ();                
+                        if (dbSiteReqStructure.Quantity > dispatchedStrucCount) {
+                            dbSiteReqStructure.Status = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
                         } else {
+                            dbSiteReqStructure.Status = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
+                        }
+                          _context.SaveChanges ();
+
+
+
+
+                        /***update site requirement status ***/
+                        List<SiteReqStructure> lstReqStructure = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId &&  x.Status ==  commonEnum.SiteRequiremntStatus.DISPATCHED.ToString()).ToList();
+                        if (lstReqStructure.Count() == lstReqStructure.Where(x=>x.Status == commonEnum.SiteRequiremntStatus.DISPATCHED.ToString()).Count()){
                             dbSiteReq.Status = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
                             dbSiteReq.StatusInternal = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
+                        } else {
+                              dbSiteReq.Status = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
+                            dbSiteReq.StatusInternal = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
                         }
                         _context.SaveChanges ();
+
 
                         DisreqStatusHistory dispatchReqStatusHistory = new DisreqStatusHistory ();
                         dispatchReqStatusHistory.DispatchNo = dispatchNo;
