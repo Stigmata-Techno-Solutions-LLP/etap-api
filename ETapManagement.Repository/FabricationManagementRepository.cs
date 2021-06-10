@@ -52,6 +52,18 @@ namespace ETapManagement.Repository {
            
 
           } 
+
+           public List<CostComponentDetailsDto> GetStructrueFabraiationComponent (int id ) {
+            
+                try {
+                List<CostComponentDetailsDto> result = new List<CostComponentDetailsDto> ();
+                string strQuery = string.Format ("select dsc.id DispstructCompId,dsc.fabriacation_cost Cost, dsc.disp_structure_id DispStructureId,dmsc.id ModStageCompId,dmsc.leng ModStageLength,dmsc.weight ModStageWeight,dmsc.height ModStageHeight,dmsc.thickness ModStageThikness,dmsc.breath ModStagebreath,c.comp_name ComponentName,c.comp_id CompId,ct.name ComponentType,c.comp_id ComponentNo,c.is_group IsGroup,c.drawing_no DrawingNo,c.leng Leng,c.breath Breath,c.height Height,c.thickness Thickness,c.weight Weight,c.make_type MakeType,c.is_tag IsTag from disp_structure_comp dsc inner join  component c  on  dsc.disp_comp_id  = c.id left outer join disp_mod_stage_component dmsc on dmsc.dispstruct_comp_id =dsc.id inner join component_type ct on c.comp_type_id =ct.id where dsc.disp_structure_id ={0}",id);
+                result = _context.Query<CostComponentDetailsDto> ().FromSqlRaw (strQuery).ToList ();
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
 		  
             
     }

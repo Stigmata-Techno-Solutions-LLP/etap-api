@@ -93,6 +93,7 @@ namespace ETapManagement.Domain.Models
             modelBuilder.Query<ViewStructureChart>();
             modelBuilder.Query<Code>();
              modelBuilder.Query<AsBuildStructure>();
+             modelBuilder.Query<CostComponentDetailsDto>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");

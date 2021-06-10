@@ -184,17 +184,6 @@ namespace ETapManagement.Service
                 }
                 RemoveStructureDocs(input.remove_docs_filename);
 
-
-                // DispatchRequirement DispatchRequirement =
-                //           _context.DispatchRequirement.Single(w => w.Id == input.DispatchRequirementId);
-                // if (DispatchRequirement != null)
-                // {
-                //     DispatchRequirement.Status = commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED.ToString();
-                //     DispatchRequirement.StatusInternal = commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED.ToString();
-                // }
-                // _context.ProjectStructure.Update(structid);
-                // _context.DispatchRequirement.Update(DispatchRequirement);
-
                 _context.SaveChanges();
 
                 responseMessage.Message = "Structure Cost Updated sucessfully";
@@ -205,29 +194,38 @@ namespace ETapManagement.Service
                 throw ex;
             }
         }
-        //    public ResponseMessage AddComponentCost(ADDComponentCost input)
-        //         {
-        //             try
-        //             {
-        //                 ResponseMessage responseMessage = new ResponseMessage();
-        // //List<DispStructureComp> struct = _context.DispStructureComp.w
+           public ResponseMessage AddComponentCost(List<ADDComponentCost> input)
+                {
+                    try
+                    {
+                        ResponseMessage responseMessage = new ResponseMessage();
+        //List<DispStructureComp> struct = _context.DispStructureComp.w
+              
 
 
-        //                    List<DispStructureComp> structureComps=_context.DispStructureComp.Where(w=>w.DispStructureId==input.DispStructureId).ToList();
+                          
 
 
+                        input.ForEach(item => 
+                        {
+                           DispStructureComp structureComps=_context.DispStructureComp.Single(w=>w.DispStructureId==item.DispStructureCompId);
 
+                           structureComps.FabriacationCost=item.Cost;
+                           _context.DispStructureComp.Update(structureComps);
+                           _context.SaveChanges();
 
-        //                 _context.SaveChanges();
+                        });
 
-        //                 responseMessage.Message = "Structure Cost Updated sucessfully";
-        //                 return responseMessage;
-        //             }
-        //             catch (Exception ex)
-        //             {
-        //                 throw ex;
-        //             }
-        //         }
+                        
+
+                        responseMessage.Message = "Structure Cost Updated sucessfully";
+                        return responseMessage;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
 
         public ResponseMessage UpdatetructureAttributes(SiteReqStructureVm input)
         {
@@ -240,6 +238,7 @@ namespace ETapManagement.Service
                 {
                     structid.StructureAttributesVal = input.StructureAttributesVal;
                 }
+                  _context.SiteReqStructure.Update(structid);
                 _context.SaveChanges();
 
                 responseMessage.Message = "Structure Cost Updated sucessfully";
@@ -249,6 +248,13 @@ namespace ETapManagement.Service
             {
                 throw ex;
             }
+        }
+
+        public List<CostComponentDetailsDto> GetStructrueFabraiationComponent (int id)
+        {
+            List<CostComponentDetailsDto> responseMessage = new List<CostComponentDetailsDto>();
+            responseMessage = _fabricationManagementRepository.GetStructrueFabraiationComponent(id);
+            return responseMessage;
         }
 
     }
