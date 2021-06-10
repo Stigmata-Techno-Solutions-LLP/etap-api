@@ -263,6 +263,13 @@ namespace ETapManagement.ViewModel.Dto
         public string StatusInternal { get; set; }
         public int DispStructureId { get; set; }
 
+        public string structureFamily {get; set;}
+
+        public int? RequiredComponenentCount{get; set;}
+         public int? CurrentComponentsCount{get; set;}
+
+
+
 
     }
     public class ComponentDetailsDto
@@ -301,12 +308,6 @@ namespace ETapManagement.ViewModel.Dto
     {
        // public int Id { get; set; }
         public int DispStructureId { get; set; }
-
-        public string CompId { get; set; }
-        public string ComponentName { get; set; }
-        public string ComponentType { get; set; }
-
-        public string DrawingNo { get; set; }
 
         public int DispstructCompId { get; set; }
           public int DispCompId {get;set;}

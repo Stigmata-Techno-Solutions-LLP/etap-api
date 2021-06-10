@@ -151,7 +151,7 @@ namespace ETapManagement.Service
                 throw ex;
             }
         }
-        
+
         public List<AsBuildStructure> GetAsBuildStructureCost(int projectId)
         {
             List<AsBuildStructure> responseMessage = new List<AsBuildStructure>();
@@ -159,7 +159,7 @@ namespace ETapManagement.Service
             return responseMessage;
         }
 
-         public ResponseMessage AddStructureCost(ADDStructureCost input)
+        public ResponseMessage AddStructureCost(ADDStructureCost input)
         {
             try
             {
@@ -168,7 +168,7 @@ namespace ETapManagement.Service
                            _context.ProjectStructure.Single(w => w.Id == input.ProjectStructureId);
 
                 structid.FabriacationCost = input.Cost;
-                
+
                 if (input.uploadDocs != null)
                 {
                     foreach (IFormFile file in input.uploadDocs)
@@ -184,17 +184,61 @@ namespace ETapManagement.Service
                 }
                 RemoveStructureDocs(input.remove_docs_filename);
 
+                _context.SaveChanges();
 
-                // DispatchRequirement DispatchRequirement =
-                //           _context.DispatchRequirement.Single(w => w.Id == input.DispatchRequirementId);
-                // if (DispatchRequirement != null)
-                // {
-                //     DispatchRequirement.Status = commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED.ToString();
-                //     DispatchRequirement.StatusInternal = commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED.ToString();
-                // }
-                // _context.ProjectStructure.Update(structid);
-                // _context.DispatchRequirement.Update(DispatchRequirement);
+                responseMessage.Message = "Structure Cost Updated sucessfully";
+                return responseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+           public ResponseMessage AddComponentCost(List<ADDComponentCost> input)
+                {
+                    try
+                    {
+                        ResponseMessage responseMessage = new ResponseMessage();
+        //List<DispStructureComp> struct = _context.DispStructureComp.w
+              
 
+
+                          
+
+
+                        input.ForEach(item => 
+                        {
+                           DispStructureComp structureComps=_context.DispStructureComp.Single(w=>w.DispStructureId==item.DispStructureCompId);
+
+                           structureComps.FabriacationCost=item.Cost;
+                           _context.DispStructureComp.Update(structureComps);
+                           _context.SaveChanges();
+
+                        });
+
+                        
+
+                        responseMessage.Message = "Structure Cost Updated sucessfully";
+                        return responseMessage;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+
+        public ResponseMessage UpdatetructureAttributes(SiteReqStructureVm input)
+        {
+            try
+            {
+                ResponseMessage responseMessage = new ResponseMessage();
+                SiteReqStructure structid =
+                           _context.SiteReqStructure.Single(w => w.Id == input.SiteReqStructureId);
+                if (structid != null)
+                {
+                    structid.StructureAttributesVal = input.StructureAttributesVal;
+                }
+                  _context.SiteReqStructure.Update(structid);
                 _context.SaveChanges();
 
                 responseMessage.Message = "Structure Cost Updated sucessfully";
@@ -206,6 +250,12 @@ namespace ETapManagement.Service
             }
         }
 
+        public List<CostComponentDetailsDto> GetStructrueFabraiationComponent (int id)
+        {
+            List<CostComponentDetailsDto> responseMessage = new List<CostComponentDetailsDto>();
+            responseMessage = _fabricationManagementRepository.GetStructrueFabraiationComponent(id);
+            return responseMessage;
+        }
 
     }
 }

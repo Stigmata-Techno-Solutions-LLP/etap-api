@@ -59,7 +59,7 @@ namespace ETapManagement.Api.Controllers {
         }
 
         [HttpPut ("ModifyComponentsForDispatch")]
-        public IActionResult UpdateDispatchComponent (DispModStageComponentDto Component) {
+        public IActionResult UpdateDispatchComponent (List<DispModStageComponentDto> Component) {
             try {
                 var response = _dispatchService.UpdateDispatchComponent (Component);
                 return Ok (response);
