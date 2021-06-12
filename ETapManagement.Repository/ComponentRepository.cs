@@ -139,12 +139,12 @@ namespace ETapManagement.Repository {
                                  
                                   
                                     compdb = ConstructComponent (projectStructureID, comp, compdb, compTypeDB);
-                                    DispStructureComp dsc = new DispStructureComp();
-                                    dsc.DispCompId  =  compdb.Id;
-                                    dsc.DispStructureId = request.DispStructureId;
+                                //     DispStructureComp dsc = new DispStructureComp();
+                                //     dsc.DispCompId  =  compdb.Id;
+                                //     dsc.DispStructureId = request.DispStructureId;
 
-                                   // _context.Add(compdb);
-                                    _context.Add(dsc);
+                                //    // _context.Add(compdb);
+                                //     _context.Add(dsc);
                                     _context.SaveChanges ();
                                  } else {
                                      throw new ValueNotFoundException ("Dispatch Component ID doesnt exists");

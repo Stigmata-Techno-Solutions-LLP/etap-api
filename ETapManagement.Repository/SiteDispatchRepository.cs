@@ -553,8 +553,10 @@ namespace ETapManagement.Repository {
                             _context.SaveChanges ();
                         }
 
-                        /***update site requirement Structure status ***/
-                        var dispatchedStrucCount =Convert.ToInt32( _context.Query<string>().FromSqlRaw( string.Format("select count(*) from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join project_structure ps  on  drs.proj_struct_id = ps.id where ps.structure_id ={0} and dr.sitereq_id ={1} and drs.disp_struct_status <> 'REJECTED'",payload.StructureId,payload.siteRequirementId)).ToString());                        
+                        /***update site requirement Structure status  ***/
+
+                        Code dispQty = _context.Query<Code>().FromSqlRaw( string.Format("select  count(*) as Id,'' as Name , 0 as ServiceTypeId from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join project_structure ps  on  drs.proj_struct_id = ps.id where ps.structure_id ={0} and dr.sitereq_id ={1} and drs.disp_struct_status <> 'REJECTED'",payload.StructureId,payload.siteRequirementId)).FirstOrDefault();         
+                        var dispatchedStrucCount = dispQty.Id;                     
                         SiteRequirement dbSiteReq = _context.SiteRequirement.Where (x => x.Id == payload.siteRequirementId).FirstOrDefault ();
                         SiteReqStructure dbSiteReqStructure = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId && x.StructId == payload.StructureId).FirstOrDefault ();                
                         if (dbSiteReqStructure.Quantity > dispatchedStrucCount) {

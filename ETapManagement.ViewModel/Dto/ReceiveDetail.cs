@@ -20,6 +20,8 @@ namespace ETapManagement.ViewModel.Dto
         public string DispStructStatus {get;set;}
        public string DispReqInternalStatus {get;set;}
         public string DispReqStatus {get;set;}
+        public int ServiceTypeId{get;set;}
+        public string ServcieTypeName{get;set;}
          
 
     }
