@@ -504,7 +504,7 @@ namespace ETapManagement.Repository {
                         dispReq.ToProjectid = payload.ToProjectId;
                         dispReq.Quantity = payload.Quantity;
                         _context.DispatchRequirement.Add (dispReq);
-                        _context.SaveChanges ();
+                        _context.SaveChanges();
                         ProjectStructure projectStructure = new ProjectStructure ();
                         if (servType.Name == commonEnum.ServiceType.Fabrication.ToString () || servType.Name == commonEnum.ServiceType.OutSourcing.ToString ()) {
                             SiteReqStructure siteRequirementStructure = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId && x.StructId == payload.StructureId).FirstOrDefault ();
@@ -522,7 +522,7 @@ namespace ETapManagement.Repository {
                             projectStructure.CreatedBy = payload.CreatedBy;
                             projectStructure.CreatedAt = DateTime.Now;
                             _context.ProjectStructure.Add (projectStructure);
-                            _context.SaveChanges ();
+                            _context.SaveChanges();
 
                         } else {
                             ProjectStructure structDB = _context.ProjectStructure.Where (x => x.StructureId == payload.StructureId && x.ProjectId == payload.ToProjectId).FirstOrDefault ();
@@ -538,6 +538,7 @@ namespace ETapManagement.Repository {
                             dispStrcture.FromProjectId = payload.FromProjectId;
                             dispStrcture.SurplusDate = payload.SurplusFromDate;
                         }
+                        dispStrcture.DispStructStatus = commonEnum.SiteDispStructureStatus.NEW.ToString();
                         _context.DispReqStructure.Add (dispStrcture);
                         _context.SaveChanges ();
 
