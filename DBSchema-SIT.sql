@@ -4,6 +4,7 @@ use ETapManagementSIT;
 
 
 
+
  IF OBJECT_ID('ETapManagementSIT.dbo.disp_fabrication_cost', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.disp_fabrication_cost ;
 
@@ -275,7 +276,21 @@ create table ETapManagementSIT.dbo.service_type
   description varchar(500) NULL
 )
 
-CREATE TABLE ETapManagementSIT.dbo.business_unit
+
+
+CREATE TABLE ETapManagementSIT.dbo.strategic_business
+(
+  id int not null identity(1,1),
+  name varchar(100) not null ,
+  is_delete bit not NULL DEFAULT 0,
+  is_active bit,
+  created_by int null,
+  created_at datetime default CURRENT_TIMESTAMP,
+  updated_by int null,
+  updated_at datetime ,
+  CONSTRAINT strategic_business_pkey PRIMARY KEY (id),
+)
+    CREATE TABLE ETapManagementSIT.dbo.business_unit
 (
   id int not null identity(1,1),
   ic_id int not null,
@@ -293,20 +308,6 @@ CREATE TABLE ETapManagementSIT.dbo.business_unit
 
 )
 
-
-CREATE TABLE ETapManagementSIT.dbo.strategic_business
-(
-  id int not null identity(1,1),
-  name varchar(100) not null ,
-  is_delete bit not NULL DEFAULT 0,
-  is_active bit,
-  created_by int null,
-  created_at datetime default CURRENT_TIMESTAMP,
-  updated_by int null,
-  updated_at datetime ,
-  CONSTRAINT strategic_business_pkey PRIMARY KEY (id),
-)\
-    
 
 CREATE TABLE ETapManagementSIT.dbo.project
 (
@@ -395,7 +396,6 @@ CREATE TABLE ETapManagementSIT.dbo.project_structure
   estimated_weight decimal(10,2),
   structure_status varchar(20) null,
   current_status varchar(20) null,
-  exp_release_date datetime null,
   actual_wbs int null,
   fabrication_year datetime null,
   exp_release_date datetime null,
