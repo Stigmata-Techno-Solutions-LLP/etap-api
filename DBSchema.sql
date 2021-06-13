@@ -249,18 +249,22 @@ create table ETapManagement.dbo.structure_type
   updated_by int null,
   updated_at datetime
 )
-create table ETapManagement.dbo.component_type
-(
-  id int NOT NULL IDENTITY(1,1) primary key,
+
+
+
+CREATE TABLE ETapManagementSIT2.dbo.component_type (
+	id int IDENTITY(1,1) NOT NULL,
   name varchar(200) not NULL unique,
-  description varchar(500) NULL,
-  is_delete bit default 0,
-  is_active bit,
-  created_by int null,
-  created_at datetime default CURRENT_TIMESTAMP,
-  updated_by int null,
-  updated_at datetime
-)
+	description varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	is_delete bit DEFAULT 0 NULL,
+	is_active bit NULL,
+	created_by int NULL,
+	created_at datetime DEFAULT getdate() NULL,
+	updated_by int NULL,
+	updated_at datetime NULL,
+	CONSTRAINT PK__componen__3213E83F568EF532 PRIMARY KEY (id),
+	CONSTRAINT UQ__componen__72E12F1B396403F9 UNIQUE (name)
+) 
 
 create table ETapManagement.dbo.segment
 (
@@ -888,8 +892,7 @@ updated_at datetime null,
 CONSTRAINT site_comp_physicalverf_site_structure_physicalverf_fkey FOREIGN KEY (sitestructure_verfid) REFERENCES site_structure_physicalverf(id),
  )
  
-select *
-from INFORMATION_SCHEMA.TABLES t 
+select * from INFORMATION_SCHEMA.TABLES t 
 
 CREATE TABLE site_strct_physicalverf_doc
 (
