@@ -78,7 +78,7 @@ namespace ETapManagement.Common {
             DELIVERED=3,
             PARTIALLYSCANNED=4,
             CMPCAPPROVED=5,
-            CMPCPARTIALLYAPRD =15,
+           
             FAAAPPROVED=6,
            FROMSITEAPPROVED=7,
            TOSITEAPPROVED=8,
@@ -87,7 +87,8 @@ namespace ETapManagement.Common {
            PARTIALLYDISPATCHED=11,
            READYTODELIVER=13,
            DISPATCHED =12,
-           FABRICATIONCOMPLETED=13
+           FABRICATIONCOMPLETED=14,
+           CMPCPARTIALLYAPRD =15
         }
         public enum ComponentStatus {
             NEW =1,
@@ -136,7 +137,7 @@ namespace ETapManagement.Common {
         public enum SiteRequiremntStatus{
             NEW=1,
             PARTIALLYDISPATCHED=2,
-            DISPATCHED=2
+            DISPATCHED=3
         }
 
         public enum TWCCDispatchReleaseDate{
