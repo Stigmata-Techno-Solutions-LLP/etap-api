@@ -9,10 +9,11 @@ namespace ETapManagement.ViewModel.Dto
 {
 
     public class AsBuildStructure
-    {  public string Status { get; set; }
+    {
+        public string Status { get; set; }
         public string StatusInternal { get; set; }
         public int RequiredComponenentCount { get; set; }
-         
+
         public int ProjectStructureId { get; set; }
         public int DispatchRequirementId { get; set; }
         public int DispReqStructId { get; set; }
@@ -24,8 +25,8 @@ namespace ETapManagement.ViewModel.Dto
         public string StructureCode { get; set; }
         public string ProjectName { get; set; }
 
-        public string StructrueName{get;set;}
-        
+        public string StructrueName { get; set; }
+
 
     }
     public class ADDStructureComponentDetails
@@ -33,11 +34,11 @@ namespace ETapManagement.ViewModel.Dto
 
         public int StructureId { get; set; }
 
-          public int DispatchRequirementId { get; set; }
+        public int DispatchRequirementId { get; set; }
         public string StructureCode { get; set; }
 
         public int ProjectId { get; set; }
-        public int  ProjectStructureId { get; set; }
+        public int ProjectStructureId { get; set; }
 
         public string DrawingNo { get; set; }
 
@@ -54,49 +55,45 @@ namespace ETapManagement.ViewModel.Dto
         public string Remarks { get; set; }
         public decimal? ActualWeight { get; set; }
         public bool? Reusuability { get; set; }
- 
+
 
 
     }
 
-     public class ADDStructureCost
+    public class ADDStructureCost
     {
 
         public int StructureId { get; set; }
         public int DispatchRequirementId { get; set; }
         public string StructureCode { get; set; }
         public int ProjectId { get; set; }
-        public int  ProjectStructureId { get; set; }
+        public int ProjectStructureId { get; set; }
         public IFormFile[] uploadDocs { get; set; }
         public string[] remove_docs_filename { get; set; }
 
-        public decimal Cost {get; set;}
-       
- 
+        public decimal Cost { get; set; }
+
+
 
 
     }
 
-         public class SiteReqStructureVm
+    public class SiteReqStructureVm
     {
 
-        public int SiteReqStructureId { get; set; } 
-           public string StructureAttributesVal { get; set; }
-      
-       
- 
-
+        public int SiteReqStructureId { get; set; }
+        public string StructureAttributesVal { get; set; }
 
     }
 
-     public class ADDComponentCost
+    public class ADDComponentCost
     {
-        public int DispStructureCompId{get;set;}
-        public decimal Cost {get; set;}
+        public int DispStructureCompId { get; set; }
+        public decimal Cost { get; set; }
 
     }
 
- public class CostComponentDetailsDto
+    public class CostComponentDetailsDto
     {
         // public int Id { get; set; }
         public int DispStructureId { get; set; }
@@ -124,12 +121,20 @@ namespace ETapManagement.ViewModel.Dto
         public decimal? ModStagebreath { get; set; }
         public int? ModStageCompId { get; set; }
 
-       public decimal? Cost {get; set;}
+        public decimal? Cost { get; set; }
         public bool? IsTag { get; set; }
     }
 
 
+    public class FabricationVm
+    {
 
+        public int projectstructreId { get; set; }
+        public int DisptachRequiremntstructureId { get; set; }
+        public int DispatchRequiremntId { get; set; }
+
+
+    }
 
 
 

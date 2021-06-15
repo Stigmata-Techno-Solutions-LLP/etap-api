@@ -17,6 +17,7 @@ namespace ETapManagement.Service
         public ResponseMessage AddComponentCost(List<ADDComponentCost> input);
 
         public List<CostComponentDetailsDto> GetStructrueFabraiationComponent (int id);
+         public ResponseMessage UpdateFabricationStatus(FabricationVm input);
 
     }
 }

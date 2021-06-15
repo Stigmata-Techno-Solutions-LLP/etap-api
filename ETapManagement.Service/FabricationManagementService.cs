@@ -257,5 +257,50 @@ namespace ETapManagement.Service
             return responseMessage;
         }
 
+            public ResponseMessage UpdateFabricationStatus(FabricationVm input)
+        {
+            try
+            {
+                ResponseMessage responseMessage = new ResponseMessage();
+                ProjectStructure ProjectStruct =
+                           _context.ProjectStructure.Single(w => w.Id == input.projectstructreId);
+                if (ProjectStruct != null)
+                {
+                    ProjectStruct.StructureStatus = commonEnum.StructureStatus.NOTAVAILABLE.ToString();
+                     ProjectStruct.StructureStatus = commonEnum.StructureStatus.NOTAVAILABLE.ToString();
+                }
+                  _context.ProjectStructure.Update(ProjectStruct);
+
+  
+                   DispReqStructure dispReqStr =
+                           _context.DispReqStructure.Single(w => w.Id == input.DisptachRequiremntstructureId);
+                if (dispReqStr != null)
+                {
+                    dispReqStr.DispStructStatus = commonEnum.StructureStatus.SCANNED.ToString();
+                     
+                }
+                  _context.DispReqStructure.Update(dispReqStr);
+
+                   DispatchRequirement disprequirement =
+                           _context.DispatchRequirement.Single(w => w.Id == input.DispatchRequiremntId);
+                if (disprequirement != null)
+                {
+                    disprequirement.Status = commonEnum.StructureStatus.PARTIALLYSCANNED.ToString();
+                     disprequirement.StatusInternal = commonEnum.StructureStatus.SCANNED.ToString();
+                     
+                }
+                  _context.DispatchRequirement.Update(disprequirement);
+
+                _context.SaveChanges();
+
+                responseMessage.Message = "Status   Updated sucessfully";
+                return responseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
