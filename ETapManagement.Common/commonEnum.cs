@@ -132,7 +132,8 @@ namespace ETapManagement.Common {
             NEW=1,
             AVAILABLE=2,
             NOTAVAILABLE=3, 
-            PARTIALLYSCANNED=4,      
+            PARTIALLYSCANNED=4, 
+            SCANNED=5     
         }
         public enum SiteRequiremntStatus{
             NEW=1,
@@ -143,7 +144,8 @@ namespace ETapManagement.Common {
         public enum TWCCDispatchReleaseDate{
             ONEMONTH=1,
             THREEMONTHS=2,
-            SIXMONTHS=3
+            SIXMONTHS=3,
+
         }
     }
 

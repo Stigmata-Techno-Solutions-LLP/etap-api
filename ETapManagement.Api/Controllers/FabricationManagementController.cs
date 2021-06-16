@@ -136,5 +136,19 @@ namespace ETapManagement.Api.Controllers {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
+          [HttpPost("UpdateFabricationStatus")]    
+          public IActionResult UpdateFabricationStatus(FabricationVm input)
+        {
+            try
+            {
+                var response = _fabricationManagementService.UpdateFabricationStatus(input);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
     }
 }
