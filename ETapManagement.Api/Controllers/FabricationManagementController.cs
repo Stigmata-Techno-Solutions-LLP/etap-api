@@ -92,7 +92,7 @@ namespace ETapManagement.Api.Controllers {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
-           [HttpGet("UpdatetructureAttributes")]      
+           [HttpPut("UpdatetructureAttributes")]      
       public IActionResult UpdatetructureAttributes(SiteReqStructureVm input)
         {
             try
@@ -107,7 +107,7 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-              [HttpGet("AddComponentCost")]      
+              [HttpPut("AddComponentCost")]      
       public IActionResult AddComponentCost(List<ADDComponentCost> input)
         {
             try
