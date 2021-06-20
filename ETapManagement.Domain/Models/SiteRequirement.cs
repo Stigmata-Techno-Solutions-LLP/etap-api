@@ -16,12 +16,6 @@ namespace ETapManagement.Domain.Models
         public int Id { get; set; }
         public string MrNo { get; set; }
         public int FromProjectId { get; set; }
-        public DateTime PlanStartdate { get; set; }
-        public DateTime PlanReleasedate { get; set; }
-        public DateTime ActualStartdate { get; set; }
-        public DateTime ActualReleasedate { get; set; }
-        public int RequireWbsId { get; set; }
-        public int ActualWbsId { get; set; }
         public string Remarks { get; set; }
         public string Status { get; set; }
         public string StatusInternal { get; set; }

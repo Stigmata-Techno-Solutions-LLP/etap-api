@@ -6,5 +6,6 @@ namespace ETapManagement.ViewModel.Dto {
     public class Code {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int ServiceTypeId { get; set; }
     }
 }

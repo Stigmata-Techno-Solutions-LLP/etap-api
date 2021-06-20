@@ -47,7 +47,7 @@ namespace ETapManagement.Repository {
                     throw new ValueNotFoundException ("UserName already exist.");
                 } else {
                     Users userDtls = _mapper.Map<Users> (userDetails);
-                    userDetails.isActive= true;
+                    userDtls.IsActive= true;
                     _context.Users.Add (userDtls);
                     _context.SaveChanges();
                     AuditLogs audit = new AuditLogs () {
@@ -71,10 +71,12 @@ namespace ETapManagement.Repository {
             try {
                 var userData = _context.Users.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
                 if (userData != null) {
-                    if (_context.Users.Where (x => x.Email == userDetails.email && x.Id != id && x.IsDelete == false).Count () > 0) {
-                        throw new ValueNotFoundException ("Email Id already exist.");
+                    // if (_context.Users.Where (x => x.Email == userDetails.email && x.Id != id && x.IsDelete == false).Count () > 0) {
+                    //     throw new ValueNotFoundException ("Email Id already exist.");
 
-                    } else if (_context.Users.Where (x => x.PsNo == userDetails.userName && x.Id != id && x.IsDelete == false).Count () > 0) {
+                    // } 
+                    // else 
+                    if (_context.Users.Where (x => x.PsNo == userDetails.userName && x.Id != id && x.IsDelete == false).Count () > 0) {
                         throw new ValueNotFoundException ("UserName already exist.");
                     } else {
                         userData.FirstName = userDetails.firstName;

@@ -19,174 +19,204 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using OwaspHeaders.Core.Extensions;
-namespace ETapManagement.Api {
-    public class Startup {
-        public IConfiguration Configuration { get; }
-        public Startup (IConfiguration configuration) {
-            Configuration = configuration;
+namespace ETapManagement.Api
+{
+	public class Startup
+	{
+		public IConfiguration Configuration { get; }
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
 
-        }
-        public void ConfigureServices (IServiceCollection services) {
+		}
+		public void ConfigureServices(IServiceCollection services)
+		{
 
-            // configure strongly typed settings objects
-            var appSettingsSection = Configuration.GetSection ("AppSettings");
-            services.Configure<ETapManagement.ViewModel.Dto.AppSettings> (appSettingsSection);
+			// configure strongly typed settings objects
+			var appSettingsSection = Configuration.GetSection("AppSettings");
+			services.Configure<ETapManagement.ViewModel.Dto.AppSettings>(appSettingsSection);
 
-            // configure jwt authentication
-            var appSettings = appSettingsSection.Get<ETapManagement.ViewModel.Dto.AppSettings> ();
-            //Extension method for less clutter in startup
-            services.AddApplicationDbContext (appSettings);
-            services.AddControllers ().AddNewtonsoftJson (options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
-            //DI Services and Repos
-            services.AddScoped<IUserService, UserService> ();
-            services.AddScoped<IUserRepository, UserRepository> ();
-            services.AddScoped<IAuthService, AuthService> ();
-            services.AddScoped<IAuthRepository, AuthRepository> ();
-            services.AddScoped<IPageAccessService, PageAccessService> ();
-            services.AddScoped<IPageAccessRepository, PageAccessRepository> ();
-            services.AddScoped<IComponentTypeRepository, ComponentTypeRepository> ();
-            services.AddScoped<IComponentTypeService, ComponentTypeService> ();
-            services.AddScoped<ICommonRepository, CommonRepository> ();
-            services.AddScoped<IProjectService, ProjectService> ();
-            services.AddScoped<IProjectRepository, ProjectRepository> ();
-            services.AddScoped<ISegmentService, SegmentService> ();
-            services.AddScoped<ISegmentRepository, SegmentRepository> ();
-            services.AddScoped<IWBSRepository, WBSRepository> ();
-            services.AddScoped<IWBSService, WBSService> ();
-            services.AddScoped<IVendorService, VendorService> ();
-            services.AddScoped<IVendorRepository, VendorRepository> ();
-            services.AddScoped<IStructureTypeService, StructureTypeService> ();
-            services.AddScoped<IStructureTypeRepository, StructureTypeRepository> ();
-            services.AddScoped<IICService, ICService> ();
-            services.AddScoped<IICRepository, ICRepository> ();
-            services.AddScoped<IBUService, BUService> ();
-            services.AddScoped<IBURepository, BURepository> ();
-            services.AddScoped<IStructureService, StructureService> ();
-            services.AddScoped<IStructureRepository, StructureRepository> ();
+			// configure jwt authentication
+			var appSettings = appSettingsSection.Get<ETapManagement.ViewModel.Dto.AppSettings>();
+			//Extension method for less clutter in startup
+			services.AddApplicationDbContext(appSettings);
+			services.AddControllers().AddNewtonsoftJson(options =>
+			  options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+			);
+			//DI Services and Repos
+			services.AddScoped<IUserService, UserService>();
+			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IAuthService, AuthService>();
+			services.AddScoped<IAuthRepository, AuthRepository>();
+			services.AddScoped<IPageAccessService, PageAccessService>();
+			services.AddScoped<IPageAccessRepository, PageAccessRepository>();
+			services.AddScoped<IComponentTypeRepository, ComponentTypeRepository>();
+			services.AddScoped<IComponentTypeService, ComponentTypeService>();
+			services.AddScoped<ICommonRepository, CommonRepository>();
+			services.AddScoped<IProjectService, ProjectService>();
+			services.AddScoped<IProjectRepository, ProjectRepository>();
+			services.AddScoped<ISegmentService, SegmentService>();
+			services.AddScoped<ISegmentRepository, SegmentRepository>();
+			services.AddScoped<IWBSRepository, WBSRepository>();
+			services.AddScoped<IWBSService, WBSService>();
+			services.AddScoped<IVendorService, VendorService>();
+			services.AddScoped<IVendorRepository, VendorRepository>();
+			services.AddScoped<IStructureTypeService, StructureTypeService>();
+			services.AddScoped<IStructureTypeRepository, StructureTypeRepository>();
+			services.AddScoped<IICService, ICService>();
+			services.AddScoped<IICRepository, ICRepository>();
+			services.AddScoped<IBUService, BUService>();
+			services.AddScoped<IBURepository, BURepository>();
+			services.AddScoped<IStructureService, StructureService>();
+			services.AddScoped<IStructureRepository, StructureRepository>();
 
-            services.AddScoped<IAssignStructureComponentRepository, AssignStructureComponentRepository> ();
-            services.AddScoped<IAssignStructureComponentService, AssignStructureComponentService> ();
-            services.AddScoped<IComponentService, ComponentService> ();
-            services.AddScoped<IComponentRepository, ComponentRepository> ();
+			services.AddScoped<IAssignStructureComponentRepository, AssignStructureComponentRepository>();
+			services.AddScoped<IAssignStructureComponentService, AssignStructureComponentService>();
+			services.AddScoped<IComponentService, ComponentService>();
+			services.AddScoped<IComponentRepository, ComponentRepository>();
 
-            services.AddScoped<ISiteRequirementRepository, SiteRequirementRepository> ();
-            services.AddScoped<ISiteRequirementService, SiteRequirementService> ();
-            services.AddScoped<ISurplusRepository, SurplusRepository> ();
-            services.AddScoped<ISurplusService, SurplusService> ();
+			services.AddScoped<ISiteRequirementRepository, SiteRequirementRepository>();
+			services.AddScoped<ISiteRequirementService, SiteRequirementService>();
+			services.AddScoped<ISurplusRepository, SurplusRepository>();
+			services.AddScoped<ISurplusService, SurplusService>();
 
-            services.AddScoped<ISiteDispatchRepository, SiteDispatchRepository> ();
-            services.AddScoped<ISiteDispatchService, SiteDispatchService> ();
+			services.AddScoped<ISiteDispatchRepository, SiteDispatchRepository>();
+			services.AddScoped<ISiteDispatchService, SiteDispatchService>();
+			services.AddScoped<IDispatchService, DispatchService>();
 
 			services.AddScoped<IScrapStructureRepository, ScrapStructureRepository>();
 			services.AddScoped<IScrapStructureService, ScrapStructureService>();
 
-            services.AddScoped<IDispatchReqSubConRepository, DispatchReqSubConRepository>();
-            services.AddScoped<IDispatchService, DispatchService>();
-            
-            services.AddAntiforgery (options => options.HeaderName = "X-XSRF-TOKEN");
+			services.AddScoped<IDispatchReqSubConRepository, DispatchReqSubConRepository>();
 
-            var key = Encoding.ASCII.GetBytes (appSettings.Secret);
-            services.AddAuthentication (x => {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
+			services.AddScoped<IPhysicalVerificationService, PhysicalVerificationService>();
+			services.AddScoped<IPhysicalVerificationRepository, PhysicalVerificationRepository>();
 
-                .AddJwtBearer (x => {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey (key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
-            services.Configure<ETapManagement.ViewModel.Dto.AppSettings> (Configuration.GetSection ("AppSettings"));
-            services.AddCors (options => {
-                options.AddPolicy ("AllowAll", builder => builder.AllowAnyOrigin ().AllowAnyMethod ().AllowAnyHeader ());
-            });
+			services.AddScoped<IFabricationManagementService, FabricationManagementService>();
+			services.AddScoped<IFabricationManagementRepository, FabricationManagementRepository>();
 
-            // WebApi Configuration
-            services.AddControllers ().AddJsonOptions (options => {
-                options.JsonSerializerOptions.IgnoreNullValues = true;
-                options.JsonSerializerOptions.Converters.Add (new JsonStringEnumConverter ()); // for enum as strings
-            });
+			services.AddScoped<IReceiveRepository, ReceiveRepository>();
+			services.AddScoped<IReceiveService, ReceiveService>();
 
-            // AutoMapper settings
-            services.AddAutoMapperSetup ();
+			services.AddScoped<IStrategicBusinessRepository, StrategicBusinessRepository>();
+			services.AddScoped<IStrategicBusinessService, StrategicBusinessService>();
 
-            // HttpContext for log enrichment 
-            services.AddHttpContextAccessor ();
 
-            // Swagger settings
-            services.AddApiDoc ();
-            // GZip compression
-            services.AddCompression ();
+			services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
-            services.AddControllersWithViews ();
-            services.AddDirectoryBrowser ();
+			var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+			services.AddAuthentication(x =>
+			{
+				x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
 
-        }
+				.AddJwtBearer(x =>
+				{
+					x.RequireHttpsMetadata = false;
+					x.SaveToken = true;
+					x.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuerSigningKey = true,
+						IssuerSigningKey = new SymmetricSecurityKey(key),
+						ValidateIssuer = false,
+						ValidateAudience = false,
+						ClockSkew = TimeSpan.Zero
+					};
+				});
+			services.Configure<ETapManagement.ViewModel.Dto.AppSettings>(Configuration.GetSection("AppSettings"));
+			services.AddCors(options =>
+			{
+				options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+			});
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public static void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
-            if (env.IsDevelopment ()) {
-                app.UseDeveloperExceptionPage ();
-            }
+			// WebApi Configuration
+			services.AddControllers().AddJsonOptions(options =>
+			{
+				options.JsonSerializerOptions.IgnoreNullValues = true;
+				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // for enum as strings
+			});
 
-            app.UseCustomSerilogRequestLogging ();
+			// AutoMapper settings
+			services.AddAutoMapperSetup();
 
-            app.UseRouting ();
-            app.UseStaticFiles ();
-            if (!Directory.Exists ("./Images")) Directory.CreateDirectory ("./Images");
-            app.UseStaticFiles (new StaticFileOptions {
-                FileProvider = new PhysicalFileProvider (
-                        Path.Combine (env.ContentRootPath, "Images")),
-                    RequestPath = "/Images"
-            });
+			// HttpContext for log enrichment 
+			services.AddHttpContextAccessor();
 
-            app.UseDirectoryBrowser (new DirectoryBrowserOptions {
-                FileProvider = new PhysicalFileProvider (
-                        Path.Combine (env.ContentRootPath, "Images")),
-                    RequestPath = "/Images"
-            });
-            app.UseStaticFiles (new StaticFileOptions {
-                FileProvider = new PhysicalFileProvider (
-                        Path.Combine (env.ContentRootPath, "Documents")),
-                    RequestPath = "/Documents"
-            });
+			// Swagger settings
+			services.AddApiDoc();
+			// GZip compression
+			services.AddCompression();
 
-            app.UseDirectoryBrowser (new DirectoryBrowserOptions {
-                FileProvider = new PhysicalFileProvider (
-                        Path.Combine (env.ContentRootPath, "Documents")),
-                    RequestPath = "/Documents"
-            });
+			services.AddControllersWithViews();
+			services.AddDirectoryBrowser();
 
-            app.UseCors ("AllowAll");
+		}
 
-            app.UseApiDoc ();
-            app.UseEndpoints (endpoints => {
-                endpoints.MapControllers ();
-            });
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
 
-            //added request logging
+			app.UseCustomSerilogRequestLogging();
 
-            app.UseHttpsRedirection ();
-            app.UseMiddleware<JwtMiddleware> ();
-            app.UseMiddleware<ApiLoggingMiddleware> ();
+			app.UseRouting();
+			app.UseStaticFiles();
+			if (!Directory.Exists("./Images")) Directory.CreateDirectory("./Images");
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(
+						Path.Combine(env.ContentRootPath, "Images")),
+				RequestPath = "/Images"
+			});
 
-            app.UseResponseCompression ();
-            app.UseAuthentication ();
-            app.UseAuthorization ();
-            app.UseSecureHeadersMiddleware (SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration ());
-            app.UseEndpoints (endpoints => {
-                endpoints.MapControllers ();
-            });
-            // app.UseCors(options => options.AllowAnyOrigin());  
+			app.UseDirectoryBrowser(new DirectoryBrowserOptions
+			{
+				FileProvider = new PhysicalFileProvider(
+						Path.Combine(env.ContentRootPath, "Images")),
+				RequestPath = "/Images"
+			});
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = new PhysicalFileProvider(
+						Path.Combine(env.ContentRootPath, "Documents")),
+				RequestPath = "/Documents"
+			});
 
-        }
-    }
+			app.UseDirectoryBrowser(new DirectoryBrowserOptions
+			{
+				FileProvider = new PhysicalFileProvider(
+						Path.Combine(env.ContentRootPath, "Documents")),
+				RequestPath = "/Documents"
+			});
+
+			app.UseCors("AllowAll");
+
+			app.UseApiDoc();
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
+
+			//added request logging
+
+			app.UseHttpsRedirection();
+			app.UseMiddleware<JwtMiddleware>();
+			app.UseMiddleware<ApiLoggingMiddleware>();
+
+			app.UseResponseCompression();
+			app.UseAuthentication();
+			app.UseAuthorization();
+			app.UseSecureHeadersMiddleware(SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration());
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
+			// app.UseCors(options => options.AllowAnyOrigin());  
+
+		}
+	}
 }

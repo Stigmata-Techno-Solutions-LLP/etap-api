@@ -34,11 +34,11 @@ namespace ETapManagement.Repository {
                     sitereq.CreatedAt = DateTime.Now;
                     sitereq.CreatedBy = 1; //TODO
                     sitereq.RoleId = 13; // TODO
-                    sitereq.MrNo = mrno;                  
+                    sitereq.MrNo = mrno;
                     sitereq.Status = "NEW";
                     sitereq.StatusInternal = "NEW";
                     _context.SiteRequirement.Add (sitereq);
-                    _context.SaveChanges();
+                    _context.SaveChanges ();
 
                     //Add the site requirement structure
                     if (siteRequirement.SiteRequirementStructures.Any ()) {
@@ -46,8 +46,13 @@ namespace ETapManagement.Repository {
                             SiteReqStructure siteReqStructure = new SiteReqStructure ();
                             siteReqStructure.SiteReqId = sitereq.Id;
                             siteReqStructure.StructId = item.StructId;
-                            siteReqStructure.DrawingNo = item.DrawingNo;
                             siteReqStructure.Quantity = item.Quantity;
+                            siteReqStructure.PlanReleasedate = item.PlanReleasedate;
+                            siteReqStructure.PlanStartdate = item.PlanStartdate;
+                            siteReqStructure.RequireWbsId = item.RequireWbsId;
+                            siteReqStructure.ActualReleasedate = DateTime.Now;
+                            siteReqStructure.ActualStartdate = item.RequireByDate;
+                            siteReqStructure.StructureAttributesVal = item.StructureAttributesVal;
                             _context.SiteReqStructure.Add (siteReqStructure);
                         }
                     }
@@ -62,7 +67,7 @@ namespace ETapManagement.Repository {
                     siteStatusHist.UpdatedBy = 1; //TODO
                     _context.SitereqStatusHistory.Add (siteStatusHist);
                     _context.SaveChanges ();
-                    responseMessage.Message = "Site Requirement created sucessfully";
+                    responseMessage.Message = $"Site Requirement {sitereq.MrNo} created sucessfully";
                     transaction.Commit ();
                     return responseMessage;
                 } catch (Exception ex) {
@@ -122,9 +127,9 @@ namespace ETapManagement.Repository {
         public SiteRequirementDetailWithStruct GetRequirementDetailsById (int id) {
             try {
                 SiteRequirementDetailWithStruct result = new SiteRequirementDetailWithStruct ();
-                var siteRequirement = _context.SiteRequirement.Include(b=>b.FromProject).Where(x => x.IsDelete == false && x.Id == id)
+                var siteRequirement = _context.SiteRequirement.Include (b => b.FromProject).Where (x => x.IsDelete == false && x.Id == id)
                     .Include (s => s.SiteReqStructure).FirstOrDefault ();
-                var reqStrucutre =  _context.SiteReqStructure.Include(r=>r.Struct).Where(x=>x.SiteReqId == id).ToList();
+                var reqStrucutre = _context.SiteReqStructure.Include (r => r.Struct).Where (x => x.SiteReqId == id).ToList ();
                 siteRequirement.SiteReqStructure = reqStrucutre;
                 result = _mapper.Map<SiteRequirementDetailWithStruct> (siteRequirement);
 
@@ -139,11 +144,11 @@ namespace ETapManagement.Repository {
                 ResponseMessage resp = new ResponseMessage ();
 
                 if (reqPayload.mode == commonEnum.WorkFlowMode.Approval) {
-                    var siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_ApprovalRequirement {0}, {1},{2}", reqPayload.siteReqId, reqPayload.role_name.ToString(), null);
+                    var siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_ApprovalRequirement {0}, {1},{2}", reqPayload.siteReqId, reqPayload.role_name.ToString (), null);
                     resp.Message = string.Format ("Requirement successfully Approved by {0}", reqPayload.role_name);
                     if (siteRequirements == -1) throw new ValueNotFoundException ("Approval opearation not allowed ");
                 } else if (reqPayload.mode == commonEnum.WorkFlowMode.Rejection) {
-                    var siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_RejectRequirement {0}, {1}, {2}", reqPayload.siteReqId, reqPayload.role_name.ToString(), reqPayload.role_hierarchy);
+                    var siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_RejectRequirement {0}, {1}, {2}", reqPayload.siteReqId, reqPayload.role_name.ToString (), reqPayload.role_hierarchy);
                     resp.Message = string.Format ("Requirement successfully Rejected by {0}", reqPayload.role_name);
                     if (siteRequirements == -1) throw new ValueNotFoundException ("Rejection opearation not allowed");
 
@@ -164,14 +169,7 @@ namespace ETapManagement.Repository {
                         throw new ValueNotFoundException ("Site Requirement Id doesnot exist.");
                     } else {
                         siteReq.FromProjectId = siteRequirement.ProjectId;
-                        siteReq.PlanStartdate = siteRequirement.PlanStartdate;
-                        siteReq.PlanReleasedate = siteRequirement.PlanReleasedate;
-                        siteReq.ActualStartdate = siteRequirement.ActualStartdate;
-                        siteReq.ActualReleasedate = siteRequirement.ActualReleasedate;
-                        siteReq.RequireWbsId = siteRequirement.RequireWbsId;
-                        siteReq.ActualWbsId = siteRequirement.ActualWbsId;
                         siteReq.Remarks = siteRequirement.Remarks;
-                        siteReq.ActualWbsId = siteRequirement.ActualWbsId;
                         siteReq.Remarks = siteRequirement.Remarks;
                         siteReq.Status = siteRequirement.Status;
                         siteReq.StatusInternal = siteRequirement.StatusInternal;
@@ -190,8 +188,10 @@ namespace ETapManagement.Repository {
                                 SiteReqStructure siteReqStructure = new SiteReqStructure ();
                                 siteReqStructure.SiteReqId = siteReq.Id;
                                 siteReqStructure.StructId = item.StructId;
-                                siteReqStructure.DrawingNo = item.DrawingNo;
-                                siteReqStructure.Quantity = item.Quantity;
+                                siteReqStructure.PlanStartdate = item.PlanStartdate;
+                                siteReqStructure.ActualStartdate = item.RequireByDate;
+                                siteReqStructure.PlanReleasedate = item.PlanReleasedate;                               
+                                siteReqStructure.RequireWbsId = item.RequireWbsId;
                                 _context.SiteReqStructure.Add (siteReqStructure);
                             }
                         }
@@ -208,12 +208,10 @@ namespace ETapManagement.Repository {
                             foreach (var item in updatedsiteReqStructures) {
                                 SiteReqStructure siteReqStructure = _context.SiteReqStructure.Where (x => x.Id == item.Id).FirstOrDefault ();
                                 siteReqStructure.StructId = item.StructId;
-                                siteReqStructure.DrawingNo = item.DrawingNo;
                                 siteReqStructure.Quantity = item.Quantity;
                                 _context.SaveChanges ();
                             }
                         }
-
                         _context.SaveChanges ();
                         SitereqStatusHistory siteStatusHist = new SitereqStatusHistory ();
                         siteStatusHist.MrNo = siteReq.MrNo;
@@ -233,7 +231,6 @@ namespace ETapManagement.Repository {
                         _commonRepo.AuditLog (audit);
                         return responseMessage = new ResponseMessage () {
                             Message = "Site Requirement updated successfully.",
-
                         };
                     }
                 } else {

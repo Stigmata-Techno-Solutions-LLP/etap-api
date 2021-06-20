@@ -35,7 +35,9 @@ namespace ETapManagement.Repository {
                     IndependentCompanyId = Convert.ToInt32(user.IcId),
                     ProjectName = user.Project.Name,
                     ProjectCode = user.Project.ProjCode,
-                    RoleName = user.Role.Name
+                    RoleName = user.Role.Name,
+                    VendorId = user.VendorId
+
                 };
                 return result;
             } catch (Exception ex) {

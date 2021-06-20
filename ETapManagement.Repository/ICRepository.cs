@@ -87,6 +87,7 @@ namespace ETapManagement.Repository {
                     } else {
                         ic.Name = independentCompany.Name;
                         ic.Description = independentCompany.Description;
+                        ic.IsActive=independentCompany.IsActive;
 
                         _context.SaveChanges ();
 

@@ -67,13 +67,8 @@ namespace ETapManagement.Repository {
         public ResponseMessage AddStructure (StructureDetails structureDetails) {
             ResponseMessage response = new ResponseMessage ();
             try {
-                int structCount = _context.Structures.Count () + 1;
-                string structId = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
-                // if (_context.Structures.Where (x => x.Id == structureDetails.Id && x.IsDelete == false).Count () > 0) {
-                //     throw new ValueNotFoundException ("Structure Id already exist.");
-                // } else {
+                              
                     var structureDb = _mapper.Map<Structures> (structureDetails);
-                    structureDb.StructId = structId;
                     _context.Structures.Add (structureDb);
                     _context.SaveChanges ();
 
@@ -96,7 +91,7 @@ namespace ETapManagement.Repository {
                     // } else {
                         structure.IsActive = structureDetails.IsActive;
                         structure.Name = structureDetails.Name;
-                        structure.StructureAttributes = structureDetails.StructureAttributes;
+                        structure.StructureAttributesDef = structureDetails.StructureAttributes;
                         structure.StructureTypeId = structureDetails.StructureTypeId;
                         structure.UpdatedAt = DateTime.Now;
                         _context.SaveChanges ();

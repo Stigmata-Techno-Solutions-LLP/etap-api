@@ -33,6 +33,9 @@ namespace ETapManagement.Repository {
                         var isUpdate = false;
                         var projectStructureID = 0;
                         var projectStructure = _context.ProjectStructure.Where (x => x.StructureId == request.StructureId && x.ProjectId == request.ProjectId && x.IsDelete == false).FirstOrDefault ();
+                        if (request.ProjectStructureId != null) {
+                            projectStructure = _context.ProjectStructure.Where (x => x.Id== request.ProjectStructureId && x.IsDelete == false).FirstOrDefault ();
+                        }
 
                         if (projectStructure != null) {
                             projectStructure = ConstructProjectStructure (request, projectStructure);
@@ -48,10 +51,7 @@ namespace ETapManagement.Repository {
                             _context.ProjectStructure.Add (projStructdb);
                             _context.SaveChanges ();
                             projectStructureID = projStructdb.Id;
-                        }
-                        Structures structDB = _context.Structures.Where (x => x.Id == request.StructureId).FirstOrDefault ();
-                        structDB.StructureAttributes = request.StructureAttributes;
-                        _context.SaveChanges ();
+                        }                      
                         transaction.Commit ();
                         return projectStructureID;
                     } catch (Exception ex) {
@@ -91,17 +91,22 @@ namespace ETapManagement.Repository {
         }
 
         private ProjectStructure ConstructProjectStructure (AssignStructureComponentDetails request, ProjectStructure projStruct) {
+            int structCount = _context.ProjectStructure.Count () + 1;
+                string structId = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
             if (projStruct == null) {
                 projStruct = new ProjectStructure ();
                 projStruct.CreatedAt = DateTime.Now;
             }
             projStruct.ProjectId = request.ProjectId;
             projStruct.StructureId = request.StructureId;
+            projStruct.StructCode = request.StructureCode;
             projStruct.IsDelete = false;
             projStruct.DrawingNo = request.DrawingNo;
             projStruct.UpdatedAt = DateTime.Now;
             projStruct.EstimatedWeight = Convert.ToDecimal( request.EstimatedWeight);
-       
+            projStruct.StructCode = structId;
+            projStruct.ComponentsCount = request.CompCount;
+            projStruct.StructureAttributesVal = request.StructureAttributes;
             return projStruct;
         }
 
@@ -118,28 +123,64 @@ namespace ETapManagement.Repository {
 
         public AssignStructureDtlsOnly GetAssignStructureDtlsById (ComponentQueryParam filterReq) {
             try {
-                Structures structDetails = _context.Structures.Where (x => x.Id == filterReq.StructId).FirstOrDefault ();
+                Structures structDetails = _context.Structures.Include(x=>x.StructureType).Where (x => x.Id == filterReq.StructId).FirstOrDefault ();
                 Project projDB = _context.Project.Include(x=>x.Ic).Include(x=>x.Bu).Where(x=>x.Id == filterReq.ProjectId).FirstOrDefault();
                 AssignStructureDtlsOnly response = new AssignStructureDtlsOnly ();
                 ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Project).Include (x => x.Structure).Include (x => x.Structure.StructureType).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.ProjectId == filterReq.ProjectId && m.StructureId == filterReq.StructId).FirstOrDefault();
-               
+                
+                response.StrcutureTypeName = structDetails.StructureType.Name;
                 if (pStruct != null) {
                  List<Component> lstComp = _context.Component.Include(x=>x.CompType).Where(m=>m.ProjStructId == pStruct.Id).ToList();
                 var responseMap = _mapper.Map<AssignStructureDtlsOnly> (pStruct);
                 var responseMapComp = _mapper.Map<List<ComponentDetails>> (lstComp);
                 responseMap.Components = responseMapComp;
-                    response = responseMap;
-                    response.StrcutureTypeName = _context.StructureType.Where (x => x.Id == structDetails.StructureTypeId).FirstOrDefault ().Name;
-                    response.ICName = projDB.Ic.Name;
-                    response.BuName = projDB.Bu.Name;
+                response = responseMap;
                 } else {
-                    response.StructureAttributes = structDetails.StructureAttributes;
+                    int structCount = _context.ProjectStructure.Count () + 1;
+                    string structId = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
+                    response.StructureAttributes = structDetails.StructureAttributesDef;
                     response.StructureId = structDetails.Id;
-                    response.StructureCode = structDetails.StructId;
-                    response.StrcutureTypeName = _context.StructureType.Where (x => x.Id == structDetails.StructureTypeId).FirstOrDefault ().Name;
-                    response.ICName = projDB.Ic.Name;
-                    response.BuName = projDB.Bu.Name;
+                    response.StructureCode = structId;             
                 }
+                response.ICName = projDB.Ic.Name;
+                response.BuName = projDB.Bu.Name;
+                response.StrcutureTypeName = structDetails.StructureType.Name;
+
+
+                return response;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+
+         public AssignStructureDtlsOnly GetAssignStructureDtlsByProjStructId (int projStructId) {
+            try {
+                AssignStructureDtlsOnly response = new AssignStructureDtlsOnly ();
+                ProjectStructure pStruct = _context.ProjectStructure.Include (x => x.ProjectStructureDocuments).Include (x => x.Project).Include (x => x.Structure).Include (x => x.Structure.StructureType).Where (m => m.IsDelete == false && m.Structure.IsDelete == false && m.Id == projStructId).FirstOrDefault();
+                if (pStruct == null) throw new ValueNotFoundException ("Project Struct Id doesn't exists");
+                Structures structDetails = _context.Structures.Include(x=>x.StructureType).Where (x => x.Id == pStruct.StructureId).FirstOrDefault ();
+                Project projDB = _context.Project.Include(x=>x.Ic).Include(x=>x.Bu).Where(x=>x.Id == pStruct.ProjectId).FirstOrDefault();
+               
+                response.StrcutureTypeName = structDetails.StructureType.Name;
+                if (pStruct != null) {
+                 List<Component> lstComp = _context.Component.Include(x=>x.CompType).Where(m=>m.ProjStructId == pStruct.Id).ToList();
+                var responseMap = _mapper.Map<AssignStructureDtlsOnly> (pStruct);
+                var responseMapComp = _mapper.Map<List<ComponentDetails>> (lstComp);
+                responseMap.Components = responseMapComp;
+                response = responseMap;
+                } else {
+                    int structCount = _context.ProjectStructure.Count () + 1;
+                    string structId = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
+                    response.StructureAttributes = structDetails.StructureAttributesDef;
+                    response.StructureId = structDetails.Id;
+                    response.StructureCode = structId;             
+                }
+                response.ICName = projDB.Ic.Name;
+                response.BuName = projDB.Bu.Name;
+                response.StrcutureTypeName = structDetails.StructureType.Name;
+
+
                 return response;
             } catch (Exception ex) {
                 throw ex;
@@ -149,7 +190,7 @@ namespace ETapManagement.Repository {
         public List<AssignStructureDtlsOnly> GetAssignStructureDtls () {
             try {
                 List<AssignStructureDtlsOnly> result = new List<AssignStructureDtlsOnly> ();
-                result = _context.Query<AssignStructureDtlsOnly> ().FromSqlRaw ("select ic.name ICName,bu.name BuName,ps.structure_id StructureId, ps.project_id ProjectId, ps.drawing_no DrawingNo,s.name StrcutureName, s.struct_id StructureCode,st.name StrcutureTypeName, p.name ProjectName,s.structure_attributes StructureAttributes,ps.components_count ComponentsCount, ps.structure_status Status,  (select sum(width)  from component c where proj_struct_id = ps.id) as TotalWeight,ps.estimated_weight EstimatedWeight, ps.current_status CurrentStatus from project_structure ps inner join structures s on ps.structure_id = s.id inner join project p  on ps.project_id  = p.id inner join structure_type st on st.id =s.structure_type_id  inner join independent_company ic  on ic.id = p.ic_id inner join business_unit bu on bu.id = p.bu_id where ps.is_delete =0 and s.is_delete =0 and p.is_delete =0 and st.is_delete =0 order by ps.created_at desc").ToList ();
+                result = _context.Query<AssignStructureDtlsOnly> ().FromSqlRaw ("select ps.id as ProjectStructureId, ic.name ICName,bu.name BuName,ps.structure_id StructureId, ps.project_id ProjectId, ps.drawing_no DrawingNo,s.name StrcutureName, ps.struct_code StructureCode,st.name StrcutureTypeName, p.name ProjectName,ps.structure_attributes_val StructureAttributes,ps.components_count ComponentsCount, ps.structure_status Status,  (select sum(weight)  from component c where proj_struct_id = ps.id) as TotalWeight,ps.estimated_weight EstimatedWeight, ps.current_status CurrentStatus  from project_structure ps inner join structures s on ps.structure_id = s.id inner join project p  on ps.project_id  = p.id inner join structure_type st on st.id =s.structure_type_id  inner join independent_company ic  on ic.id = p.ic_id inner join business_unit bu on bu.id = p.bu_id where ps.is_delete =0 and s.is_delete =0 and p.is_delete =0 and st.is_delete =0 order by ps.created_at desc").ToList ();
                 //result = _mapper.Map<List<SurplusDetails>> (sureplusDecl);
 
                 //  var result = _context.ProjectStructure.Include (x => x.Structure).Include (x => x.Project).Where (m => m.IsDelete == false).ToList ();
@@ -158,6 +199,29 @@ namespace ETapManagement.Repository {
             } catch (Exception ex) {
                 throw ex;
             }
+        }
+
+
+        public List<Code> GetStructureCodeList (int ProjectId, int StrcutureId) {
+            try {
+                List<Code> result = new List<Code> ();
+                result = _context.ProjectStructure.Where(x=>x.ProjectId == ProjectId && x.StructureId == StrcutureId).Select(x=>  new Code{ Name = x.StructCode, Id=x.Id}).ToList();              
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+         public List<ViewStructureChart> GetViewStructureChart (int projectStructureId) {
+            try {
+                List<ViewStructureChart> result = new List<ViewStructureChart> ();
+                var viewStructureChartDetails = _context.Query<ViewStructureChart> ().FromSqlRaw ("exec SP_GetViewStructureChartDetails {0}", projectStructureId).ToList ();
+                result = _mapper.Map<List<ViewStructureChart>> (viewStructureChartDetails);
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+
         }
 
         public void Dispose () {
