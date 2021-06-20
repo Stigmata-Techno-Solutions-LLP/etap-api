@@ -55,8 +55,8 @@ namespace ETapManagement.Repository {
                         SiteDeclaration surplusDb = _mapper.Map<SiteDeclaration> (surplusDetails);
                         surplusDb.CreatedAt = DateTime.Now;
                         surplusDb.UpdatedBy = 1; //TODO;
-                        surplusDb.Status = commonEnum.SurPlusDeclSatus.NEW.ToString ();
-                        surplusDb.StatusInternal = commonEnum.SurPlusDeclSatus.NEW.ToString ();
+                        surplusDb.Status = Util.GetDescription(commonEnum.SurPlusDeclSatus.NEW).ToString ();
+                        surplusDb.StatusInternal = Util.GetDescription(commonEnum.SurPlusDeclSatus.NEW).ToString ();
                         surplusDb.CreatedAt = DateTime.Now;
                         surplusDb.CreatedBy = 1; //TODO
                         surplusDb.RoleId = 4; //TODO

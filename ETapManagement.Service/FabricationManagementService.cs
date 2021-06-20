@@ -74,8 +74,8 @@ namespace ETapManagement.Service
                           _context.DispatchRequirement.Single(w => w.Id == input.DispatchRequirementId);
                 if (DispatchRequirement != null)
                 {
-                    DispatchRequirement.Status = commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED.ToString();
-                    DispatchRequirement.StatusInternal = commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED.ToString();
+                    DispatchRequirement.Status = Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString();
+                    DispatchRequirement.StatusInternal = Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString();
                 }
                 _context.ProjectStructure.Update(structid);
                 _context.DispatchRequirement.Update(DispatchRequirement);

@@ -34,6 +34,8 @@ namespace ETapManagement.Repository {
         }
 
         public SiteRequirementDispatch GetRequirementStructureDispatchDetails (int siteReqId) {
+
+          string str =   Util.GetDescription(commonEnum.ServiceType.Reuse).ToString();
             //NEWREQUIREMENT
             // try {
             //     List<VerifyStructureQty> lstVerifyStructureQty = new List<VerifyStructureQty> ();
@@ -54,7 +56,7 @@ namespace ETapManagement.Repository {
             //             if (projStrt != null) {
             //                 StructureListForDipatch strctDisp = new StructureListForDipatch ();
             //                //todo using linq query int dt = lstDispReq.ToList ().Where(x=>x.DispReqStructure.ToList().Where(c=>c.StructId == projStrt.StructureId)).Count();
-            //             strctDisp.DispStructureStatus = lstDispReq.ToList().Where (x =>  x.StructId == Convert.ToInt32(projStrt.StructureId)).Count () > 0 ? commonEnum.SiteDispatchSatus.DISPATCHED.ToString () : commonEnum.SiteDispatchSatus.NEW.ToString ();
+            //             strctDisp.DispStructureStatus = lstDispReq.ToList().Where (x =>  x.StructId == Convert.ToInt32(projStrt.StructureId)).Count () > 0 ? Util.GetDescription(commonEnum.SiteDispatchSatus.DISPATCHED).ToString () : Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString ();
             //                 if (availReuse != null) {
             //                     strctDisp.AvailProjectId = availReuse.FromProjectId;
             //                     strctDisp.AvailProjectName = availReuse.FromProjectName;
@@ -164,7 +166,7 @@ namespace ETapManagement.Repository {
             //             var siteDispatchRequestSubContractor = _context.DispatchreqSubcont.Where (x => x.Id == DispatchVendorAddPayload.dispatchRequestSubContractorId).FirstOrDefault ();
 
             //             DispatchRequirement dispReq = _context.DispatchRequirement.Include (c => c.Servicetype).Where (x => x.Id == siteDispatchRequestSubContractor.DispreqId).FirstOrDefault ();
-            //             if (dispReq.StatusInternal != commonEnum.SiteDispatchSatus.TOSITEAPPROVED.ToString () && !strAllowedService.Contains (dispReq.Servicetype.Name)) throw new ValueNotFoundException ("Assign Vendor not allowed");
+            //             if (dispReq.StatusInternal != Util.GetDescription(commonEnum.SiteDispatchSatus.TOSITEAPPROVED).ToString () && !strAllowedService.Contains (dispReq.Servicetype.Name)) throw new ValueNotFoundException ("Assign Vendor not allowed");
 
             //             if (siteDispatchRequestSubContractor != null) {
             //                 //  siteDispatchRequestSubContractor.DispatchDate = DispatchVendorAddPayload.dispatchDate;
@@ -178,11 +180,11 @@ namespace ETapManagement.Repository {
             //             }
 
             //             if (_context.DispSubcontStructure.Where (x => x.DispreqsubcontId == DispatchVendorAddPayload.dispatchRequestSubContractorId && x.IsDelivered == false).Count () > 0) {
-            //                 dispReq.StatusInternal = commonEnum.SiteDispatchSatus.PARTIALDELIVERED.ToString ();
-            //                 dispReq.Status = commonEnum.SiteDispatchSatus.PARTIALDELIVERED.ToString ();
+            //                 dispReq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALDELIVERED).ToString ();
+            //                 dispReq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALDELIVERED).ToString ();
             //             } else {
-            //                 dispReq.StatusInternal = commonEnum.SiteDispatchSatus.DELIVERED.ToString ();
-            //                 dispReq.Status = commonEnum.SiteDispatchSatus.DELIVERED.ToString ();
+            //                 dispReq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.DELIVERED).ToString ();
+            //                 dispReq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.DELIVERED).ToString ();
             //             }
             //             _context.SaveChanges ();
 
@@ -264,12 +266,12 @@ namespace ETapManagement.Repository {
             //         int compMasterCount = _context.Component.Where (x => x.ProjStructId == prjStruct.Id && x.CompStatus == commonEnum.ComponentStatus.USABLE.ToString ()).Count ();
             //         int compdispCount = _context.DispReqStructure.Where (x => x.StructId == siteDispScan.structureId && x.DispreqId == siteDispScan.dispId).FirstOrDefault ().DispStructureComp.Count ();
             //         if (compMasterCount == compdispCount) {
-            //             dispReq.Status = commonEnum.SiteDispatchSatus.DELIVERED.ToString ();
-            //             dispReq.StatusInternal = commonEnum.SiteDispatchSatus.DELIVERED.ToString ();
+            //             dispReq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.DELIVERED).ToString ();
+            //             dispReq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.DELIVERED).ToString ();
 
             //         } else {
-            //             dispReq.Status = commonEnum.SiteDispatchSatus.PARTIALLYSCANNED.ToString ();
-            //             dispReq.StatusInternal = commonEnum.SiteDispatchSatus.PARTIALLYSCANNED.ToString ();
+            //             dispReq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALLYSCANNED).ToString ();
+            //             dispReq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALLYSCANNED).ToString ();
             //         }
             //         _context.SaveChanges ();
             //         transaction.Commit ();
@@ -321,10 +323,10 @@ namespace ETapManagement.Repository {
                 if (dispReq == null) throw new ValueNotFoundException ("Dispatch ID doesnt exists.");
 
                 if (dispReq.Servicetype.Name != commonEnum.ServiceType.Reuse.ToString ()) throw new ValueNotFoundException ("Not valid service type");
-                if (dispReq.Status != commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ()) throw new ValueNotFoundException ("Dispatch not allowed to approve");
+                if (dispReq.Status != Util.GetDescription(Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCAPPROVED)).ToString ()) throw new ValueNotFoundException ("Dispatch not allowed to approve");
                 dispReq.TransferPrice = dispTrnsfer.transferPrice;
-                dispReq.Status = commonEnum.SiteDispatchSatus.FAAAPPROVED.ToString ();
-                dispReq.StatusInternal = commonEnum.SiteDispatchSatus.FAAAPPROVED.ToString ();
+                dispReq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.FAAAPPROVED).ToString ();
+                dispReq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.FAAAPPROVED).ToString ();
                 _context.SaveChanges ();
                 res.Message = "Transfer Price updated successfully";
                 return res;
@@ -342,22 +344,22 @@ namespace ETapManagement.Repository {
             DispatchRequirement dispReq = _context.DispatchRequirement.Where (x => x.Id == dispAppr.dispReqId).FirstOrDefault ();
 
             if (servType.Name == commonEnum.ServiceType.Reuse.ToString ()) {
-                if (dispAppr.roleName == commonEnum.Rolename.CMPC.ToString () && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.NEW.ToString ()) {
-                    status = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
-                    internalStatus = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
-                } else if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 3 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.FAAAPPROVED.ToString ()) {
-                    status = commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ();
-                    internalStatus = commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ();
-                } else if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 4 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ()) {
-                    status = commonEnum.SiteDispatchSatus.TOSITEAPPROVED.ToString ();
-                    internalStatus = commonEnum.SiteDispatchSatus.TOSITEAPPROVED.ToString ();
+                if (dispAppr.roleName == commonEnum.Rolename.CMPC.ToString () && dispReq.StatusInternal == Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString ()) {
+                    status = Util.GetDescription(Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCAPPROVED)).ToString ();
+                    internalStatus = Util.GetDescription(Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCAPPROVED)).ToString ();
+                } else if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 3 && dispReq.StatusInternal == Util.GetDescription(commonEnum.SiteDispatchSatus.FAAAPPROVED).ToString ()) {
+                    status = Util.GetDescription(commonEnum.SiteDispatchSatus.FROMSITEAPPROVED).ToString ();
+                    internalStatus = Util.GetDescription(commonEnum.SiteDispatchSatus.FROMSITEAPPROVED).ToString ();
+                } else if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 4 && dispReq.StatusInternal == Util.GetDescription(commonEnum.SiteDispatchSatus.FROMSITEAPPROVED).ToString ()) {
+                    status = Util.GetDescription(commonEnum.SiteDispatchSatus.TOSITEAPPROVED).ToString ();
+                    internalStatus = Util.GetDescription(commonEnum.SiteDispatchSatus.TOSITEAPPROVED).ToString ();
                 } else {
                     throw new ValueNotFoundException (String.Format ("Not allowed to approve for this role:{0}", dispAppr.roleName));
                 }
             } else {
-                if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 4 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString ()) {
-                    status = commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ();
-                    internalStatus = commonEnum.SiteDispatchSatus.FROMSITEAPPROVED.ToString ();
+                if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 4 && dispReq.StatusInternal == Util.GetDescription(commonEnum.SiteDispatchSatus.PROCAPPROVED).ToString ()) {
+                    status = Util.GetDescription(commonEnum.SiteDispatchSatus.FROMSITEAPPROVED).ToString ();
+                    internalStatus = Util.GetDescription(commonEnum.SiteDispatchSatus.FROMSITEAPPROVED).ToString ();
                 } else {
                     throw new ValueNotFoundException (String.Format ("Not allowed to approve for this role:{0}", dispAppr.roleName));
                 }
@@ -394,19 +396,19 @@ namespace ETapManagement.Repository {
             if (dispReq == null) throw new ValueNotFoundException (String.Format ("Dispatch Id doesnt exists"));
 
             if (servType.Name == commonEnum.ServiceType.Reuse.ToString ()) {
-                if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 3 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.FAAAPPROVED.ToString ()) {
-                    status = commonEnum.SiteDispatchSatus.REJECT.ToString ();
-                    internalStatus = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
+                if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 3 && dispReq.StatusInternal == Util.GetDescription(commonEnum.SiteDispatchSatus.FAAAPPROVED).ToString ()) {
+                    status = Util.GetDescription(commonEnum.SiteDispatchSatus.REJECT).ToString ();
+                    internalStatus = Util.GetDescription(Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCAPPROVED)).ToString ();
                 } else if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 4) {
-                    status = commonEnum.SiteDispatchSatus.REJECT.ToString ();
-                    internalStatus = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
+                    status = Util.GetDescription(commonEnum.SiteDispatchSatus.REJECT).ToString ();
+                    internalStatus = Util.GetDescription(Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCAPPROVED)).ToString ();
                 } else {
                     throw new ValueNotFoundException (String.Format ("Not allowed to approve for this role:{0}", dispAppr.roleName));
                 }
             } else {
-                if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 3 && dispReq.StatusInternal == commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString ()) {
-                    status = commonEnum.SiteDispatchSatus.REJECT.ToString ();
-                    internalStatus = commonEnum.SiteDispatchSatus.NEW.ToString ();
+                if (dispAppr.roleName == commonEnum.Rolename.SITE.ToString () && dispAppr.roleHierarchy == 3 && dispReq.StatusInternal == Util.GetDescription(commonEnum.SiteDispatchSatus.PROCAPPROVED).ToString ()) {
+                    status = Util.GetDescription(commonEnum.SiteDispatchSatus.REJECT).ToString ();
+                    internalStatus = Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString ();
                 } else {
                     throw new ValueNotFoundException (String.Format ("Not allowed to approve for this role:{0}", dispAppr.roleName));
                 }
@@ -432,6 +434,8 @@ namespace ETapManagement.Repository {
 
         public List<TWCCDispatch> GetTWCCDispatchDetails () {
             try {
+
+                string str = Util.GetDescription(Util.GetDescription(Util.GetDescription(Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCAPPROVED)))).ToString();
                 List<TWCCDispatch> result = new List<TWCCDispatch> ();
                 var siteDispatchDetails = _context.Query<TWCCDispatch> ().FromSqlRaw ("exec SP_GETTWCCDispatch {0}", "READYTODISPATCH,PARTIALLYDISPATCHED").ToList ();
                 result = _mapper.Map<List<TWCCDispatch>> (siteDispatchDetails);
@@ -499,8 +503,8 @@ namespace ETapManagement.Repository {
                         dispReq.ServicetypeId = payload.ServiceTypeId;
                         dispReq.SitereqId = payload.siteRequirementId;
                         dispReq.SiteReqStructid = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId && x.StructId == payload.StructureId).FirstOrDefault ().Id;
-                        dispReq.Status = commonEnum.SiteDispatchSatus.NEW.ToString ();
-                        dispReq.StatusInternal = commonEnum.SiteDispatchSatus.NEW.ToString ();
+                        dispReq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString ();
+                        dispReq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString ();
                         dispReq.ToProjectid = payload.ToProjectId;
                         dispReq.Quantity = payload.Quantity;
                         _context.DispatchRequirement.Add (dispReq);
@@ -540,7 +544,7 @@ namespace ETapManagement.Repository {
                             dispStrcture.FromProjectId = payload.FromProjectId;
                             dispStrcture.SurplusDate = payload.SurplusFromDate;
                         }
-                        dispStrcture.DispStructStatus = commonEnum.SiteDispStructureStatus.NEW.ToString();
+                        dispStrcture.DispStructStatus = Util.GetDescription(commonEnum.SiteDispStructureStatus.NEW).ToString();
                         _context.DispReqStructure.Add (dispStrcture);
                         _context.SaveChanges ();
                     
@@ -560,7 +564,7 @@ namespace ETapManagement.Repository {
 
                         /***update site requirement Structure status  ***/
 
-                        Code dispQty = _context.Query<Code>().FromSqlRaw(string.Format("select  count(*) as Id,'' as Name , 0 as ServiceTypeId from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join project_structure ps  on  drs.proj_struct_id = ps.id where ps.structure_id ={0} and dr.sitereq_id ={1} and drs.disp_struct_status <> 'REJECTED'",payload.StructureId,payload.siteRequirementId)).FirstOrDefault();         
+                        Code dispQty = _context.Query<Code>().FromSqlRaw(string.Format("select  count(*) as Id,'' as Name , 0 as ServiceTypeId from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join project_structure ps  on  drs.proj_struct_id = ps.id where ps.structure_id ={0} and dr.sitereq_id ={1} and drs.disp_struct_status <> {2}",payload.StructureId,payload.siteRequirementId,Util.GetDescription(commonEnum.SiteDispStructureStatus.REJECT).ToString())).FirstOrDefault();         
                         var dispatchedStrucCount = dispQty.Id ;                     
                         SiteRequirement dbSiteReq = _context.SiteRequirement.Where (x => x.Id == payload.siteRequirementId).FirstOrDefault ();
                         SiteReqStructure dbSiteReqStructure = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId && x.StructId == payload.StructureId).FirstOrDefault ();                
@@ -589,8 +593,8 @@ namespace ETapManagement.Repository {
                         DisreqStatusHistory dispatchReqStatusHistory = new DisreqStatusHistory ();
                         dispatchReqStatusHistory.DispatchNo = dispatchNo;
                         dispatchReqStatusHistory.DispreqId = dispReq.Id;
-                        dispatchReqStatusHistory.Status = commonEnum.SiteDispatchSatus.NEW.ToString ();
-                        dispatchReqStatusHistory.StatusInternal = commonEnum.SiteDispatchSatus.NEW.ToString ();
+                        dispatchReqStatusHistory.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString ();
+                        dispatchReqStatusHistory.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString ();
                         dispatchReqStatusHistory.Notes = "";
                         dispatchReqStatusHistory.RoleId = payload.RoleId;
                         dispatchReqStatusHistory.CreatedBy = payload.CreatedBy;
@@ -627,7 +631,7 @@ namespace ETapManagement.Repository {
             // return response;
             try {
                 List<DispStructureCMPC> result = new List<DispStructureCMPC> ();
-                string strQuery = string.Format ("select dr.dispatch_no as DispatchNo,dr.servicetype_id Servicetypeid ,drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id   inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where   dr.servicetype_id in (1,2) and ((ps.components_count > (select count(*) from component where proj_struct_id = ps.id) or ps.components_count =0)  or dr.status = '{0}')", commonEnum.SiteDispatchSatus.NEW.ToString ());
+                string strQuery = string.Format ("select dr.dispatch_no as DispatchNo,dr.servicetype_id Servicetypeid ,drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id   inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where   dr.servicetype_id in (1,2) and ((ps.components_count > (select count(*) from component where proj_struct_id = ps.id) or ps.components_count =0)  or dr.status = '{0}')", Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString ());
                 result = _context.Query<DispStructureCMPC> ().FromSqlRaw (strQuery).ToList ();
                 return result;
             } catch (Exception ex) {
@@ -670,11 +674,11 @@ namespace ETapManagement.Repository {
                 if (dispatchRequirementSubContractor != null) {
                     var dispatchStructureComponents = _context.DispStructureComp.Where (x => x.DispStructureId == dispatchStructureId).ToList ();
                     if (componentCount <= dispatchStructureComponents.Count) {
-                        dispatchRequirementSubContractor.Status = commonEnum.SiteDispatchSatus.PARTIALDELIVERED.ToString ();
-                        dispatchRequirementSubContractor.StatusInternal = commonEnum.SiteDispatchSatus.PARTIALDELIVERED.ToString ();
+                        dispatchRequirementSubContractor.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALDELIVERED).ToString ();
+                        dispatchRequirementSubContractor.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALDELIVERED).ToString ();
                     } else {
-                        dispatchRequirementSubContractor.Status = commonEnum.SiteDispatchSatus.DELIVERED.ToString ();
-                        dispatchRequirementSubContractor.StatusInternal = commonEnum.SiteDispatchSatus.DELIVERED.ToString ();
+                        dispatchRequirementSubContractor.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.DELIVERED).ToString ();
+                        dispatchRequirementSubContractor.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.DELIVERED).ToString ();
                     }
 
                     _context.SaveChanges ();
@@ -725,20 +729,20 @@ namespace ETapManagement.Repository {
                         projectStructureID = projectStructure.Id;
 
                         DispReqStructure dispStruct = _context.DispReqStructure.Where (x => x.Id == request.dispStructureId).FirstOrDefault ();
-                        dispStruct.DispStructStatus = commonEnum.SiteDispStructureStatus.CMPCAPPROVED.ToString ();
+                        dispStruct.DispStructStatus = Util.GetDescription(commonEnum.SiteDispStructureStatus.CMPCAPPROVED).ToString ();
                         _context.SaveChanges ();
 
                         int? dispReqId = dispStruct.DispreqId;
 
                         DispatchRequirement dispReq = _context.DispatchRequirement.Where (x => x.Id == dispReqId).FirstOrDefault ();
                         var lstDispStruct = _context.DispReqStructure.Where (x => x.DispreqId == dispReqId).ToList ();
-                        if (lstDispStruct.Count () == lstDispStruct.Where (x => x.DispStructStatus == commonEnum.SiteDispStructureStatus.CMPCAPPROVED.ToString ()).Count ()) {
-                            dispReq.Status = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
-                            dispReq.StatusInternal = commonEnum.SiteDispatchSatus.CMPCAPPROVED.ToString ();
+                        if (lstDispStruct.Count () == lstDispStruct.Where (x => x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispStructureStatus.CMPCAPPROVED).ToString ()).Count ()) {
+                            dispReq.Status = Util.GetDescription(Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCAPPROVED)).ToString ();
+                            dispReq.StatusInternal = Util.GetDescription(Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCAPPROVED)).ToString ();
 
                         } else {
-                            dispReq.Status = commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPPROVED.ToString ();
-                            dispReq.StatusInternal = commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPPROVED.ToString ();
+                            dispReq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPPROVED).ToString ();
+                            dispReq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCPARTIALLYAPPROVED).ToString ();
                         }
                         _context.SaveChanges ();
 
