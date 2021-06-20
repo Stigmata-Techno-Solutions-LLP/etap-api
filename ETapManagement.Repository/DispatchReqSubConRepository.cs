@@ -27,7 +27,7 @@ namespace ETapManagement.Repository {
                 ResponseMessage responseMessage = new ResponseMessage();
                 string[] strAllowedService = {commonEnum.ServiceType.Fabrication.ToString(),commonEnum.ServiceType.OutSourcing.ToString(),commonEnum.ServiceType.Reuse.ToString()};
                 DispatchRequirement dispReq = _context.DispatchRequirement.Include(c=>c.Servicetype).Where(x=>x.DispatchNo == oSDispatchReqSubCont.DispatchNo).FirstOrDefault();
-                if (dispReq.StatusInternal != commonEnum.SiteDispatchSatus.NEW.ToString() && !strAllowedService.Contains( dispReq.Servicetype.Name))    throw new ValueNotFoundException ("Assign Vendor not allowed"); 
+                if (dispReq.StatusInternal != Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString() && !strAllowedService.Contains( dispReq.Servicetype.Name))    throw new ValueNotFoundException ("Assign Vendor not allowed"); 
                 DispatchreqSubcont dispatchreqSubcont = new DispatchreqSubcont();
                 dispatchreqSubcont.ServicetypeId = oSDispatchReqSubCont.ServiceType;
                 dispatchreqSubcont.DispatchNo = oSDispatchReqSubCont.DispatchNo;
@@ -68,8 +68,8 @@ namespace ETapManagement.Repository {
                         }                         
                     }
                 }
-                dispReq.StatusInternal= commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
-                dispReq.Status =commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
+                dispReq.StatusInternal= Util.GetDescription(commonEnum.SiteDispatchSatus.PROCAPPROVED).ToString();
+                dispReq.Status =Util.GetDescription(commonEnum.SiteDispatchSatus.PROCAPPROVED).ToString();
                 _context.SaveChanges();
                 responseMessage.Message = "Vendor assigned successfully";
                 return responseMessage;
@@ -86,7 +86,7 @@ namespace ETapManagement.Repository {
                 ResponseMessage responseMessage = new ResponseMessage();
                 string[] strAllowedService = {commonEnum.ServiceType.Fabrication.ToString(),commonEnum.ServiceType.OutSourcing.ToString()};
                 DispatchRequirement dispReq = _context.DispatchRequirement.Include(c=>c.Servicetype).Where(x=>x.DispatchNo == fBDispatchReqSubCont.DispatchNo).FirstOrDefault();
-                if (dispReq.StatusInternal != commonEnum.SiteDispatchSatus.NEW.ToString() && !strAllowedService.Contains( dispReq.Servicetype.Name))    throw new ValueNotFoundException ("Assign Vendor not allowed"); 
+                if (dispReq.StatusInternal != Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString() && !strAllowedService.Contains( dispReq.Servicetype.Name))    throw new ValueNotFoundException ("Assign Vendor not allowed"); 
   
                 DispatchreqSubcont dispatchreqSubcont = _mapper.Map<DispatchreqSubcont>(fBDispatchReqSubCont);
                 dispatchreqSubcont.CreatedAt = DateTime.Now;
@@ -119,8 +119,8 @@ namespace ETapManagement.Repository {
                         }
                     }
                 }
-                dispReq.StatusInternal= commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
-                dispReq.Status =commonEnum.SiteDispatchSatus.PROCAPPROVED.ToString();
+                dispReq.StatusInternal= Util.GetDescription(commonEnum.SiteDispatchSatus.PROCAPPROVED).ToString();
+                dispReq.Status =Util.GetDescription(commonEnum.SiteDispatchSatus.PROCAPPROVED).ToString();
                 _context.SaveChanges();
                 responseMessage.Message = "Vendor is assigned successfully";
                 return responseMessage;
@@ -132,10 +132,9 @@ namespace ETapManagement.Repository {
         }
            public List<DispRequestDto> GetDispatchStructure (int id) {
            
-            
                 try {
                 List<DispRequestDto> result = new List<DispRequestDto> ();
-                string strQuery = string.Format ("select st.name structureFamily,ps.components_count as RequiredComponenentCount,(select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount, drs.id DispStructureId, drs.is_modification isModified, drs.proj_struct_id ProjectStructureId,dr.dispatch_no DCNumber,dr.id DispatchRequirementId,dr.quantity Quantity,dr.status status, dr.status_internal StatusInternal,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join structure_type st on s.structure_type_id=st.id inner join  project p on p.id =dr.to_projectid where dr.status <>'DISPATCHED' and dr.status <>'REJECTED' and dr.servicetype_id =4 ORDER BY dr.id DESC ", id);
+                string strQuery = string.Format("select st.name structureFamily,ps.components_count as RequiredComponenentCount,(select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount, drs.id DispStructureId, drs.is_modification isModified, drs.proj_struct_id ProjectStructureId,dr.dispatch_no DCNumber,dr.id DispatchRequirementId,dr.quantity Quantity,dr.status status, dr.status_internal StatusInternal,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join structure_type st on s.structure_type_id=st.id inner join  project p on p.id =dr.to_projectid where dr.status <>{1} and dr.status <>{2} and dr.servicetype_id =4 ORDER BY dr.id DESC ", id, Util.GetDescription(commonEnum.SiteDispatchSatus.DISPATCHED).ToString(),Util.GetDescription(commonEnum.SiteDispatchSatus.REJECT).ToString());
                 result = _context.Query<DispRequestDto> ().FromSqlRaw (strQuery).ToList ();
                 return result;
             } catch (Exception ex) {

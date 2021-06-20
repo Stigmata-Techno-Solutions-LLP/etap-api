@@ -1,3 +1,7 @@
+
+using System.ComponentModel;
+
+
 namespace ETapManagement.Common {
     public class commonEnum {
         public enum RolesLevel {
@@ -37,58 +41,107 @@ namespace ETapManagement.Common {
             QA=12
         }
         public enum SurPlusDeclSatus {
+             [Description("NEW")] 
             NEW = 1,
+             [Description("EHS APPROVED")] 
             EHSAPPROVED = 2,
+             [Description("QAA PPROVED")] 
             QAAPPROVED = 3,
+             [Description("READY TO DISPATCH")] 
             READYTODISPATCH = 4,
+             [Description("EHS REJECTED")] 
             EHSREJECTED = 5,
+             [Description("QA REJECTED")] 
             QAREJECTED = 6,
+             [Description("DISPATCHED")] 
             DISPATCHED = 7,
         }
         public enum SiteDispatchSatus {
+
+           [Description("NEW")] 
             NEW = 1,
+            [Description("PARIALLY DELIVERED")]
             PARTIALDELIVERED=2,
+            [Description("DELIVERED")]
            DELIVERED=3,
+           [Description("PARTIALLY SCANNED")]
            PARTIALLYSCANNED=4,
+           [Description("CMPC APPROVED")]
             CMPCAPPROVED=5,
+            [Description("FAA APPROVED")]
            FAAAPPROVED=6,
+           [Description("FROM SITE APPROVED")]
            FROMSITEAPPROVED=7,
+           [Description("TO SITE APPROVED")]
            TOSITEAPPROVED=8,
+           [Description("REJECTED")]
            REJECT=9,
+           [Description("PROCUREMENT APPROVED")]
            PROCAPPROVED=10,
+           [Description("PARTIALLY DISPATCHED")]
            PARTIALLYDISPATCHED=11,
+           [Description("DISPATCHED")]
            DISPATCHED =12,
+           [Description("READY TO DELIVER")]
            READYTODELIVER=13,
-           READYTODELIVERPARTIALLY=19,
-           CMPCPARTIALLYAPPROVED=14,
-           CMPCMODIFIED=15,
-           CMPCPARTIALLYMODIFIED=16,
-           TWCCPARIALLYMODIFYAPRD=17,
-           TWCCMODIFYAPRD=18,
-
-           
-        
-
           
+           [Description("CMPC PARTIALLY APPROVED")]
+           CMPCPARTIALLYAPPROVED=14,
+           [Description("CMPC MODIFIED")]
+           CMPCMODIFIED=15,
+           [Description("CMPC PARTIALLY MODIFIED")]
+           CMPCPARTIALLYMODIFIED=16,
+            [Description("TWCC PARTIALLY MODIFIED APPROVED")]
+           TWCCPARIALLYMODIFYAPRD=17,
+           [Description("TWCC MODIFIED APPROVED")]
+           TWCCMODIFYAPRD=18,
+            [Description("READY TO DELIVER PARTIALLY")]
+           READYTODELIVERPARTIALLY=19,
         }
 
           public enum SiteDispStructureStatus {
+             [Description("NEW")] 
             NEW = 1,
+            [Description("PARIALLY DELIVERED")]
             PARTIALDELIVERED=2,
-            DELIVERED=3,
-            PARTIALLYSCANNED=4,
+            [Description("DELIVERED")]
+           DELIVERED=3,
+           [Description("PARTIALLY SCANNED")]
+           PARTIALLYSCANNED=4,
+           [Description("CMPC APPROVED")]
             CMPCAPPROVED=5,
-           
-            FAAAPPROVED=6,
+            [Description("FAA APPROVED")]
+           FAAAPPROVED=6,
+           [Description("FROM SITE APPROVED")]
            FROMSITEAPPROVED=7,
+           [Description("TO SITE APPROVED")]
            TOSITEAPPROVED=8,
+           [Description("REJECTED")]
            REJECT=9,
+           [Description("PROCUREMENT APPROVED")]
            PROCAPPROVED=10,
+           [Description("PARTIALLY DISPATCHED")]
            PARTIALLYDISPATCHED=11,
-           READYTODELIVER=13,
+           [Description("DISPATCHED")]
            DISPATCHED =12,
-           FABRICATIONCOMPLETED=14,
-           CMPCPARTIALLYAPRD =15
+           [Description("READY TO DELIVER")]
+           READYTODELIVER=13,
+          
+           [Description("CMPC PARTIALLY APPROVED")]
+           CMPCPARTIALLYAPPROVED=14,
+           [Description("CMPC MODIFIED")]
+           CMPCMODIFIED=15,
+           [Description("CMPC PARTIALLY MODIFIED")]
+           CMPCPARTIALLYMODIFIED=16,
+            [Description("TWCC PARTIALLY MODIFIED APPROVED")]
+           TWCCPARIALLYMODIFYAPRD=17,
+           [Description("TWCC MODIFIED APPROVED")]
+           TWCCMODIFYAPRD=18,
+            [Description("READY TO DELIVER PARTIALLY")]
+           READYTODELIVERPARTIALLY=19,
+            [Description("FABRICATION COMPLETED")]
+           FABRICATIONCOMPLETED=20,
+
         }
         public enum ComponentStatus {
             NEW =1,
