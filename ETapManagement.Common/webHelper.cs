@@ -8,7 +8,6 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 //using System.Configuration;
 using System.Web;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 namespace ETapManagement.Common {

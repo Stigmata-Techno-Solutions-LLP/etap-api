@@ -30,6 +30,7 @@ namespace ETapManagement.Repository
 			{
 				ResponseMessage responseMessage = new ResponseMessage();
 
+                LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
 				using (var transaction = _context.Database.BeginTransaction())
 				{
 					try
@@ -45,7 +46,7 @@ namespace ETapManagement.Repository
 							bizzUnit.SbgId = businessunit.SbgId;
 							bizzUnit.Name = item.Name;
 							bizzUnit.CreatedAt = DateTime.Now;
-							bizzUnit.CreatedBy = 1; //TODO
+							bizzUnit.CreatedBy = lgnUSer.Id;
 							_context.BusinessUnit.Add(bizzUnit);
 						}
 						_context.SaveChanges();
@@ -104,6 +105,7 @@ namespace ETapManagement.Repository
 
 		public List<Code> GetBUCodeList()
 		{
+			  LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
 			try
 			{
 				List<Code> result = new List<Code>();

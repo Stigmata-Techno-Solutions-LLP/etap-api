@@ -11,7 +11,7 @@ using System.IO;
 namespace ETapManagement.Api.Controllers {
     [ApiController]
     [Route("api/[controller]")]
-   // [Authorize]
+   [Authorize]
     public class BUController : ControllerBase {
         IBUService _buService;
 

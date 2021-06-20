@@ -38,8 +38,8 @@ namespace ETapManagement.Service {
                 // return null if user not found
                 if (user == null) return null;
 
-                user.Token = generateJwtToken (user.Id.ToString (), "WEB");
-                user.RefreshToken = generateRefreshToken (user.Id.ToString (), "WEB");
+                user.Token = generateJwtToken (user , "WEB");
+                user.RefreshToken = generateRefreshToken(user , "WEB");
                 return user;
             } catch (Exception ex) {
                 throw ex;
@@ -54,20 +54,23 @@ namespace ETapManagement.Service {
                 // return null if user not found
                 if (user == null) return null;
 
-                user.Token = generateJwtToken (user.Id.ToString (), "MOB");
-                user.RefreshToken = generateRefreshToken (user.Id.ToString (), "MOB");
+                user.Token = generateJwtToken (user, "MOB");
+                user.RefreshToken = generateRefreshToken (user, "MOB");
                 return user;
             } catch (Exception ex) {
                 throw ex;
             }
         }
 
-        private string generateJwtToken (string userId, string commType) {
+        private string generateJwtToken (AuthenticateResponse user, string commType) {
             var tokenHandler = new JwtSecurityTokenHandler ();
             var key = Encoding.ASCII.GetBytes (_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor {
                 Subject = new ClaimsIdentity (new Claim[] {
-                new Claim (ClaimTypes.Name, userId)
+                new Claim ("UserId", user.Id.ToString()),
+                new Claim ("ProjectId", user.ProjectId.ToString()),
+                new Claim ("RoleId", user.RoleId.ToString()),
+                new Claim ("RoleName", user.RoleName.ToString())
                 }),
                 Expires = commType == "WEB" ? DateTime.UtcNow.AddMinutes (5) : DateTime.UtcNow.AddDays (30),
                 SigningCredentials = new SigningCredentials (new SymmetricSecurityKey (key), SecurityAlgorithms.HmacSha256Signature)
@@ -76,12 +79,15 @@ namespace ETapManagement.Service {
             return tokenHandler.WriteToken (token);
         }
 
-        private string generateRefreshToken (string userId, string commType) {
+        private string generateRefreshToken (AuthenticateResponse user, string commType) {
             var tokenHandler = new JwtSecurityTokenHandler ();
             var key = Encoding.ASCII.GetBytes (_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor {
                 Subject = new ClaimsIdentity (new Claim[] {
-                new Claim (ClaimTypes.Name, userId)
+                 new Claim (ClaimTypes.Name, user.Id.ToString()),
+                new Claim (ClaimTypes.Name, user.ProjectId.ToString()),
+                new Claim (ClaimTypes.Name, user.RoleId.ToString()),
+                new Claim (ClaimTypes.Name, user.RoleName.ToString())
                 }),
                 Expires = commType == "WEB" ? DateTime.UtcNow.AddMinutes (30) : DateTime.UtcNow.AddDays (30),
                 SigningCredentials = new SigningCredentials (new SymmetricSecurityKey (key), SecurityAlgorithms.HmacSha256Signature)
@@ -106,8 +112,8 @@ namespace ETapManagement.Service {
 
                 var jwtToken = (JwtSecurityToken) validatedToken;
                 var userId = int.Parse (jwtToken.Claims.First (x => x.Type == "unique_name").Value);
-                refreshResponse.Token = generateJwtToken (userId.ToString (), "WEB");
-                refreshResponse.RefreshToken = generateRefreshToken (userId.ToString (), "WEB");
+               // refreshResponse.Token = generateJwtToken (userId.ToString (), "WEB");
+               // refreshResponse.RefreshToken = generateRefreshToken (userId.ToString (), "WEB");
                 refreshResponse.Message = "Refresh token regenerated.";
                 refreshResponse.IsAPIValid = true;
                 return refreshResponse;

@@ -36,6 +36,13 @@ namespace ETapManagement.Repository {
                 _context.ScrapStructure.Add(scrapStructureDB);
                 _context.SaveChanges(); 
                 
+                  /*udpate structure status*/
+                  int projStructID = Convert.ToInt32(scrapStructureDB.ProjStructId);
+                ProjectStructure prjStruct = _context.ProjectStructure.Where(x=>x.Id== projStructID).FirstOrDefault();
+                prjStruct.StructureStatus =commonEnum.StructureStatus.NOTAVAILABLE.ToString();
+                prjStruct.CurrentStatus = commonEnum.StructureInternalStatus.SCRAPPED.ToString();
+                _context.ScrapStructure.Add(scrapStructureDB);
+                _context.SaveChanges(); 
 
                 ScrapStatusHistory sshDB = new ScrapStatusHistory();
                 sshDB.RoleId = scrapStructure.RoleId;
