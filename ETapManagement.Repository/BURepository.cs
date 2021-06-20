@@ -16,6 +16,7 @@ namespace ETapManagement.Repository
 		private readonly ETapManagementContext _context;
 		private readonly IMapper _mapper;
 		private readonly ICommonRepository _commonRepo;
+		LoginUser lUser = WebHelpers.GetLoggedUser();
 
 		public BURepository(ETapManagementContext context, IMapper mapper, ICommonRepository commonRepo)
 		{
@@ -105,7 +106,7 @@ namespace ETapManagement.Repository
 
 		public List<Code> GetBUCodeList()
 		{
-			  LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
+			
 			try
 			{
 				List<Code> result = new List<Code>();
@@ -159,7 +160,8 @@ namespace ETapManagement.Repository
 
 		public ResponseMessage UpdateBU(UpdateBusinessUnit businessunit, int id)
 		{
-			ResponseMessage responseMessage = new ResponseMessage();
+			ResponseMessage responseMessage = new ResponseMessage();			
+			
 			try
 			{
 				var bu = _context.BusinessUnit.Where(x => x.Id == id && x.IsDelete == false).FirstOrDefault();
@@ -175,7 +177,7 @@ namespace ETapManagement.Repository
 						bu.IcId = businessunit.IcId;
 						bu.SbgId = businessunit.SbgId;
 						bu.UpdatedAt = DateTime.Now;
-						bu.UpdatedBy = 1; //TODO
+						bu.UpdatedBy = lUser.Id; //TODO
 						bu.IsActive = businessunit.IsActive;
 
 						_context.SaveChanges();
@@ -185,7 +187,7 @@ namespace ETapManagement.Repository
 							Action = "Business Unit",
 							Message = string.Format("Business Unit Updated Successfully {0}", businessunit.Name),
 							CreatedAt = DateTime.Now,
-							CreatedBy = 1 //TODO
+							CreatedBy = lUser.Id //TODO
 						};
 						_commonRepo.AuditLog(audit);
 						return responseMessage = new ResponseMessage()
