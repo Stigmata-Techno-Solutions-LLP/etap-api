@@ -63,7 +63,7 @@ namespace ETapManagement.ViewModel.Dto
         public decimal? Height { get; set; }
         public decimal? Thickness { get; set; }
         public decimal? Weight { get; set; }
-        public int? QrCode { get; set; }
+        public string QrCode { get; set; }
         public int? ProjStructId { get; set; }
         public string CompId { get; set; }
         public string Remarks{get;set;} 

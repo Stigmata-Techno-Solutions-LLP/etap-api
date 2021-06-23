@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
 namespace ETapManagement.Domain.Models
+
 {
     public partial class ETapManagementContext : DbContext
     {
- 
-
+      
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -64,14 +64,13 @@ namespace ETapManagement.Domain.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-              //  optionsBuilder.UseSqlServer("Server=database-1.cllg2g64ndar.ap-southeast-1.rds.amazonaws.com;Database=ETapManagementSIT;User Id=admin;Password=Admin169;");
+                optionsBuilder.UseSqlServer("Server=database-1.cllg2g64ndar.ap-southeast-1.rds.amazonaws.com;Database=ETapManagementSIT;User Id=admin;Password=Admin169;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-modelBuilder.Query<SiteRequirementDetail> ();
+             modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -571,6 +570,10 @@ modelBuilder.Query<SiteRequirementDetail> ();
                 entity.Property(e => e.FromProjectId).HasColumnName("from_project_id");
 
                 entity.Property(e => e.IsModification).HasColumnName("is_modification");
+
+                entity.Property(e => e.Location)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.ProjStructId).HasColumnName("proj_struct_id");
 

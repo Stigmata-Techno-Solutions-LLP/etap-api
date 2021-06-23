@@ -109,7 +109,9 @@ namespace ETapManagement.Service
               ComponentName=x.CompName,
               CompId=x.CompId,
               ComponentId=x.Id,
-              ProjStructId=x.ProjStructId
+              ProjStructId=x.ProjStructId,
+              QrCode=x.QrCode
+
              
           }).ToList();
           

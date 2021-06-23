@@ -277,6 +277,8 @@ namespace ETapManagement.Service
                 if (dispReqStr != null)
                 {
                     dispReqStr.DispStructStatus = commonEnum.StructureStatus.SCANNED.ToString();
+                    dispReqStr.Location =input.Location;
+
                      
                 }
                   _context.DispReqStructure.Update(dispReqStr);
