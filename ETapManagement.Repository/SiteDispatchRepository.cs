@@ -580,7 +580,7 @@ namespace ETapManagement.Repository {
 
                         /***update site requirement status ***/
                         List<SiteReqStructure> lstReqStructure = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId &&  x.Status ==  commonEnum.SiteRequiremntStatus.DISPATCHED.ToString()).ToList();
-                        if (lstReqStructure.Count() == lstReqStructure.Where(x=>x.Status == commonEnum.SiteRequiremntStatus.DISPATCHED.ToString()).Count()){
+                        if (lstReqStructure.Count()>0 && lstReqStructure.Count() == lstReqStructure.Where(x=>x.Status == commonEnum.SiteRequiremntStatus.DISPATCHED.ToString()).Count()){
                             dbSiteReq.Status = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
                             dbSiteReq.StatusInternal = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
                         } else {

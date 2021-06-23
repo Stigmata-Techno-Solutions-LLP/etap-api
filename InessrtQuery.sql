@@ -18,15 +18,12 @@ insert into roles values('SITE','SITE',13);
 
 insert into independent_company  values('HCIC','',1,0,1,getdate(),null,null)
 
-insert into business_unit  values(1,'Metros',1,0,1,getdate(),null,null)
-insert into business_unit  values(1,'Nuclear',1,0,1,getdate(),null,null)
-insert into business_unit  values(1,'Port',1,0,1,getdate(),null,null)
+insert into business_unit  values(1,'Metros',1,0,1,getdate(),null,null,null)
+insert into business_unit  values(1,'Nuclear',1,0,1,getdate(),null,null,null)
+insert into business_unit  values(1,'Port',1,0,1,getdate(),null,null,null)
 
 insert into segment values ('SEG001','')
 
-
-
-select * from users u 
 
 insert into project   values ('BMRC RT 02','PROJ001',200,1,1,'JOB001','ERDC0001',0,1,1,getdate(),null,null)
 insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('admin','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,1,getdate(),null,null,null,1,1,1)
@@ -46,9 +43,6 @@ insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,c
 insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_proc','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,8,getdate(),null,null,null,1,1,1)
 
 
-
-
-
 INSERT INTO [dbo].[service_type]([name] ,[description]) VALUES('Fabrication' ,'Fabrication')
 INSERT INTO [dbo].[service_type]([name] ,[description]) VALUES('Outsourcing' ,'Outsourcing')
 INSERT INTO [dbo].[service_type]([name] ,[description]) VALUES('Scrap' ,'Scrap')
@@ -61,8 +55,6 @@ insert into component_type values('COMP1','',0,1,1,getdate(),null,null)
 insert into structure_type values('LG & Bridge Builders',1,0,'',1,getdate(),null,null)
 
 
-
-select * from users u 
 
 INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
 ('SITE','REQUIREMENT',1,'NEW','REJECT','REJECT,NEW,BUAPPROVED,CMPCAPPROVED,TWCCAPPROVED,READYTODISPATCH',NULL)
