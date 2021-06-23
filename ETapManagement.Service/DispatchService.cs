@@ -201,7 +201,7 @@ namespace ETapManagement.Service
                           disReqHis.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCMODIFIED).ToString();
                           disReqHis.DispatchNo = item.DCNumber;
                           disReqHis.CreatedBy = 1;  //To DO
-                           disReqHis.CreatedAt = DateTime.Now;
+                          disReqHis.CreatedAt = DateTime.Now;
                       }
 
 
@@ -221,13 +221,13 @@ namespace ETapManagement.Service
                           disreq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCPARTIALLYMODIFIED).ToString();
                           disreq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCPARTIALLYMODIFIED).ToString();
                           disreq.UpdatedBy = 1;  //To DO
-                           disreq.UpdatedAt = DateTime.Now;
+                          disreq.UpdatedAt = DateTime.Now;
                           disReqHis1.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCPARTIALLYMODIFIED).ToString();
                           disReqHis1.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCPARTIALLYMODIFIED).ToString();
                           disReqHis1.DispatchNo = disreq.DispatchNo;
                           disReqHis1.RoleId = disreq.RoleId;
                           disReqHis1.CreatedBy = 1;  //To DO
-                           disReqHis1.CreatedAt = DateTime.Now;
+                          disReqHis1.CreatedAt = DateTime.Now;
 
                       }
                       else
@@ -235,13 +235,13 @@ namespace ETapManagement.Service
                           disreq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCMODIFIED).ToString();
                           disreq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCMODIFIED).ToString();
                           disreq.UpdatedBy = 1;  //To DO
-                           disreq.UpdatedAt = DateTime.Now;
+                          disreq.UpdatedAt = DateTime.Now;
                           disReqHis1.DispatchNo = item.DCNumber;
                           disReqHis1.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCMODIFIED).ToString();
                           disReqHis1.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCMODIFIED).ToString();
                           disReqHis1.RoleId = disreq.RoleId;
                           disReqHis1.CreatedBy = 1;  //To DO
-                           disReqHis1.CreatedAt = DateTime.Now;
+                          disReqHis1.CreatedAt = DateTime.Now;
                           disReqHis1.DispreqId = item.DispatchRequirementId;
                       }
 
@@ -266,153 +266,148 @@ namespace ETapManagement.Service
         }
         public ResponseMessage UpdateComponentHistory(DispComponentDto Component)
         {
-            try
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                ResponseMessage responseMessage = new ResponseMessage();
-                List<ComponentDetailsInput> result = new List<ComponentDetailsInput>();
-                int id = Component.DispstructCompId ?? 0;
-                string strQuery = string.Format("select dsc.id DispstructCompId, dsc.disp_structure_id DispStructureId,c.id DispCompId  from disp_structure_comp dsc inner join  component c  on  dsc.disp_comp_id  = c.id inner join disp_mod_stage_component dmsc on dmsc.dispstruct_comp_id =dsc.id inner join component_type ct on c.comp_type_id =ct.id where dsc.disp_structure_id ={0}", id);
-                result = _context.Query<ComponentDetailsInput>().FromSqlRaw(strQuery).ToList();
+                try
+                {
+                    ResponseMessage responseMessage = new ResponseMessage();
+                    List<ComponentDetailsInput> result = new List<ComponentDetailsInput>();
+                    int id = Component.DispstructCompId ?? 0;
+                    string strQuery = string.Format("select dsc.id DispstructCompId, dsc.disp_structure_id DispStructureId,c.id DispCompId  from disp_structure_comp dsc inner join  component c  on  dsc.disp_comp_id  = c.id inner join disp_mod_stage_component dmsc on dmsc.dispstruct_comp_id =dsc.id inner join component_type ct on c.comp_type_id =ct.id where dsc.disp_structure_id ={0}", id);
+                    result = _context.Query<ComponentDetailsInput>().FromSqlRaw(strQuery).ToList();
 
-                List<DispStructureComp> dispStructureComp = _context.DispStructureComp.Where(w => w.DispStructureId == Component.DispStructureId).ToList();
+                    List<DispStructureComp> dispStructureComp = _context.DispStructureComp.Where(w => w.DispStructureId == Component.DispStructureId).ToList();
 
 
-                result.ForEach(item =>
-                     {
-
-                         Component compDetails =
-                                            _context.Component.Single(w => w.Id == item.DispCompId);
-                         ComponentHistory AddItem = new ComponentHistory();
-                         if (compDetails != null)
+                    result.ForEach(item =>
                          {
 
-                             AddItem.Weight = compDetails.Weight;
-                             AddItem.Leng = compDetails.Leng;
-                             AddItem.Breath = compDetails.Breath;
-                             AddItem.Height = compDetails.Height;
-                             AddItem.Thickness = compDetails.Thickness;
-                           //AddItem.MakeType=compDetails.MakeType;
-                           AddItem.CreatedAt = DateTime.Now;
-                             AddItem.CreatedBy = 1; //To do
-                           AddItem.ProjStructId = compDetails.ProjStructId;
-                             AddItem.CompId = compDetails.CompId;
+
+                             Component compDetails =
+                                                _context.Component.Single(w => w.Id == item.DispCompId);
+                             ComponentHistory AddItem = new ComponentHistory();
+                             if (compDetails != null)
+                             {
+
+                                 AddItem.Weight = compDetails.Weight;
+                                 AddItem.Leng = compDetails.Leng;
+                                 AddItem.Breath = compDetails.Breath;
+                                 AddItem.Height = compDetails.Height;
+                                 AddItem.Thickness = compDetails.Thickness;
+                             //AddItem.MakeType=compDetails.MakeType;
+                             AddItem.CreatedAt = DateTime.Now;
+                                 AddItem.CreatedBy = 1; //To do
                              AddItem.ProjStructId = compDetails.ProjStructId;
-                             AddItem.CompTypeId = compDetails.CompTypeId;
+                                 AddItem.CompId = compDetails.CompId;
+                                 AddItem.ProjStructId = compDetails.ProjStructId;
+                                 AddItem.CompTypeId = compDetails.CompTypeId;
 
-                         }
-                         _context.ComponentHistory.Add(AddItem);
-                         _context.SaveChanges();
-
-
-
-
-                         List<DispModStageComponent> compModStageDetails = _context.DispModStageComponent.Where(x => x.DispstructCompId == item.DispstructCompId).ToList();
-
-                         compModStageDetails.ForEach(item =>
-                         {
-
-                         compDetails.Weight = item.Weight;
-                         compDetails.Leng = item.Leng;
-                         compDetails.Breath = item.Breath;
-                         compDetails.Height = item.Height;
-                         compDetails.Thickness = item.Thickness;
-                         compDetails.MakeType = item.MakeType;
-                         compDetails.ProjStructId = compDetails.ProjStructId;
+                             }
+                             _context.ComponentHistory.Add(AddItem);
+                             _context.SaveChanges();
 
 
-                     });
 
 
-                         _context.Component.Update(compDetails);
-                         _context.SaveChanges();
+                             DispModStageComponent compModStageDetails = _context.DispModStageComponent.SingleOrDefault(x => x.DispstructCompId == item.DispstructCompId);
 
 
-                     });
+                             compDetails.Weight = compModStageDetails.Weight;
+                             compDetails.Leng = compModStageDetails.Leng;
+                             compDetails.Breath = compModStageDetails.Breath;
+                             compDetails.Height = compModStageDetails.Height;
+                             compDetails.Thickness = compModStageDetails.Thickness;
+                             compDetails.MakeType = compModStageDetails.MakeType;
+                             compDetails.ProjStructId = compDetails.ProjStructId;
+                             _context.Component.Update(compDetails);
+                             _context.SaveChanges();
 
-                DispReqStructure structid =
-                        _context.DispReqStructure.FirstOrDefault(w => w.ProjStructId == Component.ProjectStructureId
-                        && w.Id == Component.DispStructureId);
 
-                if (Component.IsVendor)
-                    if (structid != null)
-                    {
-                        structid.DispStructStatus = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
-                    }
+                         });
 
-                _context.DispReqStructure.Update(structid);
+                    DispReqStructure structid =
+                            _context.DispReqStructure.FirstOrDefault(w => w.ProjStructId == Component.ProjectStructureId
+                            && w.Id == Component.DispStructureId);
 
-                _context.SaveChanges();
-                {
+                    if (Component.IsVendor)
+                        if (structid != null)
+                        {
+                            structid.DispStructStatus = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
+                        }
 
-                    responseMessage = _dispatchReqSubConRepository.OSAssignVendor(Component.OSDispatchReqSubCont);
-
-                }
-                if (Component.IsSite)
-                {
-                    DispReqStructure dispstructid =
-                      _context.DispReqStructure.FirstOrDefault(w => w.ProjStructId == Component.ProjectStructureId
-                      && w.Id == Component.DispStructureId);
-
-                    if (dispstructid != null)
-                    {
-                        dispstructid.DispStructStatus = Util.GetDescription(commonEnum.SiteDispatchSatus.READYTODELIVER).ToString();
-                    }
-
-                    _context.DispReqStructure.Update(dispstructid);
+                    _context.DispReqStructure.Update(structid);
 
                     _context.SaveChanges();
+                    {
 
+                        responseMessage = _dispatchReqSubConRepository.OSAssignVendor(Component.OSDispatchReqSubCont);
+
+                    }
+                    if (Component.IsSite)
+                    {
+                        DispReqStructure dispstructid =
+                          _context.DispReqStructure.FirstOrDefault(w => w.ProjStructId == Component.ProjectStructureId
+                          && w.Id == Component.DispStructureId);
+
+                        if (dispstructid != null)
+                        {
+                            dispstructid.DispStructStatus = Util.GetDescription(commonEnum.SiteDispatchSatus.READYTODELIVER).ToString();
+                        }
+
+                        _context.DispReqStructure.Update(dispstructid);
+
+                        _context.SaveChanges();
+
+                    }
+
+                    DisreqStatusHistory disReqHis = new DisreqStatusHistory();
+                    DispatchRequirement disreq = _context.DispatchRequirement
+                   .Single(w => w.Id == Component.DispatchRequirementId);
+                    var totalCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId).Count();
+                    var appCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId && x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString() || x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.READYTODELIVER).ToString()).Count();
+
+                    if (totalCount != appCount)
+                    {
+                        disreq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCPARIALLYMODIFYAPRD).ToString();
+                        disreq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCPARIALLYMODIFYAPRD).ToString();
+                        disreq.UpdatedBy = 1;  //To DO
+                        disReqHis.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCPARIALLYMODIFYAPRD).ToString();
+                        disReqHis.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCPARIALLYMODIFYAPRD).ToString();
+                        disreq.UpdatedAt = DateTime.Now;
+                        disReqHis.DispatchNo = disreq.DispatchNo;
+                        disReqHis.RoleId = disreq.RoleId;
+                        disReqHis.CreatedBy = 1;  //To DO
+                        disReqHis.CreatedAt = DateTime.Now;
+
+                    }
+                    else
+                    {
+                        disreq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
+                        disreq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
+                        disreq.UpdatedBy = 1;  //To DO
+                        disreq.UpdatedAt = DateTime.Now;
+                        disReqHis.DispatchNo = disreq.DispatchNo;
+                        disReqHis.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
+                        disReqHis.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
+                        disReqHis.RoleId = disreq.RoleId;
+                        disReqHis.CreatedBy = 1;  //To DO
+                        disReqHis.CreatedAt = DateTime.Now;
+                    }
+
+                    _context.DispatchRequirement.Update(disreq);
+                    _context.DisreqStatusHistory.Add(disReqHis);
+                    _context.SaveChanges();
+                    responseMessage.Message = "Component updated";
+                    transaction.Commit();
+                    return responseMessage;
                 }
-
-                DisreqStatusHistory disReqHis = new DisreqStatusHistory();
-                DispatchRequirement disreq = _context.DispatchRequirement
-               .Single(w => w.Id == Component.DispatchRequirementId);
-                var totalCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId).Count();
-                var appCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId && x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString() || x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.READYTODELIVER).ToString()).Count();
-
-                if (totalCount != appCount)
+                catch (Exception ex)
                 {
-                    disreq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCPARIALLYMODIFYAPRD).ToString();
-                    disreq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCPARIALLYMODIFYAPRD).ToString();
-                    disreq.UpdatedBy = 1;  //To DO
-                    disReqHis.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCPARIALLYMODIFYAPRD).ToString();
-                    disReqHis.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCPARIALLYMODIFYAPRD).ToString();
-                    disreq.UpdatedAt = DateTime.Now;
-                    disReqHis.DispatchNo = disreq.DispatchNo;
-                    disReqHis.RoleId = disreq.RoleId;
-                    disReqHis.CreatedBy = 1;  //To DO
-                    disReqHis.CreatedAt = DateTime.Now;
-
+                    transaction.Rollback();
+                    throw ex;
                 }
-                else
-                {
-                    disreq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
-                    disreq.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
-                    disreq.UpdatedBy = 1;  //To DO
-                    disreq.UpdatedAt = DateTime.Now;
-                    disReqHis.DispatchNo = disreq.DispatchNo;
-                    disReqHis.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
-                    disReqHis.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
-                    disReqHis.RoleId = disreq.RoleId;
-                    disReqHis.CreatedBy = 1;  //To DO
-                    disReqHis.CreatedAt = DateTime.Now;
-                }
-
-                _context.DispatchRequirement.Update(disreq);
-                _context.DisreqStatusHistory.Add(disReqHis);
-                _context.SaveChanges();
-                responseMessage.Message = "Component updated";
-
-                return responseMessage;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
         }
-
-
-
 
     }
 }

@@ -133,6 +133,8 @@ namespace ETapManagement.ViewModel.Dto
         public int DisptachRequiremntstructureId { get; set; }
         public int DispatchRequiremntId { get; set; }
 
+        public string Location {get;set;}
+
 
     }
 

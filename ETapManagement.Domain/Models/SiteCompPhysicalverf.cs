@@ -8,7 +8,7 @@ namespace ETapManagement.Domain.Models
         public int Id { get; set; }
         public int? SitestructureVerfid { get; set; }
         public int? CompId { get; set; }
-        public int? Qrcode { get; set; }
+        public string Qrcode { get; set; }
         public string Remarks { get; set; }
         public string Status { get; set; }
         public int? CreatedBy { get; set; }
