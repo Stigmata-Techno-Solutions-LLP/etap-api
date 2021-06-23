@@ -14,6 +14,12 @@ using Standard.Licensing;
 using Standard.Licensing.Validation;
 using System.IO;
 using System.Text;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Globalization;
+
 
 namespace ETapManagement.Common {
 
@@ -75,50 +81,50 @@ namespace ETapManagement.Common {
         }
 
 
-        public static string[] GenerateLicense (){
-try{
+//         public static string[] GenerateLicense (){
+// try{
 
-  var keyGenerator = Standard.Licensing.Security.Cryptography.KeyGenerator.Create(); 
-var keyPair = keyGenerator.GenerateKeyPair(); 
-var privateKey = keyPair.ToEncryptedPrivateKeyString("test");  
-var publicKey = keyPair.ToPublicKeyString();
+//   var keyGenerator = Standard.Licensing.Security.Cryptography.KeyGenerator.Create(); 
+// var keyPair = keyGenerator.GenerateKeyPair(); 
+// var privateKey = keyPair.ToEncryptedPrivateKeyString("test");  
+// var publicKey = keyPair.ToPublicKeyString();
 
-var license = License.New()  
-    .WithUniqueIdentifier(Guid.NewGuid())  
-    .As(LicenseType.Trial)
+// var license = License.New()  
+//     .WithUniqueIdentifier(Guid.NewGuid())  
+//     .As(LicenseType.Trial)
       
-    .ExpiresAt(DateTime.Now.AddDays(30))  
-    .WithMaximumUtilization(5)  
-    .WithProductFeatures(new Dictionary<string, string>  
-        {  
-            {"Sales Module", "yes"},  
-            {"Purchase Module", "yes"},  
-            {"Maximum Transactions", "10000"}  
-        })  
-    .LicensedTo("John Doe", "john.doe@example.com")  
-    .CreateAndSignWithPrivateKey(privateKey, "test");
-File.WriteAllText("/Users/admin/Documents/personal/etap-api/License.lic", license.ToString(), Encoding.UTF8);
-string[] resultArr = {license.ToString(),publicKey};
-    return resultArr;
-} catch(Exception ex){
-throw ex;
-}
-}
+//     .ExpiresAt(DateTime.Now.AddDays(30))  
+//     .WithMaximumUtilization(5)  
+//     .WithProductFeatures(new Dictionary<string, string>  
+//         {  
+//             {"Sales Module", "yes"},  
+//             {"Purchase Module", "yes"},  
+//             {"Maximum Transactions", "10000"}  
+//         })  
+//     .LicensedTo("John Doe", "john.doe@example.com")  
+//     .CreateAndSignWithPrivateKey(privateKey, "test");
+// File.WriteAllText("/Users/admin/Documents/personal/etap-api/License.lic", license.ToString(), Encoding.UTF8);
+// string[] resultArr = {license.ToString(),publicKey};
+//     return resultArr;
+// } catch(Exception ex){
+// throw ex;
+// }
+// }
 
 
-public static void checkLicenseKeyValidation(string publicKey,string licenseXml) {
-try {
-    var license = License.Load(licenseXml);
-    var validationFailures = license.Validate()  
-                                .ExpirationDate()  
-                                .When(lic => lic.Type == LicenseType.Trial )
+// public static void checkLicenseKeyValidation(string publicKey,string licenseXml) {
+// try {
+//     var license = License.Load(licenseXml);
+//     var validationFailures = license.Validate()  
+//                                 .ExpirationDate()  
+//                                 .When(lic => lic.Type == LicenseType.Trial )
                             
-                                .AssertValidLicense();
+//                                 .AssertValidLicense();
 
-} catch(Exception ex) {
-throw ex;
-}
-}
+// } catch(Exception ex) {
+// throw ex;
+// }
+// }
       
         public static string Base64Decode (string base64EncodedData) {
             try {
@@ -129,9 +135,7 @@ throw ex;
                 throw new ValueNotFoundException ("password is incorrect");
             }
         }
-    
         
-
         public static string CreateRandomPassword (int length = 10) {
             try {
                 string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
@@ -145,5 +149,30 @@ throw ex;
                 return "";
             }
         }
+        public static string GetDescription<T>(this T e) where T : IConvertible
+{
+    if (e is Enum)
+    {
+        Type type = e.GetType();
+        Array values = System.Enum.GetValues(type);
+
+        foreach (int val in values)
+        {
+            if (val == e.ToInt32(CultureInfo.InvariantCulture))
+            {
+                var memInfo = type.GetMember(type.GetEnumName(val));
+                var descriptionAttribute = memInfo[0]
+                    .GetCustomAttributes(typeof(DescriptionAttribute), false)
+                    .FirstOrDefault() as DescriptionAttribute;
+
+                if (descriptionAttribute != null)
+                {
+                    return descriptionAttribute.Description;
+                }
+            }
+        }
+    }
+     return "";
+    }
     }
 }
