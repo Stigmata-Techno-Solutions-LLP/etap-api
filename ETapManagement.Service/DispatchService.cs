@@ -367,8 +367,10 @@ namespace ETapManagement.Service
                     DispatchRequirement disreq = _context.DispatchRequirement
                    .SingleOrDefault(w => w.Id == Component.DispatchRequirementId);
                     var totalCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId).Count();
-                    var appCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId && x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString() || x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.READYTODELIVER).ToString()).Count();
-
+                    var appCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId && (x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString() || x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.READYTODELIVER).ToString())).Count();
+                    if(disreq!=null){
+                         throw new ValueNotFoundException ("DispatchRequirementId Not Available"); 
+                    }
                     if (totalCount != appCount)
                     {
                         disreq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCPARIALLYMODIFYAPRD).ToString();
