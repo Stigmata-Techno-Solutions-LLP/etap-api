@@ -41,15 +41,15 @@ namespace ETapManagement.Repository {
                             projectStructure = ConstructProjectStructure (request, projectStructure);
                             projectStructureID = projectStructure.Id;
                             isUpdate = true;
-                            _context.SaveChanges ();
+                            _context.SaveChanges();
 
                         } else {
                             ProjectStructure projStructdb = null;
                             projStructdb = ConstructProjectStructure (request, projStructdb);
-                            projStructdb.StructureStatus = commonEnum.StructureStatus.AVAILABLE.ToString();
-                            projStructdb.CurrentStatus = commonEnum.StructureInternalStatus.NEW.ToString();
+                            projStructdb.StructureStatus = Util.GetDescription( commonEnum.StructureStatus.AVAILABLE).ToString();
+                            projStructdb.CurrentStatus =  Util.GetDescription(commonEnum.StructureInternalStatus.NEW).ToString();
                             _context.ProjectStructure.Add (projStructdb);
-                            _context.SaveChanges ();
+                            _context.SaveChanges();
                             projectStructureID = projStructdb.Id;
                         }                      
                         transaction.Commit ();

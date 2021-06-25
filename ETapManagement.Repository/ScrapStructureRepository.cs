@@ -39,8 +39,8 @@ namespace ETapManagement.Repository {
                   /*udpate structure status*/
                   int projStructID = Convert.ToInt32(scrapStructureDB.ProjStructId);
                 ProjectStructure prjStruct = _context.ProjectStructure.Where(x=>x.Id== projStructID).FirstOrDefault();
-                prjStruct.StructureStatus =commonEnum.StructureStatus.NOTAVAILABLE.ToString();
-                prjStruct.CurrentStatus = commonEnum.StructureInternalStatus.SCRAPPED.ToString();
+                prjStruct.StructureStatus =Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                prjStruct.CurrentStatus = Util.GetDescription(commonEnum.StructureInternalStatus.SCRAPPED).ToString();
                 _context.ScrapStructure.Add(scrapStructureDB);
                 _context.SaveChanges(); 
 

@@ -40,7 +40,7 @@ namespace ETapManagement.Repository {
             // try {
             //     List<VerifyStructureQty> lstVerifyStructureQty = new List<VerifyStructureQty> ();
             //     List<StructureListForDipatch> lstStructureListForDipatch = new List<StructureListForDipatch> ();
-            //    // if (_context.SiteRequirement.Where (x => x.Id == siteReqId && x.StatusInternal == commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ()).Count () > 0) throw new ValueNotFoundException ("Site RequirementId already dispatched");
+            //    // if (_context.SiteRequirement.Where (x => x.Id == siteReqId && x.StatusInternal == Util.GetDescription(commonEnum.SiteRequiremntStatus.DISPATCHED).ToString ()).Count () > 0) throw new ValueNotFoundException ("Site RequirementId already dispatched");
             //     List<SiteReqStructure> lstReqStr = _context.SiteReqStructure.Include (x => x.Struct).Where (x => x.SiteReqId == siteReqId).ToList ();
             //   //  List<DispatchRequirement> lstDispReq = _context.DispatchRequirement.Include (v => v.DispReqStructure).Where (x => x.SitereqId == siteReqId).ToList ();
             //    var lstDispReq = (from dr in _context.DispatchRequirement join drs in _context.DispReqStructure on dr.Id equals drs.DispreqId where dr.SitereqId == siteReqId select new { StructId = drs.StructId}).ToList();
@@ -443,7 +443,6 @@ namespace ETapManagement.Repository {
             } catch (Exception ex) {
                 throw ex;
             }
-
         }
 
         public List<TWCCDispatchInnerStructure> GetTWCCInnerStructureDetails (int structureId) {
@@ -470,7 +469,6 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage CreateDispatch (TWCCDispatchPayload payload) {
             try {
-
                 string dispatchNo = string.Empty;
                 string structCode = string.Empty;
                 int dispReuseCount = 0;
@@ -522,8 +520,8 @@ namespace ETapManagement.Repository {
                             projectStructure.ComponentsCount = 0;
                             projectStructure.StructureAttributesVal = siteRequirementStructure != null ? siteRequirementStructure.StructureAttributesVal : "";
                             projectStructure.EstimatedWeight = 0;
-                            projectStructure.StructureStatus = commonEnum.StructureStatus.NOTAVAILABLE.ToString ();
-                            projectStructure.CurrentStatus = commonEnum.StructureInternalStatus.DISPATCHINPROGRESS.ToString ();
+                            projectStructure.StructureStatus = Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString ();
+                            projectStructure.CurrentStatus = Util.GetDescription(commonEnum.StructureInternalStatus.DISPATCHINPROGRESS).ToString ();
                             projectStructure.IsDelete = false;
                             projectStructure.CreatedBy = payload.CreatedBy;
                             projectStructure.CreatedAt = DateTime.Now;
@@ -532,8 +530,8 @@ namespace ETapManagement.Repository {
 
                         } else {
                             ProjectStructure structDB = _context.ProjectStructure.Where (x => x.StructureId == payload.StructureId && x.ProjectId == payload.ToProjectId).FirstOrDefault ();
-                            structDB.CurrentStatus = commonEnum.StructureInternalStatus.DISPATCHINPROGRESS.ToString ();
-                            structDB.StructureStatus = commonEnum.StructureStatus.NOTAVAILABLE.ToString ();
+                            structDB.CurrentStatus = Util.GetDescription(commonEnum.StructureInternalStatus.DISPATCHINPROGRESS).ToString ();
+                            structDB.StructureStatus = Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString ();
                             _context.SaveChanges ();
                         }
 
@@ -569,23 +567,21 @@ namespace ETapManagement.Repository {
                         SiteRequirement dbSiteReq = _context.SiteRequirement.Where (x => x.Id == payload.siteRequirementId).FirstOrDefault ();
                         SiteReqStructure dbSiteReqStructure = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId && x.StructId == payload.StructureId).FirstOrDefault ();                
                         if (dbSiteReqStructure.Quantity > dispatchedStrucCount) {
-                            dbSiteReqStructure.Status = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
+                            dbSiteReqStructure.Status = Util.GetDescription(Util.GetDescription(commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED)).ToString ();
                         } else {
-                            dbSiteReqStructure.Status = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
+                            dbSiteReqStructure.Status =Util.GetDescription(commonEnum.SiteRequiremntStatus.DISPATCHED).ToString();
                         }
                           _context.SaveChanges ();
 
 
-
-
                         /***update site requirement status ***/
-                        List<SiteReqStructure> lstReqStructure = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId &&  x.Status ==  commonEnum.SiteRequiremntStatus.DISPATCHED.ToString()).ToList();
-                        if (lstReqStructure.Count()>0 && lstReqStructure.Count() == lstReqStructure.Where(x=>x.Status == commonEnum.SiteRequiremntStatus.DISPATCHED.ToString()).Count()){
-                            dbSiteReq.Status = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
-                            dbSiteReq.StatusInternal = commonEnum.SiteRequiremntStatus.DISPATCHED.ToString ();
-                        } else {
-                              dbSiteReq.Status = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
-                            dbSiteReq.StatusInternal = commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED.ToString ();
+                        List<SiteReqStructure> lstReqStructure = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId &&  x.Status ==  Util.GetDescription(commonEnum.SiteRequiremntStatus.DISPATCHED).ToString()).ToList();
+                        if (lstReqStructure.Count()>0 && lstReqStructure.Where(x=>x.Status != Util.GetDescription(commonEnum.SiteRequiremntStatus.DISPATCHED).ToString()).Count() > 0){
+                              dbSiteReq.Status = Util.GetDescription(commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED).ToString ();
+                            dbSiteReq.StatusInternal = Util.GetDescription(commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED).ToString ();
+                        } else {                            
+                            dbSiteReq.Status = Util.GetDescription(commonEnum.SiteRequiremntStatus.DISPATCHED).ToString ();
+                            dbSiteReq.StatusInternal = Util.GetDescription(commonEnum.SiteRequiremntStatus.DISPATCHED).ToString ();
                         }
                         _context.SaveChanges ();
 
