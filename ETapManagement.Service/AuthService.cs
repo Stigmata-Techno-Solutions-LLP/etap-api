@@ -72,7 +72,7 @@ namespace ETapManagement.Service {
                 new Claim ("RoleId", user.RoleId.ToString()),
                 new Claim ("RoleName", user.RoleName.ToString())
                 }),
-                Expires = commType == "WEB" ? DateTime.UtcNow.AddMinutes (5) : DateTime.UtcNow.AddDays (30),
+                Expires = commType == "WEB" ? DateTime.UtcNow.AddMinutes (30) : DateTime.UtcNow.AddDays (30),
                 SigningCredentials = new SigningCredentials (new SymmetricSecurityKey (key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateJwtSecurityToken (tokenDescriptor);
