@@ -437,7 +437,7 @@ namespace ETapManagement.Repository {
 
                 string str = Util.GetDescription(Util.GetDescription(Util.GetDescription(Util.GetDescription(commonEnum.SiteDispatchSatus.CMPCAPPROVED)))).ToString();
                 List<TWCCDispatch> result = new List<TWCCDispatch> ();
-                var siteDispatchDetails = _context.Query<TWCCDispatch> ().FromSqlRaw ("exec SP_GETTWCCDispatch {0}", "READYTODISPATCH,PARTIALLYDISPATCHED").ToList ();
+                var siteDispatchDetails = _context.Query<TWCCDispatch> ().FromSqlRaw ("exec SP_GETTWCCDispatch {0}", Util.GetDescription(commonEnum.StructureInternalStatus.READYTODISPATCH).ToString() + "," + Util.GetDescription(commonEnum.StructureInternalStatus.PARTIALLYDISPATCHED).ToString()).ToList ();
                 result = _mapper.Map<List<TWCCDispatch>> (siteDispatchDetails);
                 return result;
             } catch (Exception ex) {

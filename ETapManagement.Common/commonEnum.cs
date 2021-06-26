@@ -137,8 +137,15 @@ namespace ETapManagement.Common {
             INUSE = 3, [Description ("PARTIALLY SCANNED")]
             PARTIALLYSCANNED = 4, [Description ("SURPLUS INITIATED")]
             SURPLUSINITIATED = 5, [Description ("READY TO REUSE")]
-            READYTOREUSE = 6, [Description ("SCRAPPED")]
-            SCRAPPED = 7
+
+            READYTOREUSE = 6, 
+            [Description ("READY TO DISPATCH")]
+            READYTODISPATCH = 7, 
+            
+            [Description ("PARTIALLY DISPATCHED")]
+            PARTIALLYDISPATCHED = 7,  
+            [Description ("SCRAPPED")]
+            SCRAPPED = 8
         }
 
         public enum StructureStatus {
