@@ -143,9 +143,9 @@ namespace ETapManagement.Common {
             READYTODISPATCH = 7, 
             
             [Description ("PARTIALLY DISPATCHED")]
-            PARTIALLYDISPATCHED = 7,  
+            PARTIALLYDISPATCHED = 8,  
             [Description ("SCRAPPED")]
-            SCRAPPED = 8
+            SCRAPPED = 9
         }
 
         public enum StructureStatus {

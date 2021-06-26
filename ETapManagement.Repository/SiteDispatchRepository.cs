@@ -368,7 +368,7 @@ namespace ETapManagement.Repository {
 
 
                         /***update site requirement status ***/
-                        List<SiteReqStructure> lstReqStructure = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId &&  x.Status ==  Util.GetDescription(commonEnum.SiteRequiremntStatus.DISPATCHED).ToString()).ToList();
+                        List<SiteReqStructure> lstReqStructure = _context.SiteReqStructure.Where (x => x.SiteReqId == payload.siteRequirementId ).ToList();
                         if (lstReqStructure.Count()>0 && lstReqStructure.Where(x=>x.Status != Util.GetDescription(commonEnum.SiteRequiremntStatus.DISPATCHED).ToString()).Count() > 0){
                               dbSiteReq.Status = Util.GetDescription(commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED).ToString ();
                             dbSiteReq.StatusInternal = Util.GetDescription(commonEnum.SiteRequiremntStatus.PARTIALLYDISPATCHED).ToString ();
