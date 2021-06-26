@@ -21,7 +21,17 @@ namespace ETapManagement.Repository {
             _mapper = mapper;
             _commonRepo = commonRepo;
         }
+ public List<SiteDispatchDetail> GetSiteDispatchDetails (SiteDispatchPayload siteDispatchPayload) {
+            try {
+                List<SiteDispatchDetail> result = new List<SiteDispatchDetail> ();
+                var siteDispatchDetails = _context.Query<SiteDispatchDetail> ().FromSqlRaw ("exec sp_getDispatch {0}, {1},{2},{3}", siteDispatchPayload.role_name.ToString (), siteDispatchPayload.role_hierarchy, siteDispatchPayload.ProjectId, siteDispatchPayload.VendorId).ToList ();
+                result = _mapper.Map<List<SiteDispatchDetail>> (siteDispatchDetails);
 
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
 
         public List<StructureListCode> GetStructureListCodesByDispId (DispatchStructureCodePayload dispatchRequirement) {
             try {
