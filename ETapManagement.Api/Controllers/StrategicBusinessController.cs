@@ -9,7 +9,7 @@ namespace ETapManagement.Api.Controllers
 {
 	[ApiController]
 	[Route("/api/[controller]")]
-
+  [Authorize]
 	public class StrategicBusinessController : ControllerBase
 	{
 		IStrategicBusinessService _sbgService;

@@ -1,4 +1,24 @@
 
+
+
+
+delete from disp_mod_stage_component 
+
+delete from disp_structure_comp
+
+delete from disp_req_structure 
+delete from disreq_status_history 
+
+
+delete from disp_subcont_documents 
+delete from disp_subcont_structure 
+delete from dispatchreq_subcont 
+
+delete from dispatch_requirement
+
+delete from dispatchreq_subcont 
+
+
 insert into roles values('Admin','Admin',1);
 insert into roles values ('IC','IC',2)
 insert into roles values ('SBG','SBG',3)
@@ -18,9 +38,11 @@ insert into roles values('SITE','SITE',13);
 
 insert into independent_company  values('HCIC','',1,0,1,getdate(),null,null)
 
-insert into business_unit  values(1,'Metros',1,0,1,getdate(),null,null,null)
-insert into business_unit  values(1,'Nuclear',1,0,1,getdate(),null,null,null)
-insert into business_unit  values(1,'Port',1,0,1,getdate(),null,null,null)
+insert into strategic_business  values('STG1',0,1,1,getdate(),null,null)
+
+insert into business_unit  values(1,'Metros',1,0,1,getdate(),null,null,1)
+insert into business_unit  values(1,'Nuclear',1,0,1,getdate(),null,null,1)
+insert into business_unit  values(1,'Port',1,0,1,getdate(),null,null,1)
 
 insert into segment values ('SEG001','')
 
@@ -43,9 +65,9 @@ insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,c
 insert into users(ps_no,password,email,is_active,role_id,created_at,updated_by,created_by ,updated_at,project_id,ic_id ,bu_id ) values('stig_proc','dL37tZVNK3V60v2HjhCXFA==','admin@gmail.com',1,8,getdate(),null,null,null,1,1,1)
 
 
-INSERT INTO [dbo].[service_type]([name] ,[description]) VALUES('Fabrication' ,'Fabrication')
-INSERT INTO [dbo].[service_type]([name] ,[description]) VALUES('Outsourcing' ,'Outsourcing')
-INSERT INTO [dbo].[service_type]([name] ,[description]) VALUES('Scrap' ,'Scrap')
+INSERT INTO [service_type]([name] ,[description]) VALUES('Fabrication' ,'Fabrication')
+INSERT INTO [service_type]([name] ,[description]) VALUES('Outsourcing' ,'Outsourcing')
+INSERT INTO [service_type]([name] ,[description]) VALUES('Scrap' ,'Scrap')
 insert into service_type values('Reuse','Reuse')
 
 
@@ -55,7 +77,7 @@ insert into component_type values('COMP1','',0,1,1,getdate(),null,null)
 insert into structure_type values('LG & Bridge Builders',1,0,'',1,getdate(),null,null)
 
 
-INSERT INTO ETapManagementSIT.dbo.role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
+INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
 ('SITE','REQUIREMENT',1,'NEW','REJECT','REJECT,NEW,BU APPROVED,CMPC APPROVED,TWCC APPROVED,READY TO DISPATCH',NULL)
 ,('BU','REQUIREMENT',2,'BU APPROVED','NEW','NEW,BU APPROVED,CMPC APPROVED,TWCC APPROVED,READY TO DISPATCH',NULL)
 ,('CMPC','REQUIREMENT',3,'CMPC APPROVED','BU APPROVED,TWCC APPROVED','BU APPROVED,CMPC APPROVED,TWCC APPROVED,READY TO DISPATCH',NULL)
@@ -67,7 +89,7 @@ INSERT INTO ETapManagementSIT.dbo.role_hierarchy (role_name,scenario_type,role_h
 ,('PROCUREMENT','DECLARATION',3,NULL,'EHSREJECTED,QAREJECTED,TWCCREJECTED','',NULL)
 ,('TWCC','DECLARATION',4,'READY TO REUSE','QA APPROVED','READY TO REUSE,QA APPROVED',NULL)
 ;
-INSERT INTO ETapManagementSIT.dbo.role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
+INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
 ('CMPC','DECLARATION',5,'READY TO REUSE','','READY TO REUSE',NULL)
 ,('BU','DECLARATION',6,'READY TO REUSE','','READY TO REUSE',NULL)
 ,('PROCUREMENT','DECLARATION',7,'SCRAPPED','QA REJECTED,EHS REJECTED','',NULL)
@@ -79,7 +101,7 @@ INSERT INTO ETapManagementSIT.dbo.role_hierarchy (role_name,scenario_type,role_h
 ,('VENDOR','DISPATCH',5,'DISPATCHED','TOSITE APPROVED','PROC APPROVED,TOSITE APPROVED,VENDOR APPROVED,FAA APPROVED,FROMSITE APPROVED','1,2')
 ,('SITE','DISPATCH',5,'DISPATCHED','TOSITE APPROVED','TOSITE APPROVED','4')
 ;
-INSERT INTO ETapManagementSIT.dbo.role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
+INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
 ('SITE','SCRAP',1,'NEW','REJECTED','REJECTED,NEW,EHS APPROVED,QA APPROVED,SCRAPPED',NULL)
 ,('EHS','SCRAP',2,'EHS APPROVED','NEW','NEW,EHS APPROVED,QA APPROVED,SCRAPPED',NULL)
 ,('QA','SCRAP',3,'QAA PPROVED','EHS APPROVED','EHS APPROVED,QA APPROVED,SCRAPPED',NULL)
@@ -91,20 +113,3 @@ INSERT INTO ETapManagementSIT.dbo.role_hierarchy (role_name,scenario_type,role_h
  --insert into dispatch_requirement values('DC000003',9,1,2,null,null,'NEW','NEW',1,1,getdate(),null,null,0)
 
  
-
-
-delete from disp_mod_stage_component 
-
-delete from disp_structure_comp
-
-delete from disp_req_structure 
-delete from disreq_status_history 
-
-
-delete from disp_subcont_documents 
-delete from disp_subcont_structure 
-delete from dispatchreq_subcont 
-
-delete from dispatch_requirement
-
-delete from dispatchreq_subcont 

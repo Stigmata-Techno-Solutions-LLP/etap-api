@@ -16,7 +16,6 @@ using Serilog;
 namespace ETapManagement.Api.Controllers {
 
     [EnableCors ("AllowAll")]
-    //[Authorize]
     [ApiController]
     [Authorize]
     //[ValidateAntiForgeryToken]

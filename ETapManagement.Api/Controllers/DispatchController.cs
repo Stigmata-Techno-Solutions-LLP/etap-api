@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ETapManagement.Api.Controllers {
     [ApiController]
     [Route ("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class DispatchController : ControllerBase {
         IDispatchService _dispatchService;
 

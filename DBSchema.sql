@@ -6,13 +6,13 @@
 IF OBJECT_ID('ETapManagementSIT.dbo.component_history', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.component_history ;
 
-
- IF OBJECT_ID('ETapManagementSIT.dbo.site_comp_physicalverf', 'U') IS NOT NULL 
-  DROP TABLE ETapManagementSIT.dbo.site_comp_physicalverf ;
-
  
 IF OBJECT_ID('ETapManagementSIT.dbo.site_strct_physicalverf_doc', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.site_strct_physicalverf_doc ;
+
+
+ IF OBJECT_ID('ETapManagementSIT.dbo.site_comp_physicalverf', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.site_comp_physicalverf ;
 IF OBJECT_ID('ETapManagementSIT.dbo.site_structure_physicalverf', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.site_structure_physicalverf ;
 
@@ -160,6 +160,10 @@ IF OBJECT_ID('ETapManagementSIT.dbo.work_breakdown', 'U') IS NOT NULL
 
 IF OBJECT_ID('ETapManagementSIT.dbo.structures', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.structures;
+  
+IF OBJECT_ID('ETapManagementSIT.dbo.users', 'U') IS NOT NULL 
+  DROP TABLE ETapManagementSIT.dbo.users;
+
  IF OBJECT_ID('ETapManagementSIT.dbo.business_unit', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.business_unit;
 
@@ -188,9 +192,6 @@ IF OBJECT_ID('ETapManagementSIT.dbo.subContractor_serviceType', 'U') IS NOT NULL
 IF OBJECT_ID('ETapManagementSIT.dbo.sub_contractor', 'U') IS NOT NULL 
   DROP TABLE ETapManagementSIT.dbo.sub_contractor;
 
- 
-IF OBJECT_ID('ETapManagementSIT.dbo.users', 'U') IS NOT NULL 
-  DROP TABLE ETapManagementSIT.dbo.users;
 
  
   
@@ -581,7 +582,7 @@ CREATE TABLE ETapManagementSIT.dbo.structures (
 	structure_type_id int NOT NULL,
 	is_delete bit DEFAULT 0 NOT NULL,
 	is_active bit NULL,
-	structure_attributes_def nvarchar COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	structure_attributes_def nvarchar(max) NULL,
 	created_by int NULL,
 	created_at datetime DEFAULT getdate() NULL,
 	updated_by int NULL,
@@ -676,7 +677,7 @@ CREATE TABLE ETapManagementSIT.dbo.project_structure (
 	struct_code varchar(10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	project_id int NOT NULL,
 	components_count int NULL,
-	structure_attributes_val nvarchar COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	structure_attributes_val nvarchar(max) NULL,
 	estimated_weight decimal(10,2) NULL,
 	structure_status varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	current_status varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -780,7 +781,7 @@ CREATE TABLE ETapManagementSIT.dbo.site_req_structure (
 	id int IDENTITY(1,1) NOT NULL,
 	site_req_id int NOT NULL,
 	struct_id int NOT NULL,
-	structure_attributes_val nvarchar COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	structure_attributes_val nvarchar(max) NULL,
 	plan_startdate datetime NOT NULL,
 	plan_releasedate datetime NOT NULL,
 	actual_startdate datetime NOT NULL,
@@ -1041,7 +1042,7 @@ CREATE TABLE ETapManagementSIT.dbo.site_comp_physicalverf (
 	id int IDENTITY(1,1) NOT NULL,
 	sitestructure_verfid int NULL,
 	comp_id int NULL,
-	qrcode int NULL,
+	qrcode varchar(200) NULL,
 	remarks varchar(2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	status varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	created_by int NULL,

@@ -16,7 +16,7 @@ namespace ETapManagement.Api.Controllers {
     [EnableCors ("AllowAll")]
     //[Authorize]
     [ApiController]
-    //[Authorize]
+   [Authorize]
     [Route ("api/[controller]")]
 
     public class UserController : ControllerBase {

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ETapManagement.Api.Controllers {
     [ApiController]
+      [Authorize]
     [Route ("api/[controller]")]
     public class ScrapStructureController : ControllerBase {
         IScrapStructureService _scrapStructureService;

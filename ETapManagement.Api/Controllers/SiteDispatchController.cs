@@ -14,6 +14,7 @@ using ETapManagement.Domain.Models;
 namespace ETapManagement.Api.Controllers
 {
     [ApiController]
+      [Authorize]
     [Route("api/[controller]")]
     public class SiteDispatchController : ControllerBase
     {

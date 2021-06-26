@@ -2,12 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
-namespace ETapManagement.Domain.Models
 
+namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-      
+
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -70,7 +70,8 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-             modelBuilder.Query<SiteRequirementDetail> ();
+
+    modelBuilder.Query<SiteRequirementDetail> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -1139,7 +1140,9 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructureAttributesVal).HasColumnName("structure_attributes_val");
+                entity.Property(e => e.StructureAttributesVal)
+                    .HasColumnName("structure_attributes_val")
+                    .HasMaxLength(1);
 
                 entity.Property(e => e.StructureId).HasColumnName("structure_id");
 
@@ -1443,7 +1446,10 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
-                entity.Property(e => e.Qrcode).HasColumnName("qrcode");
+                entity.Property(e => e.Qrcode)
+                    .HasColumnName("qrcode")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Remarks)
                     .HasColumnName("remarks")
@@ -1592,7 +1598,9 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.StructId).HasColumnName("struct_id");
 
-                entity.Property(e => e.StructureAttributesVal).HasColumnName("structure_attributes_val");
+                entity.Property(e => e.StructureAttributesVal)
+                    .HasColumnName("structure_attributes_val")
+                    .HasMaxLength(1);
 
                 entity.HasOne(d => d.SiteReq)
                     .WithMany(p => p.SiteReqStructure)
@@ -1957,7 +1965,9 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructureAttributesDef).HasColumnName("structure_attributes_def");
+                entity.Property(e => e.StructureAttributesDef)
+                    .HasColumnName("structure_attributes_def")
+                    .HasMaxLength(1);
 
                 entity.Property(e => e.StructureTypeId).HasColumnName("structure_type_id");
 
