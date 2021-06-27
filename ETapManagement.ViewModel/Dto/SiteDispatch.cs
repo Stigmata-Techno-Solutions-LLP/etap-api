@@ -398,6 +398,9 @@ namespace ETapManagement.ViewModel.Dto
         public string StructureAttributesValue { get; set; }
         public int? DispStructureId { get; set; }
         public int ComponentCount { get; set; }
+
+         public DateTime CreatDate { get; set; }
+         public DateTime UpdatedDate { get; set; }
     }
 
     public class SubContractorComponentDetail

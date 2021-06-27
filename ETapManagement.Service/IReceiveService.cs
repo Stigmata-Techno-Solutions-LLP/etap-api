@@ -13,5 +13,7 @@ namespace ETapManagement.Service
 
         public List<ReceiveDetail> GetDispDetailsForDeliver(int projectId);
         public ResponseMessage UpdateDeliveryScanComponentDetails(ReceiveComponentPayload receiveComponentPayload);
+
+        public ResponseMessage UpdateFabricationStatus(FabricationVm input);
     }
 }
