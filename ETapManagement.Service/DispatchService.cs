@@ -87,14 +87,10 @@ namespace ETapManagement.Service
                            }
 
                        }
-
-
                        _context.DispReqStructure.Update(structid);
                        _context.SaveChanges();
 
                    });
-
-
 
                 structure.ForEach(item =>
                     {
@@ -253,8 +249,6 @@ namespace ETapManagement.Service
 
                   });
 
-
-
                 return responseMessage;
 
 
@@ -306,11 +300,7 @@ namespace ETapManagement.Service
                              _context.ComponentHistory.Add(AddItem);
                              _context.SaveChanges();
 
-
-
-
                              DispModStageComponent compModStageDetails = _context.DispModStageComponent.SingleOrDefault(x => x.DispstructCompId == item.DispstructCompId);
-
 
                              compDetails.Weight = compModStageDetails.Weight;
                              compDetails.Leng = compModStageDetails.Leng;
@@ -332,40 +322,45 @@ namespace ETapManagement.Service
                     if (Component.IsVendor)
                         if (structid != null)
                         {
-                            structid.DispStructStatus = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
-                        }
-
-                    _context.DispReqStructure.Update(structid);
-
-                    _context.SaveChanges();
+                            
                     {
 
                         responseMessage = _dispatchReqSubConRepository.OSAssignVendor(Component.OSDispatchReqSubCont);
 
                     }
+                            structid.DispStructStatus = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString();
+                             _context.DispReqStructure.Update(structid);
+
+                    _context.SaveChanges();
+                        }
+
+                   
                     if (Component.IsSite)
                     {
                         DispReqStructure dispstructid =
-                          _context.DispReqStructure.FirstOrDefault(w => w.ProjStructId == Component.ProjectStructureId
+                          _context.DispReqStructure.SingleOrDefault(w => w.ProjStructId == Component.ProjectStructureId
                           && w.Id == Component.DispStructureId);
 
                         if (dispstructid != null)
                         {
                             dispstructid.DispStructStatus = Util.GetDescription(commonEnum.SiteDispatchSatus.READYTODELIVER).ToString();
-                        }
-
-                        _context.DispReqStructure.Update(dispstructid);
+                              _context.DispReqStructure.Update(dispstructid);
 
                         _context.SaveChanges();
+                        }
+
+                      
 
                     }
 
                     DisreqStatusHistory disReqHis = new DisreqStatusHistory();
                     DispatchRequirement disreq = _context.DispatchRequirement
-                   .Single(w => w.Id == Component.DispatchRequirementId);
+                   .SingleOrDefault(w => w.Id == Component.DispatchRequirementId);
                     var totalCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId).Count();
-                    var appCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId && x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString() || x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.READYTODELIVER).ToString()).Count();
-
+                    var appCount = _context.DispReqStructure.Where(x => x.DispreqId == Component.DispatchRequirementId && (x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCMODIFYAPRD).ToString() || x.DispStructStatus == Util.GetDescription(commonEnum.SiteDispatchSatus.READYTODELIVER).ToString())).Count();
+                    // if(disreq!=null){
+                    //      throw new ValueNotFoundException ("DispatchRequirementId Not Available"); 
+                    // }
                     if (totalCount != appCount)
                     {
                         disreq.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCPARIALLYMODIFYAPRD).ToString();
