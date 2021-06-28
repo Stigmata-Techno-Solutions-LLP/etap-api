@@ -99,6 +99,8 @@ namespace ETapManagement.Common {
             READYTODELIVERPARTIALLY = 19, [Description ("FABRICATION COMPLETED")]
             FABRICATIONCOMPLETED = 20,
             SCANNED = 21,
+            [Description ("DISPATCH COMPLETED")]
+            DISPATCHCOMPLETED = 20,
 
         }
         public enum ComponentStatus {

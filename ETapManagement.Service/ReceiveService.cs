@@ -52,16 +52,19 @@ namespace ETapManagement.Service
             return lstReceiveDetails;
         }
 
-        public ResponseMessage UpdateFabricationStatus(FabricationVm input)
+        public ResponseMessage UpdateFinalDispatchStatus(FabricationVm input)
         {
-            try
+
+
+             try
             {
                 ResponseMessage responseMessage = new ResponseMessage();
-                ProjectStructure ProjectStruct =_context.ProjectStructure.Single(w => w.Id == input.projectstructreId);
+                ProjectStructure ProjectStruct =
+                           _context.ProjectStructure.Single(w => w.Id == input.projectstructreId);
                 if (ProjectStruct != null)
                 {
-                    ProjectStruct.StructureStatus = commonEnum.StructureStatus.NOTAVAILABLE.ToString();
-                     ProjectStruct.StructureStatus = commonEnum.StructureStatus.NOTAVAILABLE.ToString();
+                    ProjectStruct.StructureStatus =Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                    ProjectStruct.CurrentStatus = Util.GetDescription(commonEnum.StructureInternalStatus.INUSE).ToString();
                 }
                   _context.ProjectStructure.Update(ProjectStruct);
 
@@ -70,7 +73,7 @@ namespace ETapManagement.Service
                            _context.DispReqStructure.Single(w => w.Id == input.DisptachRequiremntstructureId);
                 if (dispReqStr != null)
                 {
-                    dispReqStr.DispStructStatus = commonEnum.StructureStatus.SCANNED.ToString();
+                    dispReqStr.DispStructStatus =Util.GetDescription(commonEnum.SiteDispStructureStatus.SCANNED).ToString();
                     dispReqStr.Location =input.Location;
 
                      
@@ -81,21 +84,22 @@ namespace ETapManagement.Service
                            _context.DispatchRequirement.Single(w => w.Id == input.DispatchRequiremntId);
                 if (disprequirement != null)
                 {
-                    disprequirement.Status = commonEnum.StructureStatus.PARTIALLYSCANNED.ToString();
-                     disprequirement.StatusInternal = commonEnum.StructureStatus.SCANNED.ToString();
+                    disprequirement.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALLYSCANNED).ToString();
+                     disprequirement.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALLYSCANNED).ToString();
                      
                 }
                   _context.DispatchRequirement.Update(disprequirement);
 
                 _context.SaveChanges();
 
-                responseMessage.Message = "Status   Updated sucessfully";
+                responseMessage.Message = "Status Updated sucessfully";
                 return responseMessage;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+
         }
     }
 }
