@@ -266,7 +266,7 @@ namespace ETapManagement.Service
                 {
                     ResponseMessage responseMessage = new ResponseMessage();
                     List<ComponentDetailsInput> result = new List<ComponentDetailsInput>();
-                    int id = Component.DispstructCompId ?? 0;
+                    int id = Component.DispStructureId ;
                     string strQuery = string.Format("select dsc.id DispstructCompId, dsc.disp_structure_id DispStructureId,c.id DispCompId  from disp_structure_comp dsc inner join  component c  on  dsc.disp_comp_id  = c.id inner join disp_mod_stage_component dmsc on dmsc.dispstruct_comp_id =dsc.id inner join component_type ct on c.comp_type_id =ct.id where dsc.disp_structure_id ={0}", id);
                     result = _context.Query<ComponentDetailsInput>().FromSqlRaw(strQuery).ToList();
 
