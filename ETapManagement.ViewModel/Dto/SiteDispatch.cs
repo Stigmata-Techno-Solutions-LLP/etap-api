@@ -390,7 +390,8 @@ namespace ETapManagement.ViewModel.Dto
 
     public class SubContractorDetail
     {
-        public int DispSubContractorId { get; set; }
+        public int? DispSubContractorId { get; set; }
+        public int? DispSubContractorStructureId{get;set;}
         public string DCNumber { get; set; }
         public string StructureCode { get; set; }
         public string StructureName { get; set; }
@@ -398,9 +399,10 @@ namespace ETapManagement.ViewModel.Dto
         public string StructureAttributesValue { get; set; }
         public int? DispStructureId { get; set; }
         public int ComponentCount { get; set; }
+        public int? ProjectStructureId{get;set;}
 
-         public DateTime CreatDate { get; set; }
-         public DateTime UpdatedDate { get; set; }
+         public DateTime? CreatDate { get; set; }
+         public DateTime? UpdatedDate { get; set; }
     }
 
     public class SubContractorComponentDetail

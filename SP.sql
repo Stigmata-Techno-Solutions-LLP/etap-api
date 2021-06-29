@@ -668,7 +668,8 @@ END
 
 
 
-CREATE    OR ALTER PROCEDURE SP_GetReceiveDetails(@ProjectId int)
+
+CREATE OR ALTER PROCEDURE SP_GetReceiveDetails(@ProjectId int)
 AS
 BEGIN
 SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber, 
@@ -679,7 +680,10 @@ SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber,
 	   ps.components_count AS ComponentsCount, drs.id AS DispatchStructureId,
 	   dr.servicetype_id as ServiceTypeId, (select top 1 name from service_type st where id =dr.servicetype_id ) as ServcieTypeName,
 	   drs.is_modification as isModification,
-	   (SELECT COUNT(1) FROM disp_structure_comp dsc WHERE disp_structure_id = drs.id) AS CountEarned
+	   (SELECT COUNT(1) FROM disp_structure_comp dsc WHERE disp_structure_id = drs.id) AS CountEarned,
+	  ( select top 1 subcon_id from dispatchreq_subcont ds where dispreq_id =dr.id) as DispatchVendorId,
+	  (select top 1 mr_no from site_requirement sr where id = dr.sitereq_id) as MrNo
+	  
 	   FROM dispatch_requirement dr 
 			  INNER JOIN disp_req_structure drs ON drs.dispreq_id = dr.id
 			  INNER JOIN project_structure ps  ON ps.id = drs.proj_struct_id
@@ -687,6 +691,7 @@ SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber,
 			  INNER JOIN structures s ON s.id = ps.structure_id
 	  WHERE dr.to_projectid = @ProjectId
 END	
+
 
 
 

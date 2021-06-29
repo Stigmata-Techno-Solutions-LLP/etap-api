@@ -16,7 +16,7 @@ namespace ETapManagement.Repository
 		private readonly ETapManagementContext _context;
 		private readonly IMapper _mapper;
 		private readonly ICommonRepository _commonRepo;
-		LoginUser lUser = WebHelpers.GetLoggedUser();
+		// LoginUser lUser = WebHelpers.GetLoggedUser();
 
 		public BURepository(ETapManagementContext context, IMapper mapper, ICommonRepository commonRepo)
 		{
@@ -31,7 +31,7 @@ namespace ETapManagement.Repository
 			{
 				ResponseMessage responseMessage = new ResponseMessage();
 
-                LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
+              //  LoginUser lgnUSer =   WebHelpers.GetLoggedUser();
 				using (var transaction = _context.Database.BeginTransaction())
 				{
 					try
@@ -46,8 +46,10 @@ namespace ETapManagement.Repository
 							bizzUnit.IcId = businessunit.IcId;
 							bizzUnit.SbgId = businessunit.SbgId;
 							bizzUnit.Name = item.Name;
+							bizzUnit.IsActive=true;
+							bizzUnit.IsDelete=false;
 							bizzUnit.CreatedAt = DateTime.Now;
-							bizzUnit.CreatedBy = lgnUSer.Id;
+							bizzUnit.CreatedBy = 1;//TODO lgnUSer.Id;
 							_context.BusinessUnit.Add(bizzUnit);
 						}
 						_context.SaveChanges();
@@ -177,7 +179,7 @@ namespace ETapManagement.Repository
 						bu.IcId = businessunit.IcId;
 						bu.SbgId = businessunit.SbgId;
 						bu.UpdatedAt = DateTime.Now;
-						bu.UpdatedBy = lUser.Id; //TODO
+						bu.UpdatedBy = 1;//lUser.Id; //TODO
 						bu.IsActive = businessunit.IsActive;
 
 						_context.SaveChanges();
@@ -187,7 +189,7 @@ namespace ETapManagement.Repository
 							Action = "Business Unit",
 							Message = string.Format("Business Unit Updated Successfully {0}", businessunit.Name),
 							CreatedAt = DateTime.Now,
-							CreatedBy = lUser.Id //TODO
+							CreatedBy = 1//lUser.Id //TODO
 						};
 						_commonRepo.AuditLog(audit);
 						return responseMessage = new ResponseMessage()
