@@ -614,14 +614,16 @@ END
 
 
 
-CREATE    OR ALTER PROCEDURE SP_GetSubContractorDetails(@VendorId int)
+
+CREATE OR ALTER PROCEDURE SP_GetSubContractorDetails(@VendorId int)
 AS
 BEGIN
 SELECT DRS.id AS DispSubContractorId, DSS.id AS DispSubContractorStructureId, DRS.dispatch_no AS DCNumber, PS.struct_code AS StructureCode, S.name AS StructureName, 
 		DRS.quantity AS Quantity, PS.structure_attributes_val AS StructureAttributesValue, 
 		PS.components_count AS ComponentCount,
 		DSS.disp_structure_id AS DispStructureId,
-		PS.id AS ProjectStructureId 
+		PS.id AS ProjectStructureId ,
+		drs.created_at CreatDate, drs.updated_at as UpdatedDate
 		into #resultset1 
 			  FROM dispatchreq_subcont DRS INNER JOIN 
 			  disp_subcont_structure DSS ON DSS.dispreqsubcont_id = DRS.id INNER JOIN
@@ -636,7 +638,8 @@ SELECT DRS.id AS DispSubContractorId, DSS.id AS DispSubContractorStructureId, DR
 		DRS.quantity AS Quantity, PS.structure_attributes_val AS StructureAttributesValue, 
 		PS.components_count AS ComponentCount,
 		DSS.disp_structure_id AS DispStructureId,
-		PS.id AS ProjectStructureId 
+		PS.id AS ProjectStructureId,
+		drs.created_at CreatDate, drs.updated_at as UpdatedDate
 		into #resultset2
 			  FROM dispatchreq_subcont DRS INNER JOIN 
 			  disp_subcont_structure DSS ON DSS.dispreqsubcont_id = DRS.id INNER JOIN
@@ -668,7 +671,6 @@ END
 
 
 
-
 CREATE OR ALTER PROCEDURE SP_GetReceiveDetails(@ProjectId int)
 AS
 BEGIN
@@ -692,9 +694,6 @@ SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber,
 	  WHERE dr.to_projectid = @ProjectId
 END	
 
-
-
-
   
   CREATE   OR ALTER PROCEDURE SP_GetReceiveComponentDetails(@DispatchStrutureId int)
 AS
@@ -709,17 +708,28 @@ END
 
 
 
-CREATE         OR ALTER PROCEDURE SP_GetDispatchDetailsForDelivery(@ProjectId int)
+
+
+CREATE  OR ALTER PROCEDURE SP_GetDispatchDetailsForDelivery(@ProjectId int)
 AS
 BEGIN
 SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber, 
 	   p.name AS ProjectName, p.id AS ProjectId, s.name AS StructureName,
 	   ps.Id as ProjectStructId,
-	    dr.status_internal as DispReqInternalStatus, dr.status as DispReqStatus ,drs.disp_struct_status as DispStructStatus, 
-	   ps.struct_code AS ProjectStructureCode, ps.structure_attributes_val AS StructureAttributesValue, 
-	   ps.components_count AS ComponentsCount, drs.id AS DispatchStructureId,
+	    dr.status_internal as DispReqInternalStatus, 
+	    dr.status as DispReqStatus ,
+	    drs.disp_struct_status as DispStructStatus, 
+	   ps.struct_code AS ProjectStructureCode, 
+	   ps.structure_attributes_val AS StructureAttributesValue, 
+	   ps.components_count AS ComponentsCount, 
+	   drs.id AS DispatchStructureId,
 	   drs.is_modification as isModification,
-	   (SELECT COUNT(1) FROM disp_structure_comp dsc WHERE disp_structure_id = drs.id and dsc.from_scandate  is not null) AS CountEarned
+	   dr.servicetype_id AS ServiceTypeId,
+	   (SELECT name FROM service_type st WHERE dr.servicetype_id = st.id) AS ServcieTypeName,
+	   (SELECT COUNT(1) FROM disp_structure_comp dsc WHERE disp_structure_id = drs.id and dsc.from_scandate  is not null) AS CountEarned,
+	    ( select top 1 subcon_id from dispatchreq_subcont ds where dispreq_id =dr.id) as DispatchVendorId,
+	  (select top 1 mr_no from site_requirement sr where id = dr.sitereq_id) as MrNo
+	 
 	   FROM dispatch_requirement dr 
 			  INNER JOIN disp_req_structure drs ON drs.dispreq_id = dr.id
 			  INNER JOIN project_structure ps  ON ps.id = drs.proj_struct_id
@@ -728,8 +738,7 @@ SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber,
 	  WHERE drs.from_project_id = @ProjectId  
 	  and ps.components_count > (SELECT COUNT(*) FROM disp_structure_comp dsc WHERE disp_structure_id = drs.id and dsc.from_scandate  is not null)
 		   and drs.disp_struct_status in ('READY TO DELIVER','TWCC MODIFIED APPROVED')
-
-END	
+END
 
 
 
