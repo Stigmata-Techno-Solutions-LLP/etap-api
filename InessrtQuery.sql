@@ -101,13 +101,6 @@ INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,ch
 ,('VENDOR','DISPATCH',5,'DISPATCHED','TOSITE APPROVED','PROC APPROVED,TOSITE APPROVED,VENDOR APPROVED,FAA APPROVED,FROMSITE APPROVED','1,2')
 ,('SITE','DISPATCH',5,'DISPATCHED','TOSITE APPROVED','TOSITE APPROVED','4')
 ;
-INSERT INTO role_hierarchy (role_name,scenario_type,role_hierarchy,new_status,chk_status,view_details_status,service_type) VALUES 
-('SITE','SCRAP',1,'NEW','REJECTED','REJECTED,NEW,EHS APPROVED,QA APPROVED,SCRAPPED',NULL)
-,('EHS','SCRAP',2,'EHS APPROVED','NEW','NEW,EHS APPROVED,QA APPROVED,SCRAPPED',NULL)
-,('QA','SCRAP',3,'QAA PPROVED','EHS APPROVED','EHS APPROVED,QA APPROVED,SCRAPPED',NULL)
-,('TWCC','SCRAP',4,'SCRAPPED','QA APPROVED','QA APPROVED,SCRAPPED',NULL)
-,('PROCUREMENT','SCRAP',5,'SCRAPPED','SCRAPPED','SCRAPPED',NULL)
-;
 
  --insert into dispatch_requirement values('DC000001',9,1,1,null,null,'NEW','NEW',1,1,getdate(),null,null,0)
  --insert into dispatch_requirement values('DC000003',9,1,2,null,null,'NEW','NEW',1,1,getdate(),null,null,0)

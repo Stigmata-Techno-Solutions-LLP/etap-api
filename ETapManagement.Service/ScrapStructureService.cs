@@ -27,11 +27,6 @@ namespace ETapManagement.Service {
             return responseMessage;
         }
 
-        public ResponseMessage WorkflowScrapStructure (WorkFlowScrapPayload reqPayload) {
-            ResponseMessage responseMessage = new ResponseMessage ();
-            responseMessage = _scrapStructureRepository.WorkflowScrapStructure (reqPayload);
-            return responseMessage;
-        }
 
         public List<ScrapStructureDetail> GetScrapStructureDetails()
         {
