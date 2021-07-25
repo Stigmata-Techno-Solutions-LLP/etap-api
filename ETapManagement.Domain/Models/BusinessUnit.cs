@@ -15,7 +15,7 @@ namespace ETapManagement.Domain.Models
         public int IcId { get; set; }
         public string Name { get; set; }
         public bool IsDelete { get; set; }
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int? UpdatedBy { get; set; }

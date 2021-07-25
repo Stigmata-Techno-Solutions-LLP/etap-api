@@ -58,45 +58,30 @@ namespace ETapManagement.Common {
         }
         public enum SiteDispatchSatus {
 
-           [Description("NEW")] 
-            NEW = 1,
-            [Description("PARIALLY DELIVERED")]
-            PARTIALDELIVERED=2,
-            [Description("DELIVERED")]
-           DELIVERED=3,
-           [Description("PARTIALLY SCANNED")]
-           PARTIALLYSCANNED=4,
-           [Description("CMPC APPROVED")]
-            CMPCAPPROVED=5,
-            [Description("FAA APPROVED")]
-           FAAAPPROVED=6,
-           [Description("FROM SITE APPROVED")]
-           FROMSITEAPPROVED=7,
-           [Description("TO SITE APPROVED")]
-           TOSITEAPPROVED=8,
-           [Description("REJECTED")]
-           REJECT=9,
-           [Description("PROCUREMENT APPROVED")]
-           PROCAPPROVED=10,
-           [Description("PARTIALLY DISPATCHED")]
-           PARTIALLYDISPATCHED=11,
-           [Description("DISPATCHED")]
-           DISPATCHED =12,
-           [Description("READY TO DELIVER")]
-           READYTODELIVER=13,
-          
-           [Description("CMPC PARTIALLY APPROVED")]
-           CMPCPARTIALLYAPPROVED=14,
-           [Description("CMPC MODIFIED")]
-           CMPCMODIFIED=15,
-           [Description("CMPC PARTIALLY MODIFIED")]
-           CMPCPARTIALLYMODIFIED=16,
-            [Description("TWCC PARTIALLY MODIFIED APPROVED")]
-           TWCCPARIALLYMODIFYAPRD=17,
-           [Description("TWCC MODIFIED APPROVED")]
-           TWCCMODIFYAPRD=18,
-            [Description("READY TO DELIVER PARTIALLY")]
-           READYTODELIVERPARTIALLY=19,
+            [Description ("NEW")]
+            NEW = 1, [Description ("PARIALLY DELIVERED")]
+            PARTIALDELIVERED = 2, [Description ("DELIVERED")]
+            DELIVERED = 3, [Description ("PARTIALLY SCANNED")]
+            PARTIALLYSCANNED = 4, [Description ("CMPC APPROVED")]
+            CMPCAPPROVED = 5, [Description ("FAA APPROVED")]
+            FAAAPPROVED = 6, [Description ("FROM SITE APPROVED")]
+            FROMSITEAPPROVED = 7, [Description ("TO SITE APPROVED")]
+            TOSITEAPPROVED = 8, [Description ("REJECTED")]
+            REJECT = 9, [Description ("PROCUREMENT APPROVED")]
+            PROCAPPROVED = 10, [Description ("PARTIALLY DISPATCHED")]
+            PARTIALLYDISPATCHED = 11, [Description ("DISPATCHED")]
+            DISPATCHED = 12, [Description ("READY TO DELIVER")]
+            READYTODELIVER = 13,
+
+            [Description ("CMPC PARTIALLY APPROVED")]
+            CMPCPARTIALLYAPPROVED = 14, [Description ("CMPC MODIFIED")]
+            CMPCMODIFIED = 15, [Description ("CMPC PARTIALLY MODIFIED")]
+            CMPCPARTIALLYMODIFIED = 16, [Description ("TWCC PARTIALLY MODIFIED APPROVED")]
+            TWCCPARIALLYMODIFYAPRD = 17, [Description ("TWCC MODIFIED APPROVED")]
+            TWCCMODIFYAPRD = 18, [Description ("READY TO DELIVER PARTIALLY")]
+
+            TWCCAPPROVED = 20, [Description ("TWCC APPROVED")]
+            READYTODELIVERPARTIALLY = 19,
         }
 
           public enum SiteDispStructureStatus {
