@@ -1,16 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using ETapManagement.ViewModel.Dto;
 
 namespace ETapManagement.Domain.Models
 {
-    public partial class ETapManagementSITContext : DbContext
+    public partial class ETapManagementContext : DbContext
     {
-        public ETapManagementSITContext()
-        {
-        }
-
-        public ETapManagementSITContext(DbContextOptions<ETapManagementSITContext> options)
+   
+        public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
         }
@@ -72,6 +70,31 @@ namespace ETapManagement.Domain.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+             modelBuilder.Query<SiteRequirementDetail> ();
+            modelBuilder.Query<SiteDispatchDetail>();
+            modelBuilder.Query<StructureListCode>();
+            modelBuilder.Query<SurplusDetails> ();
+            modelBuilder.Query<AssignStructureDtlsOnly> ();
+            modelBuilder.Query<AvailableStructureForReuse> ();
+            modelBuilder.Query<TWCCDispatch>();
+            modelBuilder.Query<TWCCDispatchInnerStructure>();
+            modelBuilder.Query<SiteRequirementDetailsForDispatch>();
+            modelBuilder.Query<DispRequestDto> ();
+            modelBuilder.Query<DispStructureCMPC> ();
+            modelBuilder.Query<ComponentDetailsDto> ();            
+            modelBuilder.Query<SubContractorDetail>();
+            modelBuilder.Query<SubContractorComponentDetail>();
+            modelBuilder.Query<ReceiveDetail>();
+            modelBuilder.Query<ReceiveComponentDetail>();
+            modelBuilder.Query<PhysicalVerificationDetail> ();
+            modelBuilder.Query<InspectionPhysicalVerificationDetail> ();
+            modelBuilder.Query<ComponentDetailsInput> ();
+             
+            modelBuilder.Query<ScrapStructureWorkFlowDetail> ();
+            modelBuilder.Query<ViewStructureChart>();
+            modelBuilder.Query<Code>();
+             modelBuilder.Query<AsBuildStructure>();
+             modelBuilder.Query<CostComponentDetailsDto>();
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
