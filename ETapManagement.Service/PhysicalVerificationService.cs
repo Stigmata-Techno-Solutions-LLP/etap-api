@@ -244,6 +244,37 @@ namespace ETapManagement.Service
             }
         }
 
+        public ResponseMessage UpdatephysicalTWCCApprove(int input,string option)
+        {
+               try
+            {
+                ResponseMessage responseMessage = new ResponseMessage();
+                SiteStructurePhysicalverf structid =
+                           _context.SiteStructurePhysicalverf.Single(w => w.Id == input);
+                if (structid != null)
+                {
+                    if(option == "TWCCAPPROVED"){
+ structid.StatusInternal =  Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCAPPROVED).ToString();
+                     structid.Status =  Util.GetDescription(commonEnum.SiteDispatchSatus.TWCCAPPROVED).ToString();
+                    }
+                    else if(option == "REJECT"){
+                        structid.StatusInternal =  Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString();
+                     structid.Status =  Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString();
+                    }
+                   
+                }
+                  _context.SiteStructurePhysicalverf.Update(structid);
+                _context.SaveChanges();
+
+                responseMessage.Message = "TWCC Updated sucessfully";
+                return responseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
     }
 }

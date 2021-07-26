@@ -7,7 +7,7 @@ namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
     {
-
+   
         public ETapManagementContext(DbContextOptions<ETapManagementContext> options)
             : base(options)
         {
@@ -2166,7 +2166,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Elements)
                     .HasColumnName("elements")
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.IsDelete)
@@ -2175,7 +2175,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
-                    .HasMaxLength(50)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ProjectId).HasColumnName("project_id");
@@ -2199,7 +2199,7 @@ namespace ETapManagement.Domain.Models
                 entity.Property(e => e.WbsId)
                     .IsRequired()
                     .HasColumnName("wbs_id")
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Project)

@@ -59,8 +59,8 @@ namespace ETapManagement.ViewModel.Dto
     {
         public commonEnum.Rolename role_name { get; set; }
         public int? role_hierarchy { get; set; }
-        public int? ProjectId{get;set;}
-        public int? VendorId{get;set;}
+        public int? ProjectId { get; set; }
+        public int? VendorId { get; set; }
     }
 
     public class DispatchVendorAddPayload
@@ -225,9 +225,9 @@ namespace ETapManagement.ViewModel.Dto
         public string StructureCode { get; set; }
         public string ProjectName { get; set; }
 
-        public string StructrueName{get;set;}
+        public string StructrueName { get; set; }
 
-        public int? Servicetypeid {get;set;}
+        public int? Servicetypeid { get; set; }
 
     }
     public class DispReqStructureDto
@@ -263,10 +263,10 @@ namespace ETapManagement.ViewModel.Dto
         public string StatusInternal { get; set; }
         public int DispStructureId { get; set; }
 
-        public string structureFamily {get; set;}
+        public string structureFamily { get; set; }
 
-        public int? RequiredComponenentCount{get; set;}
-         public int? CurrentComponentsCount{get; set;}
+        public int? RequiredComponenentCount { get; set; }
+        public int? CurrentComponentsCount { get; set; }
 
 
 
@@ -299,19 +299,20 @@ namespace ETapManagement.ViewModel.Dto
         public decimal? ModStageHeight { get; set; }
         public decimal? ModStagebreath { get; set; }
         public int? ModStageCompId { get; set; }
+        public string ModStageQrCode { get; set; }
 
-
+        public string QrCode { get; set; }
         public bool? IsTag { get; set; }
     }
 
-     public class ComponentDetailsInput
+    public class ComponentDetailsInput
     {
-       // public int Id { get; set; }
+        // public int Id { get; set; }
         public int DispStructureId { get; set; }
 
         public int DispstructCompId { get; set; }
-          public int DispCompId {get;set;}
- 
+        public int DispCompId { get; set; }
+
     }
     public partial class DispModStageComponentDto
     {
@@ -339,7 +340,7 @@ namespace ETapManagement.ViewModel.Dto
     }
     public partial class DispComponentDto
     {
-       // public int Id { get; set; }
+        // public int Id { get; set; }
         public int? DispstructCompId { get; set; }
 
         public int DispatchRequirementId { get; set; }
@@ -349,7 +350,7 @@ namespace ETapManagement.ViewModel.Dto
 
         public bool IsSite { get; set; }
         public bool IsVendor { get; set; }
-      
+
         public OSDispatchReqSubCont OSDispatchReqSubCont { get; set; }
 
 
@@ -391,7 +392,7 @@ namespace ETapManagement.ViewModel.Dto
     public class SubContractorDetail
     {
         public int? DispSubContractorId { get; set; }
-        public int? DispSubContractorStructureId{get;set;}
+        public int? DispSubContractorStructureId { get; set; }
         public string DCNumber { get; set; }
         public string StructureCode { get; set; }
         public string StructureName { get; set; }
@@ -399,10 +400,10 @@ namespace ETapManagement.ViewModel.Dto
         public string StructureAttributesValue { get; set; }
         public int? DispStructureId { get; set; }
         public int ComponentCount { get; set; }
-        public int? ProjectStructureId{get;set;}
+        public int? ProjectStructureId { get; set; }
 
-         public DateTime? CreatDate { get; set; }
-         public DateTime? UpdatedDate { get; set; }
+        public DateTime? CreatDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
     }
 
     public class SubContractorComponentDetail
@@ -412,7 +413,7 @@ namespace ETapManagement.ViewModel.Dto
         public string ComponentType { get; set; }
         public string ComponentId { get; set; }
         public string DrawingNumber { get; set; }
-        public DateTime? DispatchDate {get;set;}
+        public DateTime? DispatchDate { get; set; }
     }
 
     public class SubContractorComponentPayload

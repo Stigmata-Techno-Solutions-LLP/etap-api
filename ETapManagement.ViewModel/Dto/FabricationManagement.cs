@@ -26,6 +26,8 @@ namespace ETapManagement.ViewModel.Dto
         public string ProjectName { get; set; }
 
         public string StructrueName { get; set; }
+        public string VendorName{get;set;}
+         
 
 
     }
