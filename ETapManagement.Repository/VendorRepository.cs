@@ -76,7 +76,7 @@ namespace ETapManagement.Repository {
         public List<Code> GetVendorCodeList () {
             try {
                 List<Code> result = new List<Code> ();
-                var vendors = _context.SubContractor.Where (x => x.IsDelete == false).ToList ();
+                var vendors = _context.SubContractor.Where (x => x.IsDelete == false && x.IsStatus==true).ToList ();
                 foreach (var item in vendors) {
                     result.Add (new Code () {
                         Id = item.Id,
@@ -92,7 +92,7 @@ namespace ETapManagement.Repository {
         public List<Code> GetVendorCodeListWithServiceType () {
             try {
                 List<Code> result = new List<Code> ();
-                var vendors = _context.Query<Code> ().FromSqlRaw ("select sc.id , sc.name, scst.servicetype_id as ServiceTypeId from sub_contractor sc inner join subContractor_serviceType scst ON sc.id = scst .subcont_id").ToList ();
+                var vendors = _context.Query<Code> ().FromSqlRaw ("select sc.id , sc.name, scst.servicetype_id as ServiceTypeId from sub_contractor sc inner join subContractor_serviceType scst ON sc.id = scst .subcont_id where sc.is_status =1").ToList ();
                 foreach (var item in vendors) {
                     result.Add (new Code () {
                         Id = item.Id,
@@ -137,7 +137,7 @@ namespace ETapManagement.Repository {
         public VendorDetail GetVendorDetailsById (int id) {
             try {
                 VendorDetail result = new VendorDetail ();
-                var vendor = _context.SubContractor.Where (x => x.Id == id && x.IsDelete == false)
+                var vendor = _context.SubContractor.Where (x => x.Id == id && x.IsDelete == false && x.IsStatus==true)
                     .Include (s => s.SubContractorServiceType).FirstOrDefault ();
                 result = _mapper.Map<VendorDetail> (vendor);
                 return result;

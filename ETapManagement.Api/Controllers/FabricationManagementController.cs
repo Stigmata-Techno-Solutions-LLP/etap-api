@@ -108,7 +108,7 @@ namespace ETapManagement.Api.Controllers {
         }
 
               [HttpPut("AddComponentCost")]      
-      public IActionResult AddComponentCost(List<ADDComponentCost> input)
+      public IActionResult AddComponentCost(ADDComponentCost input  )
         {
             try
             {

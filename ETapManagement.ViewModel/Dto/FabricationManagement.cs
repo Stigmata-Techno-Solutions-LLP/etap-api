@@ -90,7 +90,7 @@ namespace ETapManagement.ViewModel.Dto
 
     public class ADDComponentCost
     {
-        public int DispStructureCompId { get; set; }
+        public int DispStructureId { get; set; }
         public decimal Cost { get; set; }
 
     }

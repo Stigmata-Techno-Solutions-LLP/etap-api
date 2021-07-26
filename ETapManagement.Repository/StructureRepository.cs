@@ -23,7 +23,7 @@ namespace ETapManagement.Repository {
 
         public List<StructureDetails> GetStructure () {
             List<StructureDetails> response = new List<StructureDetails> ();
-            var responsedb = _context.Structures.Where (x => x.IsDelete == false).OrderByDescending(c=>c.CreatedAt).ToList ();
+            var responsedb = _context.Structures.Where (x => x.IsDelete == false && x.IsActive==false).OrderByDescending(c=>c.CreatedAt).ToList ();
             response = _mapper.Map<List<StructureDetails>> (responsedb);
             return response;
         }
@@ -31,7 +31,7 @@ namespace ETapManagement.Repository {
         public List<Code> GetStructureCodeList () {
             try {
                 List<Code> result = new List<Code> ();
-                var projects = _context.Structures.Where (x => x.IsDelete == false).ToList ();
+                var projects = _context.Structures.Where (x => x.IsDelete == false && x.IsActive==false).ToList ();
                 foreach (var item in projects) {
                     result.Add (new Code () {
                         Id = item.Id,

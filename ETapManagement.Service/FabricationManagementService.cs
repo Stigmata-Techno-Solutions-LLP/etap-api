@@ -194,38 +194,36 @@ namespace ETapManagement.Service
                 throw ex;
             }
         }
-           public ResponseMessage AddComponentCost(List<ADDComponentCost> input)
+        public ResponseMessage AddComponentCost(ADDComponentCost input)
+        {
+            try
+            {
+                ResponseMessage responseMessage = new ResponseMessage();
+                //List<DispStructureComp> struct = _context.DispStructureComp.w
+                List<DispStructureComp> structureComps = _context.DispStructureComp.Where(w => w.DispStructureId == input.DispStructureId).ToList();
+                decimal count = structureComps.Sum(x =>x.DispComp.Weight)??1;
+                decimal x = input.Cost / count;
+
+                structureComps.ForEach(item =>
                 {
-                    try
-                    {
-                        ResponseMessage responseMessage = new ResponseMessage();
-        //List<DispStructureComp> struct = _context.DispStructureComp.w
-              
+                            // DispStructureComp structureComps=_context.DispStructureComp.Single(w=>w.DispStructureId==item.DispStructureCompId);
+
+                            item.FabriacationCost = item.DispComp.Weight * x;
+                    _context.DispStructureComp.Update(item);
+                    _context.SaveChanges();
+
+                });
 
 
-                          
 
-
-                        input.ForEach(item => 
-                        {
-                           DispStructureComp structureComps=_context.DispStructureComp.Single(w=>w.DispStructureId==item.DispStructureCompId);
-
-                           structureComps.FabriacationCost=item.Cost;
-                           _context.DispStructureComp.Update(structureComps);
-                           _context.SaveChanges();
-
-                        });
-
-                        
-
-                        responseMessage.Message = "Structure Cost Updated sucessfully";
-                        return responseMessage;
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                }
+                responseMessage.Message = "Structure Cost Updated sucessfully";
+                return responseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public ResponseMessage UpdatetructureAttributes(SiteReqStructureVm input)
         {
@@ -238,7 +236,7 @@ namespace ETapManagement.Service
                 {
                     structid.StructureAttributesVal = input.StructureAttributesVal;
                 }
-                  _context.SiteReqStructure.Update(structid);
+                _context.SiteReqStructure.Update(structid);
                 _context.SaveChanges();
 
                 responseMessage.Message = "Structure Cost Updated sucessfully";
@@ -250,14 +248,14 @@ namespace ETapManagement.Service
             }
         }
 
-        public List<CostComponentDetailsDto> GetStructrueFabraiationComponent (int id)
+        public List<CostComponentDetailsDto> GetStructrueFabraiationComponent(int id)
         {
             List<CostComponentDetailsDto> responseMessage = new List<CostComponentDetailsDto>();
             responseMessage = _fabricationManagementRepository.GetStructrueFabraiationComponent(id);
             return responseMessage;
         }
 
-            public ResponseMessage UpdateFabricationStatus(FabricationVm input)
+        public ResponseMessage UpdateFabricationStatus(FabricationVm input)
         {
             try
             {
@@ -266,32 +264,32 @@ namespace ETapManagement.Service
                            _context.ProjectStructure.Single(w => w.Id == input.projectstructreId);
                 if (ProjectStruct != null)
                 {
-                    ProjectStruct.StructureStatus =Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                    ProjectStruct.StructureStatus = Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
                     ProjectStruct.CurrentStatus = Util.GetDescription(commonEnum.StructureInternalStatus.INUSE).ToString();
                 }
-                  _context.ProjectStructure.Update(ProjectStruct);
+                _context.ProjectStructure.Update(ProjectStruct);
 
-  
-                   DispReqStructure dispReqStr =
-                           _context.DispReqStructure.Single(w => w.Id == input.DisptachRequiremntstructureId);
+
+                DispReqStructure dispReqStr =
+                        _context.DispReqStructure.Single(w => w.Id == input.DisptachRequiremntstructureId);
                 if (dispReqStr != null)
                 {
-                    dispReqStr.DispStructStatus =Util.GetDescription(commonEnum.SiteDispStructureStatus.SCANNED).ToString();
-                    dispReqStr.Location =input.Location;
+                    dispReqStr.DispStructStatus = Util.GetDescription(commonEnum.SiteDispStructureStatus.SCANNED).ToString();
+                    dispReqStr.Location = input.Location;
 
-                     
+
                 }
-                  _context.DispReqStructure.Update(dispReqStr);
+                _context.DispReqStructure.Update(dispReqStr);
 
-                   DispatchRequirement disprequirement =
-                           _context.DispatchRequirement.Single(w => w.Id == input.DispatchRequiremntId);
+                DispatchRequirement disprequirement =
+                        _context.DispatchRequirement.Single(w => w.Id == input.DispatchRequiremntId);
                 if (disprequirement != null)
                 {
                     disprequirement.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALLYSCANNED).ToString();
-                     disprequirement.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALLYSCANNED).ToString();
-                     
+                    disprequirement.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALLYSCANNED).ToString();
+
                 }
-                  _context.DispatchRequirement.Update(disprequirement);
+                _context.DispatchRequirement.Update(disprequirement);
 
                 _context.SaveChanges();
 
