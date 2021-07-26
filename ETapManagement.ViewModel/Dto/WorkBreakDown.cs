@@ -10,7 +10,7 @@ namespace ETapManagement.ViewModel.Dto {
         public int Id { get; set; }
 
         [Required]
-        [StringLength (20)]
+        [StringLength (200)]
         [Display (Name = "WBS Code")]
         public string WorkBreakDownCode { get; set; }
 
@@ -28,7 +28,7 @@ namespace ETapManagement.ViewModel.Dto {
         public string SubSegment { get; set; }
 
         [Required]
-        [StringLength (50)]
+        [StringLength (200)]
         [Display (Name = "Element")]
         public string Element { get; set; }
 
