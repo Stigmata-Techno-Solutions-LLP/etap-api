@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ETapManagement.Api.Controllers {
     [ApiController]
     [Route ("api/[controller]")]
-   // [Authorize]
+    [Authorize]
     public class ICController : ControllerBase {
         IICService _iCService;
 

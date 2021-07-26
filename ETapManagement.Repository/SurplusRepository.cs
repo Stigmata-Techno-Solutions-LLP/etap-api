@@ -77,7 +77,7 @@ namespace ETapManagement.Repository {
                         _context.SaveChanges ();
 
                         ProjectStructure projStructDB = _context.ProjectStructure.Where(x=>x.Id ==surplusDetails.ProjStructId).FirstOrDefault();
-                        projStructDB.CurrentStatus = commonEnum.StructureInternalStatus.SURPLUSINITIATED.ToString();
+                        projStructDB.CurrentStatus =Util.GetDescription(commonEnum.StructureInternalStatus.SURPLUSINITIATED).ToString();
                         _context.SaveChanges ();
                         transaction.Commit ();
                         return surplusDb.Id;

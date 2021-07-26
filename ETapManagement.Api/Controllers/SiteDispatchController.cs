@@ -14,6 +14,7 @@ using ETapManagement.Domain.Models;
 namespace ETapManagement.Api.Controllers
 {
     [ApiController]
+   //  [Authorize]
     [Route("api/[controller]")]
     public class SiteDispatchController : ControllerBase
     {
@@ -50,20 +51,7 @@ namespace ETapManagement.Api.Controllers
         //     }
         // }
 
-        [HttpGet("getAvailStructureForReuse")]
-        public IActionResult GetAvailStructureForReuse(int siteReqId)
-        {
-            try
-            {
-                var response = _siteDispatchService.AvailableStructureForReuse(siteReqId);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-            }
-        }
+        
 
         // [HttpGet("GetReqmntStructureforDispatch/{siteReqId}")]
         // public IActionResult GetRequirementStructureReadyforDisaptch(int siteReqId)
@@ -337,35 +325,35 @@ namespace ETapManagement.Api.Controllers
         }
 
 
-        [HttpPut("dispatchVendor")]
-        public IActionResult UpdateSiteDispatch([FromForm] DispatchVendorAddPayload request)
-        {
-            try
-            {
-                if (request.uploadDocs != null)
-                {
-                    if (request.uploadDocs.Length > 5) throw new ValueNotFoundException("Document count should not greater than 5");
-                    foreach (IFormFile file in request.uploadDocs)
-                    {
-                        if (constantVal.AllowedDocFileTypes.Where(x => x.Contains(file.ContentType)).Count() == 0) throw new ValueNotFoundException(string.Format("File Type {0} is not allowed", file.ContentType));
-                    }
-                    if (request.uploadDocs.Select(x => x.Length).Sum() > 50000000) throw new ValueNotFoundException(" File size exceeded limit");
-                }
+        // [HttpPut("dispatchVendor")]
+        // public IActionResult UpdateSiteDispatch([FromForm] DispatchVendorAddPayload request)
+        // {
+        //     try
+        //     {
+        //         if (request.uploadDocs != null)
+        //         {
+        //             if (request.uploadDocs.Length > 5) throw new ValueNotFoundException("Document count should not greater than 5");
+        //             foreach (IFormFile file in request.uploadDocs)
+        //             {
+        //                 if (constantVal.AllowedDocFileTypes.Where(x => x.Contains(file.ContentType)).Count() == 0) throw new ValueNotFoundException(string.Format("File Type {0} is not allowed", file.ContentType));
+        //             }
+        //             if (request.uploadDocs.Select(x => x.Length).Sum() > 50000000) throw new ValueNotFoundException(" File size exceeded limit");
+        //         }
 
-                var projectStructure = _siteDispatchService.UpdateSiteDispatchVendor(request);
-                return Ok(projectStructure);
-            }
-            catch (ValueNotFoundException e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
-            }
-            catch (Exception e)
-            {
-                Util.LogError(e);
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
-            }
-        }
+        //         var projectStructure = _siteDispatchService.UpdateSiteDispatchVendor(request);
+        //         return Ok(projectStructure);
+        //     }
+        //     catch (ValueNotFoundException e)
+        //     {
+        //         Util.LogError(e);
+        //         return StatusCode(StatusCodes.Status422UnprocessableEntity, new ErrorClass() { code = StatusCodes.Status422UnprocessableEntity.ToString(), message = e.Message });
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         Util.LogError(e);
+        //         return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+        //     }
+        // }
 
            [HttpGet("getSiteDispatchDetails")]
         public IActionResult GetSiteDispatchDetails([FromQuery] SiteDispatchPayload siteDispatchPayload)

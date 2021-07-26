@@ -43,7 +43,7 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter {
             }, out SecurityToken validatedToken);
 
             var jwtToken = (JwtSecurityToken) validatedToken;
-            var userId = int.Parse (jwtToken.Claims.First (x => x.Type == "unique_name").Value);
+            var userId = int.Parse (jwtToken.Claims.First (x => x.Type == "UserId").Value);
             if (userId <= 0) {
                 context.Result = new JsonResult (new { message = "Unauthorized", isAPIValid = false }) { StatusCode = StatusCodes.Status401Unauthorized };
             }

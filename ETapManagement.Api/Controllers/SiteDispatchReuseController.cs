@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ETapManagement.Api.Controllers {
     [ApiController]
     [Route ("api/[controller]")]
+      [Authorize]
     public class SiteDispatchReuseController : ControllerBase {
         ISiteDispatchService _siteDispatchService;
         IDispatchService _dispatchService;

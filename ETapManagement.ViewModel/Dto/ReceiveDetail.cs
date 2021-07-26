@@ -22,6 +22,9 @@ namespace ETapManagement.ViewModel.Dto
         public string DispReqStatus {get;set;}
         public int ServiceTypeId{get;set;}
         public string ServcieTypeName{get;set;}
+        public int? DispatchVendorId{get;set;}
+        public string MrNo{get;set;}
+
          
 
     }

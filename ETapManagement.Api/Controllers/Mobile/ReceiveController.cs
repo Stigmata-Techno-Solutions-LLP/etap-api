@@ -79,11 +79,11 @@ namespace ETapManagement.Api.Controllers
         }
 
          [HttpPost("FinalSubmit")]    
-          public IActionResult UpdateFabricationStatus(FabricationVm input)
+          public IActionResult UpdateFinalDispatchStatus(FabricationVm input)
         {
             try
             {
-                var response = _receiveService.UpdateFabricationStatus(input);
+                var response = _receiveService.UpdateFinalDispatchStatus(input);
                 return Ok(response);
             }
             catch (Exception e)

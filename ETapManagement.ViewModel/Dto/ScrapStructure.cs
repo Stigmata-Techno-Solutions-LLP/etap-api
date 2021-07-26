@@ -82,14 +82,13 @@ namespace ETapManagement.ViewModel.Dto {
 
     }
        public class ScrapStructureWorkFlowDetail {
-        public int isAction { get; set; }
+        public string StructureCode{get;set;}
         public int Id { get; set; }
         public int? FromProjectId { get; set; }
         public string FromProjectName {get;set;}
         public string ProjectCode {get;set;}
         public int ProjStructId { get; set; }
         public DateTime CreatedDate{get;set;}
-        public int? DispStructId{get;set;}
         public string Status { get; set; }
         public string StructureName { get; set; }
 

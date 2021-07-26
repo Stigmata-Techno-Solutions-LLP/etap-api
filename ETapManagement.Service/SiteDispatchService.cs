@@ -27,11 +27,7 @@ namespace ETapManagement.Service
             _assignRepo = assignRepo;
         }
 
-        public List<SiteDispatchDetail> GetSiteDispatchDetails(SiteDispatchPayload siteDispatchPayload)
-        {
-            List<SiteDispatchDetail> siteDispatchDetails = _siteDispatchRepository.GetSiteDispatchDetails(siteDispatchPayload);
-            return siteDispatchDetails;
-        }
+       
 
         public List<StructureListCode> GetStructureListCodesByDispId(DispatchStructureCodePayload dispatchRequirement)
         {
@@ -39,42 +35,15 @@ namespace ETapManagement.Service
             return structureListCodes;
         }
 
-        public ResponseMessage UpdateSiteDispatchVendor(DispatchVendorAddPayload DispatchVendorAddPayload)
-        {
-            ResponseMessage response = new ResponseMessage();
-            response = _siteDispatchRepository.UpdateSiteDispatchVendor(DispatchVendorAddPayload);
-            if (response.Message != "" && DispatchVendorAddPayload.uploadDocs != null)
-            {
-                foreach (IFormFile file in DispatchVendorAddPayload.uploadDocs)
-                {
-                    SiteDispatchUpload layerDoc = new SiteDispatchUpload();
-                    layerDoc.FileName = file.FileName;
-                    layerDoc.Path = UploadedFile(file);
-                    layerDoc.FileType = Path.GetExtension(file.FileName);
-                    response = new ResponseMessage();
-                    response = this._siteDispatchRepository.UpdateSiteDispatchVendorDocuments(layerDoc, DispatchVendorAddPayload.dispatchRequestSubContractorId);
-                    // if (String.IsNullOrEmpty (response.Message)) {
-                    //     response = _siteDispatchRepository.RevertSiteDispatchVendor (DispatchVendorAddPayload);
-                    //     response.Message = "Error. Kindly try again.";
-                    // } else
-                    //     response.Message = "Site dispatch and Documents are update successfully.";
-                }
-            }
-
-            return response;
+ public List<SiteDispatchDetail> GetSiteDispatchDetails (SiteDispatchPayload siteDispatchPayload)
+ {
+            List<SiteDispatchDetail> lstDispDetails = _siteDispatchRepository.GetSiteDispatchDetails(siteDispatchPayload);
+            return lstDispDetails;
         }
+      
 
 
-        public SiteRequirementDispatch GetRequirementStructureDispatchDetails(int siteRequirementId)
-        {
-            return _siteDispatchRepository.GetRequirementStructureDispatchDetails(siteRequirementId);
-        }
-        public List<AvailableStructureForReuse> AvailableStructureForReuse(int dispatchRequirementId)
-        {
-            List<AvailableStructureForReuse> structureList = _siteDispatchRepository.AvailableStructureForReuse(dispatchRequirementId);
-            return structureList;
-        }
-
+      
         private string UploadedFile(IFormFile file)
         {
             try
@@ -98,12 +67,7 @@ namespace ETapManagement.Service
             }
         }
 
-        public ResponseMessage DispatchComponentScan(SiteDispatchScan scanComp)
-        {
-            ResponseMessage response = new ResponseMessage();
-            response = _siteDispatchRepository.DispatchComponentScan(scanComp);
-            return response;
-        }
+      
 
         public ResponseMessage DispatchScanDocuments(SiteDispatchStructureDocs scanComp)
         {
@@ -175,21 +139,7 @@ namespace ETapManagement.Service
             ResponseMessage response = new ResponseMessage();
             response = _siteDispatchRepository.DispatchTransferPrice(scanComp);
             return response;
-        }
-
-        public ResponseMessage SiteDispatchApproval(SiteDispatchApproval scanComp)
-        {
-            ResponseMessage response = new ResponseMessage();
-            response = _siteDispatchRepository.SiteDispatchApproval(scanComp);
-            return response;
-        }
-
-        public ResponseMessage SiteDispatchRejection(SiteDispatchApproval scanComp)
-        {
-            ResponseMessage response = new ResponseMessage();
-            response = _siteDispatchRepository.SiteDispatchRejection(scanComp);
-            return response;
-        }
+        }       
 
         public List<TWCCDispatch> GetTWCCDispatchDetails()
         {

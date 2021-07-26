@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ETapManagement.Api.Controllers {
     [ApiController]
+      [Authorize]
     [Route ("api/[controller]")]
     public class ScrapStructureController : ControllerBase {
         IScrapStructureService _scrapStructureService;
@@ -71,19 +72,7 @@ namespace ETapManagement.Api.Controllers {
         // }
 
 
-        [HttpPost ("WorkflowManagement")]
-        public IActionResult WorkflowManagement (WorkFlowScrapPayload payload) {
-            try {
-                var response = _scrapStructureService.WorkflowScrapStructure(payload);
-                return StatusCode (StatusCodes.Status204NoContent, (new { message = response.Message, code = 204 }));
-            } catch (ValueNotFoundException e) {
-                Util.LogError (e);
-                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
-            } catch (Exception e) {
-                Util.LogError (e);
-                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
-            }
-        }
+       
         [HttpGet ("getScrapStructDetails")]
         public IActionResult GetProjectDetails () {
             try {
