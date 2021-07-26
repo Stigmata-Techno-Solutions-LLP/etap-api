@@ -70,7 +70,7 @@ namespace ETapManagement.Common {
             CMPCMODIFIED = 15, [Description ("CMPC PARTIALLY MODIFIED")]
             CMPCPARTIALLYMODIFIED = 16, [Description ("TWCC PARTIALLY MODIFIED APPROVED")]
             TWCCPARIALLYMODIFYAPRD = 17, [Description ("TWCC MODIFIED APPROVED")]
-            TWCCMODIFYAPRD = 18, [Description ("READY TO DELIVER PARTIALLY")],
+            TWCCMODIFYAPRD = 18, [Description ("READY TO DELIVER PARTIALLY")]
 
             TWCCAPPROVED = 20, [Description ("TWCC APPROVED")]
             READYTODELIVERPARTIALLY = 19,
