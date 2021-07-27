@@ -93,7 +93,7 @@ namespace ETapManagement.ViewModel.Dto {
         public string StructureName { get; set; }
          public string StructureAttValue { get; set; }
          public int CurrentComponentsCount { get; set; }
-         public string RequiredComponenentCount { get; set; 
+         public int RequiredComponenentCount { get; set; 
          }
     }
 }
