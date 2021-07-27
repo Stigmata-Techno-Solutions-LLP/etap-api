@@ -27,7 +27,7 @@ namespace ETapManagement.ViewModel.Dto
 
         public string StructrueName { get; set; }
         public string VendorName{get;set;}
-         public int ComponentWeight{get;set;}
+         public decimal? ComponentWeight{get;set;}
 
 
     }
