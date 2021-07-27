@@ -31,7 +31,7 @@ namespace ETapManagement.Repository {
         public List<Code> GetStructureCodeList () {
             try {
                 List<Code> result = new List<Code> ();
-                var projects = _context.Structures.Where (x => x.IsDelete == false && x.IsActive==false).ToList ();
+                var projects = _context.Structures.Where (x => x.IsDelete == false && x.IsActive==true).ToList ();
                 foreach (var item in projects) {
                     result.Add (new Code () {
                         Id = item.Id,
