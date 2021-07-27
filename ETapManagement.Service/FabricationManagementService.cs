@@ -27,12 +27,13 @@ namespace ETapManagement.Service
         public FabricationManagementService(IFabricationManagementRepository fabricationManagementRepository,
          ETapManagementContext context,
            IAssignStructureComponentRepository repository
-        , IMapper mapper)
+        , IMapper mapper,IWebHostEnvironment webHostEnvironment)
         {
             _fabricationManagementRepository = fabricationManagementRepository;
             _context = context;
             _mapper = mapper;
             _repository = repository;
+            _webHostEnvironment=webHostEnvironment;
         }
 
         public List<AsBuildStructure> GetAsBuildStructure(int projectId)

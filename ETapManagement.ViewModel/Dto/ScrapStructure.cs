@@ -91,6 +91,9 @@ namespace ETapManagement.ViewModel.Dto {
         public DateTime CreatedDate{get;set;}
         public string Status { get; set; }
         public string StructureName { get; set; }
-
+         public string StructureAttValue { get; set; }
+         public int CurrentComponentsCount { get; set; }
+         public string RequiredComponenentCount { get; set; 
+         }
     }
 }
