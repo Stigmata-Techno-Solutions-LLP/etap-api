@@ -18,5 +18,7 @@ namespace ETapManagement.Service
 
         ResponseMessage UpdatePhysicalverifyDocment(PhysicalVerificationDocument servicedto);
 
+        public List<PhysicalVerificationstructure> GetPhysicalVerificationStructureForapprove();
+
     }
 }

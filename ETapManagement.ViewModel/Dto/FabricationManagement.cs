@@ -29,6 +29,30 @@ namespace ETapManagement.ViewModel.Dto
         public string VendorName{get;set;}
          public decimal? ComponentWeight{get;set;}
 
+         public int? dispStructureId {get;set;}
+
+
+    }
+     public class AsBuildStructureCost
+    {
+        public string Status { get; set; }
+        public string StatusInternal { get; set; }
+        public int RequiredComponenentCount { get; set; }
+
+        public int ProjectStructureId { get; set; }
+        public int DispatchRequirementId { get; set; }
+        public int DispReqStructId { get; set; }
+        public string DispatchNo { get; set; }
+
+        public int Quantity { get; set; }
+        public int projectId { get; set; }
+        public int StructureId { get; set; }
+        public string StructureCode { get; set; }
+        public string ProjectName { get; set; }
+
+        public string StructrueName { get; set; }
+       
+
 
     }
     public class ADDStructureComponentDetails

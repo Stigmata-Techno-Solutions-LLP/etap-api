@@ -275,6 +275,18 @@ namespace ETapManagement.Service
             }
         }
 
+        
+        public List<PhysicalVerificationstructure> GetPhysicalVerificationStructureForapprove()
+        {
+            List<PhysicalVerificationstructure> responseMessage = new List<PhysicalVerificationstructure>();
+            responseMessage = _physicalVerificationRepository.GetPhysicalVerificationStructureForapprove();
+            return responseMessage;
+        }
+        
+
+      
+
+
 
     }
 }

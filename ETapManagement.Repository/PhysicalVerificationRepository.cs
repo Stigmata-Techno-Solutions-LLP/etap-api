@@ -78,5 +78,23 @@ namespace ETapManagement.Repository {
                 throw ex;
             }
         }
+
+        
+          public List<PhysicalVerificationstructure> GetPhysicalVerificationStructureForapprove()
+          {
+               try
+            {
+                List<PhysicalVerificationstructure> result = new List<PhysicalVerificationstructure>();
+                string strQuery = string.Format("SELECT ssp.id StructurePhysicalverfId, spv.inspection_id InspectionId,ps.struct_code StructureCode,s.name StructureName,p.name ProjectName  FROM site_structure_physicalverf ssp  INNER JOIN project_structure ps on ps.id=ssp.proj_struct_id inner join project p on p.id= ssp.project_id INNER JOIN site_physical_verf spv  on spv.id =ssp.site_verf_id INNER JOIN structures s on s.id=ps.structure_id where ssp.status='{0}' and ssp.status_internal = '{1}'", Util.GetDescription(commonEnum.SiteDispStructureStatus.SCANNED).ToString(),Util.GetDescription(commonEnum.SiteDispStructureStatus.SCANNED).ToString());
+                result = _context.Query<PhysicalVerificationstructure>().FromSqlRaw(strQuery).ToList();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
+
+          } 
     }
 }
