@@ -111,5 +111,35 @@ namespace ETapManagement.Api.Controllers {
                 return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
             }
         }
+
+           [HttpPost ("UpdatephysicalTWCCApprove")]
+        public IActionResult UpdatephysicalTWCCApprove (int input,string option) {
+            try {
+                var response = _physicalVerificationService.UpdatephysicalTWCCApprove (input,option);
+                return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+        [HttpGet("GetPhysicalVerificationStructureForapprove")]      
+      public IActionResult GetPhysicalVerificationStructureForapprove()
+        {
+            try
+            {
+                var response = _physicalVerificationService.GetPhysicalVerificationStructureForapprove();
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
     }
 }

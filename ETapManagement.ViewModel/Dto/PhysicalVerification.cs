@@ -86,6 +86,19 @@ namespace ETapManagement.ViewModel.Dto
 
     }
 
+     public class PhysicalVerificationstructure
+    {
+        public int StructurePhysicalverfId { get; set; }
+        public string StructureName { get; set; }
+        public string StructureCode { get; set; }
+        public string ProjectName { get; set; }
+        public string InspectionId { get; set; }
+ 
+
+
+
+    }
+
 
 
 }

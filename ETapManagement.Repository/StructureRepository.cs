@@ -31,7 +31,7 @@ namespace ETapManagement.Repository {
         public List<Code> GetStructureCodeList () {
             try {
                 List<Code> result = new List<Code> ();
-                var projects = _context.Structures.Where (x => x.IsDelete == false && x.IsActive==false).ToList ();
+                var projects = _context.Structures.Where (x => x.IsDelete == false && x.IsActive==true).ToList ();
                 foreach (var item in projects) {
                     result.Add (new Code () {
                         Id = item.Id,
@@ -46,7 +46,7 @@ namespace ETapManagement.Repository {
 
         public StructureDetails GetStructureById (int id) {
             StructureDetails response = new StructureDetails ();
-            var responsedb = _context.Structures.Where (x => x.Id == id && x.IsDelete == false && x.IsActive==false).FirstOrDefault ();
+            var responsedb = _context.Structures.Where (x => x.Id == id && x.IsDelete == false).FirstOrDefault ();
 
             if (responsedb != null)
                 response = _mapper.Map<StructureDetails> (responsedb);

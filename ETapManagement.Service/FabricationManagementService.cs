@@ -153,9 +153,9 @@ namespace ETapManagement.Service
             }
         }
 
-        public List<AsBuildStructure> GetAsBuildStructureCost(int projectId)
+        public List<AsBuildStructureCost> GetAsBuildStructureCost(int projectId)
         {
-            List<AsBuildStructure> responseMessage = new List<AsBuildStructure>();
+            List<AsBuildStructureCost> responseMessage = new List<AsBuildStructureCost>();
             responseMessage = _fabricationManagementRepository.GetAsBuildStructureCost(projectId);
             return responseMessage;
         }

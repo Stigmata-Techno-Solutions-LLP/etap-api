@@ -11,5 +11,6 @@ namespace ETapManagement.Repository {
          public List<InspectionPhysicalVerificationDetail> GetSitePhysicalVerificationStructure(int projectId);
             string StructureRemoveDocs(int docId);
               public bool StructureDocsUpload (Upload_Docs StrucDocReq, int Id);
+              public List<PhysicalVerificationstructure> GetPhysicalVerificationStructureForapprove();
     }
 }
