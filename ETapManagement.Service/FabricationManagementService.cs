@@ -201,16 +201,16 @@ namespace ETapManagement.Service
             {
                 ResponseMessage responseMessage = new ResponseMessage();
                 //List<DispStructureComp> struct = _context.DispStructureComp.w
-                List<DispStructureComp> structureComps = _context.DispStructureComp.Where(w => w.DispStructureId == input.DispStructureId).ToList();
-                decimal count = structureComps.Sum(x =>x.DispComp.Weight)??1;
+                List<Component> structureComps = _context.Component.Where(w => w.ProjStructId == input.ProjStructId).ToList();
+                decimal count = structureComps.Sum(x =>x.Weight)??1;
                 decimal x = input.Cost / count;
 
                 structureComps.ForEach(item =>
                 {
                             // DispStructureComp structureComps=_context.DispStructureComp.Single(w=>w.DispStructureId==item.DispStructureCompId);
 
-                            item.FabriacationCost = item.DispComp.Weight * x;
-                    _context.DispStructureComp.Update(item);
+                            item.FabriacationCost = item.Weight * x;
+                    _context.Component.Update(item);
                     _context.SaveChanges();
 
                 });
