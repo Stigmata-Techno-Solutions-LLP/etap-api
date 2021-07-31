@@ -51,5 +51,7 @@ namespace ETapManagement.ViewModel.Dto {
         [StringLength (10)]
         [Display (Name = "Component Status")]
         public string CompStatus { get; set; }
+
+         public decimal? FabriacationCost { get; set; }
     }
 }

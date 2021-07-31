@@ -117,7 +117,7 @@ namespace ETapManagement.Service
           
             responsedb.ForEach(item =>
                    {
-                       item.SiteStructureVerfid=_context.SiteStructurePhysicalverf.FirstOrDefault(w=>w.ProjStructId==item.ProjStructId).Id;
+                       item.SiteStructureVerfid=_context.SiteStructurePhysicalverf.FirstOrDefault(w=>w.ProjStructId==item.ProjStructId)?.Id;
                    });
                 response = _mapper.Map<List<InspecStrComponent>>(responsedb);
 
