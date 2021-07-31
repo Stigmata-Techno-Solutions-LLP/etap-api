@@ -168,7 +168,7 @@ END
 
 
 
-CREATE OR ALTER   PROCEDURE sp_ApprovalDeclaration(@decl_id int,
+CREATE OR ALTER     PROCEDURE sp_ApprovalDeclaration(@decl_id int,
 	@role_name varchar(50),
 	@role_hierarchy int  null,
 	@updated_by int null
@@ -217,7 +217,7 @@ BEGIN
 	where   Id = @decl_id and status_internal in (select value
 		from STRING_SPLIT(@cond_status,','))) 
 	BEGIN
-		IF @role_name in ('EHS','QA','TWCC')
+		IF @role_name in ('PM','QA','TWCC')
 		BEGIN
 			update site_declaration  set status_internal = @new_status, status =@new_status, role_id =@role_id,updated_by =@updated_by where  id =@decl_id
 			insert into sitedecl_status_history
@@ -298,7 +298,7 @@ BEGIN
 	where   Id = @decl_id and status_internal in (select value
 		from STRING_SPLIT(@cond_status,','))) 
 	BEGIN
-		IF @role_name in ('EHS','QA','TWCC')
+		IF @role_name in ('PM','QA','TWCC')
 		BEGIN
 			update site_declaration  set status_internal = @role_name + 'REJECTED', status =@role_name + 'REJECTED', role_id =@role_id,updated_by =@updated_by where  id = @decl_id
 			insert into sitedecl_status_history
@@ -670,8 +670,7 @@ SELECT dsc.dispatch_date as DispatchDate, DSC.id AS DispStructureComponentId, C.
 END
 
 
-
-CREATE OR ALTER PROCEDURE SP_GetReceiveDetails(@ProjectId int)
+CREATE   OR ALTER PROCEDURE SP_GetReceiveDetails(@ProjectId int)
 AS
 BEGIN
 SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber, 
@@ -692,7 +691,10 @@ SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber,
 			  INNER JOIN project p ON p.id  = dr.to_projectid
 			  INNER JOIN structures s ON s.id = ps.structure_id
 	  WHERE dr.to_projectid = @ProjectId
+	  -- remove once surplus approved
+	  and ps.current_status <>'READY TO REUSE'
 END	
+
 
   
   CREATE   OR ALTER PROCEDURE SP_GetReceiveComponentDetails(@DispatchStrutureId int)

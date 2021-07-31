@@ -18,7 +18,7 @@ namespace ETapManagement.Common {
             CMPC = 3,
             TWCC = 4,
             PROCUREMENT = 5,
-            EHS = 6,
+            PM = 6,
             FAA = 7,
             VENDOR = 8,
             BU = 9,
@@ -32,7 +32,7 @@ namespace ETapManagement.Common {
             CMPC = 3,
             TWCC = 4,
             PROCUREMENT = 5,
-            EHS = 6,
+            PM = 6,
             BU = 9,
             IC = 10,
             PROJECTS = 11,
@@ -40,11 +40,11 @@ namespace ETapManagement.Common {
         }
         public enum SurPlusDeclSatus {
             [Description ("NEW")]
-            NEW = 1, [Description ("EHS APPROVED")]
-            EHSAPPROVED = 2, [Description ("QAA PPROVED")]
+            NEW = 1, [Description ("PM APPROVED")]
+            PMAPPROVED = 2, [Description ("QAA PPROVED")]
             QAAPPROVED = 3, [Description ("READY TO DISPATCH")]
-            READYTODISPATCH = 4, [Description ("EHS REJECTED")]
-            EHSREJECTED = 5, [Description ("QA REJECTED")]
+            READYTODISPATCH = 4, [Description ("PM REJECTED")]
+            PMREJECTED = 5, [Description ("QA REJECTED")]
             QAREJECTED = 6, [Description ("DISPATCHED")]
             DISPATCHED = 7,
         }
@@ -112,7 +112,7 @@ namespace ETapManagement.Common {
         }
         public enum ScrapStatus {
             NEW = 1,
-            EHSAPPROVED = 2,
+            PMAPPROVED = 2,
             QAAPPROVED = 3,
             TWCCAPPROVED = 4,
             SCRAPPED = 5,
