@@ -29,7 +29,7 @@ namespace ETapManagement.ViewModel.Dto
         public string VendorName{get;set;}
          public decimal? ComponentWeight{get;set;}
 
-         public int? dispStructureId {get;set;}
+         
 
 
     }
@@ -114,7 +114,7 @@ namespace ETapManagement.ViewModel.Dto
 
     public class ADDComponentCost
     {
-        public int DispStructureId { get; set; }
+        public int ProjStructId { get; set; }
         public decimal Cost { get; set; }
 
     }
