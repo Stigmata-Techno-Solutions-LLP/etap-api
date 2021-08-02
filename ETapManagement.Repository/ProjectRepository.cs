@@ -81,7 +81,7 @@ namespace ETapManagement.Repository {
         public List<Code> GetProjectCodeList () {
             try {
                 List<Code> result = new List<Code> ();
-                var projects = _context.Project.Where (x => x.IsDelete == false).ToList ();
+                var projects = _context.Project.Where (x => x.IsActive==true).ToList ();
                 foreach (var item in projects) {
                     result.Add (new Code () {
                         Id = item.Id,
