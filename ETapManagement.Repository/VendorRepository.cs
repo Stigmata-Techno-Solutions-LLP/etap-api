@@ -137,7 +137,7 @@ namespace ETapManagement.Repository {
         public VendorDetail GetVendorDetailsById (int id) {
             try {
                 VendorDetail result = new VendorDetail ();
-                var vendor = _context.SubContractor.Where (x => x.Id == id && x.IsDelete == false && x.IsStatus==true)
+                var vendor = _context.SubContractor.Where (x => x.Id == id && x.IsDelete == false )
                     .Include (s => s.SubContractorServiceType).FirstOrDefault ();
                 result = _mapper.Map<VendorDetail> (vendor);
                 return result;

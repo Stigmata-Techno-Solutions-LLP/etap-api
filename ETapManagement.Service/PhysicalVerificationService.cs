@@ -118,7 +118,7 @@ namespace ETapManagement.Service
                 responsedb.ForEach(item =>
                        {
                            item.SiteStructureVerfid = _context.SiteStructurePhysicalverf.FirstOrDefault(w => w.ProjStructId == item.ProjStructId)?.Id;
-                           var value = _context.SiteCompPhysicalverf.FirstOrDefault(x => x.CompId == item.ComponentId).Id;
+                           var value = _context.SiteCompPhysicalverf.FirstOrDefault(x => x.CompId == item.ComponentId)?.Id;
                            if (value != null)
                            {
                                item.Completstatus = "SCANCOMPLETE";
