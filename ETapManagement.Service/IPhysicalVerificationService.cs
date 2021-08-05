@@ -20,5 +20,7 @@ namespace ETapManagement.Service
 
         public List<PhysicalVerificationstructure> GetPhysicalVerificationStructureForapprove();
 
+        public ResponseMessage UpdatephysicalStatusUpdate(int siteVerId, int projectId);
+
     }
 }

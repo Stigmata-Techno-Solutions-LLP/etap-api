@@ -25,6 +25,10 @@ namespace ETapManagement.ViewModel.Dto
         public int? DispatchVendorId{get;set;}
         public string MrNo{get;set;}
 
+        public DateTime? CreatedDate {get;set;}
+
+         public DateTime? UpdatedDate {get;set;}
+
          
 
     }

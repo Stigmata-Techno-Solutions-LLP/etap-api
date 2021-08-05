@@ -141,5 +141,20 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
+          [HttpPost ("UpdatephysicalStatusUpdate")]
+        public IActionResult UpdatephysicalStatusUpdate (int siteVerId,int projectId) {
+            try {
+                var response = _physicalVerificationService.UpdatephysicalStatusUpdate (siteVerId,projectId);
+                return StatusCode (StatusCodes.Status201Created, (new { message = response.Message, code = 201 }));
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+
     }
 }

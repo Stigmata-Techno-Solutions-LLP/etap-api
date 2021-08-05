@@ -70,6 +70,8 @@ namespace ETapManagement.ViewModel.Dto
          public string Status{get;set;} 
         public string ComponentName { get; set; }
 
+        public string Completstatus {get;set;}
+
 
 
     }

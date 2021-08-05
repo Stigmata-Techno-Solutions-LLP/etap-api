@@ -288,11 +288,11 @@ namespace ETapManagement.Service
                 {
                     disprequirement.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALLYSCANNED).ToString();
                     disprequirement.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.PARTIALLYSCANNED).ToString();
-
-                }
-                _context.DispatchRequirement.Update(disprequirement);
+                  _context.DispatchRequirement.Update(disprequirement);
 
                 _context.SaveChanges();
+                }
+              
 
                 responseMessage.Message = "Status   Updated sucessfully";
                 return responseMessage;
