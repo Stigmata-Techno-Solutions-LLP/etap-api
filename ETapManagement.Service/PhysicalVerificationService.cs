@@ -303,16 +303,17 @@ namespace ETapManagement.Service
             {
                 ResponseMessage responseMessage = new ResponseMessage();
                 SiteStructurePhysicalverf structid =
-                           _context.SiteStructurePhysicalverf.Single(w => w.SiteVerfId == siteVerId && w.ProjectId == projectId);
+                           _context.SiteStructurePhysicalverf.FirstOrDefault(w => w.SiteVerfId == siteVerId && w.ProjectId == projectId);
                 if (structid != null)
                 {
 
                     structid.StatusInternal = Util.GetDescription(commonEnum.SiteDispStructureStatus.SCANNED).ToString();
                     structid.Status = Util.GetDescription(commonEnum.SiteDispStructureStatus.SCANNED).ToString();
 
+                    _context.SiteStructurePhysicalverf.Update(structid);
+                    _context.SaveChanges();
                 }
-                _context.SiteStructurePhysicalverf.Update(structid);
-                _context.SaveChanges();
+
 
                 responseMessage.Message = "Status Updated sucessfully";
                 return responseMessage;
