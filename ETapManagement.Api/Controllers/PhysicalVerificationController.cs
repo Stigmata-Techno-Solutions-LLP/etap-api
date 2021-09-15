@@ -155,6 +155,21 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
+        [HttpGet("GetPhysicalVerificationCostHiring")]      
+      public IActionResult GetPhysicalVerificationCostHiring(double amt,DateTime dateval)
+        {
+            try
+            {
+                var response = _physicalVerificationService.GetPhysicalVerificationCostHiring(amt,dateval);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+
 
     }
 }
