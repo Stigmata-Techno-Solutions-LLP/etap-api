@@ -101,6 +101,12 @@ namespace ETapManagement.ViewModel.Dto
 
     }
 
-
+  public class PhysicalVerificationHiring
+    {
+        public double Amount { get; set; }
+        public DateTime DateVal  { get; set; }
+       
+ 
+    }
 
 }

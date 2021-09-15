@@ -22,5 +22,7 @@ namespace ETapManagement.Service
 
         public ResponseMessage UpdatephysicalStatusUpdate(int siteVerId, int projectId);
 
+        public List<PhysicalVerificationHiring> GetPhysicalVerificationCostHiring (double amount,DateTime dateVal);
+
     }
 }
