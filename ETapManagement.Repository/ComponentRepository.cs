@@ -62,6 +62,10 @@ namespace ETapManagement.Repository {
                         var isUpdate = false;
                         var projectStructureID = 0;
                         ProjectStructure projectStructure = _context.ProjectStructure.Where (x => x.Id == request.ProjStructId && x.IsDelete == false).FirstOrDefault ();
+                       int compCount = _context.Component.Where(x=>x.ProjStructId==request.ProjStructId).Count();
+                       int payLoadeCompCount= request.Components.Where(x=>x.CompId==null).Count();
+                       int excedcout=payLoadeCompCount + compCount;
+                        if (projectStructure.ComponentsCount < excedcout) throw new ValueNotFoundException ("Component limit exceed");
                         if (projectStructure == null) throw new ValueNotFoundException ("Project Structure not yet assigned");
                         projectStructureID = projectStructure.Id;
                         if (request.Components?.Count > 0) {
@@ -88,7 +92,7 @@ namespace ETapManagement.Repository {
                                     _context.SaveChanges ();
                                 }
                             }
-                            projectStructure.ComponentsCount = request.Components.Count ();
+                           // projectStructure.ComponentsCount = request.Components.Count ();
                             _context.SaveChanges ();
                         }
                         return response;
