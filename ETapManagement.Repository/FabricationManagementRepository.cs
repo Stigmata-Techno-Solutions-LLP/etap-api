@@ -64,6 +64,39 @@ namespace ETapManagement.Repository {
                 throw ex;
             }
         }
+
+        public List<FabricationDetails> GetFabrication (SiteDeclarationDetailsPayload reqPayload) {
+            try {
+                List<FabricationDetails> result = new List<FabricationDetails> ();
+                var sureplusDecl = _context.Query<FabricationDetails> ().FromSqlRaw ("exec sp_getFabrication {0}, {1}", reqPayload.role_name.ToString (), reqPayload.role_hierarchy).ToList ();
+                result = _mapper.Map<List<FabricationDetails>> (sureplusDecl);
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public ResponseMessage FabricationApprove (FabricationApprovePayload reqPayload) {
+
+            int siteRequirements = 0;
+            try {
+                ResponseMessage resp = new ResponseMessage ();
+                if (reqPayload.mode == commonEnum.WorkFlowMode.Approval) {
+                    siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_ApprovalFabrication {0}, {1},{2},{3}", reqPayload.fabCost_id, reqPayload.role_name.ToString(), reqPayload.role_hierarchy, 1); // TODO
+                    resp.Message = string.Format ("Surplus Declaration successfully Approved by {0}", reqPayload.role_name);
+                    if (siteRequirements <= 0) throw new ValueNotFoundException ("User doesn't allow to approve.");
+
+                } else if (reqPayload.mode == commonEnum.WorkFlowMode.Rejection) {
+                    siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_RejectionFabrication {0}, {1}, {2}, {3}", reqPayload.fabCost_id, reqPayload.role_name.ToString(), reqPayload.role_hierarchy, 1); //TODO
+                    resp.Message = string.Format ("Surplus Declaration successfully Rejected by {0}", reqPayload.role_name);
+                    if (siteRequirements <= 0) throw new ValueNotFoundException ("User doesn't allow to reject.");
+                }
+                return resp;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
 		  
             
     }

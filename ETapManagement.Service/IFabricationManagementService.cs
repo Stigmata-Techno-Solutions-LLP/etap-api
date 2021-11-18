@@ -18,6 +18,9 @@ namespace ETapManagement.Service
 
         public List<CostComponentDetailsDto> GetStructrueFabraiationComponent (int id);
          public ResponseMessage UpdateFabricationStatus(FabricationVm input);
+          List<FabricationDetails> GetFabrication (SiteDeclarationDetailsPayload reqPayload);
+
+           ResponseMessage FabricationApprove (FabricationApprovePayload reqPayload);
 
     }
 }

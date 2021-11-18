@@ -303,5 +303,17 @@ namespace ETapManagement.Service
             }
         }
 
+        public List<FabricationDetails> GetFabrication (SiteDeclarationDetailsPayload reqFilter) {
+            List<FabricationDetails> surplus = _fabricationManagementRepository.GetFabrication (reqFilter);
+            if (!(surplus?.Count > 0)) return null;
+            return surplus;
+        }
+
+          public ResponseMessage FabricationApprove (FabricationApprovePayload reqPayload) {
+            ResponseMessage responseMessage = new ResponseMessage ();
+            responseMessage = _fabricationManagementRepository.FabricationApprove (reqPayload);
+            return responseMessage;
+        }
+
     }
 }

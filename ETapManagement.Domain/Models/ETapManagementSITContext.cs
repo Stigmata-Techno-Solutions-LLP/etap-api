@@ -98,6 +98,7 @@ namespace ETapManagement.Domain.Models
              modelBuilder.Query<CostComponentDetailsDto>();
                modelBuilder.Query<AsBuildStructureCost>();
                modelBuilder.Query<PhysicalVerificationstructure>();
+                modelBuilder.Query<FabricationDetails>();
              
             modelBuilder.Entity<ApplicationForms>(entity =>
             {

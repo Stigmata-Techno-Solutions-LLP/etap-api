@@ -297,6 +297,8 @@ namespace ETapManagement.Service
             return responseMessage;
         }
 
+
+
         public ResponseMessage UpdatephysicalStatusUpdate(int siteVerId, int projectId)
         {
             try
@@ -324,7 +326,37 @@ namespace ETapManagement.Service
             }
         }
 
+        public List<PhysicalVerificationHiring> GetPhysicalVerificationCostHiring(double amount, DateTime dateVal)
+        {
+            try
+            {
+                List<PhysicalVerificationHiring> response = new List<PhysicalVerificationHiring>();
 
+                double DisAmount = 6;
+               
+                DateTime d1 = Convert.ToDateTime(dateVal);
+
+
+                for (int i = 0; i < 12; i++)
+                {
+                    PhysicalVerificationHiring tempData = new PhysicalVerificationHiring();
+                    double discountAmount = (DisAmount * amount) / 100;
+                    tempData.Amount = amount - discountAmount;
+                    tempData.DateVal = d1.AddMonths(1);
+                    response.Add(tempData);
+                    amount = tempData.Amount;
+                    d1 = tempData.DateVal;
+
+                }
+
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
     }

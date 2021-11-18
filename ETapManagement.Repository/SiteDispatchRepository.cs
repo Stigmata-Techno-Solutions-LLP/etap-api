@@ -275,11 +275,12 @@ namespace ETapManagement.Repository {
                 }
 
                 SiteRequirement siteReqr = _context.SiteRequirement.Include (c => c.SiteReqStructure).Where (x => x.Id == payload.siteRequirementId).FirstOrDefault ();
-                if (servType.Name == commonEnum.ServiceType.Fabrication.ToString () || servType.Name == commonEnum.ServiceType.OutSourcing.ToString ()) {
-                    int structCount = _context.ProjectStructure.Count () + 1;
-                    structCode = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
-                    dispatchNo = constantVal.DispVendorPrefix + dispReuseCount.ToString ().PadLeft (6, '0');
-                }
+            //   for structure id override in multiple component
+                // if (servType.Name == commonEnum.ServiceType.Fabrication.ToString () || servType.Name == commonEnum.ServiceType.OutSourcing.ToString ()) {
+                //     int structCount = _context.ProjectStructure.Count () + 1;
+                //     structCode = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
+                //     dispatchNo = constantVal.DispVendorPrefix + dispReuseCount.ToString ().PadLeft (6, '0');
+                // }
                 if (servType.Name == commonEnum.ServiceType.Reuse.ToString ()) {
                     dispatchNo = constantVal.DispReusePrefix + dispReuseCount.ToString ().PadLeft (6, '0');
                 }
@@ -300,7 +301,14 @@ namespace ETapManagement.Repository {
                         dispReq.Quantity = payload.Quantity;
                         _context.DispatchRequirement.Add (dispReq);
                         _context.SaveChanges();
+                         int structCountDb = _context.ProjectStructure.Count ();
                        for(int iQty = 1;iQty<=payload.Quantity;iQty++) {
+
+                    if (servType.Name == commonEnum.ServiceType.Fabrication.ToString () || servType.Name == commonEnum.ServiceType.OutSourcing.ToString ()) {
+                    int structCount = structCountDb + iQty;
+                    structCode = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
+                    dispatchNo = constantVal.DispVendorPrefix + dispReuseCount.ToString ().PadLeft (6, '0');
+                }
 
                         ProjectStructure projectStructure = new ProjectStructure ();
                         if (servType.Name == commonEnum.ServiceType.Fabrication.ToString () || servType.Name == commonEnum.ServiceType.OutSourcing.ToString ()) {
