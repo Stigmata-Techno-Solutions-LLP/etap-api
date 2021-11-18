@@ -276,11 +276,11 @@ namespace ETapManagement.Repository {
 
                 SiteRequirement siteReqr = _context.SiteRequirement.Include (c => c.SiteReqStructure).Where (x => x.Id == payload.siteRequirementId).FirstOrDefault ();
             //   for structure id override in multiple component
-                // if (servType.Name == commonEnum.ServiceType.Fabrication.ToString () || servType.Name == commonEnum.ServiceType.OutSourcing.ToString ()) {
-                //     int structCount = _context.ProjectStructure.Count () + 1;
-                //     structCode = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
-                //     dispatchNo = constantVal.DispVendorPrefix + dispReuseCount.ToString ().PadLeft (6, '0');
-                // }
+                if (servType.Name == commonEnum.ServiceType.Fabrication.ToString () || servType.Name == commonEnum.ServiceType.OutSourcing.ToString ()) {
+                    // int structCount = _context.ProjectStructure.Count () + 1;
+                    // structCode = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
+                    dispatchNo = constantVal.DispVendorPrefix + dispReuseCount.ToString ().PadLeft (6, '0');
+                }
                 if (servType.Name == commonEnum.ServiceType.Reuse.ToString ()) {
                     dispatchNo = constantVal.DispReusePrefix + dispReuseCount.ToString ().PadLeft (6, '0');
                 }
