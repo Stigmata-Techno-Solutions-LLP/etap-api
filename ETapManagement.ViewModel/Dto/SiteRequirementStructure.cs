@@ -26,5 +26,7 @@ namespace ETapManagement.ViewModel.Dto {
         [Required]
         public string StructureAttributesVal { get; set; }
 
+           public string RequireWbsname { get; set; }
+
     }
 }
