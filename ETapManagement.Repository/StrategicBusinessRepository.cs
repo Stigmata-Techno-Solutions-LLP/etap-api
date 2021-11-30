@@ -95,7 +95,7 @@ namespace ETapManagement.Repository
 			try
 			{
 				List<StrategicBusinessCodeList> sbgCodeList = new List<StrategicBusinessCodeList>();
-				var result = _context.StrategicBusiness.Where(x => x.IsDelete == false).ToList();
+				var result = _context.StrategicBusiness.Where(x => x.IsDelete == false && x.IsActive==true).ToList();
 				foreach (var sbg in result)
 				{
 					sbgCodeList.Add(new StrategicBusinessCodeList()

@@ -23,7 +23,7 @@ namespace ETapManagement.Repository {
         public ResponseMessage CreateIC (AddIndependentCompany independentCompany) {
             try {
                 if (_context.IndependentCompany.Where (x => x.Name == independentCompany.Name && x.IsDelete == false).Count () > 0) {
-                    throw new ValueNotFoundException ("Independent Company  Name already exist.");
+                    throw new ValueNotFoundException ("Independent Company Name already exist.");
                 }
                 ResponseMessage responseMessage = new ResponseMessage ();
                 IndependentCompany ic = _mapper.Map<IndependentCompany> (independentCompany);
@@ -63,7 +63,7 @@ namespace ETapManagement.Repository {
         public List<Code> GetICCodeList () {
             try {
                 List<Code> result = new List<Code> ();
-                var ics = _context.IndependentCompany.Where (x => x.IsDelete == false).ToList ();
+                var ics = _context.IndependentCompany.Where (x => x.IsDelete == false && x.IsActive==true).ToList ();
                 foreach (var item in ics) {
                     result.Add (new Code () {
                         Id = item.Id,
