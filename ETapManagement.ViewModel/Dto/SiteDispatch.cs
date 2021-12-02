@@ -425,4 +425,9 @@ namespace ETapManagement.ViewModel.Dto
         public DateTime DispatchDate { get; set; }
         public IFormFile[] uploadDocs { get; set; }
     }
+
+    public class dispatchedStrucCount
+    {
+        public int cnt {get; set;}
+    }
 }
