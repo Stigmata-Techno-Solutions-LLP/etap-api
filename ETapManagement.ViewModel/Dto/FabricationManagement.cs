@@ -31,6 +31,8 @@ namespace ETapManagement.ViewModel.Dto
 
           public string StructureFamily{get;set;}
 
+          public string StructureAttValue{get; set;}
+
          
 
 
@@ -53,6 +55,8 @@ namespace ETapManagement.ViewModel.Dto
         public string ProjectName { get; set; }
 
         public string StructrueName { get; set; }
+
+        public string StructureAttValue{get; set;}
        
 
 
