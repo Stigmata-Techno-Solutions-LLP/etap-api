@@ -364,7 +364,7 @@ namespace ETapManagement.ViewModel.Dto
         [Display(Name = "ProjStructureId")]
         public int ProjStructureId { get; set; }
 
-        [Required]
+        
         [StringLength(100)]
         [Display(Name = "DrawingNo")]
         public string DrawingNo { get; set; }
