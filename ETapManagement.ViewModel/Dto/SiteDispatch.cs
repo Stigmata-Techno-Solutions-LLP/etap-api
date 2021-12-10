@@ -364,7 +364,7 @@ namespace ETapManagement.ViewModel.Dto
         [Display(Name = "ProjStructureId")]
         public int ProjStructureId { get; set; }
 
-        [Required]
+        
         [StringLength(100)]
         [Display(Name = "DrawingNo")]
         public string DrawingNo { get; set; }
@@ -424,5 +424,10 @@ namespace ETapManagement.ViewModel.Dto
         public int dispatchStructureId { get; set; }
         public DateTime DispatchDate { get; set; }
         public IFormFile[] uploadDocs { get; set; }
+    }
+
+    public class dispatchedStrucCount
+    {
+        public int cnt {get; set;}
     }
 }

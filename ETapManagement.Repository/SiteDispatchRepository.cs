@@ -265,6 +265,14 @@ namespace ETapManagement.Repository {
                 string dispatchNo = string.Empty;
                 string structCode = string.Empty;
                 int dispReuseCount = 0;
+                int projectId=1;
+                 List<dispatchedStrucCount> result = new List<dispatchedStrucCount>();
+                 string count = string.Format("select count(*) as cnt from dispatch_requirement dr inner join disp_req_structure drs on  dr.id  = drs.dispreq_id inner join project_structure ps    on drs.proj_struct_id  = ps.id  where ps.structure_id = {0} and dr.sitereq_id = {1}",payload.StructureId,payload.siteRequirementId);
+                result = _context.Set<dispatchedStrucCount>().FromSqlRaw(count).ToList();
+                int dispatchedQuantity =  result.FirstOrDefault().cnt;
+                int excedCout= dispatchedQuantity+payload.Quantity;
+                int totalcount =_context.SiteReqStructure.Single(s =>s.SiteReqId==payload.siteRequirementId && s.StructId==payload.StructureId).Quantity??0;
+                  if (totalcount<excedCout) throw new ValueNotFoundException ("Dispatch quantity should match the required quantity.");
                 ServiceType servType = _context.ServiceType.Where (x => x.Id == payload.ServiceTypeId).FirstOrDefault ();
                 if (servType.Name == commonEnum.ServiceType.Fabrication.ToString ()) {
                     dispReuseCount = _context.DispatchRequirement.Include (m => m.Servicetype).Where (x => x.DispatchNo.Contains ("DC")).Count () + 1;
@@ -307,7 +315,7 @@ namespace ETapManagement.Repository {
                     if (servType.Name == commonEnum.ServiceType.Fabrication.ToString () || servType.Name == commonEnum.ServiceType.OutSourcing.ToString ()) {
                     int structCount = structCountDb + iQty;
                     structCode = constantVal.StructureIdPrefix + structCount.ToString ().PadLeft (6, '0');
-                    dispatchNo = constantVal.DispVendorPrefix + dispReuseCount.ToString ().PadLeft (6, '0');
+                    
                 }
 
                         ProjectStructure projectStructure = new ProjectStructure ();
