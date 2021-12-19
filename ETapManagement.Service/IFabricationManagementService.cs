@@ -21,6 +21,7 @@ namespace ETapManagement.Service
           List<FabricationDetails> GetFabrication (SiteDeclarationDetailsPayload reqPayload);
 
            ResponseMessage FabricationApprove (FabricationApprovePayload reqPayload);
+           public List<FabricationCostList> GetFabricationCostList();
 
     }
 }
