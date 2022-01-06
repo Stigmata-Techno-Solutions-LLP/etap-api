@@ -105,8 +105,7 @@ namespace ETapManagement.ViewModel.Dto
 
         public decimal Cost { get; set; }
 
-
-
+        public string DispatchNo{get;set;}
 
     }
 
@@ -206,6 +205,18 @@ namespace ETapManagement.ViewModel.Dto
 
         public commonEnum.SurplusRolename role_name { get; set; }
         public string role_hierarchy { get; set; }
+
+    }
+       public class FabricationCostList
+    {
+
+      
+        public string StructureCode { get; set; }
+        public string StructureName { get; set; }
+        public string ProjectName { get; set; }
+        public decimal FabricationCost { get; set; }
+        public DateTime fabricationDate { get; set; }
+
 
     }
 }

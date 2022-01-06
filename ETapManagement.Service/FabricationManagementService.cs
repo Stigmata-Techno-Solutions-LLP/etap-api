@@ -169,6 +169,13 @@ namespace ETapManagement.Service
                            _context.ProjectStructure.Single(w => w.Id == input.ProjectStructureId);
 
                 structid.FabriacationCost = input.Cost;
+                DispFabricationCost fabrcost=new DispFabricationCost();
+                fabrcost.DispatchNo=input.DispatchNo;
+                fabrcost.DispReqId=input.DispatchRequirementId;
+                fabrcost.Status=Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                fabrcost.StatusInternal=Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                _context.DispFabricationCost.Add(fabrcost);
+                _context.SaveChanges();
 
                 if (input.uploadDocs != null)
                 {
@@ -314,6 +321,13 @@ namespace ETapManagement.Service
             responseMessage = _fabricationManagementRepository.FabricationApprove (reqPayload);
             return responseMessage;
         }
+
+            public List<FabricationCostList> GetFabricationCostList()
+        {
+            List<FabricationCostList> responseMessage = new List<FabricationCostList>();
+            responseMessage = _fabricationManagementRepository.GetFabricationCostList();
+            return responseMessage;
+        } 
 
     }
 }

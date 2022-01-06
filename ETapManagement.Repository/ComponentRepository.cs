@@ -53,8 +53,12 @@ namespace ETapManagement.Repository {
         public ResponseMessage AddComponents (AddComponents request) {
             ResponseMessage response = new ResponseMessage ();
             response.Message = "Components added succusfully";
-            // if (request?.ProjectStructureDetail == null)
-            // 	throw new ValueNotFoundException ("ProjectStructureDetail Request cannot be empty.");
+            List<dispatchedStrucCount> result = new List<dispatchedStrucCount>();
+                 int count = _context.Component.Single(s =>s.Id==request.ProjStructId).Id;
+              int Quantity=request.Components.Count();
+                int excedCout= count+Quantity;
+                int totalcount =_context.ProjectStructure.Single(s =>s.Id==request.ProjStructId).ComponentsCount??0;
+                  if (totalcount<excedCout) throw new ValueNotFoundException ("Dispatch Components should match the required quantity.");
 
             try {
                 //	using (var transaction = _context.Database.BeginTransaction ())                 
