@@ -122,6 +122,10 @@ namespace ETapManagement.ViewModel.Dto
         public int ProjStructId { get; set; }
         public decimal Cost { get; set; }
 
+        public string DispatchNo {get;set;}
+
+         public int DispatchRequirementId {get;set;}
+
     }
 
     public class CostComponentDetailsDto
