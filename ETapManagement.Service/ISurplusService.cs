@@ -11,5 +11,8 @@ namespace ETapManagement.Service {
         ResponseMessage DeleteSurplus (int id);
         ResponseMessage WorkflowSurplusDecl (WorkFlowSurplusDeclPayload reqPayload);
 
+          public List<ReceiveDetail> GetReceiveDetails(int projectId);
+
+
     }
 }

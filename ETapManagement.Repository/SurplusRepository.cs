@@ -192,6 +192,21 @@ namespace ETapManagement.Repository {
             }
         }
 
+          public List<ReceiveDetail> GetReceiveDetails(int projectId)
+        {
+            try
+            {
+                List<ReceiveDetail> lstReceiveDetails = new List<ReceiveDetail>();
+                var receiveDetails = _context.Query<ReceiveDetail>().FromSqlRaw("exec SP_GetReceiveDetailssurplus {0}", projectId).ToList();
+                lstReceiveDetails = _mapper.Map<List<ReceiveDetail>>(receiveDetails);
+                return lstReceiveDetails;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void Dispose () {
             Dispose (true);
             GC.SuppressFinalize (this);

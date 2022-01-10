@@ -16,7 +16,7 @@ namespace ETapManagement.Api.Controllers {
     [EnableCors ("AllowAll")]
     //[Authorize]
     [ApiController]
-   [Authorize]
+ //  [Authorize]
     [Route ("api/[controller]")]
 
     public class WBSController : ControllerBase {
@@ -63,7 +63,18 @@ namespace ETapManagement.Api.Controllers {
             }
         }
 
-        [HttpGet ("getWBS/{id}")]
+        [HttpGet ("GetProjectWBSCodeList/{id}")]
+        public IActionResult GetProjectWBSCodeList (int id) {
+            try {
+                var response = _wbsService.GetProjectWBSCodeList (id);
+                return Ok (response);
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+           [HttpGet ("getWBS/{id}")]
         public IActionResult GetUserById (int id) {
             try {
                 var response = _wbsService.GetWBSDetailsById (id);

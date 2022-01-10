@@ -754,3 +754,32 @@ BEGIN
 		FROM project_structure ps 
 		INNER JOIN disp_req_structure drs ON drs.proj_struct_id = ps.id WHERE drs.proj_struct_id = @ProjectStructureId
 END
+
+
+CREATE     PROCEDURE SP_GetReceiveDetailssurplus(@ProjectId int)
+AS
+BEGIN
+SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber, dr.created_at As CreatedDate,dr.updated_at As UpdatedDate,
+	   p.name AS ProjectName, p.id AS ProjectId, s.name AS StructureName,
+	   ps.Id as ProjectStructId,
+	   dr.status_internal as DispReqInternalStatus, dr.status as DispReqStatus ,drs.disp_struct_status as DispStructStatus, 
+	   ps.struct_code AS ProjectStructureCode, ps.structure_attributes_val AS StructureAttributesValue, 
+	   ps.components_count AS ComponentsCount, drs.id AS DispatchStructureId,
+	   dr.servicetype_id as ServiceTypeId, (select top 1 name from service_type st where id =dr.servicetype_id ) as ServcieTypeName,
+	   drs.is_modification as isModification,
+	   (SELECT COUNT(1) FROM disp_structure_comp dsc WHERE disp_structure_id = drs.id) AS CountEarned,
+	  ( select top 1 subcon_id from dispatchreq_subcont ds where dispreq_id =dr.id) as DispatchVendorId,
+	  (select top 1 mr_no from site_requirement sr where id = dr.sitereq_id) as MrNo
+	  
+	   FROM dispatch_requirement dr 
+			  INNER JOIN disp_req_structure drs ON drs.dispreq_id = dr.id
+			  INNER JOIN project_structure ps  ON ps.id = drs.proj_struct_id
+			  INNER JOIN project p ON p.id  = dr.to_projectid
+			  INNER JOIN structures s ON s.id = ps.structure_id
+	  WHERE dr.to_projectid = @ProjectId
+	  -- remove once surplus approved
+	  and ps.current_status ='IN USE'
+END	
+
+
+SELECT  * from dispatch_requirement dr 

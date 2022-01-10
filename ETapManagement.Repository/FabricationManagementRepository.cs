@@ -103,7 +103,7 @@ namespace ETapManagement.Repository {
                try
             {
                 List<FabricationCostList> result = new List<FabricationCostList>();
-                string strQuery = string.Format("select ps.struct_code as StructureCode,s.name as StructureName,p.name as ProjectName,ps.fabriacation_cost as FabricationCost,ps.updated_at as fabricationDate from disp_fabrication_cost dfc inner join disp_req_structure drs on dfc.disp_structure_id =drs.id inner join project_structure ps on ps.id =drs.proj_struct_id inner join structures s on ps.structure_id =s.id inner join project p on p.id =ps.project_id");
+                string strQuery = string.Format("select ps.struct_code as StructureCode,s.name as StructureName,p.name as ProjectName,ps.fabriacation_cost as FabricationCost,ps.updated_at as fabricationDate from disp_fabrication_cost dfc inner join disp_req_structure drs on dfc.disp_req_id =drs.dispreq_id  inner join project_structure ps on ps.id =drs.proj_struct_id inner join structures s on ps.structure_id =s.id inner join project p on p.id =ps.project_id");
                 result = _context.Query<FabricationCostList>().FromSqlRaw(strQuery).ToList();
                 return result;
             }
