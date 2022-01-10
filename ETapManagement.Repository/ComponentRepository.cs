@@ -130,7 +130,7 @@ namespace ETapManagement.Repository {
                     try {
                         var isUpdate = false;
                         var projectStructureID = 0;
-                        ProjectStructure projectStructure = _context.ProjectStructure.Where (x => x.Id == _context.DispReqStructure.Where(x=>x.Id == request.DispStructureId).FirstOrDefault().ProjStructId && x.IsDelete == false).FirstOrDefault ();
+                         projectStructure = _context.ProjectStructure.Where (x => x.Id == _context.DispReqStructure.Where(x=>x.Id == request.DispStructureId).FirstOrDefault().ProjStructId && x.IsDelete == false).FirstOrDefault ();
                         if (projectStructure == null) throw new ValueNotFoundException ("Project Structure not yet assigned");
                         projectStructureID = projectStructure.Id;
                         if (request.Components?.Count > 0) {
