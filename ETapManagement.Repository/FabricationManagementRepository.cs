@@ -41,7 +41,7 @@ namespace ETapManagement.Repository {
                try
             {
                 List<AsBuildStructureCost> result = new List<AsBuildStructureCost>();
-                string strQuery = string.Format("select dr.dispatch_no as DispatchNo,drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id   inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where dr.servicetype_id = 1 or dr.servicetype_id = 2 or (dr.servicetype_id = 1 and drs.is_modification=1) and dr.status ='{1}' and  dr.to_projectid ={0} and ps.fabriacation_cost =NULL ORDER BY dr.id DESC", projectId,Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString());
+                string strQuery = string.Format("select dr.dispatch_no as DispatchNo,drs.id as DispReqStructId,CASE WHEN ps.fabriacation_cost > 0 THEN 'True' ELSE 'False' END AS FabricationFlage, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id   inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where dr.servicetype_id = 1 or dr.servicetype_id = 2 or (dr.servicetype_id = 1 and drs.is_modification=1) and dr.status ='{1}' and  dr.to_projectid ={0} and ps.fabriacation_cost =NULL ORDER BY dr.id DESC", projectId,Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString());
                 result = _context.Query<AsBuildStructureCost>().FromSqlRaw(strQuery).ToList();
                 return result;
             }
@@ -103,8 +103,20 @@ namespace ETapManagement.Repository {
                try
             {
                 List<FabricationCostList> result = new List<FabricationCostList>();
-                string strQuery = string.Format("select ps.struct_code as StructureCode,s.name as StructureName,p.name as ProjectName,ps.fabriacation_cost as FabricationCost,ps.updated_at as fabricationDate from disp_fabrication_cost dfc inner join disp_req_structure drs on dfc.disp_req_id =drs.dispreq_id  inner join project_structure ps on ps.id =drs.proj_struct_id inner join structures s on ps.structure_id =s.id inner join project p on p.id =ps.project_id");
+                string strQuery = string.Format("select 0.0 as currentBookValue, ps.struct_code as StructureCode,s.name as StructureName,p.name as ProjectName,ps.structure_attributes_val as StructureAttValue,ps.fabriacation_cost as FabricationCost,ps.updated_at as fabricationDate from disp_fabrication_cost dfc inner join disp_req_structure drs on dfc.disp_req_id =drs.dispreq_id  inner join project_structure ps on ps.id =drs.proj_struct_id inner join structures s on ps.structure_id =s.id inner join project p on p.id =ps.project_id");
                 result = _context.Query<FabricationCostList>().FromSqlRaw(strQuery).ToList();
+
+                DateTime currenDate=DateTime.Now;
+          
+                result.ForEach(item =>
+                {
+                    double month =   ((currenDate.Year - item.fabricationDate.Year) * 12) + currenDate.Month - item.fabricationDate.Month;
+                               // double month = item.fabricationDate.Subtract(currenDate).Days / (365.25 / 12);
+                                 double pow_ab = Math.Pow(0.94, month);
+                                 decimal dtot = (decimal)(pow_ab);
+                  item.currentBookValue= item.FabricationCost * dtot;
+
+                });
                 return result;
             }
             catch (Exception ex)

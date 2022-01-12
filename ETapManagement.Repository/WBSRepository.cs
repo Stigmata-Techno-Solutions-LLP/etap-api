@@ -91,7 +91,7 @@ namespace ETapManagement.Repository {
 
          public List<WorkBreakDownCode> GetProjectWBSCodeList (int projectId) {
             try {
-                List<WorkBreakDownCode> lstWBS = _mapper.Map<List<WorkBreakDownCode>> (_context.WorkBreakdown.Where (x => x.IsDelete == false && x.ProjectId==projectId).ToList ());
+               List<WorkBreakDownCode> lstWBS = _mapper.Map<List<WorkBreakDownCode>> (_context.WorkBreakdown.Include (c => c.Project).Where (x => x.IsDelete == false && x.ProjectId==projectId).ToList ());
                 return lstWBS;
             } catch (Exception ex) {
                 throw ex;
