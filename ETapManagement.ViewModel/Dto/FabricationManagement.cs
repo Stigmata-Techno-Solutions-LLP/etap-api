@@ -57,6 +57,8 @@ namespace ETapManagement.ViewModel.Dto
         public string StructrueName { get; set; }
 
         public string StructureAttValue{get; set;}
+
+        public string FabricationFlage {get; set;}
        
 
 
@@ -220,6 +222,10 @@ namespace ETapManagement.ViewModel.Dto
         public string ProjectName { get; set; }
         public decimal FabricationCost { get; set; }
         public DateTime fabricationDate { get; set; }
+
+        public string StructureAttValue{get;set;}
+
+        public decimal currentBookValue{get;set;}
 
 
     }
