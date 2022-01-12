@@ -23,7 +23,7 @@ namespace ETapManagement.Repository {
         }
  public List<SiteDispatchDetail> GetSiteDispatchDetails (SiteDispatchPayload siteDispatchPayload) {
             try {
-                List<SiteDispatchDetail> result = new List<SiteDispatchDetail> ();
+                List<SiteDispatchDetail> result = new List<SiteDispatchDetail> ();                
                 var siteDispatchDetails = _context.Query<SiteDispatchDetail> ().FromSqlRaw ("exec sp_getDispatch {0}, {1},{2},{3}", siteDispatchPayload.role_name.ToString (), siteDispatchPayload.role_hierarchy, siteDispatchPayload.ProjectId, siteDispatchPayload.VendorId).ToList ();
                 result = _mapper.Map<List<SiteDispatchDetail>> (siteDispatchDetails);
 
@@ -431,6 +431,7 @@ namespace ETapManagement.Repository {
         public List<SubContractorDetail> GetSubContractorDetails (int vendorId) {
             try {
                 List<SubContractorDetail> lstSubContractorDetail = new List<SubContractorDetail> ();
+                _context.Query<Int> ().FromSqlRaw ("exec SP_GetSubContractorDetails {0}", vendorId);
                 var subContractorDetails = _context.Query<SubContractorDetail> ().FromSqlRaw ("exec SP_GetSubContractorDetails {0}", vendorId).ToList ();
                 lstSubContractorDetail = _mapper.Map<List<SubContractorDetail>> (subContractorDetails);
                 return lstSubContractorDetail;

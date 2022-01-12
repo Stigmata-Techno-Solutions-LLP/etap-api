@@ -1,205 +1,13 @@
-use ETapManagementSIT;
+-- DROP SCHEMA dbo;
 
-
-IF OBJECT_ID('disp_fabrication_cost', 'U') IS NOT NULL 
-  DROP TABLE disp_fabrication_cost ;
-
-
-
-
-IF OBJECT_ID('site_strct_physicalverf_doc', 'U') IS NOT NULL 
-  DROP TABLE site_strct_physicalverf_doc ;
-
-
-IF OBJECT_ID('site_comp_physicalverf', 'U') IS NOT NULL 
-  DROP TABLE site_comp_physicalverf ;
-
-IF OBJECT_ID('site_structure_physicalverf', 'U') IS NOT NULL 
-  DROP TABLE site_structure_physicalverf ;
-
-IF OBJECT_ID('site_physical_verf', 'U') IS NOT NULL 
-  DROP TABLE site_physical_verf ;
-
-IF OBJECT_ID('component_history', 'U') IS NOT NULL 
-  DROP TABLE component_history ;
-
-
-IF OBJECT_ID('project_structure_documents', 'U') IS NOT NULL 
-  DROP TABLE project_structure_documents;
-
-
-IF OBJECT_ID('disp_subcont_documents', 'U') IS NOT NULL 
-  DROP TABLE disp_subcont_documents;
-
-IF OBJECT_ID('disp_subcont_structure', 'U') IS NOT NULL 
-  DROP TABLE disp_subcont_structure;
-
-
-IF OBJECT_ID('dispatchreq_subcont', 'U') IS NOT NULL 
-  DROP TABLE dispatchreq_subcont;
-
-
-
-IF OBJECT_ID('disp_mod_stage_component', 'U') IS NOT NULL 
-  DROP TABLE disp_mod_stage_component;
-
-IF OBJECT_ID('disp_structure_comp', 'U') IS NOT NULL 
-  DROP TABLE disp_structure_comp;
-
-
-IF OBJECT_ID('disp_structure_documents', 'U') IS NOT NULL 
-  DROP TABLE disp_structure_documents;
-
-
-IF OBJECT_ID('disp_req_structure', 'U') IS NOT NULL 
-  DROP TABLE disp_req_structure;
-
-
-IF OBJECT_ID('disreq_status_history', 'U') IS NOT NULL 
-  DROP TABLE disreq_status_history;
-
-IF OBJECT_ID('disp_req_structure', 'U') IS NOT NULL 
-  DROP TABLE disp_req_structure;
-
-
-
-IF OBJECT_ID('dispatch_requirement', 'U') IS NOT NULL 
-  DROP TABLE dispatch_requirement;
-
-IF OBJECT_ID('sitedecl_documents', 'U') IS NOT NULL 
-  DROP TABLE sitedecl_documents;
-
-
-IF OBJECT_ID('sitedecl_status_history', 'U') IS NOT NULL 
-  DROP TABLE sitedecl_status_history;
-
-IF OBJECT_ID('site_declaration', 'U') IS NOT NULL 
-  DROP TABLE site_declaration;
-
-
-
-IF OBJECT_ID('sitereq_status_history', 'U') IS NOT NULL 
-  DROP TABLE sitereq_status_history;
-
-IF OBJECT_ID('site_req_structure', 'U') IS NOT NULL 
-  DROP TABLE site_req_structure;
-
-
-IF OBJECT_ID('site_requirement', 'U') IS NOT NULL 
-  DROP TABLE site_requirement;
-
-IF OBJECT_ID('scrap_status_history', 'U') IS NOT NULL 
-  DROP TABLE scrap_status_history;
-
-IF OBJECT_ID('scrap_structure', 'U') IS NOT NULL 
-  DROP TABLE scrap_structure;
-
-
-IF OBJECT_ID('work_breakdown', 'U') IS NOT NULL 
-  DROP TABLE work_breakdown;
-
-
-IF OBJECT_ID('users', 'U') IS NOT NULL 
-DROP TABLE users;
-
-
-IF OBJECT_ID('audit_logs', 'U') IS NOT NULL 
-  DROP TABLE audit_logs;
-
-IF OBJECT_ID('roles_applicationforms', 'U') IS NOT NULL 
-  DROP TABLE roles_applicationforms;
-
-IF OBJECT_ID('application_forms', 'U') IS NOT NULL 
-  DROP TABLE application_forms;
-
-
-
-
-IF OBJECT_ID('project_sitelocation', 'U') IS NOT NULL 
-  DROP TABLE project_sitelocation ;
-
-
-
-IF OBJECT_ID('component', 'U') IS NOT NULL 
-  DROP TABLE component;
-
-
-IF OBJECT_ID('project_structure', 'U') IS NOT NULL 
-  DROP TABLE project_structure;
-
-
-IF OBJECT_ID('project', 'U') IS NOT NULL 
-  DROP TABLE project;
-
-
-IF OBJECT_ID('structures', 'U') IS NOT NULL 
-  DROP TABLE structures;
-
-
-
-IF OBJECT_ID('businessUnit_IC', 'U') IS NOT NULL 
-  DROP TABLE businessUnit_IC ;
-IF OBJECT_ID('business_unit', 'U') IS NOT NULL 
-  DROP TABLE business_unit ;
-
-
-IF OBJECT_ID('strategic_business', 'U') IS NOT NULL 
-  DROP TABLE strategic_business ;
-
-
-IF OBJECT_ID('independent_company', 'U') IS NOT NULL 
-  DROP TABLE independent_company;
-
-IF OBJECT_ID('structure_type', 'U') IS NOT NULL 
-  DROP TABLE structure_type;
-
-
-IF OBJECT_ID('component_type', 'U') IS NOT NULL 
-  DROP TABLE component_type;
-
-
-IF OBJECT_ID('subContractor_serviceType', 'U') IS NOT NULL 
-  DROP TABLE subContractor_serviceType;
-
-IF OBJECT_ID('service_type', 'U') IS NOT NULL 
-  DROP TABLE service_type;
-
-IF OBJECT_ID('segment', 'U') IS NOT NULL 
-  DROP TABLE segment;
-
-IF OBJECT_ID('sub_contractor', 'U') IS NOT NULL 
-  DROP TABLE sub_contractor;
-
-
-IF OBJECT_ID('roles', 'U') IS NOT NULL 
-  DROP TABLE roles;
-IF OBJECT_ID('role_hierarchy', 'U') IS NOT NULL 
-  DROP TABLE role_hierarchy;
-
-
-
-
--- ETapManagementSIT.dbo.roles definition
+CREATE SCHEMA dbo;
+-- ETapManagementSIT.dbo.application_forms definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.roles ;
+-- DROP TABLE ETapManagementSIT.dbo.application_forms GO
 
-CREATE TABLE ETapManagementSIT.dbo.roles
-(
-	id int IDENTITY(1,1) NOT NULL,
-	name varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	description varchar(300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[level] int NULL,
-	CONSTRAINT site_roles_name_key UNIQUE (name),
-	CONSTRAINT site_roles_pkey PRIMARY KEY (id)
-)
-;
-
-
-
-CREATE TABLE ETapManagementSIT.dbo.application_forms
-(
+CREATE TABLE ETapManagementSIT.dbo.application_forms (
 	id int IDENTITY(1,1) NOT NULL,
 	name varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	description varchar(300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -209,21 +17,33 @@ CREATE TABLE ETapManagementSIT.dbo.application_forms
 	isView bit NULL,
 	CONSTRAINT application_forms_name_key UNIQUE (name),
 	CONSTRAINT page_pkey PRIMARY KEY (id)
-)
-;
+) GO
+CREATE UNIQUE INDEX application_forms_name_key ON ETapManagementSIT.dbo.application_forms (name) GO;
 
-CREATE TABLE ETapManagementSIT.dbo.audit_logs
-(
+
+-- ETapManagementSIT.dbo.audit_logs definition
+
+-- Drop table
+
+-- DROP TABLE ETapManagementSIT.dbo.audit_logs GO
+
+CREATE TABLE ETapManagementSIT.dbo.audit_logs (
 	id int IDENTITY(1,1) NOT NULL,
 	[action] varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	message varchar(2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	created_by int NULL,
 	created_at datetime DEFAULT getdate() NULL,
 	CONSTRAINT auditlog_pkey PRIMARY KEY (id)
-);
+) GO;
 
-CREATE TABLE ETapManagementSIT.dbo.component_type
-(
+
+-- ETapManagementSIT.dbo.component_type definition
+
+-- Drop table
+
+-- DROP TABLE ETapManagementSIT.dbo.component_type GO
+
+CREATE TABLE ETapManagementSIT.dbo.component_type (
 	id int IDENTITY(1,1) NOT NULL,
 	name varchar(200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	description varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -235,11 +55,35 @@ CREATE TABLE ETapManagementSIT.dbo.component_type
 	updated_at datetime NULL,
 	CONSTRAINT PK__componen__3213E83F568EF532 PRIMARY KEY (id),
 	CONSTRAINT UQ__componen__72E12F1B396403F9 UNIQUE (name)
-)
-;
+) GO
+CREATE UNIQUE INDEX UQ__componen__72E12F1B396403F9 ON ETapManagementSIT.dbo.component_type (name) GO;
 
-CREATE TABLE ETapManagementSIT.dbo.independent_company
-(
+
+-- ETapManagementSIT.dbo.fabrication_status_history definition
+
+-- Drop table
+
+-- DROP TABLE ETapManagementSIT.dbo.fabrication_status_history GO
+
+CREATE TABLE ETapManagementSIT.dbo.fabrication_status_history (
+	id int IDENTITY(1,1) NOT NULL,
+	fabcost_id int NULL,
+	notes varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	status varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	status_internal varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	role_id int NULL,
+	updated_by int NULL,
+	updated_at datetime NULL
+) GO;
+
+
+-- ETapManagementSIT.dbo.independent_company definition
+
+-- Drop table
+
+-- DROP TABLE ETapManagementSIT.dbo.independent_company GO
+
+CREATE TABLE ETapManagementSIT.dbo.independent_company (
 	id int IDENTITY(1,1) NOT NULL,
 	name varchar(200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	description varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -250,18 +94,16 @@ CREATE TABLE ETapManagementSIT.dbo.independent_company
 	updated_by int NULL,
 	updated_at datetime NULL,
 	CONSTRAINT PK__independ__3213E83FC05B418C PRIMARY KEY (id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.role_hierarchy definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.role_hierarchy ;
+-- DROP TABLE ETapManagementSIT.dbo.role_hierarchy GO
 
-CREATE TABLE ETapManagementSIT.dbo.role_hierarchy
-(
+CREATE TABLE ETapManagementSIT.dbo.role_hierarchy (
 	id int IDENTITY(1,1) NOT NULL,
 	role_name varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	scenario_type varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -271,53 +113,65 @@ CREATE TABLE ETapManagementSIT.dbo.role_hierarchy
 	view_details_status varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	service_type varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	CONSTRAINT PK__role_hie__3213E83FB7A46A91 PRIMARY KEY (id)
-)
-;
+) GO;
 
+
+-- ETapManagementSIT.dbo.roles definition
+
+-- Drop table
+
+-- DROP TABLE ETapManagementSIT.dbo.roles GO
+
+CREATE TABLE ETapManagementSIT.dbo.roles (
+	id int IDENTITY(1,1) NOT NULL,
+	name varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	description varchar(300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[level] int NULL,
+	CONSTRAINT site_roles_name_key UNIQUE (name),
+	CONSTRAINT site_roles_pkey PRIMARY KEY (id)
+) GO
+CREATE UNIQUE INDEX site_roles_name_key ON ETapManagementSIT.dbo.roles (name) GO;
 
 
 -- ETapManagementSIT.dbo.segment definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.segment ;
+-- DROP TABLE ETapManagementSIT.dbo.segment GO
 
-CREATE TABLE ETapManagementSIT.dbo.segment
-(
+CREATE TABLE ETapManagementSIT.dbo.segment (
 	id int IDENTITY(1,1) NOT NULL,
 	name varchar(200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	description varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	CONSTRAINT PK__segment__3213E83FBD863FCE PRIMARY KEY (id),
 	CONSTRAINT UQ__segment__72E12F1BB60B301A UNIQUE (name)
-)
-;
+) GO
+CREATE UNIQUE INDEX UQ__segment__72E12F1BB60B301A ON ETapManagementSIT.dbo.segment (name) GO;
 
 
 -- ETapManagementSIT.dbo.service_type definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.service_type ;
+-- DROP TABLE ETapManagementSIT.dbo.service_type GO
 
-CREATE TABLE ETapManagementSIT.dbo.service_type
-(
+CREATE TABLE ETapManagementSIT.dbo.service_type (
 	id int IDENTITY(1,1) NOT NULL,
 	name varchar(200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	description varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	CONSTRAINT PK__service___3213E83FDC739188 PRIMARY KEY (id),
 	CONSTRAINT UQ__service___72E12F1BC5E41A68 UNIQUE (name)
-)
-;
+) GO
+CREATE UNIQUE INDEX UQ__service___72E12F1BC5E41A68 ON ETapManagementSIT.dbo.service_type (name) GO;
 
 
 -- ETapManagementSIT.dbo.site_physical_verf definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.site_physical_verf ;
+-- DROP TABLE ETapManagementSIT.dbo.site_physical_verf GO
 
-CREATE TABLE ETapManagementSIT.dbo.site_physical_verf
-(
+CREATE TABLE ETapManagementSIT.dbo.site_physical_verf (
 	id int IDENTITY(1,1) NOT NULL,
 	duedate_from datetime NULL,
 	duedate_to datetime NULL,
@@ -325,18 +179,16 @@ CREATE TABLE ETapManagementSIT.dbo.site_physical_verf
 	created_by int NULL,
 	created_at datetime DEFAULT getdate() NULL,
 	CONSTRAINT PK__site_phy__3213E83F9853B11A PRIMARY KEY (id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.strategic_business definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.strategic_business ;
+-- DROP TABLE ETapManagementSIT.dbo.strategic_business GO
 
-CREATE TABLE ETapManagementSIT.dbo.strategic_business
-(
+CREATE TABLE ETapManagementSIT.dbo.strategic_business (
 	id int IDENTITY(1,1) NOT NULL,
 	name varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	is_delete bit DEFAULT 0 NOT NULL,
@@ -346,18 +198,16 @@ CREATE TABLE ETapManagementSIT.dbo.strategic_business
 	updated_by int NULL,
 	updated_at datetime NULL,
 	CONSTRAINT strategic_business_pkey PRIMARY KEY (id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.structure_type definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.structure_type ;
+-- DROP TABLE ETapManagementSIT.dbo.structure_type GO
 
-CREATE TABLE ETapManagementSIT.dbo.structure_type
-(
+CREATE TABLE ETapManagementSIT.dbo.structure_type (
 	id int IDENTITY(1,1) NOT NULL,
 	name varchar(200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	is_active bit DEFAULT 1 NOT NULL,
@@ -368,18 +218,16 @@ CREATE TABLE ETapManagementSIT.dbo.structure_type
 	updated_by int NULL,
 	updated_at datetime NULL,
 	CONSTRAINT PK__structur__3213E83F1851D90C PRIMARY KEY (id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.sub_contractor definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.sub_contractor ;
+-- DROP TABLE ETapManagementSIT.dbo.sub_contractor GO
 
-CREATE TABLE ETapManagementSIT.dbo.sub_contractor
-(
+CREATE TABLE ETapManagementSIT.dbo.sub_contractor (
 	id int IDENTITY(1,1) NOT NULL,
 	vendor_code varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	name varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -392,18 +240,16 @@ CREATE TABLE ETapManagementSIT.dbo.sub_contractor
 	updated_by int NULL,
 	updated_at datetime NULL,
 	CONSTRAINT subcont_pkey PRIMARY KEY (id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.business_unit definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.business_unit ;
+-- DROP TABLE ETapManagementSIT.dbo.business_unit GO
 
-CREATE TABLE ETapManagementSIT.dbo.business_unit
-(
+CREATE TABLE ETapManagementSIT.dbo.business_unit (
 	id int IDENTITY(1,1) NOT NULL,
 	ic_id int NOT NULL,
 	name varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -417,18 +263,16 @@ CREATE TABLE ETapManagementSIT.dbo.business_unit
 	CONSTRAINT business_unit_pkey PRIMARY KEY (id),
 	CONSTRAINT business_unit_icId_IC__fkey FOREIGN KEY (ic_id) REFERENCES ETapManagementSIT.dbo.independent_company(id),
 	CONSTRAINT business_unit_sbgId_SBG__fkey FOREIGN KEY (sbg_id) REFERENCES ETapManagementSIT.dbo.strategic_business(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.project definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.project ;
+-- DROP TABLE ETapManagementSIT.dbo.project GO
 
-CREATE TABLE ETapManagementSIT.dbo.project
-(
+CREATE TABLE ETapManagementSIT.dbo.project (
 	id int IDENTITY(1,1) NOT NULL,
 	name varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	proj_code varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -446,35 +290,31 @@ CREATE TABLE ETapManagementSIT.dbo.project
 	CONSTRAINT project_pkey PRIMARY KEY (id),
 	CONSTRAINT project_buId_BU__fkey FOREIGN KEY (bu_id) REFERENCES ETapManagementSIT.dbo.business_unit(id),
 	CONSTRAINT project_icId_IC__fkey FOREIGN KEY (ic_id) REFERENCES ETapManagementSIT.dbo.independent_company(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.project_sitelocation definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.project_sitelocation ;
+-- DROP TABLE ETapManagementSIT.dbo.project_sitelocation GO
 
-CREATE TABLE ETapManagementSIT.dbo.project_sitelocation
-(
+CREATE TABLE ETapManagementSIT.dbo.project_sitelocation (
 	id int IDENTITY(1,1) NOT NULL,
 	name varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	project_id int NOT NULL,
 	CONSTRAINT project_sitelocation_pkey PRIMARY KEY (id),
 	CONSTRAINT project_sitelocation_projectId_fkey FOREIGN KEY (project_id) REFERENCES ETapManagementSIT.dbo.project(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.roles_applicationforms definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.roles_applicationforms ;
+-- DROP TABLE ETapManagementSIT.dbo.roles_applicationforms GO
 
-CREATE TABLE ETapManagementSIT.dbo.roles_applicationforms
-(
+CREATE TABLE ETapManagementSIT.dbo.roles_applicationforms (
 	id int IDENTITY(1,1) NOT NULL,
 	form_id int NOT NULL,
 	role_id int NOT NULL,
@@ -485,18 +325,16 @@ CREATE TABLE ETapManagementSIT.dbo.roles_applicationforms
 	CONSTRAINT roles_forms_pkey PRIMARY KEY (id),
 	CONSTRAINT rolesforms_forms_id_fkey FOREIGN KEY (form_id) REFERENCES ETapManagementSIT.dbo.application_forms(id),
 	CONSTRAINT rolesforms_roles_id_fkey FOREIGN KEY (role_id) REFERENCES ETapManagementSIT.dbo.roles(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.site_requirement definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.site_requirement ;
+-- DROP TABLE ETapManagementSIT.dbo.site_requirement GO
 
-CREATE TABLE ETapManagementSIT.dbo.site_requirement
-(
+CREATE TABLE ETapManagementSIT.dbo.site_requirement (
 	id int IDENTITY(1,1) NOT NULL,
 	mr_no varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	from_project_id int NOT NULL,
@@ -512,18 +350,17 @@ CREATE TABLE ETapManagementSIT.dbo.site_requirement
 	CONSTRAINT PK__site_req__3213E83FC195E882 PRIMARY KEY (id),
 	CONSTRAINT UQ__site_req__AE8CB972C5005D06 UNIQUE (mr_no),
 	CONSTRAINT siteReq_proj_fkey FOREIGN KEY (from_project_id) REFERENCES ETapManagementSIT.dbo.project(id)
-)
-;
+) GO
+CREATE UNIQUE INDEX UQ__site_req__AE8CB972C5005D06 ON ETapManagementSIT.dbo.site_requirement (mr_no) GO;
 
 
 -- ETapManagementSIT.dbo.sitereq_status_history definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.sitereq_status_history ;
+-- DROP TABLE ETapManagementSIT.dbo.sitereq_status_history GO
 
-CREATE TABLE ETapManagementSIT.dbo.sitereq_status_history
-(
+CREATE TABLE ETapManagementSIT.dbo.sitereq_status_history (
 	id int IDENTITY(1,1) NOT NULL,
 	mr_no varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	sitereq_id int NOT NULL,
@@ -535,18 +372,16 @@ CREATE TABLE ETapManagementSIT.dbo.sitereq_status_history
 	updated_at datetime NULL,
 	CONSTRAINT PK__sitereq___3213E83F6E97E4A7 PRIMARY KEY (id),
 	CONSTRAINT sitereq_status_history_sitereq_fkey FOREIGN KEY (sitereq_id) REFERENCES ETapManagementSIT.dbo.site_requirement(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.structures definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.structures ;
+-- DROP TABLE ETapManagementSIT.dbo.structures GO
 
-CREATE TABLE ETapManagementSIT.dbo.structures
-(
+CREATE TABLE ETapManagementSIT.dbo.structures (
 	id int IDENTITY(1,1) NOT NULL,
 	name varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	structure_type_id int NOT NULL,
@@ -559,36 +394,32 @@ CREATE TABLE ETapManagementSIT.dbo.structures
 	updated_at datetime NULL,
 	CONSTRAINT structure_pkey PRIMARY KEY (id),
 	CONSTRAINT structures_structuretype_fkey FOREIGN KEY (structure_type_id) REFERENCES ETapManagementSIT.dbo.structure_type(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.subContractor_serviceType definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.subContractor_serviceType ;
+-- DROP TABLE ETapManagementSIT.dbo.subContractor_serviceType GO
 
-CREATE TABLE ETapManagementSIT.dbo.subContractor_serviceType
-(
+CREATE TABLE ETapManagementSIT.dbo.subContractor_serviceType (
 	id int IDENTITY(1,1) NOT NULL,
 	subcont_id int NOT NULL,
 	servicetype_id int NOT NULL,
 	CONSTRAINT subST_pkey PRIMARY KEY (id),
 	CONSTRAINT subST_servieType_fkey FOREIGN KEY (servicetype_id) REFERENCES ETapManagementSIT.dbo.service_type(id),
 	CONSTRAINT subST_subconractor_fkey FOREIGN KEY (subcont_id) REFERENCES ETapManagementSIT.dbo.sub_contractor(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.users definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.users ;
+-- DROP TABLE ETapManagementSIT.dbo.users GO
 
-CREATE TABLE ETapManagementSIT.dbo.users
-(
+CREATE TABLE ETapManagementSIT.dbo.users (
 	id int IDENTITY(1,1) NOT NULL,
 	project_id int NOT NULL,
 	ic_id int NOT NULL,
@@ -612,18 +443,16 @@ CREATE TABLE ETapManagementSIT.dbo.users
 	CONSTRAINT users_bu_fkey FOREIGN KEY (bu_id) REFERENCES ETapManagementSIT.dbo.business_unit(id),
 	CONSTRAINT users_ic_fkey FOREIGN KEY (ic_id) REFERENCES ETapManagementSIT.dbo.independent_company(id),
 	CONSTRAINT users_proj_fkey FOREIGN KEY (project_id) REFERENCES ETapManagementSIT.dbo.project(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.work_breakdown definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.work_breakdown ;
+-- DROP TABLE ETapManagementSIT.dbo.work_breakdown GO
 
-CREATE TABLE ETapManagementSIT.dbo.work_breakdown
-(
+CREATE TABLE ETapManagementSIT.dbo.work_breakdown (
 	id int IDENTITY(1,1) NOT NULL,
 	wbs_id varchar(200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	project_id int NOT NULL,
@@ -638,18 +467,16 @@ CREATE TABLE ETapManagementSIT.dbo.work_breakdown
 	sub_segment varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	CONSTRAINT wbs_pkey PRIMARY KEY (id),
 	CONSTRAINT wbs_proj_fkey FOREIGN KEY (project_id) REFERENCES ETapManagementSIT.dbo.project(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.project_structure definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.project_structure ;
+-- DROP TABLE ETapManagementSIT.dbo.project_structure GO
 
-CREATE TABLE ETapManagementSIT.dbo.project_structure
-(
+CREATE TABLE ETapManagementSIT.dbo.project_structure (
 	id int IDENTITY(1,1) NOT NULL,
 	structure_id int NOT NULL,
 	struct_code varchar(10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -675,18 +502,16 @@ CREATE TABLE ETapManagementSIT.dbo.project_structure
 	CONSTRAINT projstructure_pkey PRIMARY KEY (id),
 	CONSTRAINT projstructure_proj_fkey FOREIGN KEY (project_id) REFERENCES ETapManagementSIT.dbo.project(id),
 	CONSTRAINT projstructure_structures_fkey FOREIGN KEY (structure_id) REFERENCES ETapManagementSIT.dbo.structures(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.project_structure_documents definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.project_structure_documents ;
+-- DROP TABLE ETapManagementSIT.dbo.project_structure_documents GO
 
-CREATE TABLE ETapManagementSIT.dbo.project_structure_documents
-(
+CREATE TABLE ETapManagementSIT.dbo.project_structure_documents (
 	id int IDENTITY(1,1) NOT NULL,
 	project_structure_id int NOT NULL,
 	file_name varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -694,18 +519,16 @@ CREATE TABLE ETapManagementSIT.dbo.project_structure_documents
 	[path] varchar(1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	CONSTRAINT project_structure_documents_pkey PRIMARY KEY (id),
 	CONSTRAINT project_structure_id_psID_fkey FOREIGN KEY (project_structure_id) REFERENCES ETapManagementSIT.dbo.project_structure(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.scrap_structure definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.scrap_structure ;
+-- DROP TABLE ETapManagementSIT.dbo.scrap_structure GO
 
-CREATE TABLE ETapManagementSIT.dbo.scrap_structure
-(
+CREATE TABLE ETapManagementSIT.dbo.scrap_structure (
 	id int IDENTITY(1,1) NOT NULL,
 	subcon_id int NULL,
 	proj_struct_id int NULL,
@@ -723,18 +546,16 @@ CREATE TABLE ETapManagementSIT.dbo.scrap_structure
 	CONSTRAINT PK__scrap_st__3213E83F72AA0607 PRIMARY KEY (id),
 	CONSTRAINT scrap_structure_subcon_fkey FOREIGN KEY (subcon_id) REFERENCES ETapManagementSIT.dbo.sub_contractor(id),
 	CONSTRAINT scrap_strucure_projstructure_fkey FOREIGN KEY (proj_struct_id) REFERENCES ETapManagementSIT.dbo.project_structure(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.site_declaration definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.site_declaration ;
+-- DROP TABLE ETapManagementSIT.dbo.site_declaration GO
 
-CREATE TABLE ETapManagementSIT.dbo.site_declaration
-(
+CREATE TABLE ETapManagementSIT.dbo.site_declaration (
 	id int IDENTITY(1,1) NOT NULL,
 	sitereq_id int NULL,
 	proj_struct_id int NULL,
@@ -752,18 +573,16 @@ CREATE TABLE ETapManagementSIT.dbo.site_declaration
 	CONSTRAINT PK__site_dec__3213E83F774BB95E PRIMARY KEY (id),
 	CONSTRAINT siteDec_projstructure_fkey FOREIGN KEY (proj_struct_id) REFERENCES ETapManagementSIT.dbo.project_structure(id),
 	CONSTRAINT siteDec_siteReq_fkey FOREIGN KEY (sitereq_id) REFERENCES ETapManagementSIT.dbo.site_requirement(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.site_req_structure definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.site_req_structure ;
+-- DROP TABLE ETapManagementSIT.dbo.site_req_structure GO
 
-CREATE TABLE ETapManagementSIT.dbo.site_req_structure
-(
+CREATE TABLE ETapManagementSIT.dbo.site_req_structure (
 	id int IDENTITY(1,1) NOT NULL,
 	site_req_id int NOT NULL,
 	struct_id int NOT NULL,
@@ -779,18 +598,16 @@ CREATE TABLE ETapManagementSIT.dbo.site_req_structure
 	CONSTRAINT PK__site_req__3213E83F9CFDDCC9 PRIMARY KEY (id),
 	CONSTRAINT siteReqStructire_siteReq_fkey FOREIGN KEY (site_req_id) REFERENCES ETapManagementSIT.dbo.site_requirement(id),
 	CONSTRAINT siteReqStructire_structure_fkey FOREIGN KEY (struct_id) REFERENCES ETapManagementSIT.dbo.structures(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.site_structure_physicalverf definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.site_structure_physicalverf ;
+-- DROP TABLE ETapManagementSIT.dbo.site_structure_physicalverf GO
 
-CREATE TABLE ETapManagementSIT.dbo.site_structure_physicalverf
-(
+CREATE TABLE ETapManagementSIT.dbo.site_structure_physicalverf (
 	id int IDENTITY(1,1) NOT NULL,
 	site_verf_id int NULL,
 	project_id int NULL,
@@ -808,18 +625,16 @@ CREATE TABLE ETapManagementSIT.dbo.site_structure_physicalverf
 	CONSTRAINT site_structure_physicalverf_proj_fkey FOREIGN KEY (project_id) REFERENCES ETapManagementSIT.dbo.project(id),
 	CONSTRAINT site_structure_physicalverf_site_physical_verf_fkey FOREIGN KEY (site_verf_id) REFERENCES ETapManagementSIT.dbo.site_physical_verf(id),
 	CONSTRAINT site_structure_physicalverf_strucutre_fkey FOREIGN KEY (proj_struct_id) REFERENCES ETapManagementSIT.dbo.project_structure(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.sitedecl_documents definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.sitedecl_documents ;
+-- DROP TABLE ETapManagementSIT.dbo.sitedecl_documents GO
 
-CREATE TABLE ETapManagementSIT.dbo.sitedecl_documents
-(
+CREATE TABLE ETapManagementSIT.dbo.sitedecl_documents (
 	id int IDENTITY(1,1) NOT NULL,
 	sitedec_id int NOT NULL,
 	file_name varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -827,18 +642,16 @@ CREATE TABLE ETapManagementSIT.dbo.sitedecl_documents
 	[path] varchar(1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	CONSTRAINT sitedecl_documents_pkey PRIMARY KEY (id),
 	CONSTRAINT sitedecl_documents_sitedecl_fkey FOREIGN KEY (sitedec_id) REFERENCES ETapManagementSIT.dbo.site_declaration(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.sitedecl_status_history definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.sitedecl_status_history ;
+-- DROP TABLE ETapManagementSIT.dbo.sitedecl_status_history GO
 
-CREATE TABLE ETapManagementSIT.dbo.sitedecl_status_history
-(
+CREATE TABLE ETapManagementSIT.dbo.sitedecl_status_history (
 	id int IDENTITY(1,1) NOT NULL,
 	sitedec_id int NULL,
 	notes varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -849,18 +662,16 @@ CREATE TABLE ETapManagementSIT.dbo.sitedecl_status_history
 	updated_at datetime NULL,
 	CONSTRAINT PK__sitedecl__3213E83F38EB8188 PRIMARY KEY (id),
 	CONSTRAINT siteDeclStatus_siteDec_fkey FOREIGN KEY (sitedec_id) REFERENCES ETapManagementSIT.dbo.site_declaration(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.component definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.component ;
+-- DROP TABLE ETapManagementSIT.dbo.component GO
 
-CREATE TABLE ETapManagementSIT.dbo.component
-(
+CREATE TABLE ETapManagementSIT.dbo.component (
 	id int IDENTITY(1,1) NOT NULL,
 	proj_struct_id int NOT NULL,
 	comp_id varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -888,18 +699,16 @@ CREATE TABLE ETapManagementSIT.dbo.component
 	CONSTRAINT comp_pkey PRIMARY KEY (id),
 	CONSTRAINT comp_comptype_fkey FOREIGN KEY (comp_type_id) REFERENCES ETapManagementSIT.dbo.component_type(id),
 	CONSTRAINT comp_projstruct_fkey FOREIGN KEY (proj_struct_id) REFERENCES ETapManagementSIT.dbo.project_structure(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.component_history definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.component_history ;
+-- DROP TABLE ETapManagementSIT.dbo.component_history GO
 
-CREATE TABLE ETapManagementSIT.dbo.component_history
-(
+CREATE TABLE ETapManagementSIT.dbo.component_history (
 	id int IDENTITY(1,1) NOT NULL,
 	proj_struct_id int NOT NULL,
 	comp_id varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -923,18 +732,16 @@ CREATE TABLE ETapManagementSIT.dbo.component_history
 	CONSTRAINT comphistory_pkey PRIMARY KEY (id),
 	CONSTRAINT comphistory_comptype_fkey FOREIGN KEY (comp_type_id) REFERENCES ETapManagementSIT.dbo.component_type(id),
 	CONSTRAINT comphistory_projstruct_fkey FOREIGN KEY (proj_struct_id) REFERENCES ETapManagementSIT.dbo.project_structure(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.dispatch_requirement definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.dispatch_requirement ;
+-- DROP TABLE ETapManagementSIT.dbo.dispatch_requirement GO
 
-CREATE TABLE ETapManagementSIT.dbo.dispatch_requirement
-(
+CREATE TABLE ETapManagementSIT.dbo.dispatch_requirement (
 	id int IDENTITY(1,1) NOT NULL,
 	dispatch_no varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	sitereq_id int NULL,
@@ -957,18 +764,17 @@ CREATE TABLE ETapManagementSIT.dbo.dispatch_requirement
 	CONSTRAINT dispatch_requirement_servicetype_fkey FOREIGN KEY (servicetype_id) REFERENCES ETapManagementSIT.dbo.service_type(id),
 	CONSTRAINT dispatch_requirement_siteReq_fkey FOREIGN KEY (sitereq_id) REFERENCES ETapManagementSIT.dbo.site_requirement(id),
 	CONSTRAINT dispatch_requirement_siteReqstructure_fkey FOREIGN KEY (site_req_structid) REFERENCES ETapManagementSIT.dbo.site_req_structure(id)
-)
-;
+) GO
+CREATE UNIQUE INDEX UQ__dispatch__F7205CCDFAFBA6D9 ON ETapManagementSIT.dbo.dispatch_requirement (dispatch_no) GO;
 
 
 -- ETapManagementSIT.dbo.dispatchreq_subcont definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.dispatchreq_subcont ;
+-- DROP TABLE ETapManagementSIT.dbo.dispatchreq_subcont GO
 
-CREATE TABLE ETapManagementSIT.dbo.dispatchreq_subcont
-(
+CREATE TABLE ETapManagementSIT.dbo.dispatchreq_subcont (
 	id int IDENTITY(1,1) NOT NULL,
 	dispreq_id int NULL,
 	dispatch_no varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -988,18 +794,16 @@ CREATE TABLE ETapManagementSIT.dbo.dispatchreq_subcont
 	CONSTRAINT dispatchreq_subcont_dispatch_requirement_fkey FOREIGN KEY (dispreq_id) REFERENCES ETapManagementSIT.dbo.dispatch_requirement(id),
 	CONSTRAINT dispatchreq_subcont_servicetype_fkey FOREIGN KEY (servicetype_id) REFERENCES ETapManagementSIT.dbo.service_type(id),
 	CONSTRAINT dispatchreq_subcont_subcont_fkey FOREIGN KEY (subcon_id) REFERENCES ETapManagementSIT.dbo.sub_contractor(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.disreq_status_history definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.disreq_status_history ;
+-- DROP TABLE ETapManagementSIT.dbo.disreq_status_history GO
 
-CREATE TABLE ETapManagementSIT.dbo.disreq_status_history
-(
+CREATE TABLE ETapManagementSIT.dbo.disreq_status_history (
 	id int IDENTITY(1,1) NOT NULL,
 	dispatch_no varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	dispreq_id int NULL,
@@ -1011,18 +815,16 @@ CREATE TABLE ETapManagementSIT.dbo.disreq_status_history
 	created_at datetime DEFAULT getdate() NULL,
 	CONSTRAINT PK__disreq_s__3213E83FCFEF97C1 PRIMARY KEY (id),
 	CONSTRAINT dispatch_requirement_statushistory_dispreq_fkey FOREIGN KEY (dispreq_id) REFERENCES ETapManagementSIT.dbo.dispatch_requirement(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.scrap_status_history definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.scrap_status_history ;
+-- DROP TABLE ETapManagementSIT.dbo.scrap_status_history GO
 
-CREATE TABLE ETapManagementSIT.dbo.scrap_status_history
-(
+CREATE TABLE ETapManagementSIT.dbo.scrap_status_history (
 	id int IDENTITY(1,1) NOT NULL,
 	scrap_stuctre_id int NULL,
 	notes varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -1033,18 +835,16 @@ CREATE TABLE ETapManagementSIT.dbo.scrap_status_history
 	updated_at datetime NULL,
 	CONSTRAINT PK__scrap_st__3213E83F3ACAA346 PRIMARY KEY (id),
 	CONSTRAINT scrap_status_history_scrapstructure_fkey FOREIGN KEY (scrap_stuctre_id) REFERENCES ETapManagementSIT.dbo.scrap_structure(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.site_comp_physicalverf definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.site_comp_physicalverf ;
+-- DROP TABLE ETapManagementSIT.dbo.site_comp_physicalverf GO
 
-CREATE TABLE ETapManagementSIT.dbo.site_comp_physicalverf
-(
+CREATE TABLE ETapManagementSIT.dbo.site_comp_physicalverf (
 	id int IDENTITY(1,1) NOT NULL,
 	sitestructure_verfid int NULL,
 	comp_id int NULL,
@@ -1057,18 +857,16 @@ CREATE TABLE ETapManagementSIT.dbo.site_comp_physicalverf
 	updated_at datetime NULL,
 	CONSTRAINT PK__site_com__3213E83F529BF61A PRIMARY KEY (id),
 	CONSTRAINT site_comp_physicalverf_site_structure_physicalverf_fkey FOREIGN KEY (sitestructure_verfid) REFERENCES ETapManagementSIT.dbo.site_structure_physicalverf(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.site_strct_physicalverf_doc definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.site_strct_physicalverf_doc ;
+-- DROP TABLE ETapManagementSIT.dbo.site_strct_physicalverf_doc GO
 
-CREATE TABLE ETapManagementSIT.dbo.site_strct_physicalverf_doc
-(
+CREATE TABLE ETapManagementSIT.dbo.site_strct_physicalverf_doc (
 	id int IDENTITY(1,1) NOT NULL,
 	site_structure_physicalverf_id int NOT NULL,
 	file_name varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -1076,18 +874,16 @@ CREATE TABLE ETapManagementSIT.dbo.site_strct_physicalverf_doc
 	[path] varchar(1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	CONSTRAINT site_strct_physicalverf_doc_pkey PRIMARY KEY (id),
 	CONSTRAINT site_structure_physicalverf_id_sspID_fkey FOREIGN KEY (site_structure_physicalverf_id) REFERENCES ETapManagementSIT.dbo.site_structure_physicalverf(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.disp_req_structure definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.disp_req_structure ;
+-- DROP TABLE ETapManagementSIT.dbo.disp_req_structure GO
 
-CREATE TABLE ETapManagementSIT.dbo.disp_req_structure
-(
+CREATE TABLE ETapManagementSIT.dbo.disp_req_structure (
 	id int IDENTITY(1,1) NOT NULL,
 	dispreq_id int NULL,
 	proj_struct_id int NULL,
@@ -1101,18 +897,16 @@ CREATE TABLE ETapManagementSIT.dbo.disp_req_structure
 	CONSTRAINT PK__disp_req__3213E83F381D5DC3 PRIMARY KEY (id),
 	CONSTRAINT DispReqStructire_siteReq_fkey FOREIGN KEY (dispreq_id) REFERENCES ETapManagementSIT.dbo.dispatch_requirement(id),
 	CONSTRAINT DispReqStructire_structure_fkey FOREIGN KEY (proj_struct_id) REFERENCES ETapManagementSIT.dbo.project_structure(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.disp_structure_comp definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.disp_structure_comp ;
+-- DROP TABLE ETapManagementSIT.dbo.disp_structure_comp GO
 
-CREATE TABLE ETapManagementSIT.dbo.disp_structure_comp
-(
+CREATE TABLE ETapManagementSIT.dbo.disp_structure_comp (
 	id int IDENTITY(1,1) NOT NULL,
 	disp_structure_id int NOT NULL,
 	disp_comp_id int NOT NULL,
@@ -1127,18 +921,16 @@ CREATE TABLE ETapManagementSIT.dbo.disp_structure_comp
 	CONSTRAINT disp_structure_comp_pkey PRIMARY KEY (id),
 	CONSTRAINT disp_req_structure_comp_id_CompID_fkey FOREIGN KEY (disp_comp_id) REFERENCES ETapManagementSIT.dbo.component(id),
 	CONSTRAINT disp_req_structure_comp_id_StructureID_fkey FOREIGN KEY (disp_structure_id) REFERENCES ETapManagementSIT.dbo.disp_req_structure(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.disp_structure_documents definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.disp_structure_documents ;
+-- DROP TABLE ETapManagementSIT.dbo.disp_structure_documents GO
 
-CREATE TABLE ETapManagementSIT.dbo.disp_structure_documents
-(
+CREATE TABLE ETapManagementSIT.dbo.disp_structure_documents (
 	id int IDENTITY(1,1) NOT NULL,
 	disp_structure_id int NOT NULL,
 	file_name varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -1146,18 +938,16 @@ CREATE TABLE ETapManagementSIT.dbo.disp_structure_documents
 	[path] varchar(1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	CONSTRAINT disp_structure_documents_pkey PRIMARY KEY (id),
 	CONSTRAINT disp_req_structure_docs_id_docsID_fkey FOREIGN KEY (disp_structure_id) REFERENCES ETapManagementSIT.dbo.disp_req_structure(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.disp_subcont_documents definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.disp_subcont_documents ;
+-- DROP TABLE ETapManagementSIT.dbo.disp_subcont_documents GO
 
-CREATE TABLE ETapManagementSIT.dbo.disp_subcont_documents
-(
+CREATE TABLE ETapManagementSIT.dbo.disp_subcont_documents (
 	id int IDENTITY(1,1) NOT NULL,
 	disp_subcont_id int NOT NULL,
 	file_name varchar(500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -1165,18 +955,16 @@ CREATE TABLE ETapManagementSIT.dbo.disp_subcont_documents
 	[path] varchar(1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	CONSTRAINT disp_subcont_documents_pkey PRIMARY KEY (id),
 	CONSTRAINT disp_subcont_id_docsID_fkey FOREIGN KEY (disp_subcont_id) REFERENCES ETapManagementSIT.dbo.dispatchreq_subcont(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.disp_subcont_structure definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.disp_subcont_structure ;
+-- DROP TABLE ETapManagementSIT.dbo.disp_subcont_structure GO
 
-CREATE TABLE ETapManagementSIT.dbo.disp_subcont_structure
-(
+CREATE TABLE ETapManagementSIT.dbo.disp_subcont_structure (
 	id int IDENTITY(1,1) NOT NULL,
 	dispreqsubcont_id int NULL,
 	proj_struct_id int NULL,
@@ -1192,18 +980,16 @@ CREATE TABLE ETapManagementSIT.dbo.disp_subcont_structure
 	CONSTRAINT PK__disp_sub__3213E83F47B4A99C PRIMARY KEY (id),
 	CONSTRAINT disp_subcont_structure_structure_fkey FOREIGN KEY (proj_struct_id) REFERENCES ETapManagementSIT.dbo.project_structure(id),
 	CONSTRAINT dispreqsubcont_structure_siteReq_fkey FOREIGN KEY (dispreqsubcont_id) REFERENCES ETapManagementSIT.dbo.dispatchreq_subcont(id)
-)
-;
+) GO;
 
 
 -- ETapManagementSIT.dbo.disp_fabrication_cost definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.disp_fabrication_cost ;
+-- DROP TABLE ETapManagementSIT.dbo.disp_fabrication_cost GO
 
-CREATE TABLE ETapManagementSIT.dbo.disp_fabrication_cost
-(
+CREATE TABLE ETapManagementSIT.dbo.disp_fabrication_cost (
 	id int IDENTITY(1,1) NOT NULL,
 	dispatch_no varchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	disp_req_id int NOT NULL,
@@ -1220,18 +1006,17 @@ CREATE TABLE ETapManagementSIT.dbo.disp_fabrication_cost
 	CONSTRAINT UQ__disp_fab__F7205CCDFC4F1D62 UNIQUE (dispatch_no),
 	CONSTRAINT fabrication_cost_disp_structure_id_fkey FOREIGN KEY (disp_structure_id) REFERENCES ETapManagementSIT.dbo.disp_req_structure(id),
 	CONSTRAINT fabrication_cost_proj_fkey FOREIGN KEY (assinged_project_id) REFERENCES ETapManagementSIT.dbo.project(id)
-)
-;
+) GO
+CREATE UNIQUE INDEX UQ__disp_fab__F7205CCDFC4F1D62 ON ETapManagementSIT.dbo.disp_fabrication_cost (dispatch_no) GO;
 
 
 -- ETapManagementSIT.dbo.disp_mod_stage_component definition
 
 -- Drop table
 
--- DROP TABLE ETapManagementSIT.dbo.disp_mod_stage_component ;
+-- DROP TABLE ETapManagementSIT.dbo.disp_mod_stage_component GO
 
-CREATE TABLE ETapManagementSIT.dbo.disp_mod_stage_component
-(
+CREATE TABLE ETapManagementSIT.dbo.disp_mod_stage_component (
 	id int IDENTITY(1,1) NOT NULL,
 	dispstruct_comp_id int NULL,
 	leng decimal(10,6) NULL,
@@ -1246,6 +1031,4 @@ CREATE TABLE ETapManagementSIT.dbo.disp_mod_stage_component
 	created_at datetime DEFAULT getdate() NULL,
 	CONSTRAINT compmodif_pkey PRIMARY KEY (id),
 	CONSTRAINT compmodif_dispcomp_fkey FOREIGN KEY (dispstruct_comp_id) REFERENCES ETapManagementSIT.dbo.disp_structure_comp(id)
-) ;
-
-
+) GO;

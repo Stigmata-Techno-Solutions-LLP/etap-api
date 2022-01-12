@@ -79,7 +79,7 @@ namespace ETapManagement.Service
         {
             try
             {
-                if (fileslist == null) return true;
+                if (fileslist[0] == null) return true;
                 string uniqueFileName = null;
                 foreach (string file in fileslist[0].Split(','))
                 {

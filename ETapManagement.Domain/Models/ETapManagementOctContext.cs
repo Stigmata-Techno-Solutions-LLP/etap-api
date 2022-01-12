@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ETapManagement.ViewModel.Dto;
-
 namespace ETapManagement.Domain.Models
 {
     public partial class ETapManagementContext : DbContext
@@ -64,14 +63,16 @@ namespace ETapManagement.Domain.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=database-1.cllg2g64ndar.ap-southeast-1.rds.amazonaws.com;Database=ETapManagementSIT;User Id=admin;Password=Admin169;");
+             //   optionsBuilder.UseSqlServer("Server=database-1.cllg2g64ndar.ap-southeast-1.rds.amazonaws.com;Database=ETapManagementOct;User Id=admin;Password=Admin169;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-    modelBuilder.Query<SiteRequirementDetail> ();
+             modelBuilder.Query<SiteRequirementDetail> ();
+
+             modelBuilder.Query<Int32> ();
             modelBuilder.Query<SiteDispatchDetail>();
             modelBuilder.Query<StructureListCode>();
             modelBuilder.Query<SurplusDetails> ();
@@ -98,7 +99,6 @@ namespace ETapManagement.Domain.Models
              modelBuilder.Query<CostComponentDetailsDto>();
                modelBuilder.Query<AsBuildStructureCost>();
                modelBuilder.Query<PhysicalVerificationstructure>();
-             
             modelBuilder.Entity<ApplicationForms>(entity =>
             {
                 entity.ToTable("application_forms");
@@ -1143,9 +1143,7 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructureAttributesVal)
-                    .HasColumnName("structure_attributes_val")
-                    .HasMaxLength(1);
+                entity.Property(e => e.StructureAttributesVal).HasColumnName("structure_attributes_val");
 
                 entity.Property(e => e.StructureId).HasColumnName("structure_id");
 
@@ -1601,9 +1599,7 @@ namespace ETapManagement.Domain.Models
 
                 entity.Property(e => e.StructId).HasColumnName("struct_id");
 
-                entity.Property(e => e.StructureAttributesVal)
-                    .HasColumnName("structure_attributes_val")
-                    .HasMaxLength(1);
+                entity.Property(e => e.StructureAttributesVal).HasColumnName("structure_attributes_val");
 
                 entity.HasOne(d => d.SiteReq)
                     .WithMany(p => p.SiteReqStructure)
@@ -1968,9 +1964,7 @@ namespace ETapManagement.Domain.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.StructureAttributesDef)
-                    .HasColumnName("structure_attributes_def")
-                    .HasMaxLength(1);
+                entity.Property(e => e.StructureAttributesDef).HasColumnName("structure_attributes_def");
 
                 entity.Property(e => e.StructureTypeId).HasColumnName("structure_type_id");
 
@@ -2216,5 +2210,23 @@ namespace ETapManagement.Domain.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public static int IntFromSQL(this ApplicationDbContext context, string sql )
+{
+    int count;
+    using (var connection = context.Database.GetDbConnection())
+    {
+        connection.Open();
+
+        using (var command = connection.CreateCommand())
+        {
+            command.CommandText = sql;
+            string result = command.ExecuteScalar().ToString();
+
+            int.TryParse(result, out count);
+        }
+    }
+    return count;
+}
     }
 }

@@ -30,7 +30,7 @@ namespace ETapManagement.Repository
             try
             {
                 List<ReceiveDetail> lstReceiveDetails = new List<ReceiveDetail>();
-                var receiveDetails = _context.Query<ReceiveDetail>().FromSqlRaw("exec SP_GetReceiveDetails {0}", projectId).ToList();
+                var receiveDetails = _context.Query<ReceiveDetail>().sqfr FromSqlRaw("exec SP_GetReceiveDetails {0}", projectId).ToList();
                 lstReceiveDetails = _mapper.Map<List<ReceiveDetail>>(receiveDetails);
                 return lstReceiveDetails;
             }

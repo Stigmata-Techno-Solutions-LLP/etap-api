@@ -32,8 +32,9 @@ namespace ETapManagement.Service {
 
         public AuthenticateResponse Authenticate (AuthenticateRequest model) {
             try {
-                string decodedVal = Util.Base64Decode (model.Password);
-                model.Password = Cryptography.Encrypt (_appSettings.SecretKeyPwd, decodedVal);
+               // string decodedVal = Util.Base64Decode (model.Password);
+                model.Password = Cryptography.Decrypt (_appSettings.SecretKeyPwd, model.Password);
+                
                 AuthenticateResponse user = _authRepository.ValidateUser (model);
                 // return null if user not found
                 if (user == null) return null;

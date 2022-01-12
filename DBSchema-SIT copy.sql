@@ -140,17 +140,6 @@ CREATE TABLE roles
   CONSTRAINT site_roles_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE role_hierarchy
-(
-  id int not null identity(1,1) PRIMARY KEY,
-  role_name varchar(20),
-  scenario_type varchar(50),
-  role_hierarchy int,
-  new_status varchar(50),
-  chk_status varchar(50),
-  view_details_status varchar(500),
-  service_type varchar(100)
-)
 
 
 CREATE TABLE application_forms
@@ -209,22 +198,6 @@ create table independent_company
 
 )
 
-
-create table segment
-(
-  id int NOT NULL IDENTITY(1,1) primary key,
-  name varchar(200) not NULL unique,
-  description varchar(500) NULL
-)
-
-create table service_type
-(
-  id int NOT NULL IDENTITY(1,1) primary key,
-  name varchar(200) not NULL unique,
-  description varchar(500) NULL
-)
-
-
 create table structure_type
 (
   id int NOT NULL IDENTITY(1,1) primary key,
@@ -249,6 +222,21 @@ create table component_type
   updated_by int null,
   updated_at datetime
 )
+
+create table segment
+(
+  id int NOT NULL IDENTITY(1,1) primary key,
+  name varchar(200) not NULL unique,
+  description varchar(500) NULL
+)
+
+create table service_type
+(
+  id int NOT NULL IDENTITY(1,1) primary key,
+  name varchar(200) not NULL unique,
+  description varchar(500) NULL
+)
+
 
 
 CREATE TABLE strategic_business
@@ -803,6 +791,17 @@ CREATE TABLE disp_subcont_documents
   CONSTRAINT disp_subcont_id_docsID_fkey FOREIGN KEY (disp_subcont_id) REFERENCES dispatchreq_subcont(id),
 )
 
+CREATE TABLE role_hierarchy
+(
+  id int not null identity(1,1) PRIMARY KEY,
+  role_name varchar(20),
+  scenario_type varchar(50),
+  role_hierarchy int,
+  new_status varchar(50),
+  chk_status varchar(50),
+  view_details_status varchar(500),
+  service_type varchar(100)
+)
 
 CREATE TABLE site_physical_verf
 (
