@@ -112,7 +112,7 @@ namespace ETapManagement.Repository
 			try
 			{
 				List<Code> result = new List<Code>();
-				var bus = _context.BusinessUnit.Where(x => x.IsDelete == false).ToList();
+				var bus = _context.BusinessUnit.Where(x => x.IsDelete == false && x.IsActive==true).ToList();
 				foreach (var item in bus)
 				{
 					result.Add(new Code()

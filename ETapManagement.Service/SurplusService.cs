@@ -64,6 +64,12 @@ namespace ETapManagement.Service {
             return responseMessage;
         }
 
+         public List<ReceiveDetail> GetReceiveDetails(int projectId)
+        {
+            List<ReceiveDetail> lstReceiveDetails = _surplusRepository.GetReceiveDetails(projectId);
+            return lstReceiveDetails;
+        }
+
         public ResponseMessage WorkflowSurplusDecl (WorkFlowSurplusDeclPayload reqPayload) {
             ResponseMessage responseMessage = new ResponseMessage ();
             responseMessage = _surplusRepository.WorkflowSurplusDecl (reqPayload);

@@ -16,17 +16,17 @@ namespace ETapManagement.ViewModel.Dto {
 
         [Required]
         [DataType (DataType.Text)]
-        [StringLength (20)]
+        [StringLength (100)]
         [Display (Name = "Project Code")]
         public string ProjCode { get; set; }
 
        
-        [StringLength (20)]
+        [StringLength (100)]
         [Display (Name = "Job Code")]
         public string JobCode { get; set; }
 
            
-        [StringLength (20)]
+        [StringLength (100)]
         [Display (Name = "EDRC Code")]
         public string EDRCCode { get; set; }
 

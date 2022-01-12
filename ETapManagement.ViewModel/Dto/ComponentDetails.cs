@@ -41,7 +41,7 @@ namespace ETapManagement.ViewModel.Dto {
         public bool? IsTag { get; set; }
 
         [DataType (DataType.Text)]
-        [StringLength (10)]
+        [StringLength (200)]
         [Display (Name = "Qr Code")]
         public string QrCode { get; set; }
         public bool? IsDelete { get; set; }

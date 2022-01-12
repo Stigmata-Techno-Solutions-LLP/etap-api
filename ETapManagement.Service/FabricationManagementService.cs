@@ -169,6 +169,13 @@ namespace ETapManagement.Service
                            _context.ProjectStructure.Single(w => w.Id == input.ProjectStructureId);
 
                 structid.FabriacationCost = input.Cost;
+                DispFabricationCost fabrcost=new DispFabricationCost();
+                fabrcost.DispatchNo=input.DispatchNo;
+                fabrcost.DispReqId=input.DispatchRequirementId;
+                fabrcost.Status=Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                fabrcost.StatusInternal=Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                _context.DispFabricationCost.Add(fabrcost);
+                _context.SaveChanges();
 
                 if (input.uploadDocs != null)
                 {
@@ -199,11 +206,22 @@ namespace ETapManagement.Service
         {
             try
             {
+                    ProjectStructure structid =
+                           _context.ProjectStructure.Single(w => w.Id == input.ProjStructId);
+                           structid.FabriacationCost = input.Cost;
                 ResponseMessage responseMessage = new ResponseMessage();
                 //List<DispStructureComp> struct = _context.DispStructureComp.w
                 List<Component> structureComps = _context.Component.Where(w => w.ProjStructId == input.ProjStructId).ToList();
                 decimal count = structureComps.Sum(x =>x.Weight)??1;
                 decimal x = input.Cost / count;
+                  DispFabricationCost fabrcost=new DispFabricationCost();
+                fabrcost.DispatchNo=input.DispatchNo;
+                fabrcost.DispReqId=input.DispatchRequirementId;
+                fabrcost.Status=Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                fabrcost.StatusInternal=Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                _context.DispFabricationCost.Add(fabrcost);
+                  _context.ProjectStructure.Update(structid);
+                _context.SaveChanges();
 
                 structureComps.ForEach(item =>
                 {
@@ -302,6 +320,25 @@ namespace ETapManagement.Service
                 throw ex;
             }
         }
+
+        public List<FabricationDetails> GetFabrication (SiteDeclarationDetailsPayload reqFilter) {
+            List<FabricationDetails> surplus = _fabricationManagementRepository.GetFabrication (reqFilter);
+            if (!(surplus?.Count > 0)) return null;
+            return surplus;
+        }
+
+          public ResponseMessage FabricationApprove (FabricationApprovePayload reqPayload) {
+            ResponseMessage responseMessage = new ResponseMessage ();
+            responseMessage = _fabricationManagementRepository.FabricationApprove (reqPayload);
+            return responseMessage;
+        }
+
+            public List<FabricationCostList> GetFabricationCostList()
+        {
+            List<FabricationCostList> responseMessage = new List<FabricationCostList>();
+            responseMessage = _fabricationManagementRepository.GetFabricationCostList();
+            return responseMessage;
+        } 
 
     }
 }

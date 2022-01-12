@@ -12,5 +12,7 @@ namespace ETapManagement.Repository {
 
         bool SurplusRemoveDocs (string request);
         bool SiteDeclDocsUpload (Upload_Docs request, int Id);
+
+          public List<ReceiveDetail> GetReceiveDetails(int projectId);
     }
 }

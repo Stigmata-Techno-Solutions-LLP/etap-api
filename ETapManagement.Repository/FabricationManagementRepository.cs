@@ -41,7 +41,7 @@ namespace ETapManagement.Repository {
                try
             {
                 List<AsBuildStructureCost> result = new List<AsBuildStructureCost>();
-                string strQuery = string.Format("select dr.dispatch_no as DispatchNo,drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id   inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where dr.servicetype_id = 1 or dr.servicetype_id = 2 or (dr.servicetype_id = 1 and drs.is_modification=1) and dr.status ='{1}' and  dr.to_projectid ={0} ORDER BY dr.id DESC", projectId,Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString());
+                string strQuery = string.Format("select dr.dispatch_no as DispatchNo,drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id   inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where dr.servicetype_id = 1 or dr.servicetype_id = 2 or (dr.servicetype_id = 1 and drs.is_modification=1) and dr.status ='{1}' and  dr.to_projectid ={0} and ps.fabriacation_cost =NULL ORDER BY dr.id DESC", projectId,Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString());
                 result = _context.Query<AsBuildStructureCost>().FromSqlRaw(strQuery).ToList();
                 return result;
             }
@@ -64,6 +64,57 @@ namespace ETapManagement.Repository {
                 throw ex;
             }
         }
+
+        public List<FabricationDetails> GetFabrication (SiteDeclarationDetailsPayload reqPayload) {
+            try {
+                List<FabricationDetails> result = new List<FabricationDetails> ();
+                var sureplusDecl = _context.Query<FabricationDetails> ().FromSqlRaw ("exec sp_getFabrication {0}, {1}", reqPayload.role_name.ToString (), reqPayload.role_hierarchy).ToList ();
+                result = _mapper.Map<List<FabricationDetails>> (sureplusDecl);
+                return result;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+        public ResponseMessage FabricationApprove (FabricationApprovePayload reqPayload) {
+
+            int siteRequirements = 0;
+            try {
+                ResponseMessage resp = new ResponseMessage ();
+                if (reqPayload.mode == commonEnum.WorkFlowMode.Approval) {
+                    siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_ApprovalFabrication {0}, {1},{2},{3}", reqPayload.fabCost_id, reqPayload.role_name.ToString(), reqPayload.role_hierarchy, 1); // TODO
+                    resp.Message = string.Format ("Surplus Declaration successfully Approved by {0}", reqPayload.role_name);
+                    if (siteRequirements <= 0) throw new ValueNotFoundException ("User doesn't allow to approve.");
+
+                } else if (reqPayload.mode == commonEnum.WorkFlowMode.Rejection) {
+                    siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_RejectionFabrication {0}, {1}, {2}, {3}", reqPayload.fabCost_id, reqPayload.role_name.ToString(), reqPayload.role_hierarchy, 1); //TODO
+                    resp.Message = string.Format ("Surplus Declaration successfully Rejected by {0}", reqPayload.role_name);
+                    if (siteRequirements <= 0) throw new ValueNotFoundException ("User doesn't allow to reject.");
+                }
+                return resp;
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
+
+
+            public List<FabricationCostList> GetFabricationCostList()
+          {
+               try
+            {
+                List<FabricationCostList> result = new List<FabricationCostList>();
+                string strQuery = string.Format("select ps.struct_code as StructureCode,s.name as StructureName,p.name as ProjectName,ps.fabriacation_cost as FabricationCost,ps.updated_at as fabricationDate from disp_fabrication_cost dfc inner join disp_req_structure drs on dfc.disp_req_id =drs.dispreq_id  inner join project_structure ps on ps.id =drs.proj_struct_id inner join structures s on ps.structure_id =s.id inner join project p on p.id =ps.project_id");
+                result = _context.Query<FabricationCostList>().FromSqlRaw(strQuery).ToList();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
+
+          } 
+
 		  
             
     }

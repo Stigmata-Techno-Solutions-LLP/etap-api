@@ -10,5 +10,9 @@ namespace ETapManagement.Repository {
        public List<AsBuildStructure> GetStructureLst(int projectId);
      public List<AsBuildStructureCost> GetAsBuildStructureCost(int projectId);
       public List<CostComponentDetailsDto> GetStructrueFabraiationComponent (int id);
+
+      	   List<FabricationDetails> GetFabrication (SiteDeclarationDetailsPayload reqPayload);
+           ResponseMessage FabricationApprove (FabricationApprovePayload reqPayload);
+            public List<FabricationCostList> GetFabricationCostList();
     }
 }

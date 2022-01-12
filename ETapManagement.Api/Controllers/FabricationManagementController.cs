@@ -150,5 +150,43 @@ namespace ETapManagement.Api.Controllers {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
             }
         }
+
+          [HttpGet ("getFabrication")]
+        public IActionResult GetFabrication ([FromQuery] SiteDeclarationDetailsPayload req) {
+            try {
+                var response = _fabricationManagementService.GetFabrication (req);
+                return Ok (response);
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+             [HttpPost ("FabricationApprove")]
+        public IActionResult FabricationApprove (FabricationApprovePayload siteDecl) {
+            try {
+                var response = _fabricationManagementService.FabricationApprove (siteDecl);
+                return StatusCode (StatusCodes.Status204NoContent, (new { message = response.Message, code = 204 }));
+            } catch (ValueNotFoundException e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status422UnprocessableEntity, new ErrorClass () { code = StatusCodes.Status422UnprocessableEntity.ToString (), message = e.Message });
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+             [HttpGet ("getFabricationCostList")]
+        public IActionResult GetFabricationCostList () {
+            try {
+                var response = _fabricationManagementService.GetFabricationCostList ();
+                return Ok (response);
+            } catch (Exception e) {
+                Util.LogError (e);
+                return StatusCode (StatusCodes.Status500InternalServerError, new ErrorClass () { code = StatusCodes.Status500InternalServerError.ToString (), message = "Something went wrong" });
+            }
+        }
+
+
     }
 }

@@ -130,8 +130,17 @@ namespace ETapManagement.Repository {
                 var siteRequirement = _context.SiteRequirement.Include (b => b.FromProject).Where (x => x.IsDelete == false && x.Id == id)
                     .Include (s => s.SiteReqStructure).FirstOrDefault ();
                 var reqStrucutre = _context.SiteReqStructure.Include (r => r.Struct).Where (x => x.SiteReqId == id).ToList ();
+                  
+                 
                 siteRequirement.SiteReqStructure = reqStrucutre;
                 result = _mapper.Map<SiteRequirementDetailWithStruct> (siteRequirement);
+                 result.SiteRequirementStructures.ForEach(item =>
+                         {
+                                item.RequireWbsname=_context.WorkBreakdown.Single(x =>x.Id==item.RequireWbsId).WbsId;
+                         });
+
+             
+                  
 
                 return result;
             } catch (Exception ex) {
