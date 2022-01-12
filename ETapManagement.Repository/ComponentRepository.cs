@@ -116,6 +116,13 @@ namespace ETapManagement.Repository {
             response.Message = "Components added succusfully";
             // if (request?.ProjectStructureDetail == null)
             // 	throw new ValueNotFoundException ("ProjectStructureDetail Request cannot be empty.");
+             ProjectStructure projectStructure = _context.ProjectStructure.Where (x => x.Id == _context.DispReqStructure.Where(x=>x.Id == request.DispStructureId).FirstOrDefault().ProjStructId && x.IsDelete == false).FirstOrDefault ();
+              List<dispatchedStrucCount> result = new List<dispatchedStrucCount>();
+                 int count = _context.Component.Single(s =>s.Id==projectStructure.Id).Id;
+              int Quantity=request.Components.Count();
+                int excedCout= count+Quantity;
+                int totalcount =_context.ProjectStructure.Single(s =>s.Id==projectStructure.Id).ComponentsCount??0;
+                  if (totalcount<excedCout) throw new ValueNotFoundException ("Dispatch Components should match the required quantity.");
 
             try {
                 //	using (var transaction = _context.Database.BeginTransaction ()) 
@@ -123,7 +130,7 @@ namespace ETapManagement.Repository {
                     try {
                         var isUpdate = false;
                         var projectStructureID = 0;
-                        ProjectStructure projectStructure = _context.ProjectStructure.Where (x => x.Id == _context.DispReqStructure.Where(x=>x.Id == request.DispStructureId).FirstOrDefault().ProjStructId && x.IsDelete == false).FirstOrDefault ();
+                         projectStructure = _context.ProjectStructure.Where (x => x.Id == _context.DispReqStructure.Where(x=>x.Id == request.DispStructureId).FirstOrDefault().ProjStructId && x.IsDelete == false).FirstOrDefault ();
                         if (projectStructure == null) throw new ValueNotFoundException ("Project Structure not yet assigned");
                         projectStructureID = projectStructure.Id;
                         if (request.Components?.Count > 0) {
@@ -170,6 +177,7 @@ namespace ETapManagement.Repository {
                                     _context.DispStructureComp.Add(dsc);
                                     _context.SaveChanges ();
                                 }
+                                
 
                             }
                           //  projectStructure.ComponentsCount = request.Components.Count ();
