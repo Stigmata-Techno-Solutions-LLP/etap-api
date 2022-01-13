@@ -89,9 +89,10 @@ namespace ETapManagement.Repository {
             }
         }
 
-         public List<WorkBreakDownCode> GetProjectWBSCodeList (int projectId) {
+         public List<WorkBreakDownDetails> GetProjectWBSCodeList (int projectId) {
             try {
-               List<WorkBreakDownCode> lstWBS = _mapper.Map<List<WorkBreakDownCode>> (_context.WorkBreakdown.Include (c => c.Project).Where (x => x.IsDelete == false && x.ProjectId==projectId).ToList ());
+                 List<WorkBreakDownDetails> lstWBS = _mapper.Map<List<WorkBreakDownDetails>> (_context.WorkBreakdown.Include (c => c.Project).Where (x => x.IsDelete == false && x.ProjectId==projectId).OrderByDescending(c=>c.CreatedAt).ToList ());
+    
                 return lstWBS;
             } catch (Exception ex) {
                 throw ex;
