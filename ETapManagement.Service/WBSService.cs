@@ -32,8 +32,8 @@ namespace ETapManagement.Service {
             return wbsDtls;
         }
         
-        public List<WorkBreakDownCode> GetProjectWBSCodeList (int projectId) {
-            List<WorkBreakDownCode> wbsDtls = _wbsRepository.GetProjectWBSCodeList (projectId);
+        public List<WorkBreakDownDetails> GetProjectWBSCodeList (int projectId) {
+            List<WorkBreakDownDetails> wbsDtls = _wbsRepository.GetProjectWBSCodeList (projectId);
             return wbsDtls;
         }
       
