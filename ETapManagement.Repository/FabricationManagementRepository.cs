@@ -114,7 +114,7 @@ namespace ETapManagement.Repository {
                                // double month = item.fabricationDate.Subtract(currenDate).Days / (365.25 / 12);
                                  double pow_ab = Math.Pow(0.94, month);
                                  decimal dtot = (decimal)(pow_ab);
-                  item.currentBookValue= item.FabricationCost * dtot;
+                  item.currentBookValue= item.FabricationCost??0 * dtot;
 
                 });
                 return result;

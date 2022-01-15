@@ -220,7 +220,7 @@ namespace ETapManagement.ViewModel.Dto
         public string StructureCode { get; set; }
         public string StructureName { get; set; }
         public string ProjectName { get; set; }
-        public decimal FabricationCost { get; set; }
+        public decimal? FabricationCost { get; set; }
         public DateTime fabricationDate { get; set; }
 
         public string StructureAttValue{get;set;}
