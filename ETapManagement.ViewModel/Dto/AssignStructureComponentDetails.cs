@@ -22,7 +22,7 @@ namespace ETapManagement.ViewModel.Dto
         public int ProjectId { get; set; }
         public int? ProjectStructureId { get; set; }
 
-        [Required]
+       
         [StringLength(100)]
         [Display(Name = "DrawingNo")]
         public string DrawingNo { get; set; }

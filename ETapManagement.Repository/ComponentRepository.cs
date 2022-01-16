@@ -118,11 +118,11 @@ namespace ETapManagement.Repository {
             // 	throw new ValueNotFoundException ("ProjectStructureDetail Request cannot be empty.");
              ProjectStructure projectStructure = _context.ProjectStructure.Where (x => x.Id == _context.DispReqStructure.Where(x=>x.Id == request.DispStructureId).FirstOrDefault().ProjStructId && x.IsDelete == false).FirstOrDefault ();
               List<dispatchedStrucCount> result = new List<dispatchedStrucCount>();
-                 int count = _context.Component.Single(s =>s.Id==projectStructure.Id).Id;
+                 int count = _context.Component.Where(s =>s.ProjStructId==projectStructure.Id).Count();
               int Quantity=request.Components.Count();
                 int excedCout= count+Quantity;
-                int totalcount =_context.ProjectStructure.Single(s =>s.Id==projectStructure.Id).ComponentsCount??0;
-                  if (totalcount<excedCout) throw new ValueNotFoundException ("Dispatch Components should match the required quantity.");
+               // int totalcount =_context.ProjectStructure.Single(s =>s.Id==projectStructure.Id).ComponentsCount??0;
+                  if (projectStructure.ComponentsCount<excedCout) throw new ValueNotFoundException ("Dispatch Components should match the required quantity.");
 
             try {
                 //	using (var transaction = _context.Database.BeginTransaction ()) 
