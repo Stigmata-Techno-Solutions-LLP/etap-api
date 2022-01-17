@@ -109,6 +109,8 @@ namespace ETapManagement.ViewModel.Dto
 
         public string DispatchNo{get;set;}
 
+          public int DispatchRequirementStructureId { get; set; }
+
     }
 
     public class SiteReqStructureVm
