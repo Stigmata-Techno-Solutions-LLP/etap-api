@@ -167,14 +167,18 @@ namespace ETapManagement.Service
                 ResponseMessage responseMessage = new ResponseMessage();
                 ProjectStructure structid =
                            _context.ProjectStructure.Single(w => w.Id == input.ProjectStructureId);
+                            DispReqStructure dispstructid =
+                           _context.DispReqStructure.Single(w => w.ProjStructId == input.ProjectStructureId);
 
-                structid.FabriacationCost = input.Cost;
+                dispstructid.FabriacationCost = input.Cost;
                 DispFabricationCost fabrcost=new DispFabricationCost();
                 fabrcost.DispatchNo=input.DispatchNo;
                 fabrcost.DispReqId=input.DispatchRequirementId;
-                fabrcost.Status=Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
-                fabrcost.StatusInternal=Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                fabrcost.DispStructureId=input.DispatchRequirementStructureId;
+                fabrcost.Status=Util.GetDescription(commonEnum.StructureStatus.NEW).ToString();
+                fabrcost.StatusInternal=Util.GetDescription(commonEnum.StructureStatus.NEW).ToString();
                 _context.DispFabricationCost.Add(fabrcost);
+                _context.DispReqStructure.Update(dispstructid);
                 _context.SaveChanges();
 
                 if (input.uploadDocs != null)
