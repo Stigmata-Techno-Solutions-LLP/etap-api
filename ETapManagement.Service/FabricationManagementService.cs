@@ -221,8 +221,8 @@ namespace ETapManagement.Service
                   DispFabricationCost fabrcost=new DispFabricationCost();
                 fabrcost.DispatchNo=input.DispatchNo;
                 fabrcost.DispReqId=input.DispatchRequirementId;
-                fabrcost.Status=Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
-                fabrcost.StatusInternal=Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                fabrcost.Status=Util.GetDescription(commonEnum.StructureStatus.NEW).ToString();
+                fabrcost.StatusInternal=Util.GetDescription(commonEnum.StructureStatus.NEW).ToString();
                 _context.DispFabricationCost.Add(fabrcost);
                   _context.ProjectStructure.Update(structid);
                 _context.SaveChanges();
