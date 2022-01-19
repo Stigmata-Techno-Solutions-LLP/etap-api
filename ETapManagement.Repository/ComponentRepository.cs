@@ -55,7 +55,7 @@ namespace ETapManagement.Repository {
             response.Message = "Components added succusfully";
             List<dispatchedStrucCount> result = new List<dispatchedStrucCount>();
                  int count = _context.Component.Where(s =>s.ProjStructId==request.ProjStructId).Count();
-              int Quantity=request.Components.Count();
+              int Quantity=request.Components.Where(x=>x.CompId==null).Count();
                 int excedCout= count+Quantity;
                 int totalcount =_context.ProjectStructure.Single(s =>s.Id==request.ProjStructId).ComponentsCount??0;
                   if (totalcount<excedCout) throw new ValueNotFoundException ("Dispatch Components should match the required quantity.");
@@ -119,7 +119,7 @@ namespace ETapManagement.Repository {
              ProjectStructure projectStructure = _context.ProjectStructure.Where (x => x.Id == _context.DispReqStructure.Where(x=>x.Id == request.DispStructureId).FirstOrDefault().ProjStructId && x.IsDelete == false).FirstOrDefault ();
               List<dispatchedStrucCount> result = new List<dispatchedStrucCount>();
                  int count = _context.Component.Where(s =>s.ProjStructId==projectStructure.Id).Count();
-              int Quantity=request.Components.Count();
+             int Quantity=request.Components.Where(x=>x.CompId==null).Count();
                 int excedCout= count+Quantity;
                // int totalcount =_context.ProjectStructure.Single(s =>s.Id==projectStructure.Id).ComponentsCount??0;
                   if (projectStructure.ComponentsCount<excedCout) throw new ValueNotFoundException ("Dispatch Components should match the required quantity.");
