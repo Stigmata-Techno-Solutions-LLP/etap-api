@@ -54,7 +54,7 @@ namespace ETapManagement.Repository {
             ResponseMessage response = new ResponseMessage ();
             response.Message = "Components added succusfully";
             List<dispatchedStrucCount> result = new List<dispatchedStrucCount>();
-                 int count = _context.Component.Single(s =>s.Id==request.ProjStructId).Id;
+                 int count = _context.Component.Where(s =>s.ProjStructId==request.ProjStructId).Count();
               int Quantity=request.Components.Count();
                 int excedCout= count+Quantity;
                 int totalcount =_context.ProjectStructure.Single(s =>s.Id==request.ProjStructId).ComponentsCount??0;

@@ -189,7 +189,7 @@ namespace ETapManagement.ViewModel.Dto
         public string ProjectName{get;set;}
         public string ProjectCode{get;set;}
 
-        public DateTime SurplusDate { get; set; }
+        //public DateTime SurplusDate { get; set; }
 
         public string Status { get; set; }
 
