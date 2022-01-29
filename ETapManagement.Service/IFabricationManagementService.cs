@@ -23,5 +23,7 @@ namespace ETapManagement.Service
            ResponseMessage FabricationApprove (FabricationApprovePayload reqPayload);
            public List<FabricationCostList> GetFabricationCostList();
 
+            public List<DashboardList> getDashBoardDetails(int projectId);
+
     }
 }

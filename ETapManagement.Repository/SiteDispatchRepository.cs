@@ -338,7 +338,7 @@ namespace ETapManagement.Repository {
                             _context.SaveChanges();
 
                         } else {
-                            ProjectStructure structDB = _context.ProjectStructure.Where (x => x.StructureId == payload.StructureId && x.ProjectId == payload.ToProjectId).FirstOrDefault ();
+                            ProjectStructure structDB = _context.ProjectStructure.Where (x => x.Id == payload.ProjectStructureId).FirstOrDefault ();
                             structDB.CurrentStatus = Util.GetDescription(commonEnum.StructureInternalStatus.DISPATCHINPROGRESS).ToString ();
                             structDB.StructureStatus = Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString ();
                             _context.SaveChanges ();

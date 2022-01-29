@@ -101,5 +101,68 @@ namespace ETapManagement.Service
             }
 
         }
+
+
+        	   public ResponseMessage UpdatescannedStatus(ReciveUpdateVm input)
+        {
+
+
+             try
+            {
+                ResponseMessage responseMessage = new ResponseMessage();
+                // ProjectStructure ProjectStruct =
+                //            _context.ProjectStructure.Single(w => w.Id == input.projectstructreId);
+                // if (ProjectStruct != null)
+                // {
+                //     ProjectStruct.StructureStatus =Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
+                //     ProjectStruct.CurrentStatus = Util.GetDescription(commonEnum.StructureInternalStatus.INUSE).ToString();
+                // }
+                //   _context.ProjectStructure.Update(ProjectStruct);
+                       int dispReqStrlst =
+                           _context.DispReqStructure.Where( w => w.DispreqId == input.DispatchRequiremntId && w.DispStructStatus!=Util.GetDescription(commonEnum.SiteDispStructureStatus.FROMSITEAPPROVED).ToString() ).Count();
+  
+                   DispReqStructure dispReqStr =
+                           _context.DispReqStructure.Single(w => w.Id == input.DisptachRequiremntstructureId);
+                if (dispReqStr != null)
+                {
+                    dispReqStr.DispStructStatus =Util.GetDescription(commonEnum.SiteDispStructureStatus.FROMSITEAPPROVED).ToString();
+                   // dispReqStr.Location =input.Location;
+
+                     
+                }
+                  _context.DispReqStructure.Update(dispReqStr);
+                   DispatchRequirement disprequirement =
+                           _context.DispatchRequirement.Single(w => w.Id == input.DispatchRequiremntId);
+
+                 if(dispReqStrlst==0){
+                     
+                if (disprequirement != null)
+                {
+                    disprequirement.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.FROMSITEAPPROVED).ToString();
+                     disprequirement.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.FROMSITEAPPROVED).ToString();
+                     
+                }else{
+                    disprequirement.Status = Util.GetDescription(commonEnum.SiteDispatchSatus.PARIALLYFROMSITEAPPROVED).ToString();
+                     disprequirement.StatusInternal = Util.GetDescription(commonEnum.SiteDispatchSatus.PARIALLYFROMSITEAPPROVED).ToString();
+
+                }
+
+                 }
+ 
+                  
+                
+                  _context.DispatchRequirement.Update(disprequirement);
+
+                _context.SaveChanges();
+
+                responseMessage.Message = "Status Updated sucessfully";
+                return responseMessage;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

@@ -281,6 +281,8 @@ namespace ETapManagement.ViewModel.Dto
         public string ComponentName { get; set; }
         public string ComponentType { get; set; }
 
+        public int ComponentNo {get; set;}
+
         public string DrawingNo { get; set; }
 
         public int DispstructCompId { get; set; }

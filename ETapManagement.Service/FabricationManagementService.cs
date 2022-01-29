@@ -55,6 +55,7 @@ namespace ETapManagement.Service
                 structid.FabricationYear = input.FabricationYear;
                 structid.ActualWeight = input.ActualWeight;
                 structid.Reusuability = input.Reusuability;
+                structid.ExpReleaseDate=input.ExpReleaseDate;
                 if (input.uploadDocs != null)
                 {
                     foreach (IFormFile file in input.uploadDocs)
@@ -341,6 +342,13 @@ namespace ETapManagement.Service
         {
             List<FabricationCostList> responseMessage = new List<FabricationCostList>();
             responseMessage = _fabricationManagementRepository.GetFabricationCostList();
+            return responseMessage;
+        } 
+
+              public List<DashboardList> getDashBoardDetails(int projectId)
+        {
+            List<DashboardList> responseMessage = new List<DashboardList>();
+            responseMessage = _fabricationManagementRepository.getDashBoardDetails(projectId);
             return responseMessage;
         } 
 

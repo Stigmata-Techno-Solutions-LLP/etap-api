@@ -81,5 +81,22 @@ namespace ETapManagement.Api.Controllers
             }
         }
 
+        
+  [HttpPost("FinalSubmit")]    
+          public IActionResult UpdatescannedStatus(ReciveUpdateVm input)
+        {
+            try
+            {
+                var response = _receiveService.UpdatescannedStatus(input);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                Util.LogError(e);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorClass() { code = StatusCodes.Status500InternalServerError.ToString(), message = "Something went wrong" });
+            }
+        }
+		
+
     }
 }
