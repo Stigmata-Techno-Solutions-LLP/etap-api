@@ -14,5 +14,6 @@ namespace ETapManagement.Repository {
       	   List<FabricationDetails> GetFabrication (SiteDeclarationDetailsPayload reqPayload);
            ResponseMessage FabricationApprove (FabricationApprovePayload reqPayload);
             public List<FabricationCostList> GetFabricationCostList();
+             public List<DashboardList> getDashBoardDetails(int projectId);
     }
 }

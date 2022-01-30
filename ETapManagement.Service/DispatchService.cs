@@ -300,7 +300,7 @@ namespace ETapManagement.Service
                              _context.ComponentHistory.Add(AddItem);
                              _context.SaveChanges();
 
-                             DispModStageComponent compModStageDetails = _context.DispModStageComponent.SingleOrDefault(x => x.DispstructCompId == item.DispstructCompId);
+                             DispModStageComponent compModStageDetails = _context.DispModStageComponent.OrderByDescending(o=>o.CreatedAt).FirstOrDefault(x => x.DispstructCompId == item.DispstructCompId);
 
                              compDetails.Weight = compModStageDetails.Weight;
                              compDetails.Leng = compModStageDetails.Leng;

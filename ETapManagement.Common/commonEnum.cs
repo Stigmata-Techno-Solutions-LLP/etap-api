@@ -75,6 +75,8 @@ namespace ETapManagement.Common {
 
             TWCCAPPROVED = 20, [Description ("TWCC APPROVED")]
             READYTODELIVERPARTIALLY = 19,
+             PARIALLYFROMSITEAPPROVED = 21, 
+           
         }
 
         public enum SiteDispStructureStatus {
@@ -104,6 +106,8 @@ namespace ETapManagement.Common {
             SCANNED = 21,
             [Description ("DISPATCH COMPLETED")]
             DISPATCHCOMPLETED = 20,
+            
+           
 
         }
         public enum ComponentStatus {

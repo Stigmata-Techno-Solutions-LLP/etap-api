@@ -34,15 +34,15 @@ namespace ETapManagement.Repository {
                 scrapStructureDB.Status = commonEnum.ScrapStatus.NEW.ToString();
                 scrapStructureDB.DispStructureId = scrapStructure.DispStructId;
                 _context.ScrapStructure.Add(scrapStructureDB);
-                _context.SaveChanges(); 
+               // _context.SaveChanges(); 
                 
                   /*udpate structure status*/
                   int projStructID = Convert.ToInt32(scrapStructureDB.ProjStructId);
                 ProjectStructure prjStruct = _context.ProjectStructure.Where(x=>x.Id== projStructID).FirstOrDefault();
                 prjStruct.StructureStatus =Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString();
                 prjStruct.CurrentStatus = Util.GetDescription(commonEnum.StructureInternalStatus.SCRAPPED).ToString();
-                _context.ScrapStructure.Add(scrapStructureDB);
-                _context.SaveChanges(); 
+                _context.ProjectStructure.Update(prjStruct);
+               // _context.SaveChanges(); 
 
                 ScrapStatusHistory sshDB = new ScrapStatusHistory();
                 sshDB.RoleId = scrapStructure.RoleId;

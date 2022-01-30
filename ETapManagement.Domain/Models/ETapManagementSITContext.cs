@@ -101,6 +101,8 @@ namespace ETapManagement.Domain.Models
                 modelBuilder.Query<FabricationDetails>();
                 modelBuilder.Query<dispatchedStrucCount>();
                  modelBuilder.Query<FabricationCostList>();
+                  modelBuilder.Query<DashboardList>();
+
              
             modelBuilder.Entity<ApplicationForms>(entity =>
             {

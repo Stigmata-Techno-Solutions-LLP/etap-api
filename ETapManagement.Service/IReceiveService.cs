@@ -15,5 +15,7 @@ namespace ETapManagement.Service
         public ResponseMessage UpdateDeliveryScanComponentDetails(ReceiveComponentPayload receiveComponentPayload);
 
         public ResponseMessage UpdateFinalDispatchStatus(FabricationVm input);
+
+         public ResponseMessage UpdatescannedStatus(ReciveUpdateVm input);
     }
 }

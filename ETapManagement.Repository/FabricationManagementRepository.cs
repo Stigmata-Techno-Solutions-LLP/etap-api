@@ -25,7 +25,7 @@ namespace ETapManagement.Repository {
                try
             {
                 List<AsBuildStructure> result = new List<AsBuildStructure>();
-                string strQuery = string.Format("select dr.dispatch_no as DispatchNo,st.name as StructureFamily,sc.name as VendorName,drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount,(select sum(weight) from component c2  where proj_struct_id =ps.id) ComponentWeight , (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join structure_type st on st.id=s.structure_type_id inner join  project p on p.id =dr.to_projectid inner join dispatchreq_subcont ds on ds.dispreq_id =dr.id inner join sub_contractor sc on sc.id =ds.subcon_id  where (dr.servicetype_id = 1 or dr.servicetype_id = 2 or (dr.servicetype_id = 1 and drs.is_modification=1))and ps.structure_status ='{1}' and ps.current_status ='{2}' and  dr.to_projectid ={0} ORDER BY dr.id DESC", projectId, Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString(), Util.GetDescription(commonEnum.StructureInternalStatus.INUSE).ToString());
+                string strQuery = string.Format("select dr.dispatch_no as DispatchNo,st.name as StructureFamily,sc.name as VendorName,drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount,(select sum(weight) from component c2  where proj_struct_id =ps.id) ComponentWeight , (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id  inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join structure_type st on st.id=s.structure_type_id inner join  project p on p.id =dr.to_projectid left outer join dispatchreq_subcont ds on ds.dispreq_id =dr.id left outer join sub_contractor sc on sc.id =ds.subcon_id  where (dr.servicetype_id = 1 or dr.servicetype_id = 2 or (dr.servicetype_id = 4 and drs.is_modification=1))and ps.structure_status ='{1}' and ps.current_status ='{2}' and  dr.to_projectid ={0} ORDER BY dr.id DESC", projectId, Util.GetDescription(commonEnum.StructureStatus.NOTAVAILABLE).ToString(), Util.GetDescription(commonEnum.StructureInternalStatus.INUSE).ToString());
                 result = _context.Query<AsBuildStructure>().FromSqlRaw(strQuery).ToList();
                 return result;
             }
@@ -78,16 +78,16 @@ namespace ETapManagement.Repository {
 
         public ResponseMessage FabricationApprove (FabricationApprovePayload reqPayload) {
 
-            int siteRequirements = 0;
+          //  var siteRequirements ;
             try {
                 ResponseMessage resp = new ResponseMessage ();
                 if (reqPayload.mode == commonEnum.WorkFlowMode.Approval) {
-                    siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_ApprovalFabrication {0}, {1},{2},{3}", reqPayload.fabCost_id, reqPayload.role_name.ToString(), reqPayload.role_hierarchy, 1); // TODO
+                  var  siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_ApprovalFabrication {0}, {1},{2},{3}", reqPayload.fabCost_id, reqPayload.role_name.ToString(), reqPayload.role_hierarchy, 1); // TODO
                     resp.Message = string.Format ("Surplus Declaration successfully Approved by {0}", reqPayload.role_name);
                     if (siteRequirements <= 0) throw new ValueNotFoundException ("User doesn't allow to approve.");
 
                 } else if (reqPayload.mode == commonEnum.WorkFlowMode.Rejection) {
-                    siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_RejectionFabrication {0}, {1}, {2}, {3}", reqPayload.fabCost_id, reqPayload.role_name.ToString(), reqPayload.role_hierarchy, 1); //TODO
+                  var  siteRequirements = _context.Database.ExecuteSqlCommand ("exec sp_RejectionFabrication {0}, {1}, {2}, {3}", reqPayload.fabCost_id, reqPayload.role_name.ToString(), reqPayload.role_hierarchy, 1); //TODO
                     resp.Message = string.Format ("Surplus Declaration successfully Rejected by {0}", reqPayload.role_name);
                     if (siteRequirements <= 0) throw new ValueNotFoundException ("User doesn't allow to reject.");
                 }
@@ -126,7 +126,20 @@ namespace ETapManagement.Repository {
            
 
           } 
-
+      public List<DashboardList> getDashBoardDetails(int projectId)
+        {
+            try
+            {
+                List<DashboardList> lstReceiveDetails = new List<DashboardList>();
+                var receiveDetails = _context.Query<DashboardList>().FromSqlRaw("exec sp_DashboardReport {0}", projectId).ToList();
+                lstReceiveDetails = _mapper.Map<List<DashboardList>>(receiveDetails);
+                return lstReceiveDetails;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 		  
             
     }

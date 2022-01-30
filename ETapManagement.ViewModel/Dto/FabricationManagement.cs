@@ -90,6 +90,8 @@ namespace ETapManagement.ViewModel.Dto
         public decimal? ActualWeight { get; set; }
         public bool? Reusuability { get; set; }
 
+        public DateTime? ExpReleaseDate {get; set;}
+
 
 
     }
@@ -168,12 +170,24 @@ namespace ETapManagement.ViewModel.Dto
     public class FabricationVm
     {
 
-        public int projectstructreId { get; set; }
+       public int projectstructreId { get; set; }
         public int DisptachRequiremntstructureId { get; set; }
         public int DispatchRequiremntId { get; set; }
 
         public string Location {get;set;}
 
+
+    }
+
+    
+    public class ReciveUpdateVm
+    {
+
+       
+        public int DisptachRequiremntstructureId { get; set; }
+        public int DispatchRequiremntId { get; set; }
+
+       
 
     }
 
@@ -229,6 +243,33 @@ namespace ETapManagement.ViewModel.Dto
 
         public decimal currentBookValue{get;set;}
 
+    }
+
+       public class DashboardList
+    {
+
+      
+        public int TotalComp { get; set; }
+        public int AssignComp { get; set; }
+        public int Scanned { get; set; }
+        public int YetToscan { get; set; }
+        public int Scrap { get; set; }
+
+        public int Surpls{get;set;}
+          public int TotRequirement{get;set;}
+            public int TotStructure{get;set;}
+              public int Fabrication{get;set;}
+                public int Outsourcing{get;set;}
+                  public int Reuse{get;set;}
+                    
+                    
+
+       
+
 
     }
+
+    
+
+    
 }
