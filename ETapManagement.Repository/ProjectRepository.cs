@@ -85,7 +85,8 @@ namespace ETapManagement.Repository {
                 foreach (var item in projects) {
                     result.Add (new Code () {
                         Id = item.Id,
-                            Name = item.Name
+                            Name = item.Name,
+                            Buid=item.BuId
                     });
                 }
                 return result;
