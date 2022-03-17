@@ -9,4 +9,11 @@ namespace ETapManagement.ViewModel.Dto {
         public int ServiceTypeId { get; set; }
           public int Buid { get; set; }
     }
+
+    public class CodeList {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int ServiceTypeId { get; set; }
+        
+    }
 }
