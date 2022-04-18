@@ -89,12 +89,12 @@ namespace ETapManagement.Repository {
             }
         }
 
-        public List<Code> GetVendorCodeListWithServiceType () {
+        public List<CodeList> GetVendorCodeListWithServiceType () {
             try {
-                List<Code> result = new List<Code> ();
-                var vendors = _context.Query<Code> ().FromSqlRaw ("select sc.id , sc.name, scst.servicetype_id as ServiceTypeId from sub_contractor sc inner join subContractor_serviceType scst ON sc.id = scst .subcont_id where sc.is_status =1").ToList ();
+                List<CodeList> result = new List<CodeList> ();
+                var vendors = _context.Query<CodeList> ().FromSqlRaw ("select sc.id , sc.name, scst.servicetype_id as ServiceTypeId from sub_contractor sc inner join subContractor_serviceType scst ON sc.id = scst .subcont_id where sc.is_status =1").ToList ();
                 foreach (var item in vendors) {
-                    result.Add (new Code () {
+                    result.Add (new CodeList () {
                         Id = item.Id,
                         Name = item.Name,
                         ServiceTypeId = item.ServiceTypeId
