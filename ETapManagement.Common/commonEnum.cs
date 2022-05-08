@@ -37,7 +37,8 @@ namespace ETapManagement.Common {
             IC = 10,
             PROJECTS = 11,
             QA = 12,
-            FAA=13
+            FAA=13,
+            SITEFAA=14
         }
         public enum SurPlusDeclSatus {
             [Description ("NEW")]

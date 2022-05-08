@@ -232,6 +232,18 @@ namespace ETapManagement.Repository {
                 List<TWCCDispatch> result = new List<TWCCDispatch> ();
                 var siteDispatchDetails = _context.Query<TWCCDispatch> ().FromSqlRaw ("exec SP_GETTWCCDispatch {0}", Util.GetDescription(commonEnum.StructureInternalStatus.READYTODISPATCH).ToString() + "," + Util.GetDescription(commonEnum.StructureInternalStatus.PARTIALLYDISPATCHED).ToString()).ToList ();
                 result = _mapper.Map<List<TWCCDispatch>> (siteDispatchDetails);
+                
+
+                   foreach (var item in result) {
+                         List<dispatchedStrucCount> result1 = new List<dispatchedStrucCount>();
+                  string count = string.Format("select count(*) as cnt from dispatch_requirement dr inner join disp_req_structure drs on  dr.id  = drs.dispreq_id inner join project_structure ps    on drs.proj_struct_id  = ps.id  where ps.structure_id = {0} and dr.sitereq_id = {1}",item.StructureId,item.SiteRequirementId);
+                result1 = _context.Set<dispatchedStrucCount>().FromSqlRaw(count).ToList();
+                int dispatchedQuantity =  result1.FirstOrDefault().cnt;
+                       
+                       item.PendingQuantity=item.Quantity-dispatchedQuantity;
+                  
+                }
+               
                 return result;
             } catch (Exception ex) {
                 throw ex;
@@ -436,7 +448,7 @@ namespace ETapManagement.Repository {
             // return response;
             try {
                 List<DispStructureCMPC> result = new List<DispStructureCMPC> ();
-                string strQuery = string.Format ("select dr.dispatch_no as DispatchNo,dr.servicetype_id Servicetypeid ,drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id   inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid where   dr.servicetype_id in (1,2) and ((ps.components_count > (select count(*) from component where proj_struct_id = ps.id) or ps.components_count =0)  or dr.status = '{0}')", Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString ());
+                string strQuery = string.Format ("select dr.dispatch_no as DispatchNo, sr.mr_no as MRNO,dr.servicetype_id Servicetypeid ,drs.id as DispReqStructId, dr.status Status, dr.status_internal StatusInternal ,drs.proj_struct_id ProjectStructureId,dr.id DispatchRequirementId,dr.quantity Quantity,dr.to_projectid projectId,ps.structure_id StructureId,ps.struct_code StructureCode,s.name StructrueName,p.name ProjectName,ps.structure_attributes_val StructureAttValue, ps.components_count as RequiredComponenentCount, (select count(*) from component c2  where proj_struct_id =ps.id) as CurrentComponentsCount from dispatch_requirement dr inner join disp_req_structure drs on dr.id = drs.dispreq_id   inner join  project_structure ps on ps.id=drs.proj_struct_id inner join  structures s on ps.structure_id =s.id inner join  project p on p.id =dr.to_projectid inner join site_requirement sr on ps.project_id =sr.from_project_id  where   dr.servicetype_id in (1,2) and ((ps.components_count > (select count(*) from component where proj_struct_id = ps.id) or ps.components_count =0)  or dr.status = '{0}')", Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString ());
                 result = _context.Query<DispStructureCMPC> ().FromSqlRaw (strQuery).ToList ();
                 return result;
             } catch (Exception ex) {

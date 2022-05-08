@@ -828,7 +828,7 @@ BEGIN
 	where   Id = @decl_id and status_internal in (select value
 		from STRING_SPLIT(@cond_status,','))) 
 	BEGIN
-		IF @role_name in ('SITE-FAA','PM','TWCC','FAA')
+		IF @role_name in ('SITEFAA','PM','TWCC','FAA')
 		BEGIN
 			update disp_fabrication_cost  set status_internal = @new_status, status =@new_status, role_id =@role_id,updated_by =@updated_by where  id =@decl_id
 			insert into fabrication_status_history
