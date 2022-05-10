@@ -15,7 +15,7 @@ using Serilog;
 namespace ETapManagement.Api.Controllers
 {
     [EnableCors("AllowAll")]
-    [Authorize]
+  //  [Authorize]
     [ApiController]
     [Route("api/[controller]")]
 
@@ -78,7 +78,7 @@ namespace ETapManagement.Api.Controllers
             {
                 if (request.uploadDocs != null)
                 {
-                    if (request.uploadDocs.Length > 5) throw new ValueNotFoundException("Document count should not greater than 5");
+                   
                     foreach (IFormFile file in request.uploadDocs)
                     {
                         if (constantVal.AllowedDocFileTypes.Where(x => x.Contains(file.ContentType)).Count() == 0) throw new ValueNotFoundException(string.Format("File Type {0} is not allowed", file.ContentType));
