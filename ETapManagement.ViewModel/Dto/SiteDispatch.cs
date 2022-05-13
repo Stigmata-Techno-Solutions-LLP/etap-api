@@ -32,6 +32,10 @@ namespace ETapManagement.ViewModel.Dto
         public string ToProjectName { get; set; }
 
         public string StructureName { get; set; }
+       
+       public string struct_code { get; set; }
+
+       public int Quantity {get; set;}
         // public decimal? FabricationCost { get; set; }
         // public decimal? MonthlyRent {get;set;}
         // public decimal? ContractYears {get;set;}
@@ -150,6 +154,7 @@ namespace ETapManagement.ViewModel.Dto
         public string RequestStatus { get; set; }
         public string StructureAttributes { get; set; }
         public int Quantity { get; set; }
+          public int PendingQuantity { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
@@ -228,6 +233,7 @@ namespace ETapManagement.ViewModel.Dto
         public string StructrueName { get; set; }
 
         public int? Servicetypeid { get; set; }
+            public string MRNO { get; set; }
 
     }
     public class DispReqStructureDto
