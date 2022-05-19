@@ -214,6 +214,8 @@ namespace ETapManagement.ViewModel.Dto
 
          public string StructureAttributeValue{get;set;}
 
+         public string dispatchNo {get;set;}
+
     }
 
 

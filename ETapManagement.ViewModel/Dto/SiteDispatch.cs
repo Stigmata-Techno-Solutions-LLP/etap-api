@@ -36,11 +36,8 @@ namespace ETapManagement.ViewModel.Dto
        public string struct_code { get; set; }
 
        public int Quantity {get; set;}
-        // public decimal? FabricationCost { get; set; }
-        // public decimal? MonthlyRent {get;set;}
-        // public decimal? ContractYears {get;set;}
-        // public DateTime? PlanReleaseDate {get;set;}
-
+     public int ComponentsCount { get; set; }
+      public int CountEarned { get; set; }
     }
 
     public class StructureListCode
@@ -273,7 +270,7 @@ namespace ETapManagement.ViewModel.Dto
 
         public int? RequiredComponenentCount { get; set; }
         public int? CurrentComponentsCount { get; set; }
-
+       public string MRNO {get; set;}
 
 
 
@@ -409,9 +406,12 @@ namespace ETapManagement.ViewModel.Dto
         public int? DispStructureId { get; set; }
         public int ComponentCount { get; set; }
         public int? ProjectStructureId { get; set; }
-
+       public string MRNO { get; set; }
         public DateTime? CreatDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
+
+        public int ComponentsCount {get; set;}
+        public int CountEarned {get; set;}
     }
 
     public class SubContractorComponentDetail
