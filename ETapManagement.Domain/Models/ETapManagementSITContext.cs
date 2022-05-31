@@ -103,6 +103,7 @@ namespace ETapManagement.Domain.Models
                  modelBuilder.Query<FabricationCostList>();
                   modelBuilder.Query<DashboardList>();
                    modelBuilder.Query<CodeList>();
+                     modelBuilder.Query<ClassDrno>();
 
              
             modelBuilder.Entity<ApplicationForms>(entity =>

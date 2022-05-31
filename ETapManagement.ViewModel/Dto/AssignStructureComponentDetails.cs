@@ -105,5 +105,10 @@ namespace ETapManagement.ViewModel.Dto
         public int DispatchCount { get; set; }
         public int ScannedCount { get; set; }
     }
+      public class ClassDrno
+    {
+        public string DrawingNo { get; set; }
+
+    }
 
 }
