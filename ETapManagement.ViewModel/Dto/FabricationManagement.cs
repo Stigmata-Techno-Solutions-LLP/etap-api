@@ -216,6 +216,8 @@ namespace ETapManagement.ViewModel.Dto
 
          public string dispatchNo {get;set;}
 
+          public decimal? FabricationCost {get;set;}
+
     }
 
 
