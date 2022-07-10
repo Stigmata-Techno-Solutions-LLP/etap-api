@@ -12,7 +12,7 @@ using ETapManagement.Service;
 namespace ETapManagement.Api.Controllers {
     [ApiController]
     [Route ("api/[controller]")]
-    [Authorize]
+  //  [Authorize]
     public class FabricationManagementController : ControllerBase {
         IFabricationManagementService _fabricationManagementService;
 

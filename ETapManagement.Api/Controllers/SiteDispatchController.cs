@@ -14,7 +14,7 @@ using ETapManagement.Domain.Models;
 namespace ETapManagement.Api.Controllers
 {
     [ApiController]
-    [Authorize]
+  [Authorize]
     [Route("api/[controller]")]
     public class SiteDispatchController : ControllerBase
     {
@@ -410,7 +410,7 @@ namespace ETapManagement.Api.Controllers
         public IActionResult AssignStructurecomponent ([FromForm] CMPCUpdateStructure request) {
             try {
                 if (request.uploadDocs != null) {
-                    if (request.uploadDocs.Length > 5) throw new ValueNotFoundException ("Document count should not greater than 5");
+                    //if (request.uploadDocs.Length > 5) throw new ValueNotFoundException ("Document count should not greater than 5");
                     foreach (IFormFile file in request.uploadDocs) {
                         if (constantVal.AllowedDocFileTypes.Where (x => x.Contains (file.ContentType)).Count () == 0) throw new ValueNotFoundException (string.Format ("File Type {0} is not allowed", file.ContentType));
                     }
