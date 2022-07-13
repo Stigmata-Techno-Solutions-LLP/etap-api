@@ -73,7 +73,7 @@ namespace ETapManagement.Service
 
 
                 DispReqStructure DispatchRequirement =
-                          _context.DispReqStructure.Single(w => w.DispReqId == input.DispatchRequirementId && w.ProjStructId==input.projectstructreId );
+                          _context.DispReqStructure.Single(w => w.DispreqId == input.DispatchRequirementId && w.ProjStructId==input.ProjectStructureId );
                 if (DispatchRequirement != null)
                 {
                     DispatchRequirement.DispStructStatus = Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString();
@@ -83,12 +83,11 @@ namespace ETapManagement.Service
                 _context.DispReqStructure.Update(DispatchRequirement);
 
                 _context.SaveChanges();
-  DispReqStructure DispatchRequirementcompletcount =
-                          _context.DispReqStructure.count(w => w.DispReqId == input.DispatchRequirementId && w.ProjStructId==input.projectstructreId 
-                          && w.DispStructStatus==Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString());
+  int DispatchRequirementcompletcount =_context.DispReqStructure.Where(w => w.DispreqId == input.DispatchRequirementId && w.ProjStructId==input.ProjectStructureId 
+                          && w.DispStructStatus==Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString()).Count();
  
- DispReqStructure DispatchRequirementtotelcount =
-                          _context.DispReqStructure.count(w => w.DispReqId == input.DispatchRequirementId && w.ProjStructId==input.projectstructreId);
+ int DispatchRequirementtotelcount =
+                          _context.DispReqStructure.Where(w => w.DispreqId == input.DispatchRequirementId && w.ProjStructId==input.ProjectStructureId).Count();
 
 if(DispatchRequirementcompletcount==DispatchRequirementtotelcount){
     DispatchRequirement dispreq=_context.DispatchRequirement.Single(w=>w.Id==input.DispatchRequirementId);
