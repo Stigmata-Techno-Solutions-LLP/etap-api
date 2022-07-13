@@ -72,17 +72,36 @@ namespace ETapManagement.Service
                 RemoveStructureDocs(input.remove_docs_filename);
 
 
-                DispatchRequirement DispatchRequirement =
-                          _context.DispatchRequirement.Single(w => w.Id == input.DispatchRequirementId);
+                DispReqStructure DispatchRequirement =
+                          _context.DispReqStructure.Single(w => w.DispReqId == input.DispatchRequirementId && w.ProjStructId==input.projectstructreId );
                 if (DispatchRequirement != null)
                 {
-                    DispatchRequirement.Status = Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString();
-                    DispatchRequirement.StatusInternal = Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString();
+                    DispatchRequirement.DispStructStatus = Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString();
+                   
                 }
                 _context.ProjectStructure.Update(structid);
-                _context.DispatchRequirement.Update(DispatchRequirement);
+                _context.DispReqStructure.Update(DispatchRequirement);
 
                 _context.SaveChanges();
+  DispReqStructure DispatchRequirementcompletcount =
+                          _context.DispReqStructure.count(w => w.DispReqId == input.DispatchRequirementId && w.ProjStructId==input.projectstructreId 
+                          && w.DispStructStatus==Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString());
+ 
+ DispReqStructure DispatchRequirementtotelcount =
+                          _context.DispReqStructure.count(w => w.DispReqId == input.DispatchRequirementId && w.ProjStructId==input.projectstructreId);
+
+if(DispatchRequirementcompletcount==DispatchRequirementtotelcount){
+    DispatchRequirement dispreq=_context.DispatchRequirement.Single(w=>w.Id==input.DispatchRequirementId);
+     if (dispreq != null)
+                {
+                    dispreq.Status = Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString();
+                     dispreq.StatusInternal = Util.GetDescription(commonEnum.SiteDispStructureStatus.FABRICATIONCOMPLETED).ToString();
+                    _context.DispatchRequirement.Update(dispreq);
+                    _context.SaveChanges();
+                }
+
+}
+              
 
                 responseMessage.Message = "ProjectStructure Updated sucessfully";
                 return responseMessage;
