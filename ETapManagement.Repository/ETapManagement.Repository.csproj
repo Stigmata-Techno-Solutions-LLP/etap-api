@@ -7,7 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ETapManagement.ViewModel\ETapManagement.ViewModel.csproj" />
         <ProjectReference Include="..\ETapManagement.Common\ETapManagement.Common.csproj" />
-        <ProjectReference Include="..\ETapManagement.Domain\EtapManagement.Domain.csproj" />
+        <ProjectReference Include="..\ETapManagement.Domain\ETapManagement.Domain.csproj" />
 
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,4 @@
+
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /app 
 
@@ -20,8 +21,9 @@ RUN dotnet restore
 # COPY ETapManagement.Service/. ./app/ETapManagement.Service/
 # COPY ETapManagement.ViewModel/. ./app/ETapManagement.ViewModel/
 # #
-# WORKDIR /app/ETapManagement.Api/
+
 COPY . .
+WORKDIR /app/ETapManagement.Api/
 RUN dotnet publish -c Release -o out 
 #
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
