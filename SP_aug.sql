@@ -492,37 +492,48 @@ END
 
 
 
-CREATE   OR ALTER     PROCEDURE SP_GetSubContractorDetails(@VendorId int)
+
+CREATE        PROCEDURE SP_GetSubContractorDetails(@VendorId int)
 AS
 BEGIN
 SELECT DRS.id AS DispSubContractorId, DSS.id AS DispSubContractorStructureId, DRS.dispatch_no AS DCNumber, PS.struct_code AS StructureCode, S.name AS StructureName, 
+       sr.mr_no as MRNO,
 		DRS.quantity AS Quantity, PS.structure_attributes_val AS StructureAttributesValue, 
 		PS.components_count AS ComponentCount,
 		DSS.disp_structure_id AS DispStructureId,
 		PS.id AS ProjectStructureId ,
-		drs.created_at CreatDate, drs.updated_at as UpdatedDate
+		drs.created_at CreatDate, drs.updated_at as UpdatedDate,
+		 (SELECT COUNT(1) FROM disp_structure_comp dsc WHERE disp_structure_id = dss.disp_structure_id) AS CountEarned,
+		  ps.components_count AS ComponentsCount
 		into #resultset1 
 			  FROM dispatchreq_subcont DRS INNER JOIN 
 			  disp_subcont_structure DSS ON DSS.dispreqsubcont_id = DRS.id INNER JOIN
 			  project_structure PS ON PS.id = DSS.proj_struct_id INNER JOIN 
-			  structures S ON S.id = PS.structure_id LEFT OUTER JOIN
-			  disp_req_structure DRSS ON DRSS.id = DRS.dispreq_id
+			  structures S ON S.id = PS.structure_id 
+			  INNER JOIN 
+			  dispatch_requirement dr on dr.id= drs.dispreq_id INNER JOIN 
+			  site_requirement sr on sr.id =dr.sitereq_id 
 			  WHERE DRS.subcon_id = @VendorId AND PS.components_count > (SELECT COUNT(id) FROM disp_structure_comp WHERE disp_structure_id = DSS.disp_structure_id and dispatch_date is not null)
 			  and DRS.servicetype_id in (1,2) 
-			
+			--Remove disp_req_structure table join for geting structure dublicate record
 			  
 			  SELECT DRS.id AS DispSubContractorId, DSS.id AS DispSubContractorStructureId, DRS.dispatch_no AS DCNumber, PS.struct_code AS StructureCode, S.name AS StructureName, 
+			   sr.mr_no as MRNO,
 		DRS.quantity AS Quantity, PS.structure_attributes_val AS StructureAttributesValue, 
 		PS.components_count AS ComponentCount,
 		DSS.disp_structure_id AS DispStructureId,
 		PS.id AS ProjectStructureId,
-		drs.created_at CreatDate, drs.updated_at as UpdatedDate
+		drs.created_at CreatDate, drs.updated_at as UpdatedDate,
+		 (SELECT COUNT(1) FROM disp_structure_comp dsc WHERE disp_structure_id = dss.disp_structure_id) AS CountEarned,
+		  ps.components_count AS ComponentsCount
 		into #resultset2
-			  FROM dispatchreq_subcont DRS INNER JOIN 
+			   FROM dispatchreq_subcont DRS INNER JOIN 
 			  disp_subcont_structure DSS ON DSS.dispreqsubcont_id = DRS.id INNER JOIN
 			  project_structure PS ON PS.id = DSS.proj_struct_id INNER JOIN 
-			  structures S ON S.id = PS.structure_id LEFT OUTER JOIN
-			  disp_req_structure DRSS ON DRSS.id = DRS.dispreq_id
+			  structures S ON S.id = PS.structure_id 
+			  INNER JOIN 
+			  dispatch_requirement dr on dr.id= drs.dispreq_id INNER JOIN 
+			  site_requirement sr on sr.id =dr.sitereq_id 
 			  WHERE DRS.subcon_id = @VendorId AND PS.components_count > (SELECT COUNT(id) FROM disp_structure_comp WHERE disp_structure_id = DSS.disp_structure_id and dispatch_date is not null)
 			  and DRS.servicetype_id in (4) 
 			  and DSS.disp_structure_id  in (select disp_structure_id from disp_structure_comp dsc where from_scandate is not  null and disp_structure_id = DSS.disp_structure_id)
@@ -531,7 +542,13 @@ SELECT DRS.id AS DispSubContractorId, DSS.id AS DispSubContractorStructureId, DR
 			  
 			  select * from #resultset1 union 
 			  select * from #resultset2
-END
+END;
+
+	
+	
+	
+	
+	
 
 
 
@@ -739,8 +756,7 @@ SELECT PS.id AS ProjectStructureId, PS.structure_id AS StructureId, PS.struct_co
 				WHERE PS.structure_id = @StructureId and  PS.current_status ='READY TO REUSE'
 END
 
-
-CREATE     PROCEDURE SP_GetReceiveDetailssurplus(@ProjectId int)
+CREATE     PROCEDURE SP_GetReceiveDetails(@ProjectId int)
 AS
 BEGIN
 SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber, dr.created_at As CreatedDate,dr.updated_at As UpdatedDate,
@@ -762,8 +778,5 @@ SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber, dr.crea
 			  INNER JOIN structures s ON s.id = ps.structure_id
 	  WHERE dr.to_projectid = @ProjectId
 	  -- remove once surplus approved
-	  and ps.current_status ='IN USE'
+	  and ps.current_status ='DISPATCH IN PROGRESS'
 END	
-
-
-SELECT  * from dispatch_requirement dr 
