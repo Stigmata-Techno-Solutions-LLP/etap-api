@@ -88,18 +88,19 @@ namespace ETapManagement.Repository {
                 DispatchRequirement dispReq = _context.DispatchRequirement.Include(c=>c.Servicetype).Where(x=>x.DispatchNo == fBDispatchReqSubCont.DispatchNo).FirstOrDefault();
                 if (dispReq.StatusInternal != Util.GetDescription(commonEnum.SiteDispatchSatus.NEW).ToString() && !strAllowedService.Contains( dispReq.Servicetype.Name))    throw new ValueNotFoundException ("Assign Vendor not allowed"); 
   
-                DispatchreqSubcont dispatchreqSubcont = _mapper.Map<DispatchreqSubcont>(fBDispatchReqSubCont);
-                dispatchreqSubcont.CreatedAt = DateTime.Now;
-                dispatchreqSubcont.CreatedBy = 1; //TODO
-                dispatchreqSubcont.Status = "New";
-                dispatchreqSubcont.StatusInternal = "New";
-                dispatchreqSubcont.ServicetypeId = 1;
+              
                 //Add the dispatch subcont structure
                 if (fBDispatchReqSubCont.VendorStructures.Any())
                 {
                     var groupbyVendor = fBDispatchReqSubCont.VendorStructures.GroupBy(c => c.SubContId);
                     foreach (var group in groupbyVendor)
                     {
+                          DispatchreqSubcont dispatchreqSubcont = _mapper.Map<DispatchreqSubcont>(fBDispatchReqSubCont);
+                dispatchreqSubcont.CreatedAt = DateTime.Now;
+                dispatchreqSubcont.CreatedBy = 1; //TODO
+                dispatchreqSubcont.Status = "New";
+                dispatchreqSubcont.StatusInternal = "New";
+                dispatchreqSubcont.ServicetypeId = 1;
                         dispatchreqSubcont.SubconId = group.Key;
                         dispatchreqSubcont.Quantity = group.Count();
                         _context.DispatchreqSubcont.Add(dispatchreqSubcont);

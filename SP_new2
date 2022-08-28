@@ -887,4 +887,102 @@ SELECT dr.id as DispatchRequirementId, dr.dispatch_no AS DispatchNumber, dr.crea
 END	
 
 
-SELECT  * from dispatch_requirement dr 
+
+ALTER PROCEDURE sp_getDispatch( @role_name varchar(50),@role_hierarchy int  null,@project_id int null, @vendor_id int null)
+AS
+BEGIN
+	
+	declare @role_id int 
+	SET @role_id = (select top 1 id from roles where name =@role_name)
+	declare @cond_status varchar (500)
+	declare @view_status varchar (500)
+		declare @service_type varchar (500)
+
+
+	--select @cond_status
+	if (@role_hierarchy is null)
+	BEGIN 
+		
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name  and scenario_type ='DISPATCH')
+		SET @view_status= (select top 1 view_details_status from role_hierarchy where role_name =@role_name  and scenario_type ='DISPATCH')
+				SET @service_type= (select top 1 service_type from role_hierarchy where role_name =@role_name  and scenario_type ='DISPATCH')
+
+END 
+ELSE 
+BEGIN 
+	SET @cond_status= (select top 1 chk_status from role_hierarchy where role_name =@role_name  and scenario_type ='DISPATCH'  and role_hierarchy  = @role_hierarchy)
+	SET @view_status= (select top 1 view_details_status from role_hierarchy where role_name =@role_name  and scenario_type ='DISPATCH'  and role_hierarchy  = @role_hierarchy)
+	SET @service_type= (select top 1 service_type from role_hierarchy where role_name =@role_name  and scenario_type ='DISPATCH'  and role_hierarchy  = @role_hierarchy)
+	
+	END
+
+print @cond_status
+SELECT '0' as 'isAction', sr.mr_no as MRNo, dr.dispatch_no as DispatchNo, dr.status as Status,ps.struct_code as struct_code,
+--         SRS.quantity AS Quantity,
+ (select SUM(quantity) from  site_req_structure srs where srs.site_req_id =dr.sitereq_id and srs.struct_id=ps.structure_id)AS Quantity,
+		dr.status_internal as StatusInternal, dr.created_at as CreatedDateTime,
+		dr.id as DispatchId, sr.id as SiteRequestId, 
+		st.name as ServiceType, dr.servicetype_id as ServiceTypeId, 
+		0 as SubContractorId, '' as SubContractorName,
+		dr.to_projectid as ToProjectId,
+		 (SELECT COUNT(1) FROM disp_structure_comp dsc WHERE disp_structure_id = drs.id) AS CountEarned,
+		  ps.components_count AS ComponentsCount,
+		(select  name from project where id = dr.to_projectid) as ToProjectName,
+		
+		dr.to_projectid as FromProjectId,
+		0 as DispatchRequestSubContractorId,
+			(select  ETapManagementSIT.dbo.fn_GetDispStructureName(dr.id)) as StructureName
+		into #resultset1 
+		FROM dispatch_requirement dr
+		inner join disp_req_structure drs on drs.dispreq_id =dr.id 
+		inner join project_structure ps on ps.id =drs.proj_struct_id 
+		INNER JOIN site_requirement sr ON sr.id = dr.sitereq_id
+		--INNER JOIN site_req_structure SRS ON SR.id = SRS.site_req_id
+		INNER JOIN service_type st ON st.id  =dr.servicetype_id 
+		where dr.status_internal  in (select value from STRING_SPLIT(@view_status,',') )
+		and dr.servicetype_id in (select value from STRING_SPLIT(@service_type,',') )
+
+		--SELECT '1' as 'isAction', sr.mr_no as MRNo, dr.dispatch_no as DispatchNo, dr.status as Status, 
+		--dr.status_internal as StatusInternal, dr.created_at as CreatedDateTime, 
+		--dr.id as DispatchId, sr.id as SiteRequestId, 
+		--st.name as ServiceType, dr.servicetype_id as ServiceTypeId, 
+		--drs.subcon_id as SubContractorId, sc.name as SubContractorName,
+		--drs.id as DispatchRequestSubContractorId,
+		--dr.to_projectid as ToProjectId,
+		--dr.to_projectid as FromProjectId,
+		--(select  ETapManagementSIT.dbo.fn_GetDispStructureName(dr.id)) as StructureName
+		--into #resultset2
+		--FROM dispatch_requirement dr
+		--INNER JOIN site_requirement sr ON sr.id = dr.sitereq_id
+		--INNER JOIN service_type st ON st.id  =dr.servicetype_id 
+		--LEFT OUTER JOIN dispatchreq_subcont drs ON   dr.id = drs.dispreq_id
+		--INNER JOIN sub_contractor sc ON sc.id  = drs.subcon_id 
+		--where dr.status_internal  in (select value from STRING_SPLIT(@view_status,',') )
+		--and dr.servicetype_id in (select value from STRING_SPLIT(@service_type,',') )
+		
+	--	    select * from #resultset1 union all 
+	-- select * from #resultset2
+	-- if (@project_id is not null)
+	-- BEGIN
+	--	 print 1
+	--	   select * from #resultset1 where ToProjectId = @project_id  union all 
+	-- select * from #resultset2 where ToProjectId = @project_id
+		 
+	-- END
+	-- else  if (@vendor_id is not null)
+	--BEGIN 
+	--	print 2
+	--		   select * from #resultset1 where SubContractorId = @vendor_id  union all 
+	-- select * from #resultset2 where SubContractorId = @vendor_id
+	--END
+	--else 
+	--BEGIN
+	--	print 3
+	--	  select * from #resultset1 union all 
+	-- select * from #resultset2
+	--END
+		
+	 select * from #resultset1 
+	 	
+END;
+
